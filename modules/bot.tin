@@ -1,0 +1,764 @@
+#nop --
+#nop Class Definitions v0.01
+#nop --
+
+#var bot-description {Utilities for botting}
+#var bot-help {
+Commands:\n
+\tbotrole <role>   Available roles: leader/tank/damage/healer/OFF\n
+\tspelldamage <spell> , current $bot[spellDamage]\n
+\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias bot-register {
+	#if {@isloaded{modloader}} {
+
+		register_module bot
+	} {
+		#class bot kill
+	}
+}
+
+
+#NOP #######################################################
+#NOP Bot unique variables
+#NOP #######################################################
+
+#NOP ROLES: tank/damage/healer/none
+#var bot[role] damage;
+#var bot[running] 1;
+#var bot[move] 0;
+#var bot[cast] 0;
+#var bot[join] 1;
+#var bot[poke] 0;
+#var bot[pokecommand] stikker;
+#var bot[spellDamage] {};
+#var bot[nextAction] {};
+#var bot[autoRescue] 0;
+
+#var master[active] 1;
+
+#var bot[debug] 0;
+
+#alias show_debug {#if $bot[debug] {#show %1}}
+
+
+#NOP #######################################################
+#NOP Class Specific: Necromancer
+#NOP #######################################################
+#if { "$MSDP_CLASS" == "Necromancer" } {
+	#var bot[spellDamage] darkfire;
+	#var bot[spellCorpse] edrain; #NOP options:   edrain/vdrain/viscera;
+	#var bot[spellSustain] drain;
+
+	#var autobloodlust on;
+	#var autocorpsevisage on;
+	pref autobuf shapechange lich;
+	#var autoaura on;
+	#var autowraithform on;
+	#var autogrim on;
+}
+
+#NOP #######################################################
+#NOP Class Specific: Prophet
+#NOP #######################################################
+#if { "$MSDP_CLASS" == "Prophet" } {
+	#var bot[spellDamage] hword;
+	#var bot[spellCorpse] #nop;
+	#var bot[spellSustain] heal;
+
+	#var autobless on;
+	#var autodarmor on;
+	#var autovigor on;
+	#var autosanctuary on;
+
+	load_module kallisti/autoheal;
+}
+
+#NOP #######################################################
+#NOP Class Specific: Druid
+#NOP #######################################################
+#if { "$MSDP_CLASS" == "Druid" } {
+	#var bot[spellDamage] tornado;
+	#var bot[spellCorpse] #nop;
+	#var bot[spellSustain] heal;
+
+	#var autobark on;
+	#var autobless on;
+	#var autoffire on;
+	#var autovigor on;
+
+	load_module kallisti/autoheal;
+	load_module profession;
+	profon skinning;
+}
+
+
+
+#NOP #######################################################
+#NOP Bot actions
+#NOP #######################################################
+
+
+
+#alias {botcast} {
+	#switch {"%0"} {
+		#case {"1"} {
+			#show <Ffff><B595>Autocast ON;
+			#var bot[cast] 1;
+		};
+		#default {
+			#show <Ffff><B595>Autocast OFF;
+			#var bot[cast] 0;
+		}
+	}
+}
+
+
+#alias {botmove} {
+	#switch {"%0"} {
+		#case {"1"} {
+			#if { "$zone[name]"!==""} {
+				#var bot[move] 1;
+				#var zone[active] 1;
+			};
+			#else {
+				#show NO ZONE LOADED - Wont automove;
+			}
+		};
+		#default {
+			#show <Ffff><B595>Autoticker OFF;
+			#var bot[move] 0;
+			#var zone[active] 0;
+		}
+	}
+}
+
+#ALIAS {botrole} {
+	#var bot[poke] 0;
+	#switch {"%0"} {
+		#case {"leader"} {
+			#var bot[running] 1;
+			#var bot[role] leader;
+			#tick {determinbotaction} {determine_bot_action} {0.1};
+		};
+		#case {"tank"} {
+			#var bot[running] 1;
+			#var bot[role] tank;
+			#var bot[autoRescue] 1;
+			#tick {determinbotaction} {determine_bot_action} {0.1};
+		};
+		#case {"damage"} {
+			#var bot[running] 1;
+			#var bot[role] damage;
+			#tick {determinbotaction} {determine_bot_action} {0.1};
+		};
+		#case {"healer"} {
+			#var bot[running] 1;
+			#var bot[role] healer;
+			#tick {determinbotaction} {determine_bot_action} {0.1};
+		};
+		#case {"OFF"} {
+			#var bot[running] 0;
+			#var bot[role] none;
+			#untick {determinbotaction};
+		};
+		#default {
+		#show Available roles: leader/tank/damage/healer/OFF;
+		}
+	};
+	generate_bot_info;
+}
+
+#alias determine_bot_action {
+	#var bot[nextAction] {};		
+	#var bot[nextActionDebug] {};		
+	#if { @is_group_fighting{}==0 } {
+		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:0};		
+		#if { "@findtarget{}"!="" } {
+			#var bot[nextActionDebug] {$bot[nextActionDebug] Target:1};
+			#if { $bot[poke] } {
+				#var bot[nextAction] {queueAdd nco poke_target};
+			};#else  {
+				#var bot[nextAction] {queueAdd nco $bot[spellDamage] @findtarget{}};
+			};
+		};
+		#else {
+			#var bot[nextActionDebug] {$bot[nextActionDebug] Target:0};
+			#if { @can_group_move{} } {
+				#var bot[nextActionDebug] {$bot[nextActionDebug] Move:1};
+				#if { $zone[active] } { 
+					#path get position zone[pathid];
+					#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]+2};
+					#math zone[runtime] {$MSDP_UPTIME-$zone[start]};
+					#if { $zone[remainingsteps]>1 } {
+						#if { $bot[move] } {
+							#var bot[nextAction] {smart_move};
+						};
+					};#else {
+						zone_end;
+					};
+				}
+			};
+		};
+	};
+	#else {
+		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
+		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<20 } {
+			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
+			#var bot[nextAction] {queueAdd combat $bot[spellRecall]};
+		}; #else {
+			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
+				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
+					#if { @pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25 } {
+						#var bot[nextActionDebug] {$bot[nextActionDebug], low life DRAIN };
+						#var bot[nextAction] {queueAdd heal drain};
+					}; #else {
+						#var bot[nextActionDebug] {$bot[nextActionDebug], target too low, nuke };
+						#var bot[nextAction] {queueAdd combat $bot[spellDamage]};
+					}
+				}; #else {
+					#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[spellDamage]};
+					#var bot[nextAction] {queueAdd combat $bot[spellDamage]};
+				};
+			 };#else {
+				#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[spellDamage]};
+				#var bot[nextAction] {queueAdd combat $bot[spellDamage]};
+			 }
+		};
+	};
+	#math actionDelay {@mpoch{} - $spellLock};
+	generate_bot_info;
+}
+
+
+#TICKER {restartzone} {#if {$zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {#show starting zone;,;.}} {10}
+#TICKER {gobacktozone} {#if "$MSDP_AREA_NAME"=="Rommena Countryside" {#show CHECK GO BACK TO ZONE;#map run 32055}} {60}
+#ticker autoticker {-} {1};
+
+#var wait_for_group 0;
+#alias - {
+	#if $wait_for_group==0 {
+		#nop show <Ffff><B595>$bot[nextActionDebug];
+		#if { $zone[active] || $bot[cast] } { 
+			$bot[nextAction]
+		};
+	};
+}
+#alias , {#show <Ffff><B595>Load current zone;zone_load}
+#alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
+#alias poke_target {: $bot[pokecommand] @findtarget{}}
+
+#ac {Kaicha utters the words 'qaizzfh waia'} {#show Waiting for 10 sec;#var wait_for_group 1;#delay {waiting} {#var wait_for_group 0} {10}}
+
+
+#NOP #######################################################
+#NOP Bot panel
+#NOP #######################################################
+event_register {variable bot[nextAction]} {right} {generate_bot_info};
+event_register {variable master[active]} {right} {generate_bot_info};
+#alias generate_bot_info {
+	#if $bot[running] {
+		#format bot_info[1] {<B538d87><388><188>%s} {Bot:$bot[role], $bot[spellDamage]  Mov: $bot[move]  Cast: $bot[cast]};
+		#format bot_info[2] {<B538d87><388><188>%s} {Action:[$bot[nextAction]]};
+		#format bot_info[3] {<B538d87><388><188>%s} {Target: [@findtarget{}]   SpellLock:$actionDelay};
+		#if $zone[active] {
+			#format bot_info[4] {<B538d87><388><188>%s} {Route: [$zone[pathid]/$zone[pathlen]] $zone[remainingsteps] left, path: [$zone[path_current]/$zone[path_total]] @return_min_sec{$zone[runtime]}};
+		};
+		#else {
+			#format bot_info[4] {<B538d87><388><188>%s} {Route: Offline};
+		};
+		#if $master[active] {
+			#math time1 {$MSDP_UPTIME - $master[list][1][timesinceclear]};
+			#math time2 {$MSDP_UPTIME - $master[list][2][timesinceclear]};
+			#format bot_info[5] {<B538d87><388><188>%s} {Next zone: $master[list][1][name] - @return_min_sec{$time1}};
+			#format bot_info[6] {<B538d87><388><188>%s} {Upcoming zone: $master[list][2][name] - @return_min_sec{$time2}};
+		}
+	};
+	#else {
+		#var bot_info {Bot: offline};
+	};
+    #if {@is_alias{display_right_tiles}} {display_right_tiles};
+}
+
+#if {&{right_tiles}} {
+	set_right_tile 10 <B85678f> bot_info[%*] 6 tile;
+	generate_bot_info;
+}
+
+
+#NOP #######################################################
+#NOP Navigation and walking routes - MasterPlanner
+#NOP #######################################################
+
+#var master[active] 1;
+#var master[current] 1;
+
+#var master[list] {
+	{1}{{name}{The Island of Na'Kana} {min}{35} {max}{100} {dirs}{gonaka} {timesinceclear}{$MSDP_UPTIME} {zonespawn}{0}};
+	{2}{{name}{Thalos City} {min}{40} {max}{60} {dirs}{gothalos} {timesinceclear}{$MSDP_UPTIME} {zonespawn}{0}};
+	{3}{{name}{Baramon Ingrol} {min}{30} {max}{60} {dirs}{gobaalor} {timesinceclear}{$MSDP_UPTIME} {zonespawn}{0}};
+}
+#nop start of zone set to $MSDP_UPTIME
+
+#alias arrangezonelist {
+	#list master[list] indexate timesinceclear;
+	#list master[list] order;
+	#list master[list] reverse;
+	#show <131>Next zone is: $master[list][1][name]
+}
+
+#alias updatezonelastrun {
+	#foreach {*master[list][]} {i} {
+		#if {"%1"=="$master[list][$i][name]"} {
+			#var master[list][$i][timesinceclear] {$MSDP_UPTIME};
+		}
+	}
+}
+
+
+#NOP #######################################################
+#NOP Navigation and walking routes - Zones
+#NOP #######################################################
+
+#var zone[active] 0;
+#var zone[minlevel] 0;
+#var zone[maxlevel] 0;
+#var zone[pathlen] 0;
+#var zone[pathid] 0;
+#var zone[runtime] 0;
+#var zone[start] 0;
+#var zone[startroom] 0;
+#var zone[exp_start] 0;
+#var zone[gold_start] 0;
+
+
+#alias zone_load {
+	#nop can be loaded with path id %1;
+	cleartarget;
+	#var zone[runtime] 0;
+	#var zone[start] $MSDP_UPTIME;
+	#var zone[exp_start] $MSDP_EXPERIENCE;
+	#var zone[gold_start] $MSDP_GOLD;
+	#if { %1 > 0} {
+		#var pathname zone[path%1];
+		#var zone[path_current] %1;
+	};#else {
+		#var pathname zone[path];
+		#var zone[path_current] 1;
+	};
+	#switch {"$MSDP_AREA_NAME"} {
+		#case {"Thalos City"} {
+			#var zone[name] {Thalos};
+			#var zone[minlevel] 40;
+			#var zone[maxlevel] 60;
+			#var zone[path_total] 1;
+			#var zone[path] {w;n;n;n;u;d;w;s;w;w;n;e;w;w;w;u;d;s;s;e;s;w;s;e;n;w;s;s;s;u;d;e;e;e;w;n;w;e;e;w;n;w;e;e;s;e;n;w;n;w;s;w;n;n;e;e;w;w;s;e;e;e;e};
+			#var zone[skinlist] {"lamia";"mimic";"target3"};
+			#var zone[allowAOE] 0;
+		};
+		#case {"Baramon Ingrol"} {
+			#var zone[name] {Baramon Ingrol};
+			#var zone[minlevel] 30;
+			#var zone[maxlevel] 60;
+			#var zone[path_total] 4;
+			#var zone[path] {enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;w};
+			#var zone[path2] {enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
+			#var zone[path3] {d;s;e;s;e;enter rock;w;s;e;s;e;e;n;e;n;enter rock;e;e;n;e;n;n;w;n;w;enter rock;n;n;w;n;w;w;s;w;s;enter rock;n;w;s;w;s};
+			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;s;w;s;s};
+			#var zone[skinlist] {"Sabrael";"Melkyal";"Barbelo of The Four";"Empyrean";"A cave monster";"A tunnel protector";"A tunnel hermit";"A dark halfling"};
+			#var zone[allowAOE] 0;
+		};
+		#case {"The Island of Na'Kana"} {
+			#var zone[name] {The Island of Na'Kana};
+			#var zone[minlevel] 35;
+			#var zone[maxlevel] 85;
+			#var zone[startroom] 32055;
+			#var zone[path_total] 1;
+			#var zone[path] {n;s;s;n;u;n;s;s;n;u;n;s;s;n;u;e;s;e;e;e;s;s;e;w;w;d;s;n;u;e;n;n;w;u;u;n;w;n;e;e;s;w;n;u;e;n;e;u;n;d;n;s;s;n;d;n;s;s;n;d;n;s;s;n;3u1s1d1w1s1w1d2s2d2w1n1w3d};
+			#var zone[ skinlist] {{"A kakapo"};{"A weka"};{"A takahe"};{"A pelegornis"};{"A royal albatross"};{"A spectacled cormorant"};{"A giant moa"}};
+			#var zone[allowAOE] 0;
+		};
+		#case {"Pillar Maze"} {
+			#var zone[name] {Pillar Maze};
+			#var zone[minlevel] 30;
+			#var zone[maxlevel] 100;
+			#var zone[startroom] 1000;
+			#var zone[path_total] 1;
+			#var zone[path] {n;u;d;w;s;s;n;e;d;n;w;w;u;u;u;u;s;n;e;e;s;w;d;w;e;d;w;s;s;e;n;e;d;w;w;s;n;u;u;s;w;e;w;e;w;d;s;u;n;w;enter pillar};
+			#var zone[skinlist] {"maze keeper"};
+			#var zone[allowAOE] 1;
+		};
+	};
+	#nop show load New path: $pathname;
+	#path load $pathname;
+	#path get length zone[pathlen];
+	#path get position zone[pathid];
+	#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]};
+	#show <Ffff><B595>Zone loaded: $zone[name]   steps: $zone[pathlen]   path: [$zone[path_current]/$zone[path_total]];
+	gt Zone loaded: $zone[name]   steps: $zone[pathlen]   path: [$zone[path_current]/$zone[path_total]];
+
+}
+
+#alias zone_end {
+	#math zone[gold_earned] {$MSDP_GOLD-$zone[gold_start]};
+	#math zone[exp_earned] {$MSDP_EXPERIENCE-$zone[exp_start]};
+	#math zone[runtime-sec] { $zone[runtime] % 60 };
+	#math zone[runtime-min] { $zone[runtime] / 60 };
+	gt <<< Zone: $zone[name], path [$zone[path_current] of $zone[path_total]] finished in $zone[runtime-min]m $zone[runtime-sec]s, we earned $zone[gold_earned] gold and gained $zone[exp_earned] exp >>>;
+	#var zone[active] 0;
+	updatezonelastrun {$zone[name]}; #nop set zone last run to MSDP_UPTIME;
+	#var zone[name] {};
+	#var zone[path] {};
+	#var zone[pathlen] {0};
+	#var zone[pathid] {0};
+	#var zone[allowAOE] 0;
+	#var zone[skinlist] {};
+	#var zone[runtime] 0;
+	#var zone[start] 0;
+	#var zone[startroom] 0;
+	#var zone[exp_start] 0;
+	#var zone[gold_start] 0;
+	#var zone[gold_earned] 0;
+	#var zone[exp_earned] 0;
+	botmove;
+	#if { $zone[path_total]>1 } {
+		#if { $zone[path_current]<$zone[path_total] } { 
+			#math zone[path_current] {$zone[path_current]+2};
+			#show <Ffff><Bc95>Short break 10s then we proceed with next path: $zone[path_current];
+			#delay loadpath {zone_load $zone[path_current]} 10;
+		};
+	};
+}
+
+
+#NOP #######################################################
+#NOP Handle targets
+#NOP #######################################################
+
+
+#action {Nobody here by that name ('%0.} {cleartarget}
+#action {You can't do that here.} {cleartarget}
+
+
+#function findtarget {
+	#if {&{targetlist[]}>0} {
+		#if {"$targetlist[1][1]"!=""} {#return $targetlist[1][1]};
+		#if {"$targetlist[2][1]"!=""} {#return $targetlist[2][1]};
+		#if {"$targetlist[3][1]"!=""} {#return $targetlist[3][1]}
+	};
+	#else #return {}
+}
+
+#alias cleartarget {
+	#var targetlist {};
+	#var target {};
+	l;
+	#list {_queue[combat]} clear;
+	queue_block;
+}
+
+
+#NOP Params    <maxMobs> <HowManyAreThere> <MobName> <MinLevel> <MaxLevel> <Priority1-3>
+#alias {settarget %1 %2 %3 %4 %5 %6} {
+	#if {($MSDP_GROUPLEVEL>=%4 && $MSDP_GROUPLEVEL<=%5) || ($MSDP_LEVEL>=%4 && $MSDP_LEVEL<=%5)} {
+		#if {%2>%1} { #nop are there more mobs left %2 than allowed to fight %1;
+			#show <F333><B595>TARGET IGNORE: %2 present, will max fight %1
+		};
+		#else {
+			#list targetlist[%6] add %3;
+			#switch {"%0"} {
+				#case {"leader"} {#show <131>TARGET aquired: %3;};
+				#default {#show <F333><B595>TARGET aquired: %3;};
+			}
+		}
+	}
+}
+
+#function mob_count {
+	#var result 1;
+	#regexp {%1} { [%d]} {#var result &1} {#var result 1};
+	#return $result;
+}
+
+
+#var room_count 0
+#alias count_mobs_in_room {
+	#math room_count {$room_count+%1};
+}
+
+
+#NOP #######################################################
+#NOP Combat
+#NOP #######################################################
+
+#alias spelldamage {#var bot[spellDamage] %1;generate_bot_info}
+
+#action {%0 $bot[pokecommand] %1} {
+	#switch {"$bot[role]"} {
+		#case {"leader"} {
+			#if { $bot[join] } {
+				#show <121>>DELAYED START - role:leader;#delay initiatecombat {queueAdd any {$bot[spellDamage] %1}} {2};
+			}
+		};
+		#case {"healer"} {
+			#if { $bot[join] } {
+				#show <121>>NOT CASTING IN COMBAT - role:healer;#delay initiatecombat {queueAdd any {kill %1}} {2};
+			}
+		};
+		#case {"tank"} {
+			#show <121>>INITIATE COMBAT - role:tank;queueAdd any {$bot[spellDamage] %1};
+		};
+		#case {"damage"} {
+			#show <121>>DELAYED START - role:damage;#delay initiatecombat {queueAdd any {$bot[spellDamage] %1}} {2};
+		};
+	}
+}
+
+#action {You join the fight with %1.} {
+	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
+		queueAdd combat $bot[spellDamage];
+	};
+	#if { "$bot[role]"=="tank" } {
+		#if $bot[autoRescue] {queueAdd Priority rescue %1};
+	}	
+}
+
+#action {You're already fighting - help yourself first!} {
+	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
+		queueAdd combat $bot[spellDamage];
+	}
+}
+
+#action {You quickly find page %1.} {
+	show_debug {Combat: @is_group_fighting{}  Role: $bot[role]     Spell: $bot[spellDamage]};
+	#if { @is_group_fighting{} && ("$bot[role]"=="tank" || "$bot[role]"=="damage" || "$bot[role]"=="leader") } {
+		#if { ("$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac") && (@pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25) } {
+			#if { $auto[candrain] && @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
+				queueAdd heal drain;
+			}; #else {
+				queueAdd combat $bot[spellDamage];
+			};
+		 };
+		 #else {
+			queueAdd combat $bot[spellDamage];
+		 }
+	 }
+}
+
+#action {You flee head over heels.} {#if $zone[active] {zone_end}}
+
+#NOP Necro specific
+#var auto[candrain] 1
+#ac {%1 does not have enough energy left to drain.} {#var auto[candrain] 0}
+
+#ac {You can only drain the living.} {queueAdd priority $bot[spellDamage] @findtarget{}}
+
+
+#ac {%1 looks really sick, and shivers uncomfortably.} {nco cure %1}
+
+#NOP #######################################################
+#NOP General
+#NOP #######################################################
+#action {The gust of wind knocks you to the ground.} {stand}
+#action {You had better stand up first.} {stand}
+
+#function gotFollowers {
+	#var followers 0;
+	#loop {1} {&MSDP_GROUP[]} {index} {
+		#if {"$MSDP_GROUP[$index][npc]" == "NPC" || "$MSDP_GROUP[$index][npc]" == "npc"} {
+			#math followers {$followers+1}
+		}
+	};
+	#return $followers;
+}
+
+
+#ACTION {%0 is dead!  R.I.P.} {
+	#nop Pause queues ;
+	#nop @delay{5000};
+	cleartarget;
+	#if { "$MSDP_CLASS"=="Necromancer" || "$MSDP_CLASS" == "Demoniac"} {
+		#var auto[candrain] 1;
+		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
+			queueAdd priority animate corpse;
+		}; #else {
+			#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<80) || (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) } {
+				queueAdd priority vdrain corpse;
+			};	
+		}
+	};
+	#if { "$MSDP_CLASS"=="Druid" } {
+		#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
+			queueAdd priority convert;queueAdd heal heal;
+		}		
+	};
+	#if $profession[gather][auto] {
+		do_skin %0;
+	};
+	get gold all.corpse
+}
+
+#ACTION {The %1 {above|below|to the .*} seems to be closed.}
+{
+	#local {i} {%2};
+	#replace {i} {above} {up};
+	#replace {i} {below} {down};
+	#replace {i} {to the } {};
+	#nop {Hook name: closed.};
+	#nop {Hook args: %1 name of door %2 direction.};
+	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i} {open %1 $i};
+	#if {{${auto[track]}} != {}}
+	{
+		look
+	};
+}
+
+#ACTION {The %1 {above|below|to the .*} seems to be locked.}
+{
+	#local {i} {%2};
+	#replace {i} {above} {up};
+	#replace {i} {below} {down};
+	#replace {i} {to the } {};
+	#nop {Hook name: closed.};
+	#nop {Hook args: %1 name of door %2 direction.};
+	#line substitute variables #regexp {%1} {{.*} {.*}} {unlock &2 $i} {unlock %1 $i};
+	#if {{${auto[track]}} != {}}
+	{
+		look
+	};
+}
+
+#action {The mystic's treasure lies here. (invis)} {get all}
+#action {A %1 of gold coins is lying here.} {get gold}
+
+#alias id {cast 'identify'}
+
+#ALIAS {^%ddo %2 %S$} { #loop {1} {%1} {i} {%2 $i.%3}}
+
+
+#function return_min_sec {
+	#math temp[sec] { %1 % 60 };
+	#math temp[min] { %1 / 60 };
+	#return $temp[min]m$temp[sec]s;
+}
+
+
+
+#NOP ############### HUNT
+#ac {You start searching for tracks but then realize %1 is right here!} {#show <131> Found target %1!}
+#ac {^[* You see your target's tracks leading %1. *]} {#if {"$toggle[hunt]"=="on"} {smart_move %1}}
+#ac {[* You found %1! *]} {#show <131> Found target %1!}
+
+
+
+#NOP #######################################################
+#NOP Area specific information - route + mobs 
+#NOP #######################################################
+
+#NOP ROUTE NA'KANA
+#alias gonaka {2s14e14ne3n5ed4es4e2n4eu}
+
+#nop ac {A puffin bobs up and down in the rolling waves.%1} {settarget 999 @mob_count{"%1"}  puffin 20 75 3}
+#ac {A giant petrel guards its nest here.%1} {settarget petrel 999 @mob_count{"%1"}  20 53 3}
+#ac {A common murre is hovering here.%1} {settarget 999 @mob_count{"%1"}  murre 20 53 3}
+#ac {A northern gannet is hovering here.%1} {settarget 999 @mob_count{"%1"}  gannet 20 53 3}
+#ac {A skua is hovering here.%1} {settarget 999 @mob_count{"%1"}  skua 20 53 3}
+#ac {A sooty tern sits on its nest and eyes you warily.%1} {settarget 999 @mob_count{"%1"}  tern 20 53 3}
+#NOP 35+
+#ac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 85 3}
+#ac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 85 3}
+#ac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 85 3}
+#ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 50 85 2}
+#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 51 85 2}
+#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 51 85 2}
+#ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 53 85 1}
+
+
+
+#NOP ################## ROUTE BOT BA'ALOR;	
+#alias gobaalor {2s11w6s6wn}
+
+#action {Ba'Alor asks, 'Welcome to Baramon Ingrol travelers, are you friend or foe?'} {settarget 999 @mob_count{"%1"} Ba 1 63 1}
+#action {Ba'Alor stands here, stirring his stew.} {settarget 999 @mob_count{"%1"} Ba 1 63 1}
+#action {A koala bear is here with his friends, safe from the fires.%1} {settarget 999 @mob_count{"%1"} koala 30 63 1}
+#action {A forest squirrel skitters around.%1} {settarget 999 @mob_count{"%1"} squirrel 20 63 1}
+#action {A fearless bear wanders around, scraping for food.%1} {settarget 999 @mob_count{"%1"} bear 20 63 1}
+#action {A chubby troll roams around here.%1} {settarget 999 @mob_count{"%1"} troll 30 63 1}
+#action {A fledgling fire drake plays here, attracted by the fire.} {settarget 999 @mob_count{"%1"} drake 38 54 1}
+#action {A fledgling fire dragon plays here, attracted by the fire.} {settarget 999 @mob_count{"%1"} drake 38 54 1}
+
+
+#ACTION {a fire elemental is hovering here.%1} {settarget 1 @mob_count{"%1"} elemental 30 63 1}
+#ACTION {A halfling is here, trying to burrow into the dirt.%1} {settarget 1 @mob_count{"%1"} halfling 30 63 1}
+#ACTION {A tunnel hermit scavenges for food.%1} {settarget 1 @mob_count{"%1"} hermit 30 63 1}
+
+#action {A tunnel protector is here, serving the forces that be.} {settarget 2 @mob_count{"%1"} protector 30 61 3}
+#action {An ice elemental floats here, chilling the surrounding air.} {settarget 2 @mob_count{"%1"} elemental 30 61 2}
+#action {A shimmering tower of diamond glitters before you.} {settarget 2 @mob_count{"%1"} diamond 30 61 1}
+#action {A cave monster is here, protecting his useless belongings.} {settarget 999 @mob_count{"%1"} monster 30 61 1}
+
+#action {A strange boulderman stands here.} {settarget 999 @mob_count{"%1"} boulderman 30 61 1}
+
+#action {A dangerous looking skeleton warrior screams for blood!} {settarget 999 @mob_count{"%1"} skeleton 30 61 2}
+#action {A disgusting zombie shambles by, hungering for mana.} {settarget 999 @mob_count{"%1"} zombie 30 61 1;$spellOpener zombie}
+#action {A guardian of the four looms over you.} {settarget 999 @mob_count{"%1"} guardian 30 61 3}
+
+
+#action {Sabrael is hovering here.} {settarget 999 @mob_count{"%1"} Sabrael 30 61 1}
+#action {Melkyal of The Four is here, staring at you.} {settarget 999 @mob_count{"%1"} Melkyal 30 61 1}
+#action {Barbelo of The Four is here, glaring at you.} {settarget 999 @mob_count{"%1"} Barbelo 30 61 1}
+#action {Empyrean is here hiding in the shadows. } {settarget Empyrean 999 @mob_count{"%1"} 30 61 1;$spellOpener Empyrean}
+
+
+
+#action {You need to ADVANCE to reach a fire elemental with close ranged attacks.} {queueAdd combat {$bot[spellDamage] fire}}
+
+
+
+#NOP ################ PILLAR MAZE
+#alias gopillar {4n2w4swn}
+
+#ac {The maze guard keeps undesirables from entering.} {settarget 999 @mob_count{"%1"} maze 30 99 1}
+#ac {The maze keeper is cleaning up the place.} {settarget 999 @mob_count{"%1"} maze 30 99 1}
+#ac {The guardian of the maze is here watching over your progress.} {settarget 999 @mob_count{"%1"} guardian 30 99 1}
+#ac {The maze seer stands here seeing all.} {settarget 999 @mob_count{"%1"} seer 30 99 2}
+
+
+
+
+
+
+#NOP ################ THALOS
+#alias gothalos {2s21e6s2e3sw}
+
+#ac {A large black lamia stands here, guarding the entrance to her sisters.} {settarget 999 @mob_count{"%1"} lamia 40 61 1}
+#ac {The stone golem is hovering here.} {settarget 999 @mob_count{"%1"} golem 40 61 2}
+#ac {Two skeletons lie crushed under a large boulder.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
+#ac {A strong chest lies in one corner of the room.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
+#ac {The stone floor of this house has been ripped apart.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
+#ac {A few wooden planks lie stacked on a low shelf.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
+#ac {Some broken shards of pottery lie strewn about the floor.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
+#ac {A lamia stands here, searching for her next meal.} {settarget 999 @mob_count{"%1"} lamia 40 61 1}
+
+
+
+
+#NOP ################ Thri-Kreen
+#alias gothri {2s21e6s3e4s}
+
+
+
+#ac {A brown colored thri-kreen moves about here, surveying the area.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
+#ac {An experienced looking thri-kreen strides about.}  {settarget 999 @mob_count{"%1"} thri 40 75 1}
+#ac {A thri-kreen is here, looking for danger.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
+#ac {A well camouflaged thri-kreen lurks near some cover.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
+
+
+
+#var zone[skinlist] {{"The thri-kreen scout"};{"The thri-kreen hunter"};{"The experienced looking thri-kreen"};{"The thri-kreen guard"};{"XXXXX"};{"XXXXXXX"};{"XXXXXXX"}};
+
