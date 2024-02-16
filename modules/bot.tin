@@ -640,6 +640,29 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #ALIAS {^%ddo %2 %S$} { #loop {1} {%1} {i} {%2 $i.%3}}
 
 
+#ALIAS {sroom} {#gag { ! };#gag {+! };#gag {\~! };find_containers_in_room;#delay 2 {#foreach {*containers_room[]} {i} {search $containers_room[$i] %1;}};#delay 20 {#ungag { ! };#ungag {+! };#ungag {\~! };#var containers_room {}}}
+#alias find_containers_in_room {#var containers_room {};#gag {(locked)};#action {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3} {#list containers_room add %%2};l;#delay 0.4 {#show UNACTION;#unaction {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3}}}
+
+
+
+
+An armoury meant for storing physical arms and armors.
+A solid safe meant for storing magical arms and armors.
+A trunk meant for storing follower gear.
+A case meant for storing potions and meads.
+A chest meant for storing miscellaneous goods.
+
+
+
+
+
+
+
+
+
+
+
+
 #function return_min_sec {
 	#math temp[sec] { %1 % 60 };
 	#math temp[min] { %1 / 60 };
@@ -662,20 +685,20 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP ROUTE NA'KANA
 #alias gonaka {2s14e14ne3n5ed4es4e2n4eu}
 
-#nop ac {A puffin bobs up and down in the rolling waves.%1} {settarget 999 @mob_count{"%1"}  puffin 20 75 3}
-#ac {A giant petrel guards its nest here.%1} {settarget petrel 999 @mob_count{"%1"}  20 53 3}
-#ac {A common murre is hovering here.%1} {settarget 999 @mob_count{"%1"}  murre 20 53 3}
-#ac {A northern gannet is hovering here.%1} {settarget 999 @mob_count{"%1"}  gannet 20 53 3}
-#ac {A skua is hovering here.%1} {settarget 999 @mob_count{"%1"}  skua 20 53 3}
-#ac {A sooty tern sits on its nest and eyes you warily.%1} {settarget 999 @mob_count{"%1"}  tern 20 53 3}
+#ac {A puffin bobs up and down in the rolling waves.%1} {settarget 999 @mob_count{"%1"}  puffin 20 75 3}
+#ac {A giant petrel guards its nest here.%1} {settarget petrel 999 @mob_count{"%1"}  20 75 3}
+#ac {A common murre is hovering here.%1} {settarget 999 @mob_count{"%1"}  murre 20 75 3}
+#ac {A northern gannet is hovering here.%1} {settarget 999 @mob_count{"%1"}  gannet 20 75 3}
+#ac {A skua is hovering here.%1} {settarget 999 @mob_count{"%1"}  skua 20 75 3}
+#ac {A sooty tern sits on its nest and eyes you warily.%1} {settarget 999 @mob_count{"%1"}  tern 20 75 3}
 #NOP 35+
-#ac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 85 3}
-#ac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 85 3}
-#ac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 85 3}
-#ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 50 85 2}
-#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 51 85 2}
-#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 51 85 2}
-#ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 53 85 1}
+#ac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 100 3}
+#ac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 100 3}
+#ac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 100 3}
+#ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 50 100 2}
+#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 51 100 2}
+#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 51 100 2}
+#ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 53 100 1}
 
 
 
