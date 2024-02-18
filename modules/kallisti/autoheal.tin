@@ -1,0 +1,148 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var kallisti/autoheal-description {Handle character bufs automatically}
+#var kallisti/autoheal-help {Automatically heal group or player.}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias kallisti/autoheal-register {
+	#if {@isloaded{queues}} {
+		register_module kallisti/autoheal
+	} {
+		fail_module kallisti/autoheal Need queues module
+	}
+}
+
+init healpct preferences 80
+init refreshpct preferences 45
+init refreshManaThreshold preferences 90
+init toggle[cure] preferences off
+initlist healBlack preferences
+initlist refreshBlack preferences
+
+event_register {variable MSDP_GROUP} {autoheal} {autoheal};
+event_register {variable MSDP_HEALTH} {autoheal} {autoheal};
+event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
+
+
+#alias {autoheal} {
+    #nop %0;
+    #if {&MSDP_GROUP[] == 0} {
+        #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} < $healpct} {
+            queueAdd heal {heal}
+        };
+        #if {@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} < $refreshpct} {
+            queueAdd heal {refresh}
+        };
+    };
+    #foreach *MSDP_GROUP[%*] {_tmp} {
+        #if {@healBlacklist{$MSDP_GROUP[$_tmp][name]} > 0} {#continue};
+        #if {$MSDP_GROUP[$_tmp][health] < $healpct } {
+            #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
+                #nop TODO - this should be the chosen heal/fheal/layhands method;
+                queueAdd heal {heal $MSDP_GROUP[$_tmp][name]};
+            }
+        };
+        #if {$MSDP_GROUP[$_tmp][stamina] < $refreshpct } {
+            #if {$MSDP_MANA > $refreshManaThreshold} {
+#show STAMINIA  $MSDP_GROUP[$_tmp][name]  $MSDP_GROUP[$_tmp][stamina];
+                #if {@refreshBlacklist{$MSDP_GROUP[$_tmp][name]}} {
+                    #nop
+                } {
+                    #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
+                        #nop -- temporarily jack up the stamina to prevent double casing;
+                        #var MSDP_GROUP[$_tmp][stamina] 101;
+                        queueAdd any {refresh $MSDP_GROUP[$_tmp][name]};
+                    }
+                }
+            }
+        };
+        #regex {$MSDP_GROUP[$_tmp][flags]} {Deaf} {
+            #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
+                #if {"$reverb" == "on"} {
+                    nco reverb $MSDP_GROUP[$_tmp][name]
+                }
+            }
+        };
+        #regex {$MSDP_GROUP[$_tmp][flags]} {Paralyze} {
+            #if {"$toggle[CURE]" == "on" && $MSDP_GROUP[$_tmp][with_you]} {queueAdd any cure $MSDP_GROUP[$_tmp][name]}
+        };
+        #regex {$MSDP_GROUP[$_tmp][flags]} {Poisoned} {
+            #if {"$toggle[CURE]" == "on" && $MSDP_GROUP[$_tmp][with_you]} {queueAdd any cure $MSDP_GROUP[$_tmp][name]}
+        };
+        #regex {$MSDP_GROUP[$_tmp][flags]} {Blind} {
+            #if {"$toggle[cure]" == "on" && $MSDP_GROUP[$_tmp][with_you]} {queueAdd any cure $MSDP_GROUP[$_tmp][name]}
+        }
+    };
+    #if {"$mount_heal" == "on"} {
+        #if {$MSDP_MOUNT_HEALTH_MAX > 0} {
+            #if {@pct{$MSDP_MOUNT_HEALTH;$MSDP_MOUNT_HEALTH_MAX} < 50} {
+                queueAdd heal {heal $mount}
+            }
+        };
+    };
+    
+}
+
+#action {^A feeling of energy fills you, fighting off the weariness you felt only a moment ago. (%d refreshed)} {
+    #nop
+}
+
+#function refreshBlacklist {#list {refreshBlack} {find} {%1} {result}}
+#function healBlacklist {#list {healBlack} {find} {%1} {result}}
+
+#tab refreshblack
+#alias refreshblack {
+    #switch {"%1"} {
+        #case {"add"} {
+            #list refreshBlack add %2;
+            warn autoheal Added %2 to refresh blacklist
+        };
+        #case {"del"} {
+            #list refreshBlack find %2 _idx;
+            #if {$_idx > 0} {
+                #list refreshBlack delete $_idx;
+                warn autoheal Removed %2 from refresh blacklist at index $_idx
+            } {
+                warn autoheal %2 not in refresh blacklist
+            }
+        };
+        #case {"show"} {
+            #var refreshBlack
+        };
+        #default {
+            warn autoheal Please use 'refreshblack <add|del|show> [name].  Remember this is case sensitive;
+        }
+    }
+    _preferences_save
+}
+
+#tab healblack
+#alias healblack {
+    #switch {"%1"} {
+        #case {"add"} {
+            #list healBlack add %2;
+            warn autoheal Added %2 to heal blacklist
+        };
+        #case {"del"} {
+            #list healBlack find %2 _idx;
+            #if {$_idx > 0} {
+                #list healBlack delete $_idx;
+                warn autoheal Removed %2 from heal blacklist at index $_idx
+            } {
+                warn autoheal %2 not in heal blacklist
+            }
+        };
+        #case {"show"} {
+            #var healBlack
+        };
+        #default {
+            warn autoheal Please use 'healblack <add|del|show> [name]'.  Remember this is case sensitive;
+        }
+    }
+    _preferences_save
+}

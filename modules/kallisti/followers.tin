@@ -1,0 +1,171 @@
+#nop -- follower management
+
+#var kallisti/followers-description {Follower / Group Management}
+#var kallisti/followers-help {
+Recharm followers, convenience commands.
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias kallisti/followers-register {
+	#if {@isloaded{modloader}} {
+		register_module kallisti/followers
+	} {
+		fail_module kallisti/followers unknown reason
+	}
+}
+
+init follower_mode preferences on
+init toggle[recallwithleader] preferences on
+init toggle[portalwithleader] preferences on
+
+event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
+
+#alias {thumbout %1} {
+    #line sub vars #act {^%1 appears in the middle} {fol %1;#unact {^%1 appears in the middle}}
+}
+
+#alias follower_command {
+    #if {"%2" == "tnl"} {tnl};
+    #if {"%2" == "all tnl"} {tnl};
+    #if {"%2" == "all ksanc"} {ksanc};
+    #if {"%2" == "all kdarmor"} {kdarmor};
+    #if {"%2" == "all kbless"} {kbless};
+    #if {"$follower_mode" == "on"} {
+		#if {"%1" == "@group_leader{}" || "%1" == "@subgroup_leader{}"} {
+			#regex {%2} {^all %*$} {
+				#send &1;
+			}
+		} 
+	}
+}
+
+#alias oo {order followers %0}
+
+#action {^%w disappears.$} {
+    #if {"%1" == "@group_leader{}" && "$toggle[recallwithleader]" == "on"} {
+        recall;
+        #if {&recall_special[@group_leader{}]} {$recall_special[@group_leader{}]}
+    };
+}
+
+#action {^%w enters %2$} {
+    #var _portal %2;
+    #switch {"%2"} {
+        #case {"an earthen-tone portal."} {#var _portal {portal}};
+        #case {"a glowing blue-flame portal."} {#var _portal {portal}};
+        #case {"a spider-silkwool Zarkan tent."} {#var _portal {tent}};
+        #default {
+            #replace {_portal} {%w } {};
+            #replace {_portal} {.} {};
+        }
+    };
+	#if {"%1" == "@group_leader{}" && "$toggle[portalwithleader]" == "on"} {
+		warn follower attempt to enter $_portal;
+		enter $_portal;
+	}
+}
+
+#action {^%w turns %2$} {
+
+    #var _portal %2;
+    
+    #switch {"%1"} {
+        #case {"Fortune"} {#return};
+    };
+
+    #switch {"%2"} {
+        #case {"translucent."} {#return};
+        #default {
+            #replace {_portal} {%w } {};
+            #replace {_portal} {.} {};
+        };
+    };
+
+    warn follower %1 instructed to turn $_portal;
+    #if {"%1" == "@group_leader{}" && "toggle[portalwithleader]" == "on"} {
+        turn $_portal;
+    }
+}
+
+#var follower Follow
+#var charmFollowerTotal 4
+#var charmFollowerNr 1
+
+#tab harpsGive
+#tab harpsGet
+#alias harpsGive {ogfollower {harp};oo play drai}
+#alias harpsGet {oofollower {remove harp};oofollower {give harp giffel}}
+
+#alias oofollower {#loop 1 $charmFollowerTotal id {order $follower$id %1}}
+#alias ogfollower {#loop 1 $charmFollowerTotal id {give %1 $follower$id}}
+
+#action {A musician (your follower) is dead! R.I.P.} {oo stand}
+#action {A musician (your follower) is sleeping here.}{oo stand} 
+#action {A musician (your follower) slipped while climbing.}  {#show <131>FOLLOWER SLIPPED}
+
+
+#action {You failed to charm.} {
+	#show RECHARM $follower$charmFollowerNr;
+	#switch {"$MSDP_CLASS"} {
+		#case {"Prophet"} {nco charm $follower$charmFollowerNr};
+		#case {"Necromancer"} {nco controlundead $follower$charmFollowerNr};
+	};
+}
+
+#action {^Renewing charm duration for %1 to %d hours.$} {
+	#if {$charmFollowerNr<$charmFollowerTotal} {
+		#math charmFollowerNr {$charmFollowerNr+1};
+		#show NEXT CHARM $follower$charmFollowerNr;
+		#switch {"$MSDP_CLASS"} {
+			#case {"Prophet"} {nco charm $follower$charmFollowerNr};
+			#case {"Necromancer"} {nco controlundead $follower$charmFollowerNr};
+		};
+	};
+	#else {#var charmFollowerNr 1};
+    #untick {charmm failer};
+    #math {cdelay} { ( %2 - 2 ) * 75 };
+    #class kallisti/followers assign #line oneshot #tick {recharm} {#class kallisti/followers assign #tick {charmm failer} {charm_group} {20}} {$cdelay}
+}
+
+#alias charm_group {
+    #switch {"$MSDP_CLASS"} {
+        #case {"Druid"} {nco friend group};
+        #case {"Prophet"} {#show CHARM $follower$charmFollowerNr;nco charm $follower$charmFollowerNr};
+        #case {"Necromancer"} {#show CONTROLUNDEAD $follower$charmFollowerNr;nco controlundead $follower$charmFollowerNr};
+        #default {err No recharm method for $MSDP_CLASS};
+    };
+}
+
+#function groupAmILeader {                                                                                
+    #var result 0;
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if { "$MSDP_GROUP[$index][name]" == "$MSDP_CHARACTER_NAME" } {
+            #if {$MSDP_GROUP[$index][is_leader] == 1} { #return 1 }
+        }
+    };
+    #return 0
+}
+
+#function group_leader {
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if {$MSDP_GROUP[$index][is_leader] == 1} {#return $MSDP_GROUP[$index][name]}
+    };
+    #return 0
+}
+
+#function subgroup_leader {
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if {$MSDP_GROUP[$index][is_subleader] == 1} {#return $MSDP_GROUP[$index][name]}
+    };
+    #return 0
+}
+
+#function whole_group_here {
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if {$MSDP_GROUP[$index][with_you] == 0} {#return 0;#BREAK}
+    };
+    #return 1
+}
