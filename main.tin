@@ -7,7 +7,7 @@
 #nop -- IMPORTANT NOTE for Windows users
 #nop -- use C:/path/to/whatever (note forward slashes)
 
-#var ttd /home/mcbwana/kallisti/necromancer
+#var ttd /home/mcbwana/kallisti
 #var lib $ttd/lib
 #var mod $ttd/modules
 #var db $ttd/db
