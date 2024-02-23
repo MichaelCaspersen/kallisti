@@ -524,9 +524,12 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		queueAdd combat $bot[spellDamage];
 	};
 	#if { "$bot[role]"=="tank" } {
-		#if $bot[autoRescue] {queueAdd Priority rescue %1};
+		#if $bot[autoRescue] {queueAdd priority rescue %1};
 	}	
 }
+
+#action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {#if $bot[autoRescue] {queueAdd priority rescue %4}}
+#action {You try but are unable to head off %1 opponent.} {#if $bot[autoRescue] {queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {
 	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
