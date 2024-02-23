@@ -1,0 +1,48 @@
+#nop main.tin stub
+
+#nop -- start config section
+#nop -- edit this vars to suit your location
+#nop -- Add verbiage here about handling windows and slashes
+
+#nop -- IMPORTANT NOTE for Windows users
+#nop -- use C:/path/to/whatever (note forward slashes)
+
+#var ttd /home/mcbwana/kallisti
+#var lib $ttd/lib
+#var mod $ttd/modules
+#var db $ttd/db
+#var players $ttd/players
+#var log $ttd/log
+
+#nop point this at an optional local .tin to load at boot
+#nop #var local_config {}
+
+#nop -- end config section
+
+#split 0 1;
+#read $lib/modloader.tin;
+#screen clear scroll
+#buffer clear
+#scan txt {$ttd/motd}
+#buffer end
+
+#nop -- start module loading
+#nop -- TODO: move this to a config file
+load_module functions
+load_module syslog
+load_module events
+load_module msdp
+load_module help
+load_module counter
+
+
+#nop -- This module will control kallisti accounts
+load_module kallisti
+
+#nop -- end module loading
+
+#nop -- load additional configuration
+#if {&local_config} {
+	#read $ttd/${local_config}
+}
+#nop vim: syntax=tt

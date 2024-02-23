@@ -359,7 +359,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[maxlevel] 60;
 			#var zone[path_total] 1;
 			#var zone[path] {w;n;n;n;u;d;w;s;w;w;n;e;w;w;w;u;d;s;s;e;s;w;s;e;n;w;s;s;s;u;d;e;e;e;w;n;w;e;e;w;n;w;e;e;s;e;n;w;n;w;s;w;n;n;e;e;w;w;s;e;e;e;e};
-			#var zone[skinlist] {"lamia";"mimic";"target3"};
+			#var zone[skinlist] {{"lamia"}{} {"mimic"}{} {"target3"}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"Baramon Ingrol"} {
@@ -371,7 +371,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[path2] {enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
 			#var zone[path3] {d;s;e;s;e;enter rock;w;s;e;s;e;e;n;e;n;enter rock;e;e;n;e;n;n;w;n;w;enter rock;n;n;w;n;w;w;s;w;s;enter rock;n;w;s;w;s};
 			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;s;w;s;s};
-			#var zone[skinlist] {"Sabrael";"Melkyal";"Barbelo of The Four";"Empyrean";"A cave monster";"A tunnel protector";"A tunnel hermit";"A dark halfling"};
+			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"The Island of Na'Kana"} {
@@ -381,8 +381,8 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[startroom] 32055;
 			#var zone[path_total] 1;
 			#var zone[path] {n;s;s;n;u;n;s;s;n;u;n;s;s;n;u;e;s;e;e;e;s;s;e;w;w;d;s;n;u;e;n;n;w;u;u;n;w;n;e;e;s;w;n;u;e;n;e;u;n;d;n;s;s;n;d;n;s;s;n;d;n;s;s;n;3u1s1d1w1s1w1d2s2d2w1n1w3d};
-			#var zone[skinlist] {{"A kakapo"};{"A weka"};{"A takahe"};{"A pelegornis"};{"A royal albatross"};{"A spectacled cormorant"};{"A giant moa"}};
-			#var zone[allowAOE] 0;
+			#var zone[skinlist] {{"A kakapo"}{} {"A puffin"}{} {"A giant petrel"}{} {"A common murre"}{} {"A skua"}{} {"A northern gannet"}{} {"A sooty tern"}{} {"A weka"}{} {"A takahe"}{} {"A pelegornis"}{} {"A royal albatross"}{} {"A spectacled cormorant"}{} {"A giant moa"}};
+			#var zone[allowAOE] 0;		
 		};
 		#case {"Pillar Maze"} {
 			#var zone[name] {Pillar Maze};
@@ -646,26 +646,6 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #ALIAS {sroom} {#gag { ! };#gag {+! };#gag {\~! };find_containers_in_room;#delay 2 {#foreach {*containers_room[]} {i} {search $containers_room[$i] %1;}};#delay 20 {#ungag { ! };#ungag {+! };#ungag {\~! };#var containers_room {}}}
 #alias find_containers_in_room {#var containers_room {};#gag {(locked)};#action {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3} {#list containers_room add %%2};l;#delay 0.4 {#show UNACTION;#unaction {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3}}}
 
-
-
-
-An armoury meant for storing physical arms and armors.
-A solid safe meant for storing magical arms and armors.
-A trunk meant for storing follower gear.
-A case meant for storing potions and meads.
-A chest meant for storing miscellaneous goods.
-
-
-
-
-
-
-
-
-
-
-
-
 #function return_min_sec {
 	#math temp[sec] { %1 % 60 };
 	#math temp[min] { %1 / 60 };
@@ -748,10 +728,10 @@ A chest meant for storing miscellaneous goods.
 #NOP ################ PILLAR MAZE
 #alias gopillar {4n2w4swn}
 
-#ac {The maze guard keeps undesirables from entering.} {settarget 999 @mob_count{"%1"} maze 30 99 1}
-#ac {The maze keeper is cleaning up the place.} {settarget 999 @mob_count{"%1"} maze 30 99 1}
-#ac {The guardian of the maze is here watching over your progress.} {settarget 999 @mob_count{"%1"} guardian 30 99 1}
-#ac {The maze seer stands here seeing all.} {settarget 999 @mob_count{"%1"} seer 30 99 2}
+#ac {The maze guard keeps undesirables from entering.} {settarget 999 @mob_count{"%1"} maze 30 100 1}
+#ac {The maze keeper is cleaning up the place.} {settarget 999 @mob_count{"%1"} maze 30 100 1}
+#ac {The guardian of the maze is here watching over your progress.} {settarget 999 @mob_count{"%1"} guardian 30 100 1}
+#ac {The maze seer stands here seeing all.} {settarget 999 @mob_count{"%1"} seer 30 100 2}
 
 
 
@@ -761,14 +741,14 @@ A chest meant for storing miscellaneous goods.
 #NOP ################ THALOS
 #alias gothalos {2s21e6s2e3sw}
 
-#ac {A large black lamia stands here, guarding the entrance to her sisters.} {settarget 999 @mob_count{"%1"} lamia 40 61 1}
-#ac {The stone golem is hovering here.} {settarget 999 @mob_count{"%1"} golem 40 61 2}
-#ac {Two skeletons lie crushed under a large boulder.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
-#ac {A strong chest lies in one corner of the room.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
-#ac {The stone floor of this house has been ripped apart.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
-#ac {A few wooden planks lie stacked on a low shelf.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
-#ac {Some broken shards of pottery lie strewn about the floor.} {settarget 999 @mob_count{"%1"} mimic 40 61 3}
-#ac {A lamia stands here, searching for her next meal.} {settarget 999 @mob_count{"%1"} lamia 40 61 1}
+#ac {A large black lamia stands here, guarding the entrance to her sisters.} {settarget 999 @mob_count{"%1"} lamia 40 60 1}
+#ac {The stone golem is hovering here.} {settarget 999 @mob_count{"%1"} golem 40 60 2}
+#ac {Two skeletons lie crushed under a large boulder.} {settarget 999 @mob_count{"%1"} mimic 40 60 3}
+#ac {A strong chest lies in one corner of the room.} {settarget 999 @mob_count{"%1"} mimic 40 60 3}
+#ac {The stone floor of this house has been ripped apart.} {settarget 999 @mob_count{"%1"} mimic 40 60 3}
+#ac {A few wooden planks lie stacked on a low shelf.} {settarget 999 @mob_count{"%1"} mimic 40 60 3}
+#ac {Some broken shards of pottery lie strewn about the floor.} {settarget 999 @mob_count{"%1"} mimic 40 60 3}
+#ac {A lamia stands here, searching for her next meal.} {settarget 999 @mob_count{"%1"} lamia 40 60 1}
 
 
 
@@ -783,7 +763,5 @@ A chest meant for storing miscellaneous goods.
 #ac {A thri-kreen is here, looking for danger.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
 #ac {A well camouflaged thri-kreen lurks near some cover.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
 
-
-
-#var zone[skinlist] {{"The thri-kreen scout"};{"The thri-kreen hunter"};{"The experienced looking thri-kreen"};{"The thri-kreen guard"};{"XXXXX"};{"XXXXXXX"};{"XXXXXXX"}};
+#nop var zone[skinlist] {{"The thri-kreen scout"};{"The thri-kreen hunter"};{"The experienced looking thri-kreen"};{"The thri-kreen guard"};{"XXXXX"};{"XXXXXXX"};{"XXXXXXX"}};
 

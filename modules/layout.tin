@@ -1,0 +1,87 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var layout-description {Screen layout controls}
+#var layout-help {
+Various screen layouts.\n
+\n
+Current layout: ${layout_preference}\n
+\n
+Commands:\n
+\tlayout <choice> - set preference or show layout options\n
+\tset_right_tile <color> <content> <height> <tile|box>\n
+\tset_left_tile <color> <content> <height> <tile|box>\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias layout-register {
+	#nop need to check: events;
+	#if {@isloaded{functions}} {
+		register_module layout
+	} {
+		fail_module layout
+	}
+}
+
+#tab layout;
+
+#list valid_layouts create {full} {right} {simple} {bot};
+#alias layout_init { #nop } {9}
+#alias layout_reset {layout_init;#nop %0}
+
+#alias layout {
+	#if {"%1" == ""} {
+		show_layouts
+	} {
+	  #list valid_layouts find {%1} {result};
+	  #if {$result > 0} {
+	  	#class layout assign #var layout_preference %1;
+		#class layout-selection clear;
+		#class layout-selection read $mod/layout/${layout_preference};
+		layout_init
+	  } {
+		#showme Invalid layout.
+	  }
+	}
+}
+
+#alias show_layouts {
+	#showme <170>Layout options:;
+	#foreach {*valid_layouts[%*]} {counter} {
+		#showme \t$valid_layouts[$counter]
+	};
+}
+
+#alias {set_right_tile %1 %2 %3 %4 %5} {
+	#var right_tiles[%1] {{color}{%2}{content}{%3}{height}{%4}{type}{%5}}
+}
+#alias {set_left_tile %1 %2 %3 %4 %5} {
+	#var left_tiles[%1] {{color}{%2}{content}{%3}{height}{%4}{type}{%5}}
+}
+
+
+#event {SCREEN RESIZE} { layout_init };
+#event {VARIABLE UPDATED layout_preference} { layout_init };
+
+event_register {SESSION ACTIVATED} {layout} {layout_reset %1}
+
+
+#nop -- This probably needs a better home, but let's set up some tiles if they don't;
+#nop -- already exist;
+
+#if {!&{right_tiles}} {
+	set_right_tile 1 <B5f819d> area_info 2 tile;
+	set_right_tile 2 <B85678f> group_info[%*] 10 tile;
+	set_right_tile 3 <B5f819d> queue_block 3 tile;
+	set_right_tile 31 <Fd5d8d6> player_info[%*] 24 tile;
+}
+
+#nop Let's set up something to at least have a layout
+init layout_preference layout simple;
+layout ${layout_preference};
+
+#nop -- vim: syntax=tt
