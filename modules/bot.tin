@@ -21,8 +21,8 @@ Commands:\n
 
 #alias bot-register {
 	#if {@isloaded{modloader}} {
-
-		register_module bot
+		bot_init;
+		register_module bot;
 	} {
 		#class bot kill
 	}
@@ -53,60 +53,59 @@ Commands:\n
 
 #alias show_debug {#if $bot[debug] {#show %1}}
 
+#alias bot_init {
+	#NOP #######################################################
+	#NOP Class Specific: Necromancer
+	#NOP #######################################################
+	#if { "$MSDP_CLASS" == "Necromancer" } {
+		#var bot[damage] darkfire;
+		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
+		#var bot[spellSustain] drain;
 
-#NOP #######################################################
-#NOP Class Specific: Necromancer
-#NOP #######################################################
-#if { "$MSDP_CLASS" == "Necromancer" } {
-	#var bot[damage] darkfire;
-	#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
-	#var bot[spellSustain] drain;
+		#var autobloodlust on;
+		#var autocorpsevisage on;
+		pref autobuf shapechange lich;
+		#var autoaura on;
+		#var autowraithform on;
+		#var autogrim on;
+	}
 
-	#var autobloodlust on;
-	#var autocorpsevisage on;
-	pref autobuf shapechange lich;
-	#var autoaura on;
-	#var autowraithform on;
-	#var autogrim on;
+	#NOP #######################################################
+	#NOP Class Specific: Prophet
+	#NOP #######################################################
+	#if { "$MSDP_CLASS" == "Prophet" } {
+		#var bot[damage] hword;
+		#var bot[spellCorpse] #nop;
+		#var bot[spellSustain] heal;
+
+		#var autobless on;
+		#var autodarmor on;
+		#var autovigor on;
+		#var autosanctuary on;
+
+		load_module kallisti/autoheal;
+	}
+
+	#NOP #######################################################
+	#NOP Class Specific: Druid
+	#NOP #######################################################
+	#if { "$MSDP_CLASS" == "Druid" } {
+		#var bot[move] 1;
+		#var bot[autozone] 1;
+		#var bot[cast] 1;
+		#var bot[poke] 1;
+		#var bot[damage] {tornado};
+		botrole leader;
+
+		#var autobark on;
+		#var autobless on;
+		#var autoffire on;
+		#var autovigor on;
+
+		load_module kallisti/autoheal;
+		profon skinning;
+	}
 }
-
-#NOP #######################################################
-#NOP Class Specific: Prophet
-#NOP #######################################################
-#if { "$MSDP_CLASS" == "Prophet" } {
-	#var bot[damage] hword;
-	#var bot[spellCorpse] #nop;
-	#var bot[spellSustain] heal;
-
-	#var autobless on;
-	#var autodarmor on;
-	#var autovigor on;
-	#var autosanctuary on;
-
-	load_module kallisti/autoheal;
-}
-
-#NOP #######################################################
-#NOP Class Specific: Druid
-#NOP #######################################################
-#if { "$MSDP_CLASS" == "Druid" } {
-	#var bot[damage] tornado;
-	#var bot[spellCorpse] #nop;
-	#var bot[spellSustain] heal;
-	#var bot[running] 1;
-	#var bot[autozone] 1;
-	#var bot[cast] 1;
-	#var bot[poke] 1;
-	
-	#var autobark on;
-	#var autobless on;
-	#var autoffire on;
-	#var autovigor on;
-
-	load_module kallisti/autoheal;
-	profon skinning;
-}
-
 
 
 #NOP #######################################################
