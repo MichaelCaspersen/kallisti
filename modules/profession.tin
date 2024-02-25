@@ -36,6 +36,10 @@ Commands:\n
 #var profession[gather][total] 0
 #var profession[gather][receiver] {} ;#nop Empty will donate to own house, or else to <value> house
 
+#alias profon 	{#var profession[gather][auto] 1;generate_profession_info;#show Will start gathering: %1}
+#alias profoff 	{#var profession[gather][auto] 0;generate_profession_info;#show Will no longer gather anything}
+
+
 #nop Refining can be: tan, cook, carve
 #var profession[refining][type] tanning
 #var profession[refining][auto] 0
@@ -92,8 +96,6 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 #NOP Professions - Skinning;
 #NOP #######################################################
-#alias profon 	{#var profession[gather][auto] 1;generate_profession_info;#show Will start gathering: $1}
-#alias profoff 	{#var profession[gather][auto] 0;generate_profession_info;#show Will no longer gather anything}
 
 #NOP Entered new zone, update corpses to be skinned
 #var zone[skinlist] {"Sabrael";"Melkyal";"Barbelo of The Four";"Empyrean";"A cave monster";"A tunnel protector";"A tunnel hermit";"A dark halfling"};

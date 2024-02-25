@@ -37,10 +37,11 @@ Commands:\n
 #var bot[role] damage;
 #var bot[running] 1;
 #var bot[move] 0;
-#var bot[autozone] 1;
+#var bot[autozone] 0;
 #var bot[cast] 1;
 #var bot[join] 1;
 #var bot[poke] 0;
+#var bot[markcommand] mark;
 #var bot[pokecommand] stikker;
 #var bot[damage] {};
 #var bot[nextAction] {};
@@ -92,14 +93,17 @@ Commands:\n
 	#var bot[damage] tornado;
 	#var bot[spellCorpse] #nop;
 	#var bot[spellSustain] heal;
-
+	#var bot[running] 1;
+	#var bot[autozone] 1;
+	#var bot[cast] 1;
+	#var bot[poke] 1;
+	
 	#var autobark on;
 	#var autobless on;
 	#var autoffire on;
 	#var autovigor on;
 
 	load_module kallisti/autoheal;
-	load_module profession;
 	profon skinning;
 }
 
@@ -120,6 +124,19 @@ Commands:\n
 		#default {
 			#show <Ffff><B595>Autocast OFF;
 			#var bot[cast] 0;
+		}
+	}
+}
+
+#alias {botpoke} {
+	#switch {"%0"} {
+		#case {"1"} {
+			#show <Ffff><B595>Poke ON : $bot[pokecommand];
+			#var bot[poke] 1;
+		};
+		#default {
+			#show <Ffff><B595>Poke OFF;
+			#var bot[poke] 0;
 		}
 	}
 }
@@ -254,7 +271,6 @@ Commands:\n
 }
 #alias , {#show <Ffff><B595>Load current zone;zone_load}
 #alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
-#alias poke_target {: $bot[pokecommand] @findtarget{}}
 
 #action {%1 utters the words 'qaizzfh waia'} {
 	#if {@groupIsPresent{%1} && "$MSDP_CHARACTER_NAME"!="%1"} { #nop check if its a group member, only delay if you didnt cast the spell;
@@ -344,6 +360,18 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #var zone[exp_start] 0;
 #var zone[gold_start] 0;
 
+#alias {autozone} {
+	#switch {"%0"} {
+		#case {"1"} {
+			#show <Ffff><B595>Will automatically clear zone;
+			#var bot[autozone] 1;
+		};
+		#default {
+			#show <Ffff><B595>Will no longer restart zone;
+			#var bot[autozone] 0;
+		}
+	}
+}
 
 #alias zone_load {
 	#nop can be loaded with path id %1;
@@ -445,9 +473,8 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 
 #NOP #######################################################
-#NOP Handle targets
+#NOP Handle set/clear targets
 #NOP #######################################################
-
 
 #action {Nobody here by that name ('%0').} {cleartarget}
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
@@ -468,7 +495,6 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#list {_queue[combat]} clear;
 	queue_block;
 }
-
 
 #NOP Params    <maxMobs> <HowManyAreThere> <MobName> <MinLevel> <MaxLevel> <Priority1-3>
 #alias {settarget %1 %2 %3 %4 %5 %6} {
@@ -503,7 +529,16 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP Combat
 #NOP #######################################################
 
-#alias damage {#var bot[damage] %1;generate_bot_info}
+#alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
+
+#action {%0 $bot[markcommand]: %1} {
+	#switch {"$bot[role]"} {
+		#case {"tank"} {
+			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
+		};
+	}
+}
+
 
 #action {%0 $bot[pokecommand] %1} {
 	#switch {"$bot[role]"} {
