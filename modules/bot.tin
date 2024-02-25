@@ -807,5 +807,3 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #ac {A well camouflaged thri-kreen lurks near some cover.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
 
 #nop var zone[skinlist] {{"The thri-kreen scout"};{"The thri-kreen hunter"};{"The experienced looking thri-kreen"};{"The thri-kreen guard"};{"XXXXX"};{"XXXXXXX"};{"XXXXXXX"}};
-#show INIT BOT;
-bot_init;

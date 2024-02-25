@@ -68,6 +68,9 @@
 		};
 		#case {"Samurai"} {
 		};
+		#case {"Druid"} {
+			bot_init;
+		};
 		#default {
 			#nop #if {"$remort[TRUE]" == "1"} {};
 		}
