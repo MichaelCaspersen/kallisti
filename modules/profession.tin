@@ -186,6 +186,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#if { $profession[refining][reset] && $profession[refining][auto] } {
 		#var totalhides 0;
 		#var profession[refining][reset] 0;w;recall;2s3es;sell leather;
+	};
+	#else {
+		#show no more hides left;
+		tanoff;
 	}
 }
 
@@ -199,16 +203,11 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		visit eremitage;e;get all.hide;
 		visit kruoill;e;get all.hide;
 		visit houseofanasasi;e;get all.hide;
-		#if $profession[refining][reset] {
-			#switch {"$MSDP_ACCOUNT_NAME"} {
-				#case {"HouseOfAnasasi"} {counthides;tan hide};
-				#default {recall;3s2w;open gate s;s;open door s;2s2u4en;counthides;tan hide};
-			}
-		}
+		counthides;tan hide;
 	}
 }
 
-#nop ac {There aren't any hides here you can take.} {#if $profession[refining][auto] {#var profession[refining][reset] 0;gt No more hides at $profession[refining][donationroom]}}
+#nop action {There aren't any hides here you can take.} {#if {$profession[refining][auto] && $profession[refining][reset]} {#var profession[refining][reset] 0;gt No more hides at $profession[refining][donationroom]}}
 
 #alias counthides {#delay removetotal {#show TOTAL HIDES: $totalhides} {1}}
 #action {Some hide from %0 lies here. (%1)} {#math totalhides {$totalhides+%1}}
