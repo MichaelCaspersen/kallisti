@@ -68,7 +68,7 @@ Commands:\n
 		#var autoaura on;
 		#var autowraithform on;
 		#var autogrim on;
-	}
+	};
 
 	#NOP #######################################################;
 	#NOP Class Specific: Prophet								;
@@ -84,7 +84,7 @@ Commands:\n
 		#var autosanctuary on;
 
 		load_module kallisti/autoheal;
-	}
+	};
 
 	#NOP #######################################################;
 	#NOP Class Specific: Druid									;
