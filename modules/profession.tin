@@ -29,15 +29,15 @@ Commands:\n
 #NOP Profession unique variables
 #NOP #######################################################
 
-#nop Gathering an be: skin, butcher, extract
-#var profession[gather][type] Skinning
+#nop Gathering an be: skinning, butcher, extract
+#var profession[gather][type] skinning
 #var profession[gather][auto] 1
 #var profession[gather][success] 0
 #var profession[gather][total] 0
 #var profession[gather][receiver] {} ;#nop Empty will donate to own house, or else to <value> house
 
 #nop Refining can be: tan, cook, carve
-#var profession[refining][type] Tanning
+#var profession[refining][type] tanning
 #var profession[refining][auto] 0
 #var profession[refining][reset] 1
 #var profession[refining][donationroom] {kruoill}
@@ -79,7 +79,14 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
-
+#alias {do_gather} {
+	#SWITCH {$profession[gather][type]} {
+		#CASE {"skinning"} {do_skin %1};
+		#CASE {"butcher"} {do_butcher %1};
+		#CASE {"extract"} {do_extract %1};
+		#DEFAULT {#nop}
+	}; 
+}
 
 
 #NOP #######################################################

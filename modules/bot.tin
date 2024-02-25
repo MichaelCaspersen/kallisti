@@ -7,9 +7,11 @@
 #var bot-help {
 Commands:\n
 \tCurrent role: $bot[role]   Available roles: leader/tank/damage/healer/OFF\n
-\tspelldamage <spell> , current $bot[spellDamage]\n
+\tdamage <spell> , current $bot[damage]\n
 \n
 \tToggle automatic casting/moving:  botcast: $bot[cast]  botmove: $bot[move]\n
+\n
+\tWill autorun zone:  $bot[autozone]\n
 \n
 }
 
@@ -35,11 +37,12 @@ Commands:\n
 #var bot[role] damage;
 #var bot[running] 1;
 #var bot[move] 0;
-#var bot[cast] 0;
+#var bot[autozone] 1;
+#var bot[cast] 1;
 #var bot[join] 1;
 #var bot[poke] 0;
 #var bot[pokecommand] stikker;
-#var bot[spellDamage] {};
+#var bot[damage] {};
 #var bot[nextAction] {};
 #var bot[autoRescue] 0;
 
@@ -54,7 +57,7 @@ Commands:\n
 #NOP Class Specific: Necromancer
 #NOP #######################################################
 #if { "$MSDP_CLASS" == "Necromancer" } {
-	#var bot[spellDamage] darkfire;
+	#var bot[damage] darkfire;
 	#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
 	#var bot[spellSustain] drain;
 
@@ -70,7 +73,7 @@ Commands:\n
 #NOP Class Specific: Prophet
 #NOP #######################################################
 #if { "$MSDP_CLASS" == "Prophet" } {
-	#var bot[spellDamage] hword;
+	#var bot[damage] hword;
 	#var bot[spellCorpse] #nop;
 	#var bot[spellSustain] heal;
 
@@ -86,7 +89,7 @@ Commands:\n
 #NOP Class Specific: Druid
 #NOP #######################################################
 #if { "$MSDP_CLASS" == "Druid" } {
-	#var bot[spellDamage] tornado;
+	#var bot[damage] tornado;
 	#var bot[spellCorpse] #nop;
 	#var bot[spellSustain] heal;
 
@@ -187,7 +190,7 @@ Commands:\n
 			#if { $bot[poke] } {
 				#var bot[nextAction] {queueAdd nco poke_target};
 			};#else  {
-				#var bot[nextAction] {queueAdd nco $bot[spellDamage] @findtarget{}};
+				#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
 			};
 		};
 		#else {
@@ -222,15 +225,15 @@ Commands:\n
 						#var bot[nextAction] {queueAdd heal drain};
 					}; #else {
 						#var bot[nextActionDebug] {$bot[nextActionDebug], target too low, nuke };
-						#var bot[nextAction] {queueAdd combat $bot[spellDamage]};
+						#var bot[nextAction] {queueAdd combat $bot[damage]};
 					}
 				}; #else {
-					#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[spellDamage]};
-					#var bot[nextAction] {queueAdd combat $bot[spellDamage]};
+					#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[damage]};
+					#var bot[nextAction] {queueAdd combat $bot[damage]};
 				};
 			 };#else {
-				#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[spellDamage]};
-				#var bot[nextAction] {queueAdd combat $bot[spellDamage]};
+				#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[damage]};
+				#var bot[nextAction] {queueAdd combat $bot[damage]};
 			 }
 		};
 	};
@@ -239,8 +242,8 @@ Commands:\n
 }
 
 
-#TICKER {restartzone} {#if {$zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {#show starting zone;,;.}} {10}
-#TICKER {gobacktozone} {#if {"$MSDP_AREA_NAME"=="Rommena Countryside"} {#show CHECK GO BACK TO ZONE;#map run 32055}} {60}
+#TICKER {restartzone} {#if {$bot[autozone] && $zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {#show starting zone;,;.}} {10}
+#TICKER {gobacktozone} {#if {$bot[autozone] && "$MSDP_AREA_NAME"=="Rommena Countryside"} {#show CHECK GO BACK TO ZONE;#map run 32055}} {60}
 #ticker autoticker {-} {1};
 
 #alias - {
@@ -254,7 +257,7 @@ Commands:\n
 #alias poke_target {: $bot[pokecommand] @findtarget{}}
 
 #action {%1 utters the words 'qaizzfh waia'} {
-	#if {@groupIsPresent{%1} && "$MSDP_CHARACTER_NAME"!="%1"} { #nop check if its a group member, only delay if you didnt cast the spell
+	#if {@groupIsPresent{%1} && "$MSDP_CHARACTER_NAME"!="%1"} { #nop check if its a group member, only delay if you didnt cast the spell;
 		#show Waiting for 10 sec;
 		#math spellLock { @max{$spellLock;@mpoch{}} + 10000}
 	}
@@ -268,7 +271,7 @@ event_register {variable bot[nextAction]} {right} {generate_bot_info};
 event_register {variable master[active]} {right} {generate_bot_info};
 #alias generate_bot_info {
 	#if $bot[running] {
-		#format bot_info[1] {<B538d87><388><188>%s} {Bot:$bot[role], $bot[spellDamage]  Mov: $bot[move]  Cast: $bot[cast]};
+		#format bot_info[1] {<B538d87><388><188>%s} {Bot:$bot[role], $bot[damage]  Mov: $bot[move]  Cast: $bot[cast]};
 		#format bot_info[2] {<B538d87><388><188>%s} {Action:[$bot[nextAction]]};
 		#format bot_info[3] {<B538d87><388><188>%s} {Target: [@findtarget{}]   SpellLock:$actionDelay};
 		#if $zone[active] {
@@ -500,13 +503,13 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP Combat
 #NOP #######################################################
 
-#alias spelldamage {#var bot[spellDamage] %1;generate_bot_info}
+#alias damage {#var bot[damage] %1;generate_bot_info}
 
 #action {%0 $bot[pokecommand] %1} {
 	#switch {"$bot[role]"} {
 		#case {"leader"} {
 			#if { $bot[join] } {
-				#show <121>>DELAYED START - role:leader;#delay initiatecombat {queueAdd any {$bot[spellDamage] %1}} {2};
+				#show <121>>DELAYED START - role:leader;#delay initiatecombat {queueAdd any {$bot[damage] %1}} {2};
 			}
 		};
 		#case {"healer"} {
@@ -515,17 +518,17 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			}
 		};
 		#case {"tank"} {
-			#show <121>>INITIATE COMBAT - role:tank;queueAdd any {$bot[spellDamage] %1};
+			#show <121>>INITIATE COMBAT - role:tank;queueAdd any {$bot[damage] %1};
 		};
 		#case {"damage"} {
-			#show <121>>DELAYED START - role:damage;#delay initiatecombat {queueAdd any {$bot[spellDamage] %1}} {2};
+			#show <121>>DELAYED START - role:damage;#delay initiatecombat {queueAdd any {$bot[damage] %1}} {2};
 		};
 	}
 }
 
 #action {You join the fight with %1.} {
 	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
-		queueAdd combat $bot[spellDamage];
+		queueAdd combat $bot[damage];
 	};
 	#if { "$bot[role]"=="tank" } {
 		#if $bot[autoRescue] {queueAdd priority rescue %1};
@@ -537,32 +540,34 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 #action {You're already fighting - help yourself first!} {
 	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
-		queueAdd combat $bot[spellDamage];
+		queueAdd combat $bot[damage];
 	}
 }
 
+/*
 #action {You quickly find page %1.} {
-	show_debug {Combat: @is_group_fighting{}  Role: $bot[role]     Spell: $bot[spellDamage]};
+	show_debug {Combat: @is_group_fighting{}  Role: $bot[role]     Spell: $bot[damage]};
 	#if { @is_group_fighting{} && ("$bot[role]"=="tank" || "$bot[role]"=="damage" || "$bot[role]"=="leader") } {
 		#if { ("$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac") && (@pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25) } {
 			#if { $auto[candrain] && @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
 				queueAdd heal drain;
 			}; #else {
-				queueAdd combat $bot[spellDamage];
+				queueAdd combat $bot[damage];
 			};
 		 };
 		 #else {
-			queueAdd combat $bot[spellDamage];
+			queueAdd combat $bot[damage];
 		 }
 	 }
 }
+*/
 
 #action {You flee head over heels.} {#if $zone[active] {zone_end}}
 
 #NOP Necro/Demoniac specific
 #var auto[candrain] 1
 #ac {%1 does not have enough energy left to drain.} {#var auto[candrain] 0}
-#ac {You can only drain the living.} {queueAdd priority $bot[spellDamage] @findtarget{}}
+#ac {You can only drain the living.} {queueAdd priority $bot[damage] @findtarget{}}
 
 
 #ac {%1 looks really sick, and shivers uncomfortably.} {nco cure %1}
@@ -588,7 +593,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#nop Pause queues ;
 	#nop @delay{5000};
 	cleartarget;
-	#if { "$MSDP_CLASS"=="Necromancer" || "$MSDP_CLASS" == "Demoniac"} {
+	#if { "$MSDP_CLASS"=="Necromancer"} {
 		#var auto[candrain] 1;
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
 			queueAdd priority animate corpse;
@@ -604,7 +609,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		}		
 	};
 	#if $profession[gather][auto] {
-		do_skin %0;
+		do_gather %0;
 	};
 	get gold all.corpse
 }
@@ -725,7 +730,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 
 
-#action {You need to ADVANCE to reach a fire elemental with close ranged attacks.} {queueAdd combat {$bot[spellDamage] fire}}
+#action {You need to ADVANCE to reach a fire elemental with close ranged attacks.} {queueAdd combat {$bot[damage] fire}}
 
 
 
