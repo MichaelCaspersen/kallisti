@@ -147,7 +147,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 	#show Will auto tan hides;
 	#var profession[refining][start] $MSDP_UPTIME;
-	#var profession[refining][startgold] $MSDP_GOLD;
+	#var profession[refining][startgold] $MSDP_BANK_GOLD;
 	#var profession[refining][startexp] $MSDP_EXPERIENCE;
 	get all.hide;
 	tan hide
@@ -156,7 +156,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 
 #alias tanoff {
-	#math profession[refining][earnedgold] {$MSDP_GOLD-$profession[refining][startgold]};
+	#math profession[refining][earnedgold] {$MSDP_BANK_GOLD-$profession[refining][startgold]};
 	#math profession[refining][earnedexp] {$MSDP_EXPERIENCE-$profession[refining][startexp]};
 	#math profession[refining][runtime] {$MSDP_UPTIME-$profession[refining][start]};
 	#math profession[refining][runtime-sec] { $profession[refining][runtime] % 60 };
