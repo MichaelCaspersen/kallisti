@@ -54,9 +54,9 @@ Commands:\n
 #alias show_debug {#if $bot[debug] {#show %1}}
 
 #alias bot_init {
-/*	#NOP #######################################################
-	#NOP Class Specific: Necromancer
-	#NOP #######################################################*/
+	#NOP #######################################################;
+	#NOP Class Specific: Necromancer							;
+	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Necromancer" } {
 		#var bot[damage] darkfire;
 		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
@@ -70,9 +70,9 @@ Commands:\n
 		#var autogrim on;
 	}
 
-/*	#NOP #######################################################
-	#NOP Class Specific: Prophet
-	#NOP #######################################################*/
+	#NOP #######################################################;
+	#NOP Class Specific: Prophet								;
+	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Prophet" } {
 		#var bot[damage] hword;
 		#var bot[spellCorpse] #nop;
@@ -86,9 +86,9 @@ Commands:\n
 		load_module kallisti/autoheal;
 	}
 
-/*	#NOP #######################################################
-	#NOP Class Specific: Druid
-	#NOP #######################################################*/
+	#NOP #######################################################;
+	#NOP Class Specific: Druid									;
+	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Druid" } {
 		#var bot[move] 1;
 		#var bot[autozone] 1;
