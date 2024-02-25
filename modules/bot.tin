@@ -6,8 +6,10 @@
 #var bot-description {Utilities for botting}
 #var bot-help {
 Commands:\n
-\tbotrole <role>   Available roles: leader/tank/damage/healer/OFF\n
+\tCurrent role: $bot[role]   Available roles: leader/tank/damage/healer/OFF\n
 \tspelldamage <spell> , current $bot[spellDamage]\n
+\n
+\tToggle automatic casting/moving:  botcast: $bot[cast]  botmove: $bot[move]\n
 \n
 }
 
@@ -53,7 +55,7 @@ Commands:\n
 #NOP #######################################################
 #if { "$MSDP_CLASS" == "Necromancer" } {
 	#var bot[spellDamage] darkfire;
-	#var bot[spellCorpse] edrain; #NOP options:   edrain/vdrain/viscera;
+	#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
 	#var bot[spellSustain] drain;
 
 	#var autobloodlust on;
@@ -238,23 +240,25 @@ Commands:\n
 
 
 #TICKER {restartzone} {#if {$zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {#show starting zone;,;.}} {10}
-#TICKER {gobacktozone} {#if "$MSDP_AREA_NAME"=="Rommena Countryside" {#show CHECK GO BACK TO ZONE;#map run 32055}} {60}
+#TICKER {gobacktozone} {#if {"$MSDP_AREA_NAME"=="Rommena Countryside"} {#show CHECK GO BACK TO ZONE;#map run 32055}} {60}
 #ticker autoticker {-} {1};
 
-#var wait_for_group 0;
 #alias - {
-	#if $wait_for_group==0 {
-		#nop show <Ffff><B595>$bot[nextActionDebug];
-		#if { $zone[active] || $bot[cast] } { 
-			$bot[nextAction]
-		};
+	#nop show <Ffff><B595>$bot[nextActionDebug];
+	#if { $zone[active] || $bot[cast] } { 
+		$bot[nextAction]
 	};
 }
 #alias , {#show <Ffff><B595>Load current zone;zone_load}
 #alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
 #alias poke_target {: $bot[pokecommand] @findtarget{}}
 
-#ac {Kaicha utters the words 'qaizzfh waia'} {#show Waiting for 10 sec;#var wait_for_group 1;#delay {waiting} {#var wait_for_group 0} {10}}
+#action {%1 utters the words 'qaizzfh waia'} {
+	#if {@groupIsPresent{%1} && "$MSDP_CHARACTER_NAME"!="%1"} { #nop check if its a group member, only delay if you didnt cast the spell
+		#show Waiting for 10 sec;
+		#math spellLock { @max{$spellLock;@mpoch{}} + 10000}
+	}
+}
 
 
 #NOP #######################################################
