@@ -209,6 +209,6 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #nop action {There aren't any hides here you can take.} {#if {$profession[refining][auto] && $profession[refining][reset]} {#var profession[refining][reset] 0;gt No more hides at $profession[refining][donationroom]}}
 
-#alias counthides {#delay removetotal {#show TOTAL HIDES: $totalhides} {1}}
+#alias counthides {#delay removetotal {#show TOTAL HIDES: $totalhides} {5}}
 #action {Some hide from %0 lies here. (%1)} {#math totalhides {$totalhides+%1}}
 #action {You pick up %1 hides.} {#var profession[refining][reset] 1;#var hidespickedup %1;#math totalhidesremaining {$totalhides-%1};gt $totalhidesremaining remaining}
