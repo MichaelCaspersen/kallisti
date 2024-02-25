@@ -44,7 +44,6 @@ Commands:\n
 #var profession[refining][type] tanning
 #var profession[refining][auto] 0
 #var profession[refining][reset] 1
-#var profession[refining][donationroom] {kruoill}
 #var profession[refining][start] 0;
 #var profession[refining][startgold] 0;
 #var profession[refining][startexp] 0;
@@ -71,7 +70,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		#var profession_gather_info {Gathering: Offline};	
 	};
 	#if $profession[refining][auto] {
-		#var profession_gather_info {$profession_gather_info \n$profession[refining][type]:$profession[refining][auto], Get items from: $profession[refining][donationroom]}
+		#var profession_gather_info {$profession_gather_info \n$profession[refining][type]:$profession[refining][auto]}
 	};#else  {
 		#var profession_gather_info {$profession_gather_info \nRefining: Offline}
 	};
@@ -169,8 +168,6 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 
-
-
 #action {You tan some %1 hide from %2 into some %3 leather from %4.} {
 	#show Leather Quality:[<131>%3];
 	#switch {"%3"} {
@@ -187,47 +184,32 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {You must also specify what you want to tan.} {
 	#if { $profession[refining][reset] && $profession[refining][auto] } {
-		#var profession[refining][reset] 0;w;recall;2s3es;#$hidespickedup sell leather;visit houseofanasasi;dep all;
-		#switch {"$profession[refining][donationroom]"} {
-			#case {"kruoill"} {visit kruoil;e};
-			#case {"houseofanasasi"} {e};
-			#default {
-				#show Can't find donation room for $profession[refining][donationroom];
-			};
-		};
-		#delay {waitforcount} {get all.hide} {12};
-		#delay {waitforcount2} {
-			#if $profession[refining][reset] {
-				#switch {"$MSDP_ACCOUNT_NAME"} {
-					#case {"Kruoill"} {recall;3s2w;open gate s;s;open door s;2s2u4en;tan hide};
-					#case {"HouseOfAnasasi"} {tan hide};
-				}
+		#var totalhides 0;
+		#var profession[refining][reset] 0;w;recall;2s3es;sell leather;
+	}
+}
+
+#action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
+#action {The tanner tells you, 'I'll give you %1 coins for that.'} {sell hide}
+#action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;pickupmaterial}
+#action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;pickupmaterial}
+
+#alias pickupmaterial {		
+	#if { $profession[refining][auto] } {
+		visit eremitage;e;get all.hide;
+		visit kruoill;e;get all.hide;
+		visit houseofanasasi;e;get all.hide;
+		#if $profession[refining][reset] {
+			#switch {"$MSDP_ACCOUNT_NAME"} {
+				#case {"HouseOfAnasasi"} {counthides;tan hide};
+				#default {recall;3s2w;open gate s;s;open door s;2s2u4en;counthides;tan hide};
 			}
-		} {14};
+		}
 	}
 }
+
 #nop ac {There aren't any hides here you can take.} {#if $profession[refining][auto] {#var profession[refining][reset] 0;gt No more hides at $profession[refining][donationroom]}}
-#nop ac {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
-#nop ac {The tanner tells you, 'Please empty a leather backpack first.'} {}
-
-#ac {The tanner tells you, 'I'll give you %1 coins for that.'} {sell hide}
-
-#action {Welcome Home!  Type EGRESS to return to Midgaard.} {#var totalhides 0;#var profession[refining][reset] 1;counthides}
-#action {You visit %0's home.  Type EGRESS to return to Midgaard.} {
-	#var totalhides 0;
-	#if $profession[refining][auto] {
-		#if {"%0"=="Kruoill"} {
-			#var profession[refining][donationroom] kruoill;generate_profession_info;counthides;
-		};
-		#var profession[refining][reset] 1;
-	}
-}
-#action {The Forge} {
-	#if $profession[refining][auto] {
-		#var profession[refining][donationroom] houseofanasasi;generate_profession_info;counthides;
-	}
-}
 
 #alias counthides {#delay removetotal {#show TOTAL HIDES: $totalhides} {1}}
 #action {Some hide from %0 lies here. (%1)} {#math totalhides {$totalhides+%1}}
-#action {You pick up %1 hides.} {#var hidespickedup %1;#math totalhidesremaining {$totalhides-%1};gt $totalhidesremaining remaining}
+#action {You pick up %1 hides.} {#var profession[refining][reset] 1;#var hidespickedup %1;#math totalhidesremaining {$totalhides-%1};gt $totalhidesremaining remaining}
