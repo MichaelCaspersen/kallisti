@@ -81,27 +81,24 @@ Commands:\n
 		#var autodarmor on;
 		#var autovigor on;
 		#var autosanctuary on;
-
-		load_module kallisti/autoheal;
 	};
 
 	#NOP #######################################################;
 	#NOP Class Specific: Druid									;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Druid" } {
+		botrole leader;
 		#var bot[move] 1;
 		#var bot[autozone] 1;
 		#var bot[cast] 1;
 		#var bot[poke] 1;
 		#var bot[damage] {tornado};
-		botrole leader;
 
 		#var autobark on;
 		#var autobless on;
 		#var autoffire on;
 		#var autovigor on;
 
-		load_module kallisti/autoheal;
 		profon skinning;
 	};
 	generate_bot_info;
@@ -530,7 +527,10 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 #alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
 
-#action {%0 $bot[markcommand]: %1} {
+
+#alias poke_target {: places a $bot[markcommand] on: @findtarget{};: $bot[pokecommand] @findtarget{}}
+
+#action {%0 places a $bot[markcommand] on: %1} {
 	#switch {"$bot[role]"} {
 		#case {"tank"} {
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
