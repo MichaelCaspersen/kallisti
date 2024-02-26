@@ -711,12 +711,12 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP ROUTE NA'KANA
 #alias gonaka {2s14e14ne3n5ed4es4e2n4eu}
 
-#ac {A puffin bobs up and down in the rolling waves.%1} {settarget 999 @mob_count{"%1"}  puffin 20 75 3}
-#ac {A giant petrel guards its nest here.%1} {settarget petrel 999 @mob_count{"%1"}  20 75 3}
-#ac {A common murre is hovering here.%1} {settarget 999 @mob_count{"%1"}  murre 20 75 3}
-#ac {A northern gannet is hovering here.%1} {settarget 999 @mob_count{"%1"}  gannet 20 75 3}
-#ac {A skua is hovering here.%1} {settarget 999 @mob_count{"%1"}  skua 20 75 3}
-#ac {A sooty tern sits on its nest and eyes you warily.%1} {settarget 999 @mob_count{"%1"}  tern 20 75 3}
+#ac {A puffin bobs up and down in the rolling waves.%1} {settarget 999 @mob_count{"%1"} puffin 20 100 3}
+#ac {A giant petrel guards its nest here.%1} {settarget 999 @mob_count{"%1"} petrel 20 100 3}
+#ac {A common murre is hovering here.%1} {settarget 999 @mob_count{"%1"} murre 20 100 3}
+#ac {A northern gannet is hovering here.%1} {settarget 999 @mob_count{"%1"} gannet 20 100 3}
+#ac {A skua is hovering here.%1} {settarget 999 @mob_count{"%1"} skua 20 100 3}
+#ac {A sooty tern sits on its nest and eyes you warily.%1} {settarget 999 @mob_count{"%1"} tern 20 100 3}
 #NOP 35+
 #ac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 100 3}
 #ac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 100 3}
