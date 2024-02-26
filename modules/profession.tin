@@ -84,9 +84,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #alias {do_gather} {
 	#SWITCH {"$profession[gather][type]"} {
-		#CASE {"skinning"} {do_skin {%1}};
-		#CASE {"butcher"} {do_butcher {%1}};
-		#CASE {"extract"} {do_extract {%1}};
+		#CASE {"skinning"} {do_skin %1};
+		#CASE {"butcher"} {do_butcher %1};
+		#CASE {"extract"} {do_extract %1};
 		#DEFAULT {#nop}
 	}; 
 }

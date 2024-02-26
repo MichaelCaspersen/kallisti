@@ -643,7 +643,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		}		
 	};
 	#if $profession[gather][auto] {
-		do_gather %0;
+		do_gather {%0};
 	};
 	get gold all.corpse
 }
