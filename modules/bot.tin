@@ -208,33 +208,35 @@ Commands:\n
 
 #alias determine_bot_action {
 	#var bot[nextAction] {};		
-	#var bot[nextActionDebug] {};		
-	#if { @is_group_fighting{}==0 && "$bot[role]"=="leader" } {
-		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:0};		
-		#if { "@findtarget{}"!="" } {
-			#var bot[nextActionDebug] {$bot[nextActionDebug] Target:1};
-			#if { $bot[poke] } {
-				#var bot[nextAction] {queueAdd nco poke_target};
-			};#else  {
-				#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
+	#var bot[nextActionDebug] {};
+	#if { @is_group_fighting{}==0" } {
+		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:0};
+		#if { $bot[role]"=="leader" } {
+			#if { "@findtarget{}"!="" } {
+				#var bot[nextActionDebug] {$bot[nextActionDebug] Target:1};
+				#if { $bot[poke] } {
+					#var bot[nextAction] {queueAdd nco poke_target};
+				};#else  {
+					#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
+				};
 			};
-		};
-		#else {
-			#var bot[nextActionDebug] {$bot[nextActionDebug] Target:0};
-			#if { @can_group_move{} } {
-				#var bot[nextActionDebug] {$bot[nextActionDebug] Move:1};
-				#if { $zone[active] } { 
-					#path get position zone[pathid];
-					#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]+2};
-					#math zone[runtime] {$MSDP_UPTIME-$zone[start]};
-					#if { $zone[remainingsteps]>1 } {
-						#if { $bot[move] } {
-							#var bot[nextAction] {smart_move};
+			#else {
+				#var bot[nextActionDebug] {$bot[nextActionDebug] Target:0};
+				#if { @can_group_move{} } {
+					#var bot[nextActionDebug] {$bot[nextActionDebug] Move:1};
+					#if { $zone[active] } { 
+						#path get position zone[pathid];
+						#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]+2};
+						#math zone[runtime] {$MSDP_UPTIME-$zone[start]};
+						#if { $zone[remainingsteps]>1 } {
+							#if { $bot[move] } {
+								#var bot[nextAction] {smart_move};
+							};
+						};#else {
+							zone_end;
 						};
-					};#else {
-						zone_end;
-					};
-				}
+					}
+				};
 			};
 		};
 	};
