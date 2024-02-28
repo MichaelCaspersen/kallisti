@@ -589,7 +589,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			}
 		};
 		#case {"tank"} {
-			#show <121>>INITIATE COMBAT - role:tank;#nop queueAdd any {$bot[damage] %1};
+			#nop show <121>>INITIATE COMBAT - role:tank;#nop queueAdd any {$bot[damage] %1};
 		};
 		#case {"damage"} {
 			#show <121>>DELAYED START - role:damage;#delay initiatecombat {queueAdd any {$bot[damage] %1}} {2};
