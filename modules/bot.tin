@@ -209,9 +209,9 @@ Commands:\n
 #alias determine_bot_action {
 	#var bot[nextAction] {};		
 	#var bot[nextActionDebug] {};
-	#if { @is_group_fighting{}==0" } {
+	#if { @is_group_fighting{}==0 } {
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:0};
-		#if { $bot[role]"=="leader" } {
+		#if { "$bot[role]"=="leader" } {
 			#if { "@findtarget{}"!="" } {
 				#var bot[nextActionDebug] {$bot[nextActionDebug] Target:1};
 				#if { $bot[poke] } {
