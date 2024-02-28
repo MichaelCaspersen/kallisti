@@ -209,16 +209,14 @@ Commands:\n
 #alias determine_bot_action {
 	#var bot[nextAction] {};		
 	#var bot[nextActionDebug] {};		
-	#if { @is_group_fighting{}==0 } {
+	#if { @is_group_fighting{}==0 && "$bot[role]"=="leader" } {
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:0};		
 		#if { "@findtarget{}"!="" } {
 			#var bot[nextActionDebug] {$bot[nextActionDebug] Target:1};
 			#if { $bot[poke] } {
 				#var bot[nextAction] {queueAdd nco poke_target};
 			};#else  {
-				#if {"$bot[role]"=="leader"} {
-					#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
-				};
+				#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
 			};
 		};
 		#else {
