@@ -84,6 +84,19 @@ Commands:\n
 	};
 
 	#NOP #######################################################;
+	#NOP Class Specific: Barbarian									;
+	#NOP #######################################################;
+	#if { "$MSDP_CLASS" == "Barbarian" } {
+		botrole damage;
+		#var bot[cast] 1;
+		#var bot[damage] {kick};
+
+		#var toggle[focus] on;
+		#var toggle[warpaint] on;
+		#var toggle[warcry] on;
+	};
+
+	#NOP #######################################################;
 	#NOP Class Specific: Druid									;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Druid" } {
@@ -162,6 +175,7 @@ Commands:\n
 		#case {"leader"} {
 			#var bot[running] 1;
 			#var bot[role] leader;
+			zone_automatic_restart;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
 		#case {"tank"} {
@@ -254,8 +268,11 @@ Commands:\n
 }
 
 
-#TICKER {restartzone} {#if {$bot[autozone] && $zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {#show starting zone;,;.}} {10}
-#TICKER {gobacktozone} {#if {$bot[autozone] && "$MSDP_AREA_NAME"=="Rommena Countryside"} {#show CHECK GO BACK TO ZONE;#map run 32055}} {60}
+#alias zone_automatic_restart {
+	#TICKER {restartzone} {#if {$bot[autozone] && $zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {#show starting zone;,;.}} {10}
+	#TICKER {gobacktozone} {#if {$bot[autozone] && "$MSDP_AREA_NAME"=="Rommena Countryside"} {#show CHECK GO BACK TO ZONE;#map run 32055}} {60}
+}
+
 #ticker autoticker {-} {1};
 
 #alias - {
@@ -496,6 +513,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #alias cleartarget {
 	#var targetlist {};
 	#var target {};
+	#var has_poked 0;
 	l;
 	#list {_queue[combat]} clear;
 	queue_block;
@@ -509,7 +527,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		};
 		#else {
 			#list targetlist[%6] add %3;
-			#switch {"%0"} {
+			#switch {"$bot[role]"} {
 				#case {"leader"} {#show <131>TARGET aquired: %3;};
 				#default {#show <F333><B595>TARGET aquired: %3;};
 			}
@@ -537,7 +555,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
 
 
-#alias poke_target {: places a $bot[markcommand] on: @findtarget{};: $bot[pokecommand] @findtarget{}}
+#alias poke_target {#if {has_poked==0} {#var has_poked 1;: places a $bot[markcommand] on: @findtarget{};: $bot[pokecommand] @findtarget{}}}
 
 #action {%0 places a $bot[markcommand] on: %1} {
 	#switch {"$bot[role]"} {
@@ -561,7 +579,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			}
 		};
 		#case {"tank"} {
-			#show <121>>INITIATE COMBAT - role:tank;queueAdd any {$bot[damage] %1};
+			#show <121>>INITIATE COMBAT - role:tank;#nop queueAdd any {$bot[damage] %1};
 		};
 		#case {"damage"} {
 			#show <121>>DELAYED START - role:damage;#delay initiatecombat {queueAdd any {$bot[damage] %1}} {2};
