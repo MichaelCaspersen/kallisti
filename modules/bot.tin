@@ -216,7 +216,9 @@ Commands:\n
 			#if { $bot[poke] } {
 				#var bot[nextAction] {queueAdd nco poke_target};
 			};#else  {
-				#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
+				#if {"$bot[role]"=="leader"} {
+					#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
+				};
 			};
 		};
 		#else {
