@@ -269,8 +269,16 @@ Commands:\n
 
 
 #alias zone_automatic_restart {
-	#TICKER {restartzone} {#if {$bot[autozone] && $zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {#show starting zone;,;.}} {10};
-	#TICKER {gobacktozone} {#if {$bot[autozone] && "$MSDP_AREA_NAME"=="Rommena Countryside"} {#show CHECK GO BACK TO ZONE;#map run 32055}} {60};
+	#TICKER {restartzone} {
+		#if {$bot[autozone] && $zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {
+			#show starting zone;,;.
+		}
+	} {10};
+	#TICKER {gobacktozone} {
+		#if {$bot[autozone] && "$MSDP_AREA_NAME"=="Rommena Countryside"} {
+			#show CHECK GO BACK TO ZONE;#map run 32055
+		}
+	} {60};
 }
 
 #ticker autoticker {-} {1};
