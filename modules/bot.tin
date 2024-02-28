@@ -40,7 +40,7 @@ Commands:\n
 #var bot[cast] 1;
 #var bot[join] 1;
 #var bot[poke] 0;
-#var bot[markcommand] mark;
+#var bot[markcommand] marks;
 #var bot[pokecommand] stikker;
 #var bot[damage] {};
 #var bot[nextAction] {};
@@ -565,9 +565,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
 
 
-#alias poke_target {#if {has_poked==0} {#var has_poked 1;: places a $bot[markcommand] on: @findtarget{};: $bot[pokecommand] @findtarget{}}}
+#alias poke_target {#if {$has_poked==0 && "@findtarget{}"!=""} {#var has_poked 1;: $bot[markcommand]: @findtarget{};: $bot[pokecommand] @findtarget{}}}
 
-#action {%0 places a $bot[markcommand] on: %1} {
+#action {%0 $bot[markcommand]: %1} {
 	#switch {"$bot[role]"} {
 		#case {"tank"} {
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
