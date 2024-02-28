@@ -100,6 +100,7 @@ Commands:\n
 		#var autovigor on;
 
 		profon skinning;
+		group all;
 	};
 	generate_bot_info;
 }
@@ -280,7 +281,7 @@ Commands:\n
 #action {^%w beckons you to follow.$} {fol %1}
 #action {^%w starts following you.$} {#if @groupAmILeader{} {group %1}}
 
-#action {is now a member of your group} {gt Welcome! leader:$MSDP_CHARACTER_NAME }
+#action {is now a member of your group} {gt Welcome! }
 #action {you start following} {gt Current role:$MSDP_CHARACTER_NAME $bot[role]}
 
 
