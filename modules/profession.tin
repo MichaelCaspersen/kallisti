@@ -149,6 +149,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#var profession[refining][start] $MSDP_UPTIME;
 	#var profession[refining][startgold] $MSDP_BANK_GOLD;
 	#var profession[refining][startexp] $MSDP_EXPERIENCE;
+	#var profession[refining][sold] 0;
 	get all.hide;
 	tan hide
 }
@@ -156,15 +157,16 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 
 #alias tanoff {
-	#math profession[refining][earnedgold] {$MSDP_BANK_GOLD-$profession[refining][startgold]};
-	#math profession[refining][earnedexp] {$MSDP_EXPERIENCE-$profession[refining][startexp]};
-	#math profession[refining][runtime] {$MSDP_UPTIME-$profession[refining][start]};
+	#math profession[refining][earnedgold] {$MSDP_BANK_GOLD - $profession[refining][startgold]};
+	#math profession[refining][earnedexp] {$MSDP_EXPERIENCE - $profession[refining][startexp]};
+	#math profession[refining][averagesell] {$profession[refining][earnedexp] / $profession[refining][sold]};
+	#math profession[refining][runtime] {$MSDP_UPTIME - $profession[refining][start]};
 	#math profession[refining][runtime-sec] { $profession[refining][runtime] % 60 };
 	#math profession[refining][runtime-min] { $profession[refining][runtime] / 60 };
 	#var profession[refining][auto] 0;
 	generate_profession_info;
 	#show Will no longer auto tan hides;
-	gt <<< Tanning session done: finished in $profession[refining][runtime-min]m $profession[refining][runtime-sec]s, we earned $profession[refining][earnedgold] gold and gained $profession[refining][earnedexp] exp >>>;
+	gt <<< Tanning session done: finished in $profession[refining][runtime-min]m $profession[refining][runtime-sec]s, we earned $profession[refining][earnedgold] gold, selling $profession[refining][sold] hides at average $profession[refining][averagesell] gold and gained $profession[refining][earnedexp] exp >>>;
 }
 
 
@@ -194,7 +196,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 #action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
-#action {The tanner tells you, 'I'll give you %1 coins for that.'} {sell leather}
+#action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]};sell leather}
 #action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;pickup_hides}
 #action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;pickup_hides}
 
@@ -211,4 +213,4 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {Some hide from %0 lies here. (%1)} {#math totalhides {$totalhides+%1}}
 #action {You pick up %1 hides.} {#var profession[refining][reset] 1;#var hidespickedup %1;#math totalhidesremaining {$totalhides-%1}}
-#alias counthides {#delay removetotal {gt $totalhidesremaining remaining} {5}}
+#alias counthides {#delay removetotal {gt $profession[refining][sold] sold, $totalhidesremaining remaining} {5}}
