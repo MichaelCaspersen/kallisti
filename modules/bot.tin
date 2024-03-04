@@ -729,7 +729,14 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #function return_min_sec {
 	#math temp[sec] { %1 % 60 };
 	#math temp[min] { %1 / 60 };
-	#return $temp[min]m$temp[sec]s;
+	#if {$temp[min] > 59} {
+		#math temp[hour] { $temp[min] / 60 };
+		#math temp[min] { $temp[min] % 60 };
+		#return $temp[hour]h$temp[min]m$temp[sec]s;
+		break;
+	}; #else {
+		#return $temp[min]m$temp[sec]s;
+	}
 }
 
 

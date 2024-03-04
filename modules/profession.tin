@@ -32,12 +32,13 @@ Commands:\n
 #nop Gathering an be: skinning, butcher, extract
 #var profession[gather][type] skinning
 #var profession[gather][auto] 1
+#var profession[gather][all] 0
 #var profession[gather][success] 0
 #var profession[gather][total] 0
 #var profession[gather][receiver] {} ;#nop Empty will donate to own house, or else to <value> house
 
-#alias profon 	{#var profession[gather][auto] 1;generate_profession_info;#show Will start gathering: %1}
-#alias profoff 	{#var profession[gather][auto] 0;generate_profession_info;#show Will no longer gather anything}
+#alias profon 	{#var profession[gather][auto] 1;generate_profession_info;#show Will start gathering: %1;#if {"%1"=="all"} {#var profession[gather][all] 1}}
+#alias profoff 	{#var profession[gather][auto] 0;generate_profession_info;#show Will no longer gather anything;#var profession[gather][all] 0}
 
 
 #nop Refining can be: tan, cook, carve
@@ -102,11 +103,13 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #alias {do_skin} {
 	#if $profession[gather][auto] {
-		#show <121><<< Skin? %0 >>>;
-		#if { &zone[skinlist]["%0"]>0 } {
+		#if $profession[gather][all] {
 			queueAdd priority {skin corpse};
-		} {
-			#nop;
+		};#else {
+			#show <121><<< Skin? %0 >>>;
+			#if { &zone[skinlist]["%0"]>0 } {
+				queueAdd priority {skin corpse};
+			}
 		}
 	}
 }
@@ -161,12 +164,11 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#math profession[refining][earnedexp] {$MSDP_EXPERIENCE - $profession[refining][startexp]};
 	#math profession[refining][averagesell] {$profession[refining][earnedexp] / $profession[refining][sold]};
 	#math profession[refining][runtime] {$MSDP_UPTIME - $profession[refining][start]};
-	#math profession[refining][runtime-sec] { $profession[refining][runtime] % 60 };
-	#math profession[refining][runtime-min] { $profession[refining][runtime] / 60 };
 	#var profession[refining][auto] 0;
 	generate_profession_info;
 	#show Will no longer auto tan hides;
-	gt <<< Tanning session done: finished in $profession[refining][runtime-min]m $profession[refining][runtime-sec]s, we earned $profession[refining][earnedgold] gold, selling $profession[refining][sold] hides at average $profession[refining][averagesell] gold and gained $profession[refining][earnedexp] exp >>>;
+	gt <<< Tanning session done:>>>;
+	gt Time: [@return_min_sec{$profession[refining][runtime]}]  Sold: [$profession[refining][sold]] Average: [$profession[refining][averagesell]]  Gold: [$profession[refining][earnedgold]]  Exp: [$profession[refining][earnedexp]];
 }
 
 
