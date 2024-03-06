@@ -80,6 +80,44 @@ Usage:\n
     }
 }
 
+#nop simple toggle routine for bot on/off;
+#alias {bot} {
+    #if {&bot[%1]} {
+
+        #nop Regular toggle, no preference given;
+        #if {"%2" == ""} {
+            #if {"$bot[%1]" == "on"} {
+                #var bot[%1] off;
+                info preferences '%1' is now off;
+            } {
+                #var bot[%1] on;
+                info preferences '%1' is now on;
+            }
+        } {
+            #switch {"%2"} {
+                #case {"on"} {#var bot[%1] on; info preferences '%1' is now on};
+                #case {"off"} {#var bot[%1] off; info preferences '%1' is now off};
+                #default {warn preferences Please specify on or off.}
+            }
+        }
+        _preferences_save
+    } {
+        warn preferences No bot option for '%1'
+    }
+} {9}
+
+#alias {^bot$} {
+    #foreach {*bot[%*]} tmp {
+        #if {"$bot[$tmp]" == "on"} {
+            #format line {<ddf>%+20s <078>- <cfc>%s} {$tmp} {$bot[$tmp]};
+        } {
+            #format line {<ddf>%+20s <078>- <fcc>%s} {$tmp} {$bot[$tmp]};
+        };
+        #echo {$line}
+    }
+} {8}
+
+
 
 
 #nop pref with no argument gives us all of our preferences

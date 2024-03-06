@@ -45,7 +45,14 @@ Commands:\n
 #var bot[pokecommand] stikker;
 #var bot[damage] {};
 #var bot[nextAction] {};
-#var bot[autoRescue] 0;
+#var bot[rescue] 0;
+
+
+init bot[role2] preferences damage;
+init bot[cast2] preferences on;
+init bot[poke2] preferences off;
+init bot[rescue2] preferences off;
+
 
 #var master[active] 1;
 
@@ -182,7 +189,7 @@ Commands:\n
 		#case {"tank"} {
 			#var bot[running] 1;
 			#var bot[role] tank;
-			#var bot[autoRescue] 1;
+			#var bot[rescue] 1;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
 		#case {"damage"} {
@@ -603,12 +610,12 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		queueAdd combat $bot[damage];
 	};
 	#if { "$bot[role]"=="tank" } {
-		#if $bot[autoRescue] {queueAdd priority rescue %1};
+		#if $bot[rescue] {queueAdd priority rescue %1};
 	}	
 }
 
-#action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {#if $bot[autoRescue] {queueAdd priority rescue %4}}
-#action {You try but are unable to head off %1 opponent.} {#if $bot[autoRescue] {queueAdd priority !rescue}}
+#action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {#if $bot[rescue] {queueAdd priority rescue %4}}
+#action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {
 	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
@@ -730,7 +737,14 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #function return_min_sec {
 	#math temp[sec] { %1 % 60 };
 	#math temp[min] { %1 / 60 };
-	#return $temp[min]m$temp[sec]s;
+	#if {$temp[min] > 59} {
+		#math temp[hour] { $temp[min] / 60 };
+		#math temp[min] { $temp[min] % 60 };
+		#return $temp[hour]h$temp[min]m$temp[sec]s;
+		break;
+	}; #else {
+		#return $temp[min]m$temp[sec]s;
+	}
 }
 
 
