@@ -209,6 +209,8 @@
 #nop -- VT100/terminal functions;
 #function term_width {#screen get cols result}
 
+#function term_height {#screen get rows result}
+
 #function isD {
     #var result 0;
     #if {"%1"==""} {#return 0} {

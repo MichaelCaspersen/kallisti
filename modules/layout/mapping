@@ -1,0 +1,30 @@
+#alias {layout_init} {
+
+	#var tile_bg B373b41;
+
+	#var scroll_height 20;
+	#math map_height {@term_height{} - $scroll_height};
+	#var bottom_rows 2;
+	#var right_panel 45;
+	#math right_panel_offset {$right_panel - 1};
+
+	#split $map_height $bottom_rows 0 $right_panel;
+
+	#if {@isloaded{map}} {;
+		#map flag vtmap on;
+		#map offset 1 1 ${map_height} @term_width{};
+	};
+
+	#nop right config panel;
+	#draw <$tile_bg> tile -$scroll_height -${right_panel_offset} -3 @term_width{} {};
+
+	#buffer end
+
+	update_map_panel;
+}
+
+#alias {update_map_panel} {
+    #draw <B373b38> tile -$scroll_height -${right_panel_offset} -3 @term_width{} {};
+};
+
+#nop -- vim: syntax=tt

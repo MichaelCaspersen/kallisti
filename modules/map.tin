@@ -47,15 +47,20 @@
 #map flag nofollow;
 #map flag vtmap on;
 #map flag static;
-#map flag blockgraphics on;
+#map flag AsciiGraphics on;
 #map read $db/msdp.map
 
-#map terrain {Forest} {<228>⟑} DENSE WIDE
+#map terrain {Forest} {<228>^} DENSE FADEOUT
+#map terrain {Swamp} {<228>⟑} DENSE WIDE
 #map terrain {Field} {<128>·} DENSE WIDE
 #map terrain {Desert} {<cca>·} DENSE NARROW
 #map terrain {Inside} {<f707880>▒} DENSE WIDE
+#map terrain {Mountains} {<f666666>▲} DENSE WIDE
 #map terrain {Deep Water} {<f2232ff>▒} DENSE WIDE
 #map terrain {Water} {<f2284ff>▒} DENSE WIDE
+
+
+
 
 #list mapZoneBlacklist create {BLACKLISTS};
 
@@ -128,5 +133,130 @@
 #function mapZoneBlacklist {
 	#list mapZoneBlacklist find {%0} {result}
 }
+
+
+#alias {^mark wolf$}
+{
+    #map set roomsymbol {[🐺]};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {set roomnote %1}
+{
+    #map set roomnote {%1};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark key$}
+{
+    #map set roomsymbol { [🗝 \b] };
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark smob$}
+{
+    #map set roomsymbol { [💀] };
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark guild$}
+{
+    #map set roomsymbol {📜 \b};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark shop$}
+{
+    #map set roomsymbol { [🪙] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark quest$}
+{
+    #map set roomsymbol { [🗨] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark inn$}
+{
+    #map set roomsymbol { [🛋]};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark tame$}
+{
+    #map set roomsymbol { [🐆] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark spider$}
+{
+    #map set roomsymbol { [🕷] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark sign$}
+{
+    #map set roomsymbol { [🪧 \b] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark lever$}
+{
+    #map set roomsymbol { [⪚] };
+    #var {MAP[dirty]} {1};
+};
+
+#alias {^mark fountain$}
+{
+    #map set roomsymbol { [⛲]};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark berries}
+{
+    #map set roomsymbol { [🫐]};
+    #var {MAP[dirty]} {1};
+}
+
+#alias {^mark plant}
+{
+    #map set roomsymbol { [🪴 \b]}
+};
+
+#EVENT {PRESSED SECURE LINK MAP_MOVE MOUSE BUTTON ONE}
+{
+	%4;
+};
+
+#EVENT {MAP ROOM SHORT-CLICKED MOUSE BUTTON ONE}
+{
+
+	#LOCAL {_vnum} {%4};
+
+	#LOCAL {_current_vnum} {};
+	#MAP get roomvnum {_current_vnum};
+	#IF {$_current_vnum == $_vnum}
+	{
+		#RETURN;
+	};
+
+    #MAP find {$_vnum};
+    #path run {$PATHS[current_speed]};
+};
+
+#FUNCTION {_map_save}
+{
+    #map write {$MAP[file]};
+    #var {MAP[dirty]}{0};
+    #RETURN {#NOP};
+};
+
+#alias {savemap}
+{
+    #show {<020>Saving current map...};
+    #map write {$MAP[file]};
+    #var {MAP[dirty]}{0};
+};
 
 #nop -- vim: syntax=tt
