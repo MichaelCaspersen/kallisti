@@ -35,6 +35,7 @@ Commands:\n
 #NOP ROLES: tank/damage/healer/none
 #var bot[role] damage;
 #var bot[running] 1;
+#var bot[paused] 1;
 #var bot[move] 0;
 #var bot[autozone] 0;
 #var bot[cast] 1;
@@ -283,7 +284,7 @@ Commands:\n
 	} {60};
 }
 
-#ticker autoticker {-} {1};
+#ticker autoticker {#if $bot[paused]==0 {-}} {1};
 
 #alias - {
 	#nop show <Ffff><B595>$bot[nextActionDebug];
