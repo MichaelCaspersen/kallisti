@@ -29,7 +29,7 @@ Commands:\n
 
 #tab layout;
 
-#list valid_layouts create {full} {right} {simple} {bot};
+#list valid_layouts create {full} {right} {simple} {bot} {mapping};
 #alias layout_init { #nop } {9}
 #alias layout_reset {layout_init;#nop %0}
 

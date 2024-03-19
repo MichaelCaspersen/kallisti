@@ -132,6 +132,7 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
 
 #alias generate_area_info {
     syslog right debug generate new area info - %1|%2|%3;
+	room_event; #nop in bot;
     #var area_info {${MSDP_AREA_NAME} - $MSDP_ROOM_VNUM - Auto:$bot[autozone]\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, Others in zone: $MSDP_PC_IN_ZONE};
     #if {@is_alias{display_right_tiles}} {display_right_tiles}
 }

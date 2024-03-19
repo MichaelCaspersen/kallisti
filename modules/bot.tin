@@ -291,6 +291,11 @@ init bot[rescue2] preferences off;
 	} {60};
 }
 
+#alias zone_automatic_restart_end {
+	#UNTICKER {restartzone};
+	#UNTICKER {gobacktozone};
+}
+
 #ticker autoticker {#if $bot[paused]==0 {-}} {1};
 
 #alias - {
@@ -511,6 +516,19 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	};
 }
 
+
+#NOP #######################################################
+#NOP Room specific events
+#NOP #######################################################
+
+#alias room_event {
+	#SWITCH {$MSDP_ROOM_VNUM} {
+		#CASE {3001} {#show END ZONE;#if $zone[active] {zone_end}}
+		#CASE {3074} {#show END ZONE;#if $zone[active] {zone_end}}
+		#DEFAULT {#nop}
+	};	
+
+}
 
 #NOP #######################################################
 #NOP Handle set/clear targets
@@ -764,7 +782,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP #######################################################
 
 #NOP ROUTE NA'KANA
-#alias gonaka {2s14e14ne3n5ed4es4e2n4eu}
+#alias gonaka {2s14e14ne3n5ed4es4e2n4eu;zone_automatic_restart}
 
 #ac {A puffin bobs up and down in the rolling waves.%1} {settarget 999 @mob_count{"%1"} puffin 20 100 3}
 #ac {A giant petrel guards its nest here.%1} {settarget 999 @mob_count{"%1"} petrel 20 100 3}
