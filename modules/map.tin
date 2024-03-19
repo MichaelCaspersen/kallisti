@@ -247,7 +247,7 @@
 
 #FUNCTION {_map_save}
 {
-    #map write {$MAP[file]};
+    #map write {$db/msdp.map};
     #var {MAP[dirty]}{0};
     #RETURN {#NOP};
 };
@@ -255,7 +255,7 @@
 #alias {savemap}
 {
     #show {<020>Saving current map...};
-    #map write {$MAP[file]};
+    #map write {$db/msdp.map};
     #var {MAP[dirty]}{0};
 };
 
