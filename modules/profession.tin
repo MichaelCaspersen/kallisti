@@ -39,6 +39,7 @@ Commands:\n
 
 #alias profon 	{#var profession[gather][auto] 1;generate_profession_info;#show Will start gathering: %1;#if {"%1"=="all"} {#var profession[gather][all] 1}}
 #alias profoff 	{#var profession[gather][auto] 0;generate_profession_info;#show Will no longer gather anything;#var profession[gather][all] 0}
+#alias {profreset} {#var profession[gather][success] 0;#var profession[gather][total] 0;generate_profession_info;}
 
 
 #nop Refining can be: tan, cook, carve
@@ -93,6 +94,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 
+
+
 #NOP #######################################################
 #NOP Professions - Skinning;
 #NOP #######################################################
@@ -136,11 +139,49 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 
-#alias {profreset} {
-	#var profession[gather][success] 0;
-	#var profession[gather][total] 0;
+
+#NOP #######################################################
+#NOP Professions - Chirurgy;
+#NOP #######################################################
+
+#NOP Entered new zone, update corpses to be extracted
+#var zone[extractlist] {{"A kakapo"};{"A weka"};{"A takahe"};{"A pelegornis"};{"A royal albatross"};{"A spectacled cormorant"};{"A giant moa"}}
+
+#alias {do_extract} {
+	#if $profession[gather][auto] {
+		#if $profession[gather][all] {
+			queueAdd priority {skin corpse};
+		};#else {
+			#show <121><<< Extract? %0 >>>;
+			#if { &zone[extractlist]["%0"]>0 } {
+				queueAdd priority {extract corpse};
+			}
+		}
+	}
+}
+
+
+#ACTION {You extract some %1 bone from} {
+	#show Bone type:[<131>%1];
+	#math profession[gather][total] {$profession[gather][total]+1};
+	#switch {"%1"} {
+		#case {"junk"} {sac bone};
+		#case {"rough"} {sac bone};
+		#case {"average"} {donate bone home};
+		#default {
+			#if { "$profession[gather][receiver]"=="" } {
+				donate bone home;
+			};
+			#else {
+				give bone $profession[gather][receiver];
+			};
+			#math profession[gather][success] {$profession[gather][success]+1}
+		}
+	};
 	generate_profession_info;
 }
+
+
 
 #NOP #######################################################
 #NOP Auto tan 
