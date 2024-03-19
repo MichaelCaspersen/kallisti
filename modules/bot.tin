@@ -519,6 +519,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #action {Nobody here by that name ('%0').} {cleartarget}
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
 
+#action {You aren't in the same group as the person currently fighting a spectacled cormorant.} {cleartarget}
+
+
 #function findtarget {
 	#if {&{targetlist[]}>0} {
 		#if {"$targetlist[1][1]"!=""} {#return $targetlist[1][1]};
