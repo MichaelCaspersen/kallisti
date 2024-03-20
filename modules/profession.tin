@@ -112,8 +112,6 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 
 #NOP Entered new zone, update corpses to be skinned
-#var zone[skinlist] {"Sabrael";"Melkyal";"Barbelo of The Four";"Empyrean";"A cave monster";"A tunnel protector";"A tunnel hermit";"A dark halfling"};
-#var zone[skinlist] {{"A kakapo"};{"A weka"};{"A takahe"};{"A pelegornis"};{"A royal albatross"};{"A spectacled cormorant"};{"A giant moa"}}
 
 #alias {do_skin} {
 	#if $profession[gather][auto] {
