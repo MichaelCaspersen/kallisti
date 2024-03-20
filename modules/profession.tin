@@ -37,7 +37,18 @@ Commands:\n
 #var profession[gather][total] 0
 #var profession[gather][receiver] {} ;#nop Empty will donate to own house, or else to <value> house
 
-#alias profon 	{#var profession[gather][auto] 1;generate_profession_info;#show Will start gathering: %1;#if {"%1"=="all"} {#var profession[gather][all] 1}}
+#alias profon 	{
+	#var profession[gather][auto] 1;
+	generate_profession_info;
+	#show Will start gathering: %1;
+	#SWITCH {"%1"} {
+		#CASE {"skinning"} {#var profession[gather][type] %1;#var profession[gather][all] 0};
+		#CASE {"butcher"} {#var profession[gather][type] %1;#var profession[gather][all] 0};
+		#CASE {"extract"} {#var profession[gather][type] %1;#var profession[gather][all] 0};
+		#CASE {"all"} {#var profession[gather][all] 1};
+		#DEFAULT {#show Not a supported profession}
+	}
+}
 #alias profoff 	{#var profession[gather][auto] 0;generate_profession_info;#show Will no longer gather anything;#var profession[gather][all] 0}
 #alias {profreset} {#var profession[gather][success] 0;#var profession[gather][total] 0;generate_profession_info;}
 
@@ -145,12 +156,12 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 
 #NOP Entered new zone, update corpses to be extracted
-#var zone[extractlist] {{"A kakapo"};{"A weka"};{"A takahe"};{"A pelegornis"};{"A royal albatross"};{"A spectacled cormorant"};{"A giant moa"}}
+#var zone[extractlist] {{"A kakapo"}{} {"A puffin"}{} {"A giant petrel"}{} {"A common murre"}{} {"A skua"}{} {"A northern gannet"}{} {"A sooty tern"}{} {"A weka"}{} {"A takahe"}{} {"A pelegornis"}{} {"A royal albatross"}{} {"A spectacled cormorant"}{} {"A giant moa"}};
 
 #alias {do_extract} {
 	#if $profession[gather][auto] {
 		#if $profession[gather][all] {
-			queueAdd priority {skin corpse};
+			queueAdd priority {extract corpse};
 		};#else {
 			#show <121><<< Extract? %0 >>>;
 			#if { &zone[extractlist]["%0"]>0 } {
