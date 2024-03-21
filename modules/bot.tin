@@ -6,7 +6,7 @@
 #var bot-description {Utilities for botting}
 #var bot-help {
 Commands:\n
-\tCurrent role: $bot[role]   Available roles: leader/tank/damage/healer/OFF\n
+\tCurrent role: $bot[role]   Available roles: leader/tank/stabber/damage/healer/OFF\n
 \tdamage <spell> , current $bot[damage]\n
 \n
 \tToggle automatic casting/moving:  botcast: $bot[cast]  botmove: $bot[move]\n
@@ -105,6 +105,15 @@ init bot[rescue2] preferences off;
 	};
 
 	#NOP #######################################################;
+	#NOP Class Specific: Assassin									;
+	#NOP #######################################################;
+	#if { "$MSDP_CLASS" == "Assassin" } {
+		botrole stabber;
+		#var bot[cast] 1;
+		#var bot[damage] {backstab};
+	};
+
+	#NOP #######################################################;
 	#NOP Class Specific: Druid									;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Druid" } {
@@ -192,6 +201,11 @@ init bot[rescue2] preferences off;
 			#var bot[rescue] 1;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
+		#case {"stabber"} {
+			#var bot[running] 1;
+			#var bot[role] stabber;
+			#tick {determinbotaction} {determine_bot_action} {0.1};
+		};
 		#case {"damage"} {
 			#var bot[running] 1;
 			#var bot[role] damage;
@@ -208,7 +222,7 @@ init bot[rescue2] preferences off;
 			#untick {determinbotaction};
 		};
 		#default {
-		#show Available roles: leader/tank/damage/healer/OFF;
+		#show Available roles: leader/tank/stabber/damage/healer/OFF;
 		}
 	};
 	generate_bot_info;
@@ -601,6 +615,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		#case {"tank"} {
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
 		};
+		#case {"stabber"} {
+			#show <121>>INITIATE COMBAT - role:stabber;queueAdd priority {$bot[damage] %1};
+		};
 	}
 }
 
@@ -627,7 +644,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 }
 
 #action {You join the fight with %1.} {
-	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
+	#if { {"$bot[role]"=="leader"} || {"$bot[role]"=="damage"} || {"$bot[role]"=="stabber"} } {
 		queueAdd combat $bot[damage];
 	};
 	#if { "$bot[role]"=="tank" } {
@@ -639,7 +656,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {
-	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
+	#if { {"$bot[role]"=="leader"} || {"$bot[role]"=="damage"} || {"$bot[role]"=="stabber"} } {
 		queueAdd combat $bot[damage];
 	}
 }
