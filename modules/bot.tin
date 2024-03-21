@@ -644,7 +644,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 }
 
 #action {You join the fight with %1.} {
-	#if { {"$bot[role]"=="leader"} || {"$bot[role]"=="damage"} || {"$bot[role]"=="stabber"} } {
+	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
 		queueAdd combat $bot[damage];
 	};
 	#if { "$bot[role]"=="tank" } {
@@ -656,7 +656,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {
-	#if { {"$bot[role]"=="leader"} || {"$bot[role]"=="damage"} || {"$bot[role]"=="stabber"} } {
+	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
 		queueAdd combat $bot[damage];
 	}
 }
