@@ -662,7 +662,35 @@ event_register {variable master[active]} {right} {generate_bot_info};
 }
 */
 
-#action {You flee head over heels.} {#if $zone[active] {zone_end}}
+#action {You wimp out and attempt to flee!} {
+	#if $zone[active] {zone_end};
+	recall;
+}
+
+#action {You flee head over heels.} {
+	#if $zone[active] {zone_end};
+	recall;
+}
+
+#action {You can't concentrate on anything but killing!} {
+	recall;
+}
+
+#action {%1 issues a rally call to join the group at The Temple Of Midgaard.} {
+	recall;
+}
+
+#alias recall {
+	#if {"$MSDP_POSTION"=="Fighting" } {
+		rec recall;
+	}; #else {
+		recall;
+	}
+}
+
+#action {You recite a scroll of recall which dissolves.} {
+	get recall all;
+}
 
 #NOP Necro/Demoniac specific
 #var auto[candrain] 1
