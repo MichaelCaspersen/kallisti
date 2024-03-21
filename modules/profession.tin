@@ -266,3 +266,72 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {Some hide from %0 lies here. (%1)} {#math totalhides {$totalhides+%1}}
 #action {You pick up %1 hides.} {#var profession[refining][reset] 1;#var hidespickedup %1;#math totalhidesremaining {$totalhides-%1}}
 #alias counthides {#delay removetotal {gt $profession[refining][sold] sold, $totalhidesremaining remaining} {5}}
+
+
+
+
+#NOP #######################################################
+#NOP Auto carving 
+#NOP #######################################################
+#alias maton {
+	#var profession[refining][auto] 1;
+	generate_profession_info;
+	#var profession[refining][start] $MSDP_UPTIME;
+	#var profession[refining][startgold] $MSDP_BANK_GOLD;
+	#var profession[refining][startexp] $MSDP_EXPERIENCE;
+	#var profession[refining][sold] 0;
+	#show Will auto process materials;
+	#var profession[str_pickup] {get all.bone};
+	#var profession[str_action] {carve bone};	
+}
+
+#alias matoff {
+	#math profession[refining][earnedgold] {$MSDP_BANK_GOLD - $profession[refining][startgold]};
+	#math profession[refining][earnedexp] {$MSDP_EXPERIENCE - $profession[refining][startexp]};
+	#math profession[refining][averagesell] {$profession[refining][earnedexp] / $profession[refining][sold]};
+	#math profession[refining][runtime] {$MSDP_UPTIME - $profession[refining][start]};
+	#var profession[refining][auto] 0;
+	generate_profession_info;
+	#show Will no longer auto carve bone;
+	gt <<< Carving session done:>>>;
+	gt Time: [@return_min_sec{$profession[refining][runtime]}]  Sold: [$profession[refining][sold]] Average: [$profession[refining][averagesell]]  Gold: [$profession[refining][earnedgold]]  Exp: [$profession[refining][earnedexp]];
+}
+
+#action {You carve some %1 bone from %2 into some %3 bone from %4.} {
+	#show Material Quality:[<131>%3];
+	#switch {"%3"} {
+		#case {"flawless"} {#nop;carve bone};
+		#case {"divine"} {#nop donate divine home;tan hide};
+		#default {#show keep for selling;carve bone}
+	}
+}
+
+#action {You fail to improve it.} {#if $profession[refining][auto] carve bone}
+#action {Oops, you cracked it a little.} {#if $profession[refining][auto] carve bone}
+#action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {carve bone} {3}}}
+#action {The some %0 hide from %1 isn't high enough quality to tan.} {#if $profession[refining][auto] {sac bone;carve bone}}
+
+#action {You must also specify what you want to carve.} {
+	#if { $profession[refining][reset] && $profession[refining][auto] } {
+		#var totalhides 0;
+		#var profession[refining][reset] 0;w;recall;2s3es;sell leather;
+	};
+	#else {
+		#show no more hides left;
+		tanoff;
+	}
+}
+
+#action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
+#action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]};sell leather}
+#action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;pickup_hides}
+#action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;pickup_hides}
+
+#alias pickup_hides {		
+	#if { $profession[refining][auto] } {
+		visit eremitage;e;get all.hide;
+		visit kruoill;e;get all.hide;
+		visit houseofanasasi;e;get all.hide;
+		counthides;tan hide;
+	}
+}
