@@ -39,7 +39,7 @@ Commands:\n
 #var bot[move] 0;
 #var bot[autozone] 0;
 #var bot[cast] 1;
-#var bot[join] 1;
+#var bot[join] 0;
 #var bot[poke] 0;
 #var bot[markcommand] marks;
 #var bot[pokecommand] stikker;
@@ -122,6 +122,7 @@ init bot[rescue2] preferences off;
 		#var bot[autozone] 1;
 		#var bot[cast] 1;
 		#var bot[poke] 1;
+		#var bot[join] 0;
 		#var bot[damage] {tornado};
 
 		#var autobark on;
@@ -266,7 +267,7 @@ init bot[rescue2] preferences off;
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
 		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<20 } {
 			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
-			#var bot[nextAction] {queueAdd combat $bot[spellRecall]};
+			#var bot[nextAction] {queueAdd priority recall};
 		}; #else {
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
 				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
@@ -699,6 +700,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 #alias recall {
 	#if {"$MSDP_POSTION"=="Fighting" } {
+		breakout;
 		rec recall;
 	}; #else {
 		recall;
