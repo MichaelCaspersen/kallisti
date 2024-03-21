@@ -523,9 +523,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 #alias room_event {
 	#SWITCH {$MSDP_ROOM_VNUM} {
-		#CASE {3001} {#show END ZONE;#if $zone[active] {zone_end}}
-		#CASE {3074} {#show END ZONE;#if $zone[active] {zone_end}}
-		#DEFAULT {#nop}
+		#CASE {3001} {#show END ZONE;#if $zone[active] {zone_end}};
+		#CASE {3074} {#show END ZONE;#if $zone[active] {zone_end}};
+		#DEFAULT {#nop};
 	};	
 
 }
