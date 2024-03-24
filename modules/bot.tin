@@ -538,8 +538,8 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 #alias room_event {
 	#SWITCH {$MSDP_ROOM_VNUM} {
-		#CASE {3001} {#show END ZONE;#if $zone[active] {zone_end}};
-		#CASE {3074} {#show END ZONE;#if $zone[active] {zone_end}};
+		#CASE {3001} {#show END ZONE;#if $zone[active] {#var zone[active] 0}};
+		#CASE {3074} {#show END ZONE;#if $zone[active] {#var zone[active] 0}};
 		#DEFAULT {#nop};
 	};	
 
@@ -549,7 +549,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP Handle set/clear targets
 #NOP #######################################################
 
-#action {Nobody here by that name ('%0').} {cleartarget}
+#action {Nobody here by that name ('%0').} {:cant see %0;cleartarget}
+#action {No target found by the name of '%0'.} {:cant see %0;cleartarget}
+
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
 
 #action {You aren't in the same group as the person currently fighting a spectacled cormorant.} {cleartarget}
