@@ -619,11 +619,10 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
 		};
 		#case {"stabber"} {
-			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab [queueAdd priority {$bot[damage] %1} {0.2} };
+			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab [queueAdd priority {$bot[damage] %1} {0.2} 
 		};
-	}
+	};
 }
-
 
 #action {%0 $bot[pokecommand] %1} {
 	#switch {"$bot[role]"} {
