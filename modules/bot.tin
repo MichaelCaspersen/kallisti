@@ -118,7 +118,7 @@ init bot[rescue2] preferences off;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Druid" } {
 		botrole leader;
-		#var bot[move] 1;
+		#var bot[move] 0;
 		#var bot[autozone] 1;
 		#var bot[cast] 1;
 		#var bot[poke] 1;
@@ -199,6 +199,7 @@ init bot[rescue2] preferences off;
 		#case {"tank"} {
 			#var bot[running] 1;
 			#var bot[role] tank;
+			#var bot[join] 1;
 			#var bot[rescue] 1;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
@@ -255,6 +256,9 @@ init bot[rescue2] preferences off;
 							#if { $bot[move] } {
 								#var bot[nextAction] {smart_move};
 							};
+							#else {
+								#var bot[nextAction] {#nop};								
+							}
 						};#else {
 							zone_end;
 						};
