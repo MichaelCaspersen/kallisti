@@ -6,7 +6,7 @@
 #var bot-description {Utilities for botting}
 #var bot-help {
 Commands:\n
-\tCurrent role: $bot[role]   Available roles: leader/tank/damage/healer/OFF\n
+\tCurrent role: $bot[role]   Available roles: leader/tank/stabber/damage/healer/OFF\n
 \tdamage <spell> , current $bot[damage]\n
 \n
 \tToggle automatic casting/moving:  botcast: $bot[cast]  botmove: $bot[move]\n
@@ -39,7 +39,7 @@ Commands:\n
 #var bot[move] 0;
 #var bot[autozone] 0;
 #var bot[cast] 1;
-#var bot[join] 1;
+#var bot[join] 0;
 #var bot[poke] 0;
 #var bot[markcommand] marks;
 #var bot[pokecommand] stikker;
@@ -105,6 +105,15 @@ init bot[rescue2] preferences off;
 	};
 
 	#NOP #######################################################;
+	#NOP Class Specific: Assassin									;
+	#NOP #######################################################;
+	#if { "$MSDP_CLASS" == "Assassin" } {
+		botrole stabber;
+		#var bot[cast] 1;
+		#var bot[damage] {backstab};
+	};
+
+	#NOP #######################################################;
 	#NOP Class Specific: Druid									;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Druid" } {
@@ -113,6 +122,7 @@ init bot[rescue2] preferences off;
 		#var bot[autozone] 1;
 		#var bot[cast] 1;
 		#var bot[poke] 1;
+		#var bot[join] 0;
 		#var bot[damage] {tornado};
 
 		#var autobark on;
@@ -192,6 +202,11 @@ init bot[rescue2] preferences off;
 			#var bot[rescue] 1;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
+		#case {"stabber"} {
+			#var bot[running] 1;
+			#var bot[role] stabber;
+			#tick {determinbotaction} {determine_bot_action} {0.1};
+		};
 		#case {"damage"} {
 			#var bot[running] 1;
 			#var bot[role] damage;
@@ -208,7 +223,7 @@ init bot[rescue2] preferences off;
 			#untick {determinbotaction};
 		};
 		#default {
-		#show Available roles: leader/tank/damage/healer/OFF;
+		#show Available roles: leader/tank/stabber/damage/healer/OFF;
 		}
 	};
 	generate_bot_info;
@@ -252,7 +267,7 @@ init bot[rescue2] preferences off;
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
 		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<20 } {
 			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
-			#var bot[nextAction] {queueAdd combat $bot[spellRecall]};
+			#var bot[nextAction] {queueAdd priority recall};
 		}; #else {
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
 				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
@@ -523,9 +538,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 #alias room_event {
 	#SWITCH {$MSDP_ROOM_VNUM} {
-		#CASE {3001} {#show END ZONE;#if $zone[active] {zone_end}}
-		#CASE {3074} {#show END ZONE;#if $zone[active] {zone_end}}
-		#DEFAULT {#nop}
+		#CASE {3001} {#show END ZONE;#if $zone[active] {#var zone[active] 0}};
+		#CASE {3074} {#show END ZONE;#if $zone[active] {#var zone[active] 0}};
+		#DEFAULT {#nop};
 	};	
 
 }
@@ -534,7 +549,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP Handle set/clear targets
 #NOP #######################################################
 
-#action {Nobody here by that name ('%0').} {cleartarget}
+#action {Nobody here by that name ('%0').} {:cant see %0;cleartarget}
+#action {No target found by the name of '%0'.} {:cant see %0;cleartarget}
+
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
 
 #action {You aren't in the same group as the person currently fighting a spectacled cormorant.} {cleartarget}
@@ -601,6 +618,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		#case {"tank"} {
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
 		};
+		#case {"stabber"} {
+			#show <121>>INITIATE COMBAT - role:stabber;queueAdd priority {$bot[damage] %1};
+		};
 	}
 }
 
@@ -627,7 +647,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 }
 
 #action {You join the fight with %1.} {
-	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
+	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
 		queueAdd combat $bot[damage];
 	};
 	#if { "$bot[role]"=="tank" } {
@@ -639,7 +659,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {
-	#if { "$bot[role]"=="leader" || "$bot[role]"=="damage" } {
+	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
 		queueAdd combat $bot[damage];
 	}
 }
@@ -662,7 +682,36 @@ event_register {variable master[active]} {right} {generate_bot_info};
 }
 */
 
-#action {You flee head over heels.} {#if $zone[active] {zone_end}}
+#action {You wimp out and attempt to flee!} {
+	#if $zone[active] {zone_end};
+	recall;
+}
+
+#action {You flee head over heels.} {
+	#if $zone[active] {zone_end};
+	recall;
+}
+
+#action {You can't concentrate on anything but killing!} {
+	recall;
+}
+
+#action {%1 issues a rally call to join the group at The Temple Of Midgaard.} {
+	recall;
+}
+
+#alias recall {
+	#if {"$MSDP_POSTION"=="Fighting" } {
+		breakout;
+		rec recall;
+	}; #else {
+		recall;
+	}
+}
+
+#action {You recite a scroll of recall which dissolves.} {
+	get recall all;
+}
 
 #NOP Necro/Demoniac specific
 #var auto[candrain] 1
