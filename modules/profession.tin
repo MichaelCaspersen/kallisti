@@ -300,16 +300,16 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {You carve some %1 bone from %2 into some %3 bone from %4.} {
 	#show Material Quality:[<131>%3];
 	#switch {"%3"} {
-		#case {"flawless"} {#nop;carve bone};
-		#case {"divine"} {#nop donate divine home;tan hide};
-		#default {#show keep for selling;carve bone}
+		#case {"flawless"} {donate bone home;carve bone};
+		#case {"divine"} {donate bone home;carve bone};
+		#default {#show keep for selling;donate bone;carve bone}
 	}
 }
 
 #action {You fail to improve it.} {#if $profession[refining][auto] carve bone}
 #action {Oops, you cracked it a little.} {#if $profession[refining][auto] carve bone}
 #action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {carve bone} {3}}}
-#action {The some %0 hide from %1 isn't high enough quality to tan.} {#if $profession[refining][auto] {sac bone;carve bone}}
+#action {The some %0 bone from %1 isn't high enough quality to carve.} {#if $profession[refining][auto] {sac bone;carve bone}}
 
 #action {You must also specify what you want to carve.} {
 	#if { $profession[refining][reset] && $profession[refining][auto] } {
@@ -321,6 +321,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		tanoff;
 	}
 }
+
+#action {There aren't any bones here you can take.} {sleep}
 
 #action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
 #action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]};sell leather}
