@@ -310,11 +310,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {Oops, you cracked it a little.} {#if $profession[refining][auto] carve bone}
 #action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {carve bone} {3}}}
 #action {The some %0 bone from %1 isn't high enough quality to carve.} {#if $profession[refining][auto] {sac bone;carve bone}}
-<<<<<<< HEAD
-=======
 #action {You can't carve that.} {donate bone home}
 
->>>>>>> b0f0316a1e9234a69576b57002f44bf6a0cf6551
 
 #action {You must also specify what you want to carve.} {
 	recall;visit eremi;e;get all.bone;recall;3s2w;open gate;2s;open door;s2u4es;carve bone;
@@ -328,18 +325,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	}
 }
 
-<<<<<<< HEAD
-#action {There aren't any bones here you can take.} {sleep}
-
-#action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
-#action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]};sell leather}
-#action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;pickup_hides}
-#action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;pickup_hides}
-
-#alias pickup_hides {		
-=======
 #alias pickup_mats {		
->>>>>>> b0f0316a1e9234a69576b57002f44bf6a0cf6551
 	#if { $profession[refining][auto] } {
 		visit eremitage;e;$profession[str_pickup];
 		visit kruoill;e;$profession[str_pickup];
