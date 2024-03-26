@@ -34,3 +34,9 @@ recall;2swn;#5 buy danish;s2wn;#5 buy purple;recall;quaff purple
 #ac {A green sprite stands here, waving his half-foot sword.} {#var target sprite}
 #ac {An ashen sprite flits about.} {#var target sprite}
 #ac {A forest sprite stands, laughing at you.} {#var target sprite}
+
+
+####################################################################
+## New Champ
+####################################################################
+leather shop - 14162 (Lower Blackthonre)
