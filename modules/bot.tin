@@ -42,7 +42,7 @@ Commands:\n
 #var bot[join] 0;
 #var bot[poke] 0;
 #var bot[markcommand] marks;
-#var bot[pokecommand] stikker;
+#var bot[pokecommand] pokes;
 #var bot[damage] {};
 #var bot[nextAction] {};
 #var bot[rescue] 0;
@@ -118,7 +118,7 @@ init bot[rescue2] preferences off;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Druid" } {
 		botrole leader;
-		#var bot[move] 1;
+		#var bot[move] 0;
 		#var bot[autozone] 1;
 		#var bot[cast] 1;
 		#var bot[poke] 1;
@@ -193,12 +193,14 @@ init bot[rescue2] preferences off;
 		#case {"leader"} {
 			#var bot[running] 1;
 			#var bot[role] leader;
+			#var bot[poke] 1;
 			zone_automatic_restart;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
 		#case {"tank"} {
 			#var bot[running] 1;
 			#var bot[role] tank;
+			#var bot[join] 1;
 			#var bot[rescue] 1;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
@@ -255,6 +257,9 @@ init bot[rescue2] preferences off;
 							#if { $bot[move] } {
 								#var bot[nextAction] {smart_move};
 							};
+							#else {
+								#var bot[nextAction] {#nop};								
+							}
 						};#else {
 							zone_end;
 						};
@@ -461,12 +466,13 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[name] {Baramon Ingrol};
 			#var zone[minlevel] 30;
 			#var zone[maxlevel] 60;
+			#var zone[startroom] 32055;
 			#var zone[path_total] 4;
-			#var zone[path] {enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;w};
+			#var zone[path] {enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;s;w;n};
 			#var zone[path2] {enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
 			#var zone[path3] {d;s;e;s;e;enter rock;w;s;e;s;e;e;n;e;n;enter rock;e;e;n;e;n;n;w;n;w;enter rock;n;n;w;n;w;w;s;w;s;enter rock;n;w;s;w;s};
 			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;s;w;s;s};
-			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}};
+			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"} {"A fledgling fire drake"}{}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"The Island of Na'Kana"} {
@@ -477,7 +483,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[path_total] 1;
 			#var zone[path] {n;s;s;n;u;n;s;s;n;u;n;s;s;n;u;e;s;e;e;e;s;s;e;w;w;d;s;n;u;e;n;n;w;u;u;n;w;n;e;e;s;w;n;u;e;n;e;u;n;d;n;s;s;n;d;n;s;s;n;d;n;s;s;n;3u1s1d1w1s1w1d2s2d2w1n1w3d};
 			#var zone[skinlist] {{"A kakapo"}{} {"A puffin"}{} {"A giant petrel"}{} {"A common murre"}{} {"A skua"}{} {"A northern gannet"}{} {"A sooty tern"}{} {"A weka"}{} {"A takahe"}{} {"A pelegornis"}{} {"A royal albatross"}{} {"A spectacled cormorant"}{} {"A giant moa"}};
-			#var zone[allowAOE] 0;		
+			#var zone[allowAOE] 0;
 		};
 		#case {"Pillar Maze"} {
 			#var zone[name] {Pillar Maze};
@@ -497,7 +503,6 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]};
 	#show <Ffff><B595>Zone loaded: $zone[name]   steps: $zone[pathlen]   path: [$zone[path_current]/$zone[path_total]];
 	gt Zone loaded: $zone[name]   steps: $zone[pathlen]   path: [$zone[path_current]/$zone[path_total]];
-
 }
 
 #alias zone_end {
@@ -530,6 +535,16 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		};
 	};
 }
+
+
+#NOP #######################################################
+#NOP Zone specific events
+#NOP #######################################################
+event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
+#alias generate_zone_info {gt >>> New Zone: $MSDP_AREA_NAME <<<};
+
+
+
 
 
 #NOP #######################################################
@@ -619,11 +634,10 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
 		};
 		#case {"stabber"} {
-			#show <121>>INITIATE COMBAT - role:stabber;queueAdd priority {$bot[damage] %1};
+			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab [queueAdd priority {$bot[damage] %1} {0.2} 
 		};
-	}
+	};
 }
-
 
 #action {%0 $bot[pokecommand] %1} {
 	#switch {"$bot[role]"} {
@@ -663,24 +677,6 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		queueAdd combat $bot[damage];
 	}
 }
-
-/*
-#action {You quickly find page %1.} {
-	show_debug {Combat: @is_group_fighting{}  Role: $bot[role]     Spell: $bot[damage]};
-	#if { @is_group_fighting{} && ("$bot[role]"=="tank" || "$bot[role]"=="damage" || "$bot[role]"=="leader") } {
-		#if { ("$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac") && (@pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25) } {
-			#if { $auto[candrain] && @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
-				queueAdd heal drain;
-			}; #else {
-				queueAdd combat $bot[damage];
-			};
-		 };
-		 #else {
-			queueAdd combat $bot[damage];
-		 }
-	 }
-}
-*/
 
 #action {You wimp out and attempt to flee!} {
 	#if $zone[active] {zone_end};
@@ -739,8 +735,6 @@ event_register {variable master[active]} {right} {generate_bot_info};
 
 
 #ACTION {%0 is dead!  R.I.P.} {
-	#nop Pause queues ;
-	#nop @delay{5000};
 	cleartarget;
 	#if { "$MSDP_CLASS"=="Necromancer"} {
 		#var auto[candrain] 1;
@@ -843,9 +837,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #ac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 100 3}
 #ac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 100 3}
 #ac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 100 3}
-#ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 50 100 2}
-#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 51 100 2}
-#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 51 100 2}
+#ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 52 100 2}
+#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 53 100 2}
+#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 53 100 2}
 #ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 53 100 1}
 
 
@@ -859,8 +853,8 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #action {A forest squirrel skitters around.%1} {settarget 999 @mob_count{"%1"} squirrel 20 63 1}
 #action {A fearless bear wanders around, scraping for food.%1} {settarget 999 @mob_count{"%1"} bear 20 63 1}
 #action {A chubby troll roams around here.%1} {settarget 999 @mob_count{"%1"} troll 30 63 1}
-#action {A fledgling fire drake plays here, attracted by the fire.} {settarget 999 @mob_count{"%1"} drake 38 54 1}
-#action {A fledgling fire dragon plays here, attracted by the fire.} {settarget 999 @mob_count{"%1"} drake 38 54 1}
+#action {A fledgling fire drake plays here, attracted by the fire.} {settarget 999 @mob_count{"%1"} drake 38 61 1}
+#action {A fledgling fire dragon plays here, attracted by the fire.} {settarget 999 @mob_count{"%1"} drake 38 61 1}
 
 
 #ACTION {a fire elemental is hovering here.%1} {settarget 1 @mob_count{"%1"} elemental 30 63 1}

@@ -1,0 +1,42 @@
+QUESTS
+level 1:
+recall;3swn;buy south;sesd3s;quest;give south cleric
+recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim
+
+
+
+level 5:
+recall;2s8w2sw2ses;enter mushroom;3es3e2n;open door;2n;quest;recall;3s2e2nu3n;open door e;e;recall;2s8w2sw2ses;enter mushroom;3es3e2n;open door;2n
+recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne
+
+OLD MAJOR
+recall;2s6en;quest;open gate n;2n;open door n;ne;kill major;w3s
+
+VISIT JANIE
+recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;recall;2s6en;open gate n;n;open door w;w
+
+FAERIE QUEEN
+recall;13se;quest;recall;2s8w2sw2ses;enter mushroom;neu;kill queen;get wand corpse;
+recall;13se;give wand erwin
+
+WRONG HOLE - Madam Zickwa
+
+
+
+####################################################################
+## New Champ
+####################################################################
+#nop stock up
+recall;2swn;#5 buy danish;s2wn;#5 buy purple;recall;quaff purple
+4sd3s5wnu
+#NOP get level 4, recall prac, stockup, go faerie realm
+#ac {A grey sprite looks at you menacingly, its sickly wings keeping it aloft.} {#var target sprite}
+#ac {A green sprite stands here, waving his half-foot sword.} {#var target sprite}
+#ac {An ashen sprite flits about.} {#var target sprite}
+#ac {A forest sprite stands, laughing at you.} {#var target sprite}
+
+
+####################################################################
+## New Champ
+####################################################################
+leather shop - 14162 (Lower Blackthonre)

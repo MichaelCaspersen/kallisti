@@ -204,6 +204,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#var profession[refining][startexp] $MSDP_EXPERIENCE;
 	#var profession[refining][sold] 0;
 	get all.hide;
+	visit houseofanasasi;
+	e;
 	tan hide
 }
 
@@ -300,9 +302,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {You carve some %1 bone from %2 into some %3 bone from %4.} {
 	#show Material Quality:[<131>%3];
 	#switch {"%3"} {
-		#case {"flawless"} {#nop;carve bone};
-		#case {"divine"} {#nop donate divine home;tan hide};
-		#default {#show keep for selling;carve bone}
+		#case {"flawless"} {donate bone home;carve bone};
+		#case {"divine"} {donate bone home;carve bone};
+		#default {#show keep for selling;donate bone;carve bone}
 	}
 }
 
