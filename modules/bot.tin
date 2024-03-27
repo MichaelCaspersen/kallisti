@@ -705,7 +705,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		breakout;
 		rec recall;
 	}; #else {
-		recall;
+		recal;
 	}
 }
 
