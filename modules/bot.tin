@@ -92,7 +92,7 @@ init bot[rescue2] preferences off;
 	};
 
 	#NOP #######################################################;
-	#NOP Class Specific: Barbarian									;
+	#NOP Class Specific: Barbarian								;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Barbarian" } {
 		botrole damage;
@@ -105,7 +105,7 @@ init bot[rescue2] preferences off;
 	};
 
 	#NOP #######################################################;
-	#NOP Class Specific: Assassin									;
+	#NOP Class Specific: Assassin								;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Assassin" } {
 		botrole stabber;
@@ -137,9 +137,9 @@ init bot[rescue2] preferences off;
 }
 
 
-#NOP #######################################################
-#NOP Bot actions
-#NOP #######################################################
+#NOP #######################################################;
+#NOP Bot actions											;
+#NOP #######################################################;
 
 #alias {botcast} {
 	#switch {"%0"} {
@@ -466,13 +466,13 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[name] {Baramon Ingrol};
 			#var zone[minlevel] 30;
 			#var zone[maxlevel] 60;
-			#var zone[startroom] 32055;
+			#var zone[startroom] 36239;
 			#var zone[path_total] 4;
 			#var zone[path] {enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;s;w;n};
 			#var zone[path2] {enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
 			#var zone[path3] {d;s;e;s;e;enter rock;w;s;e;s;e;e;n;e;n;enter rock;e;e;n;e;n;n;w;n;w;enter rock;n;n;w;n;w;w;s;w;s;enter rock;n;w;s;w;s};
 			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;s;w;s;s};
-			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"} {"A fledgling fire drake"}{}};
+			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}{} {"A fledgling fire drake"}{}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"The Island of Na'Kana"} {
