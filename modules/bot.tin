@@ -543,6 +543,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 }
 
 #alias mapr {
+	#nop for path runs with numbers
 	#map run %1;
 }
 
