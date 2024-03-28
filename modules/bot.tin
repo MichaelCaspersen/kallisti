@@ -442,6 +442,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#nop can be loaded with path id %1;
 	cleartarget;
 	#var zone[runtime] 0;
+	#var zone[kills 0;
 	#var zone[start] $MSDP_UPTIME;
 	#var zone[exp_start] $MSDP_EXPERIENCE;
 	#var zone[gold_start] $MSDP_GOLD;
@@ -531,9 +532,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	botmove;
 	#if { $zone[path_total]>1 } {
 		#if { $zone[path_current]<$zone[path_total] } { 
-			#math zone[path_current] {$zone[path_current]+2};
+			#math zone[path_current] {$zone[path_current]+1};
 			#show <Ffff><Bc95>Short break 5s then we proceed with next path: $zone[path_current];
-			#delay loadpath {zone_load $zone[path_current]} 5;
+			#delay loadpath {zone_load $zone[path_current];botmove 1} 5;
 		};
 	};
 }
