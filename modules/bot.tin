@@ -471,17 +471,10 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[maxlevel] 60;
 			#var zone[startroom] 36239;
 			#var zone[path_total] 4;
-<<<<<<< HEAD
-			#var zone[path] {enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;s;w;n};
-			#var zone[path2] {enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
-			#var zone[path3] {d;s;e;s;e;enter rock;w;s;e;s;e;e;n;e;n;enter rock;e;e;n;e;n;n;w;n;w;enter rock;n;n;w;n;w;w;s;w;s;enter rock;n;w;s;w;s};
-			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;w;s;s};
-=======
 			#var zone[path] {nco enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;s;w;n};
 			#var zone[path2] {nco enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
 			#var zone[path3] {d;s;e;s;e;nco enter rock;w;s;e;s;e;e;n;e;n;nco enter rock;e;e;n;e;n;n;w;n;w;nco enter rock;n;n;w;n;w;w;s;w;s;nco enter rock;n;w;s;w;s};
 			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;s;w;s;s};
->>>>>>> 244bdc3ed5b29ff8c1847cc77ae0dfb0b06c3da5
 			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}{} {"A fledgling fire drake"}{} {"A chubby troll"}{} {"A fearless bear"}{} {"A koala bear"}{}};
 			
 
@@ -549,6 +542,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	};
 }
 
+#alias mapr {
+	#map run %1;
+}
 
 #NOP #######################################################
 #NOP Zone specific events
@@ -777,13 +773,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 			queueAdd priority animate corpse;
 		}; #else {
 			#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<80) || (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) } {
-				queueAdd priority vdrain corpse;
+				queueAdd priority viscera corpse;
 			};	
 		}
 	};
 	#if { "$MSDP_CLASS"=="Druid" } {
 		#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
-			queueAdd priority convert;queueAdd heal heal;
+			queueAdd nco convert;queueAdd heal heal;
 		}		
 	};
 	#if $profession[gather][auto] {
