@@ -543,8 +543,27 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP Zone specific events
 #NOP #######################################################
 event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
-#alias generate_zone_info {gt >>> New Zone: $MSDP_AREA_NAME <<<};
-
+#alias generate_zone_info {
+	gt >>> New Zone: $MSDP_AREA_NAME <<<;
+	#switch {"$MSDP_AREA_NAME"} {
+		#case {"Thalos City"} {
+			#var zone[skinlist] {{"lamia"}{} {"mimic"}{} {"target3"}};
+			#var zone[allowAOE] 0;
+		};
+		#case {"Baramon Ingrol"} {
+			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}{} {"A fledgling fire drake"}{} {"A chubby troll"}{} {"A fearless bear"}{} {"A koala bear"}{}};
+			#var zone[allowAOE] 0;
+		};
+		#case {"The Island of Na'Kana"} {
+			#var zone[skinlist] {{"A kakapo"}{} {"A puffin"}{} {"A giant petrel"}{} {"A common murre"}{} {"A skua"}{} {"A northern gannet"}{} {"A sooty tern"}{} {"A weka"}{} {"A takahe"}{} {"A pelegornis"}{} {"A royal albatross"}{} {"A spectacled cormorant"}{} {"A giant moa"}};
+			#var zone[allowAOE] 0;
+		};
+		#case {"Pillar Maze"} {
+			#var zone[skinlist] {"maze keeper"};
+			#var zone[allowAOE] 1;
+		};
+	};
+};
 
 
 
@@ -682,28 +701,28 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 
 #action {You wimp out and attempt to flee!} {
 	#if $zone[active] {zone_end};
-	recall;
+	perform_recall;
 }
 
 #action {You flee head over heels.} {
 	#if $zone[active] {zone_end};
-	recall;
+	perform_recall;
 }
 
 #action {You can't concentrate on anything but killing!} {
-	recall;
+	perform_recall;
 }
 
 #action {%1 issues a rally call to join the group at The Temple Of Midgaard.} {
-	recall;
+	perform_recall;
 }
 
-#alias recall {
+#alias perform_recall {
 	#if {"$MSDP_POSTION"=="Fighting" } {
 		breakout;
 		rec recall;
 	}; #else {
-		recal;
+		recall;
 	}
 }
 
