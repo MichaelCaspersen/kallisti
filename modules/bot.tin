@@ -66,7 +66,7 @@ init bot[rescue2] preferences off;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Necromancer" } {
 		#var bot[damage] darkfire;
-		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
+		#var bot[spellCorpse] viscera; #NOP options:   edrain/vdrain/viscera;
 		#var bot[spellSustain] drain;
 
 		#var autobloodlust on;
@@ -471,7 +471,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[path] {enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;s;w;n};
 			#var zone[path2] {enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
 			#var zone[path3] {d;s;e;s;e;enter rock;w;s;e;s;e;e;n;e;n;enter rock;e;e;n;e;n;n;w;n;w;enter rock;n;n;w;n;w;w;s;w;s;enter rock;n;w;s;w;s};
-			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;s;w;s;s};
+			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;w;s;s};
 			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}{} {"A fledgling fire drake"}{} {"A chubby troll"}{} {"A fearless bear"}{} {"A koala bear"}{}};
 			
 
@@ -566,8 +566,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #NOP Handle set/clear targets
 #NOP #######################################################
 
-#action {Nobody here by that name ('%0').} {:cant see %0;cleartarget}
-#action {No target found by the name of '%0'.} {:cant see %0;cleartarget}
+#action {Nobody here by that name ('%0').} {#if {"$bot[role]"!="leader"} {:cant see %0};cleartarget}
+#action {No target found by the name of '%0'.}  {#if {"$bot[role]"!="leader"} {:cant see %0};cleartarget}
 
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
 
@@ -851,6 +851,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 
 #NOP ################## ROUTE BOT BA'ALOR;	
 #alias gobaalor {2s11w6s6wn}
+#action {You enter the rock.} {gt all enter rock}
+#action {You enter a massive tree.} {gt all enter tree}
+#action {You enter the steps.} {gt all enter tree}
+
 
 #action {Ba'Alor asks, 'Welcome to Baramon Ingrol travelers, are you friend or foe?'} {settarget 999 @mob_count{"%1"} Ba 1 63 1}
 #action {Ba'Alor stands here, stirring his stew.} {settarget 999 @mob_count{"%1"} Ba 1 63 1}
@@ -862,8 +866,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #action {A fledgling fire dragon plays here, attracted by the fire.} {settarget 999 @mob_count{"%1"} drake 38 61 1}
 
 
-#ACTION {a fire elemental is hovering here.%1} {settarget 1 @mob_count{"%1"} elemental 30 63 1}
-#ACTION {A halfling is here, trying to burrow into the dirt.%1} {settarget 1 @mob_count{"%1"} halfling 30 63 1}
+#ACTION {a fire elemental is hovering here.%1} {settarget 2 @mob_count{"%1"} elemental 30 63 1}
+#ACTION {A halfling is here, trying to burrow into the dirt.%1} {settarget 2 @mob_count{"%1"} halfling 30 63 1}
 #ACTION {A tunnel hermit scavenges for food.%1} {settarget 1 @mob_count{"%1"} hermit 30 63 1}
 
 #action {A tunnel protector is here, serving the forces that be.} {settarget 2 @mob_count{"%1"} protector 30 61 3}
