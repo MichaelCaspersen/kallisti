@@ -175,6 +175,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"s"} #var result 250;
         #case {"u"} #var result 250;
         #case {"d"} #var result 250;
+        #case {"enter"} #var result 2000;
         #case {"mobAttack"} #var result 8000;
         #case {"fkill"} #var result 5000;
         #case {"get"} #var result 500;
