@@ -234,6 +234,7 @@ event_register {variable MSDP_REMORTS_LAPS_TOTAL} {left} {update_player_info %1}
 
 #action {^You have no knowledge of the spell, '%1'.} {event_raise {unlearned spell} {%1}}
 #act {^You receive your reward for the kill, %1 experience points.} {
+	#math zone[kills] {$zone[kills]+1};
     #buffer get _ripline -1;
     #var _xp %1;
     #regex {$_ripline} {{.*} is dead!} {

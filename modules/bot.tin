@@ -35,7 +35,7 @@ Commands:\n
 #NOP ROLES: tank/damage/healer/none
 #var bot[role] damage;
 #var bot[running] 1;
-#var bot[paused] 1;
+#var bot[paused] 0;
 #var bot[move] 0;
 #var bot[autozone] 0;
 #var bot[cast] 1;
@@ -53,10 +53,11 @@ init bot[cast2] preferences on;
 init bot[poke2] preferences off;
 init bot[rescue2] preferences off;
 
-
 #var master[active] 1;
 
 #var bot[debug] 0;
+
+#var class[lvl_path] {2s2e2se};
 
 #alias show_debug {#if $bot[debug] {#show %1}}
 
@@ -121,7 +122,7 @@ init bot[rescue2] preferences off;
 		#var bot[move] 0;
 		#var bot[autozone] 1;
 		#var bot[cast] 1;
-		#var bot[poke] 1;
+		#var bot[poke] 0;
 		#var bot[join] 0;
 		#var bot[damage] {tornado};
 
@@ -422,6 +423,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #var zone[runtime] 0;
 #var zone[start] 0;
 #var zone[startroom] 0;
+#var zone[kills] 0;
 #var zone[exp_start] 0;
 #var zone[gold_start] 0;
 
@@ -442,6 +444,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#nop can be loaded with path id %1;
 	cleartarget;
 	#var zone[runtime] 0;
+	#var zone[kills] 0;
 	#var zone[start] $MSDP_UPTIME;
 	#var zone[exp_start] $MSDP_EXPERIENCE;
 	#var zone[gold_start] $MSDP_GOLD;
@@ -468,10 +471,17 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[maxlevel] 60;
 			#var zone[startroom] 36239;
 			#var zone[path_total] 4;
+<<<<<<< HEAD
 			#var zone[path] {enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;s;w;n};
 			#var zone[path2] {enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
 			#var zone[path3] {d;s;e;s;e;enter rock;w;s;e;s;e;e;n;e;n;enter rock;e;e;n;e;n;n;w;n;w;enter rock;n;n;w;n;w;w;s;w;s;enter rock;n;w;s;w;s};
 			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;w;s;s};
+=======
+			#var zone[path] {nco enter tree;w;w;n;n;n;n;n;u;d;w;w;w;w;w;s;w;n};
+			#var zone[path2] {nco enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
+			#var zone[path3] {d;s;e;s;e;nco enter rock;w;s;e;s;e;e;n;e;n;nco enter rock;e;e;n;e;n;n;w;n;w;nco enter rock;n;n;w;n;w;w;s;w;s;nco enter rock;n;w;s;w;s};
+			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;s;w;s;s};
+>>>>>>> 244bdc3ed5b29ff8c1847cc77ae0dfb0b06c3da5
 			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}{} {"A fledgling fire drake"}{} {"A chubby troll"}{} {"A fearless bear"}{} {"A koala bear"}{}};
 			
 
@@ -512,7 +522,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#math zone[exp_earned] {$MSDP_EXPERIENCE-$zone[exp_start]};
 	#math zone[runtime-sec] { $zone[runtime] % 60 };
 	#math zone[runtime-min] { $zone[runtime] / 60 };
-	gt <<< Zone: $zone[name], path [$zone[path_current] of $zone[path_total]] finished in $zone[runtime-min]m $zone[runtime-sec]s, we earned $zone[gold_earned] gold and gained $zone[exp_earned] exp >>>;
+	gt <<< Zone: $zone[name], path [$zone[path_current] of $zone[path_total]] finished in $zone[runtime-min]m $zone[runtime-sec]s, $zone[kills] kills earned us $zone[gold_earned] gold and gained $zone[exp_earned] exp >>>;
 	#var zone[active] 0;
 	updatezonelastrun {$zone[name]}; #nop set zone last run to MSDP_UPTIME;
 	#var zone[name] {};
@@ -524,6 +534,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#var zone[runtime] 0;
 	#var zone[start] 0;
 	#var zone[startroom] 0;
+	#var zone[kills] 0;
 	#var zone[exp_start] 0;
 	#var zone[gold_start] 0;
 	#var zone[gold_earned] 0;
@@ -531,9 +542,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	botmove;
 	#if { $zone[path_total]>1 } {
 		#if { $zone[path_current]<$zone[path_total] } { 
-			#math zone[path_current] {$zone[path_current]+2};
+			#math zone[path_current] {$zone[path_current]+1};
 			#show <Ffff><Bc95>Short break 5s then we proceed with next path: $zone[path_current];
-			#delay loadpath {zone_load $zone[path_current]} 5;
+			#delay loadpath {zone_load $zone[path_current];botmove 1} 5;
 		};
 	};
 }
@@ -543,8 +554,27 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP Zone specific events
 #NOP #######################################################
 event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
-#alias generate_zone_info {gt >>> New Zone: $MSDP_AREA_NAME <<<};
-
+#alias generate_zone_info {
+	gt >>> New Zone: $MSDP_AREA_NAME <<<;
+	#switch {"$MSDP_AREA_NAME"} {
+		#case {"Thalos City"} {
+			#var zone[skinlist] {{"lamia"}{} {"mimic"}{} {"target3"}};
+			#var zone[allowAOE] 0;
+		};
+		#case {"Baramon Ingrol"} {
+			#var zone[skinlist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}{} {"A fledgling fire drake"}{} {"A chubby troll"}{} {"A fearless bear"}{} {"A koala bear"}{}};
+			#var zone[allowAOE] 0;
+		};
+		#case {"The Island of Na'Kana"} {
+			#var zone[skinlist] {{"A kakapo"}{} {"A puffin"}{} {"A giant petrel"}{} {"A common murre"}{} {"A skua"}{} {"A northern gannet"}{} {"A sooty tern"}{} {"A weka"}{} {"A takahe"}{} {"A pelegornis"}{} {"A royal albatross"}{} {"A spectacled cormorant"}{} {"A giant moa"}};
+			#var zone[allowAOE] 0;
+		};
+		#case {"Pillar Maze"} {
+			#var zone[skinlist] {"maze keeper"};
+			#var zone[allowAOE] 1;
+		};
+	};
+};
 
 
 
@@ -682,28 +712,28 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 
 #action {You wimp out and attempt to flee!} {
 	#if $zone[active] {zone_end};
-	recall;
+	perform_recall;
 }
 
 #action {You flee head over heels.} {
 	#if $zone[active] {zone_end};
-	recall;
+	perform_recall;
 }
 
 #action {You can't concentrate on anything but killing!} {
-	recall;
+	perform_recall;
 }
 
 #action {%1 issues a rally call to join the group at The Temple Of Midgaard.} {
-	recall;
+	perform_recall;
 }
 
-#alias recall {
+#alias perform_recall {
 	#if {"$MSDP_POSTION"=="Fighting" } {
 		breakout;
 		rec recall;
 	}; #else {
-		recal;
+		recall;
 	}
 }
 
@@ -828,6 +858,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #NOP #######################################################
 #NOP Area specific information - route + mobs 
 #NOP #######################################################
+
+#alias gometa {recall;2s14w;enter tree;open door;w}
+#alias golevel {recall;home;dep all;with $next_gold;recall;$class[lvl_path];gain}
+#alias {checklevel} {nextlevel;#if $MSDP_HERO_POINTS_TNL<0 {#how We need to meta;gometa} {#show We can level;golevel}}
+
+#alias nextlevel {#math next_level {$MSDP_LEVEL+1};level $next_level}
+#action {[ %1] %2m  %3 %4 %5 %6 %7} {#var next_gold %3;#var next_hero %4;#show >%1< >%2< >%3< >%4< >%5< >%6< >%7<}
 
 #NOP ROUTE NA'KANA
 #alias gonaka {2s14e14ne3n5ed4es4e2n4eu;zone_automatic_restart}
