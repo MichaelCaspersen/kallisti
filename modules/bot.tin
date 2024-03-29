@@ -258,7 +258,7 @@ init bot[rescue2] preferences off;
 							#if { $bot[move] } {
 								#if { "$MSDP_CLASS"=="Druid" } {
 									#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
-										queueAdd nco convert;
+										queueAdd any convert;
 									};
 									#else {
 										#var bot[nextAction] {smart_move};
@@ -757,6 +757,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #ac {%1 looks really sick, and shivers uncomfortably.} {nco cure %1}
 #ac {You can't see a darn thing -- you're blind!} {#if "$MSDP_CLASS" == "Druid" {nco cure}}
 #ac {Your sight has returned.} {get all.gold all.corpse}
+
+
+#action {You call upon the forces of nature to heal yourself.} {queueAdd heal heal}
 
 
 #NOP #######################################################
