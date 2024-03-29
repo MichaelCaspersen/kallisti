@@ -257,7 +257,8 @@ init bot[rescue2] preferences off;
 						#if { $zone[remainingsteps]>1 } {
 							#if { $bot[move] } {
 								#if { "$MSDP_CLASS"=="Druid" } {
-									#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
+									#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
+									#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) && (	$timesincelastkill>2000) } {
 										queueAdd any convert;
 									};
 									#else {
@@ -750,13 +751,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 
 #NOP Necro/Demoniac specific
 #var auto[candrain] 1
-#ac {%1 does not have enough energy left to drain.} {#var auto[candrain] 0}
-#ac {You can only drain the living.} {queueAdd priority $bot[damage] @findtarget{}}
+#action {%1 does not have enough energy left to drain.} {#var auto[candrain] 0}
+#action {You can only drain the living.} {queueAdd priority $bot[damage] @findtarget{}}
 
 
-#ac {%1 looks really sick, and shivers uncomfortably.} {nco cure %1}
-#ac {You can't see a darn thing -- you're blind!} {#if "$MSDP_CLASS" == "Druid" {nco cure}}
-#ac {Your sight has returned.} {get all.gold all.corpse}
+#action {%1 looks really sick, and shivers uncomfortably.} {nco cure %1}
+#action {You can't see a darn thing -- you're blind!} {#if {"$MSDP_CLASS" == "Druid"} {queueAdd priority cure}}
+#action {Your sight has returned.} {get all.gold all.corpse}
 
 
 #action {You call upon the forces of nature to heal yourself.} {queueAdd heal heal}
@@ -781,6 +782,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	cleartarget;
+	#var lastkilltime $MSDP_UPTIME;
 	#if { "$MSDP_CLASS"=="Necromancer"} {
 		#var auto[candrain] 1;
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
