@@ -256,7 +256,17 @@ init bot[rescue2] preferences off;
 						#math zone[runtime] {$MSDP_UPTIME-$zone[start]};
 						#if { $zone[remainingsteps]>1 } {
 							#if { $bot[move] } {
-								#var bot[nextAction] {smart_move};
+								#if { "$MSDP_CLASS"=="Druid" } {
+									#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
+										queueAdd nco convert;queueAdd heal heal;
+									};
+									#else {
+										#var bot[nextAction] {smart_move};
+									}
+								};
+								#else {
+									#var bot[nextAction] {smart_move};
+								}
 							};
 							#else {
 								#var bot[nextAction] {#nop};								
@@ -777,11 +787,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 				queueAdd priority viscera corpse;
 			};	
 		}
-	};
-	#if { "$MSDP_CLASS"=="Druid" } {
-		#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
-			queueAdd nco convert;queueAdd heal heal;
-		}		
 	};
 	#if $profession[gather][auto] {
 		do_gather {%0};
