@@ -322,7 +322,6 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     };
 };
 
-
 #nop -- Legacy handlers below
 
 
@@ -505,6 +504,21 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
         }
 	}
 }
+
+#alias doZombieform {
+	#switch {"$MSDP_CLASS"} {
+		#case {"Necromancer"} {
+			#if { ("$autozombieform" == "on") } {
+                #if { @autobuf_check{Zombify} } {
+				    #if {(&MSDP_GROUP) && (&MSDP_GROUP[] > 2) } {
+				    	#if {$MSDP_MANA > 40}  {queueAdd nco {zombie}}
+				    }
+                }
+			}
+        }
+	}
+}
+
 
 #alias doBless {
 	#switch {"$MSDP_CLASS"} {
