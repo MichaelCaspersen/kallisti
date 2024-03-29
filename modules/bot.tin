@@ -59,6 +59,8 @@ init bot[rescue2] preferences off;
 
 #var class[lvl_path] {2s2e2se};
 
+#var timer[waitkill] 2;
+
 #alias show_debug {#if $bot[debug] {#show %1}}
 
 #alias bot_init {
@@ -255,10 +257,10 @@ init bot[rescue2] preferences off;
 						#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]+2};
 						#math zone[runtime] {$MSDP_UPTIME-$zone[start]};
 						#if { $zone[remainingsteps]>1 } {
-							#if { $bot[move] } {
+							#if { ($bot[move])  && ($timesincelastkill>$timer[waitkill]) } {
+								#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
 								#if { "$MSDP_CLASS"=="Druid" } {
-									#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
-									#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) && (	$timesincelastkill>2000) } {
+									#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
 										queueAdd any convert;
 									};
 									#else {
