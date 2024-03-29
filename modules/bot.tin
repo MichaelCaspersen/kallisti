@@ -78,6 +78,7 @@ init bot[rescue2] preferences off;
 		#var autoaura on;
 		#var autowraithform on;
 		#var autogrim on;
+		#var autozombieform on;
 	};
 
 	#NOP #######################################################;

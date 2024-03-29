@@ -53,7 +53,7 @@ init toggle[warcry] preferences off;
 init toggle[warpaint] preferences off;
 init warpaint preferences mandrake;
 
-#foreach {autobless;autobark;autostatic;autoaura;autogrim;autobloodlust;autodeadeyes;autodshield;autoffire} {tmp} {
+#foreach {autobless;autobark;autostatic;autoaura;autogrim;autozombieform;autobloodlust;autodeadeyes;autodshield;autoffire} {tmp} {
     init $tmp preferences off;
 }
 
