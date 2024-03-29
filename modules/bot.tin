@@ -258,7 +258,7 @@ init bot[rescue2] preferences off;
 							#if { $bot[move] } {
 								#if { "$MSDP_CLASS"=="Druid" } {
 									#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
-										queueAdd nco convert;queueAdd heal heal;
+										queueAdd nco convert;
 									};
 									#else {
 										#var bot[nextAction] {smart_move};
