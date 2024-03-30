@@ -894,7 +894,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 	#else	{
 		#echo {Please invoke goto from the Midgaard temple.}
 	}
-};
+}
 {9}
 
 #alias stopwalking {
