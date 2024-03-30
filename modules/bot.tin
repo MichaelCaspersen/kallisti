@@ -885,6 +885,45 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 	gt We have arrived at our destination
 }
 
+#ALIAS {^goto %1} {
+	#if {{$MSDP_ROOM_NAME} == {The Temple Of Midgaard}}	{
+		#if {&{gotolist[%1]}}
+		{
+			#path unzip ${gotolist[%1]};
+			#ticker startwalking {
+				#if { ("@findtarget{}"=="") } {
+					#path w
+				} {
+					#if {@is_group_fighting{}==0} {
+						kill @findtarget{}
+					}
+				}
+			} {0.4}
+		};
+		#else {
+			#echo {No location "%1" found. Use "goto list" for a list of locations.}
+		}
+	};
+	#else	{
+		#echo {Please invoke goto from the Midgaard temple.}
+	}
+};
+
+#ALIAS {^goto %slist$}
+{
+    #local {i} {};
+    #foreach {*{gotolist[]}} {i}
+    {
+        #echo {$i - ${goto[$i]}}
+    }
+}
+{8}
+
+#VARIABLE {gotolist}
+{
+    {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking}
+}
+
 #var nedragaard 2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking
 
 
