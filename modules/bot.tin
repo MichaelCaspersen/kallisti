@@ -860,26 +860,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 
 
 #NOP ############### SPEED PATH WALK
-#alias swalk {
-	#if {"%1" != "" } {
-		#show The following directions are available:;
-		#show nedragaard
-	}; 
-	#else {
-		recall;
-		#path unzip $%1;
-		#ticker startwalking {
-			#if { ("@findtarget{}"=="") } {
-				#path w
-			} {
-				#if {@is_group_fighting{}==0} {
-					kill @findtarget{}
-				}
-			}
-		} {0.4}
-	}
-}
-
 
 #ALIAS {^goto %slist$}
 {
@@ -905,7 +885,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 						kill @findtarget{}
 					}
 				}
-			} {0.4}
+			} {0.4};
 		};
 		#else {
 			#echo {No location "%1" found. Use "goto list" for a list of locations.}
@@ -919,7 +899,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 
 #alias stopwalking {
 	#untick startwalking;
-	gt We have arrived at our destination
+	gt <<< We have arrived at our destination >>>;
 }
 
 
@@ -927,9 +907,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 {
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking}
 }
-
-#var nedragaard 2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking
-
 
 
 
