@@ -69,7 +69,7 @@ init bot[rescue2] preferences off;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Necromancer" } {
 		#var bot[damage] darkfire;
-		#var bot[spellCorpse] viscera; #NOP options:   edrain/vdrain/viscera;
+		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
 		#var bot[spellSustain] drain;
 
 		#var autobloodlust on;
@@ -794,7 +794,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 			queueAdd priority animate corpse;
 		}; #else {
 			#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<80) || (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) } {
-				queueAdd priority viscera corpse;
+				queueAdd priority $bot[spellCorpse] corpse;
 			};	
 		}
 	};
