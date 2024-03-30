@@ -862,7 +862,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #NOP ############### SPEED PATH WALK
 #alias swalk {
 	#if {"%1" != "" } {
-		#show The following directions are available:
+		#show The following directions are available:;
 		#show nedragaard
 	}; 
 	#else {
@@ -908,13 +908,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 		#echo {Please invoke goto from the Midgaard temple.}
 	}
 };
+{9}
 
 #ALIAS {^goto %slist$}
 {
     #local {i} {};
     #foreach {*{gotolist[]}} {i}
     {
-        #echo {$i - ${goto[$i]}}
+        #echo {$i - ${gotolist[$i]}}
     }
 }
 {8}
