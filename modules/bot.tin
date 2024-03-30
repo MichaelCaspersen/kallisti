@@ -880,16 +880,23 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 	}
 }
 
-#alias stopwalking {
-	#untick startwalking;
-	gt We have arrived at our destination
+
+#ALIAS {^goto %slist$}
+{
+    #local {i} {};
+    #foreach {*{goto[]}} {i}
+    {
+        #echo {$i - ${goto[$i]}}
+    }
 }
+{8}
+
 
 #ALIAS {^goto %1} {
 	#if {{$MSDP_ROOM_NAME} == {The Temple Of Midgaard}}	{
-		#if {&{gotolist[%1]}}
+		#if {&{goto[%1]}}
 		{
-			#path unzip ${gotolist[%1]};
+			#path unzip ${goto[%1]};
 			#ticker startwalking {
 				#if { ("@findtarget{}"=="") } {
 					#path w
@@ -910,17 +917,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 };
 {9}
 
-#ALIAS {^goto %slist$}
-{
-    #local {i} {};
-    #foreach {*{gotolist[]}} {i}
-    {
-        #echo {$i - ${gotolist[$i]}}
-    }
+#alias stopwalking {
+	#untick startwalking;
+	gt We have arrived at our destination
 }
-{8}
 
-#VARIABLE {gotolist}
+
+#VARIABLE {goto}
 {
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking}
 }
