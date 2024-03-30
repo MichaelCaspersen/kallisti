@@ -1,3 +1,27 @@
+#nop --
+#nop Class Definitions v0.02
+#nop We are on GitHub
+#nop --
+
+#var area_manager-description {Utilities for areas}
+#var area_manager-help {
+Commands:\n
+\tArea manager: use goto \n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias area_manager-register {
+	#if {@isloaded{modloader}} {
+		register_module area_manager;
+	} {
+		#class area_manager kill
+	}
+}
+
+
 #ACTION {^[+ The way to %1 is %w.%*+]$}
 {
     #line oneshot #ticker {move} {%2} {0.25}
