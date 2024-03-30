@@ -859,6 +859,36 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 }
 
 
+#NOP ############### SPEED PATH WALK
+#alias swalk {
+	#if {"%1" != "" } {
+		#show The following directions are available:
+		#show nedragaard
+	}; 
+	#else {
+		recall;
+		#path unzip $%1;
+		#ticker startwalking {
+			#if { ("@findtarget{}"=="") } {
+				#path w
+			} {
+				#if {@is_group_fighting{}==0} {
+					kill @findtarget{}
+				}
+			}
+		} {0.4}
+	}
+}
+
+#alias stopwalking {
+	#untick startwalking;
+	gt We have arrived at our destination
+}
+
+#var nedragaard 2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking
+
+
+
 
 #NOP ############### HUNT
 #ac {You start searching for tracks but then realize %1 is right here!} {#show <131> Found target %1!}
@@ -951,8 +981,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #ac {The maze seer stands here seeing all.} {settarget 999 @mob_count{"%1"} seer 30 100 2}
 
 
-
-
+#NOP {The MIST};
+#ac {The mists form into the shape of a massive beast, blocking your way.} {settarget 999 @mob_count{"%1"} mist 30 100 1}
 
 
 #NOP ################ THALOS
