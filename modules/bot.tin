@@ -566,7 +566,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP #######################################################
 event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #alias generate_zone_info {
-	gt >>> New Zone: $MSDP_AREA_NAME <<<;
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<;
+	#show >>> New Zone: $MSDP_AREA_NAME <<<;
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<;
 	#switch {"$MSDP_AREA_NAME"} {
 		#case {"Thalos City"} {
 			#var zone[skinlist] {{"lamia"}{} {"mimic"}{} {"target3"}};
