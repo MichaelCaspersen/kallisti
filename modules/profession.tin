@@ -296,7 +296,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 	#show Will no longer auto carve bone;
 	gt <<< Carving session done:>>>;
-	gt Time: [@return_min_sec{$profession[refining][runtime]}]  Sold: [$profession[refining][sold]] Average: [$profession[refining][averagesell]]  Gold: [$profession[refining][earnedgold]]  Exp: [$profession[refining][earnedexp]];
+	gt Time: [@return_min_sec{$profession[refining][runtime]}]  Sold: [$profession[refining][sold]] Average: [$profession[refining][averagesell]]  Gold: [@pretty_number{$profession[refining][earnedgold]}]  Exp: [@pretty_number{$profession[refining][earnedexp]}];
 }
 
 #action {You carve some %1 bone from %2 into some %3 bone from %4.} {
