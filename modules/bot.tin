@@ -784,6 +784,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 	#return $followers;
 }
 
+#alias ftank {	reform follow%1 prima; }
 
 #ACTION {%0 is dead!  R.I.P.} {
 	cleartarget;
@@ -906,6 +907,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #VARIABLE {goto}
 {
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking}
+	{godspike} {8s1w2s1e7s19w2s2w4n4w1s 1stopwalking}
+	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w 1stopwalking}
 }
 
 
