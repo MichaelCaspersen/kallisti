@@ -162,11 +162,7 @@ init bot[rescue2] preferences off;
 			botmove 0;
 			#var bot[mount] 1;
 			#var bot[mount][name] dragonne;
-			#unaction {A giant moa peeks shyly through the vegetation.%1};
-			#unaction {A royal albatross is hovering here.%1};
-			#unaction {A spectacled cormorant is hovering here.%1};
-			#unaction {A pelegornis, lord of the birds, sits here.%1};
-		};
+ 		};
 		#case {"Shaita"} {
 			botrole damage;
 			#var bot[damage] backstab;
@@ -397,6 +393,10 @@ init bot[rescue2] preferences off;
 
 #action {is now a member of your group} {gt Welcome! }
 #action {you start following} {gt Current role:$MSDP_CHARACTER_NAME $bot[role]}
+
+#alias {alltemple} {gt all recall;recall}
+#alias {allhome} {gt all recall;gt all home;gt all dep all}
+#alias {allout} {gt all recall;recall}
 
 
 #NOP #######################################################
@@ -753,13 +753,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		queueAdd combat $bot[damage];
 	};
 	#if { "$bot[role]"=="tank" } {
-		#if $bot[rescue] {queueAdd priority rescue %1};
+		#if $bot[rescue] {breakout;queueAdd priority rescue %1};
 	}	
 }
 
 #action {SEEK SHELTER AT ONCE!  %1 has begun to sing.} {
 	#if { ("$bot[role]"=="tank") && ("$MSDP_POSTION"!="Fighting") } {
-		#if $bot[rescue] {queueAdd priority rescue %1};
+		#if $bot[rescue] {breakout;queueAdd priority rescue %1};
 	}
 }
 
@@ -770,11 +770,24 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {#if $bot[rescue] {queueAdd priority rescue %4}}
-#action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
+#action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {breakout;queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {
 	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
 		queueAdd combat $bot[damage];
+	}
+}
+
+#action {You can't do that in this peaceful place.} {
+	#if { ("$bot[role]"=="tank") && ("$MSDP_POSTION"!="Fighting") } {
+		: find it too peaceful here;
+	}
+}
+
+#action {%0 find it too peaceful here} {
+	#if { ($bot[autozone]) && ("$bot[role]"=="leader")} {
+		cleartarget;
+		#path w
 	}
 }
 
@@ -799,8 +812,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias recall {perform_recall}
 
 #alias perform_recall {
+	breakout;
 	#if {"$MSDP_POSTION"=="Fighting" } {
-		breakout;
 		rec reca;
 	}; #else {
 		recal;
@@ -945,12 +958,16 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		{
 			#path unzip ${goto[%1]};
 			#ticker startwalking {
-				#if { ("@findtarget{}"=="") } {
-					#path w
-				} {
-					#if {@is_group_fighting{}==0} {
-						kill @findtarget{}
+				#if {@groupIsPresent{}} {
+					#if { ("@findtarget{}"=="") } {
+						#path w
+					} {
+						#if {@is_group_fighting{}==0} {
+							kill @findtarget{}
+						}
 					}
+				};#else {
+					gt whole group is not here;
 				}
 			} {0.4};
 		};

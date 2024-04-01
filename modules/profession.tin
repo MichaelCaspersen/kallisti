@@ -116,11 +116,11 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #alias {do_skin} {
 	#if $profession[gather][auto] {
 		#if $profession[gather][all] {
-			queueAdd priority {skin corpse};
+			queueAdd any {skin corpse};
 		};#else {
 			#show <121><<< Skin? %0 >>>;
 			#if { &zone[skinlist]["%0"]>0 } {
-				queueAdd priority {skin corpse};
+				queueAdd any {skin corpse};
 			}
 		}
 	}
