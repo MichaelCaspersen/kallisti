@@ -161,7 +161,6 @@ init bot[rescue2] preferences off;
 			botmove 0;
 			#var bot[mount][name] dragonne;
 			#unac {A royal albatross is hovering here.%1};
-			#unac {A spectacled cormorant is hovering here.%1};
 			#unac {A pelegornis, lord of the birds, sits here.%1};
 		 };
 		#case {"Shaita"} {
@@ -393,7 +392,9 @@ init bot[rescue2] preferences off;
 #alias {alltemple} {gt all recall;recall}
 #alias {allhome} {gt all recall;gt all home;gt all dep all}
 #alias {allout} {gt all recall;recall}
+#alias {allheros} {gt heros;checkheros}
 
+#alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel}
 
 #NOP #######################################################
 #NOP Bot panel
@@ -831,7 +832,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
-#action {You call upon the forces of nature to heal yourself.} {#list {_queue[any]} delete 1;queueAdd heal heal $MSDP_CHARACTER_NAME}
+#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#var _queue} {1};queueAdd heal heal $MSDP_CHARACTER_NAME}
 
 
 #NOP #######################################################
@@ -1010,8 +1011,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias golevel {recall;home;dep all;with $next_gold;recall;$class[lvl_path];gain}
 #alias {checklevel} {nextlevel;#if $MSDP_HERO_POINTS_TNL<0 {#how We need to meta;gometa} {#show We can level;golevel}}
 
-#alias nextlevel {#math next_level {$MSDP_LEVEL+1};level $next_level}
-#action {[ %1] %2m  %3 %4 %5 %6 %7} {#var next_gold %3;#var next_hero %4;#show >%1< >%2< >%3< >%4< >%5< >%6< >%7<}
 
 #action {Though short, you realize that this small kender has a certain quickness.} {settarget 999 @mob_count{"%1"} kender 10 100 1}
 
@@ -1030,8 +1029,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #ac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 100 3}
 #ac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 100 3}
 #ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 51 100 2}
+#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 52 100 2}
 #ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 55 100 2}
-#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 55 100 2}
 #ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 55 100 1}
 
 
