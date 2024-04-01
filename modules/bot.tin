@@ -753,6 +753,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 	}	
 }
 
+#action {SEEK SHELTER AT ONCE!  %1 has begun to sing.} {
+	#if { ("$bot[role]"=="tank") && ("$MSDP_POSTION"!="Fighting") } {
+		#if $bot[rescue] {queueAdd priority rescue %1};
+	}
+}
+
 #action {Shaita places something in the back of} {
 	#if { ("$bot[role]"=="tank") && ("$MSDP_POSTION"!="Fighting") } {
 		#if $bot[rescue] {queueAdd priority rescue Shaita};
@@ -786,12 +792,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 	perform_recall;
 }
 
+#alias recall {perform_recall}
+
 #alias perform_recall {
 	#if {"$MSDP_POSTION"=="Fighting" } {
 		breakout;
 		rec recall;
 	}; #else {
-		recall;
+		recal;
 	}
 }
 
