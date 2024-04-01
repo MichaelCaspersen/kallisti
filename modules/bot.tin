@@ -156,13 +156,13 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 1;
 			botmove 0;
-			#unac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 100 3}
-			#unac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 100 3}
-			#unac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 100 3}
-			#unac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 52 100 2}
-			#unac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 53 100 2}
-			#unac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 53 100 2}
-			#unac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 53 100 1}
+			#unac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 100 3};
+			#unac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 100 3};
+			#unac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 100 3};
+			#unac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 52 100 2};
+			#unac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 53 100 2};
+			#unac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 53 100 2};
+			#unac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 53 100 1};
 		};
 		#case {"Shaita"} {
 			botrole damage;
