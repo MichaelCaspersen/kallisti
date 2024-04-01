@@ -709,10 +709,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
 		};
 		#case {"stabber"} {
-			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage] %1}} {0.2} 
+			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage] %1}} {0.4} 
 		};
 		#case {"damage"} {
-			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage] %1}} {0.2} 
+			#show <121>>INITIATE COMBAT - role:damage;#delay botstab {queueAdd any {$bot[damage] %1}} {0.4} 
 		};
 	};
 }
