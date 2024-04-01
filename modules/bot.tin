@@ -137,6 +137,33 @@ init bot[rescue2] preferences off;
 		profon skinning;
 		group all;
 	};
+	#NOP #######################################################;
+	#NOP PARAGON Specific:										;
+	#NOP #######################################################;
+	#switch {"$MSDP_CHARACTER_NAME"} {
+		#case {"Krall"} {
+			botrole tank;
+			#var bot[damage] kill;
+			#var bot[spellSustain] wio;
+			botcast 1;
+			botpoke 0;
+			botmove 0;
+		};
+		#case {"Malai"} {
+			botrole leader;
+			#var bot[damage] #nop;
+			botcast 1;
+			botpoke 1;
+			botmove 0;
+		};
+		#case {"Shaita"} {
+			botrole damage;
+			#var bot[damage] backstab;
+			botcast 1;
+			botpoke 0;
+			botmove 0;
+		};
+	};
 	generate_bot_info;
 }
 
@@ -609,8 +636,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #NOP Handle set/clear targets
 #NOP #######################################################
 
-#action {Nobody here by that name ('%0').} {#if {"$bot[role]"!="leader"} {:cant see %0};cleartarget}
-#action {No target found by the name of '%0'.}  {#if {"$bot[role]"!="leader"} {:cant see %0};cleartarget}
+#action {Nobody here by that name ('%1').} {#if {"$bot[role]"!="leader"} {:cant see %1};cleartarget}
+#action {Nobody here by the name of '%1'.} {#if {"$bot[role]"!="leader"} {:cant see %1};cleartarget}
+#action {No target found by the name of '%1'.}  {#if {"$bot[role]"!="leader"} {:cant see %1};cleartarget}
+
+#action {%1 cant see @findtarget{}} {cleartarget;l}
 
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
 
@@ -679,7 +709,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
 		};
 		#case {"stabber"} {
-			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab [queueAdd priority {$bot[damage] %1} {0.2} 
+			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage] %1} {0.2} 
+		};
+		#case {"damage"} {
+			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage] %1} {0.2} 
 		};
 	};
 }
@@ -918,6 +951,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking}
 	{godspike} {8s1w2s1e7s19w2s2w4n4w1s 1stopwalking}
 	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w 1stopwalking}
+	{naka} {2s14e14n1e3n5e1d4e1s4e2n4e1u 1stopwalking}
 }
 
 
@@ -941,7 +975,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 #action {[ %1] %2m  %3 %4 %5 %6 %7} {#var next_gold %3;#var next_hero %4;#show >%1< >%2< >%3< >%4< >%5< >%6< >%7<}
 
 #NOP ROUTE NA'KANA
-#alias gonaka {2s14e14ne3n5ed4es4e2n4eu;zone_automatic_restart}
+#alias gonakabot {2s14e14ne3n5ed4es4e2n4eu;zone_automatic_restart}
 
 #ac {A puffin bobs up and down in the rolling waves.%1} {settarget 999 @mob_count{"%1"} puffin 20 100 3}
 #ac {A giant petrel guards its nest here.%1} {settarget 999 @mob_count{"%1"} petrel 20 100 3}
