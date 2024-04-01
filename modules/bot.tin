@@ -374,7 +374,7 @@ init bot[rescue2] preferences off;
 #alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
 
 #action {%1 utters the words 'qaizzfh waia'} {
-	#if {@groupIsPresent{%1} && "$MSDP_CHARACTER_NAME"!="%1"} { #nop check if its a group member, only delay if you didnt cast the spell;
+	#if {@playerIsPresent{%1} && "$MSDP_CHARACTER_NAME"!="%1"} { #nop check if its a group member, only delay if you didnt cast the spell;
 		#show Waiting for 10 sec;
 		#math spellLock { @max{$spellLock;@mpoch{}} + 10000}
 	}
@@ -808,8 +808,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias recall {perform_recall}
 
 #alias perform_recall {
-	breakout;
 	#if {"$MSDP_POSTION"=="Fighting" } {
+		breakout;
 		rec reca;
 	}; #else {
 		recal;

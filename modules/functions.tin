@@ -333,7 +333,7 @@
     #return $_res;
 }
 
-#function groupIsPresent {                                                                                 
+#function playerIsPresent {                                                                                 
     #loop {1} {&MSDP_GROUP[]} {index} {
         #if { ("$MSDP_GROUP[$index][name]" == "%1" ) &&
               ($MSDP_GROUP[$index][with_you] == 1 ) } {
@@ -341,6 +341,15 @@
         }
     };
     #return 0;
+}
+
+#function groupIsPresent {                                                                                 
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if { ($MSDP_GROUP[$index][with_you] == 0 ) } {
+                #return 0;
+        }
+    };
+    #return 1;
 }
 
 #nop -- This uses the three letter combo thing
