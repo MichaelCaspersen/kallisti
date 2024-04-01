@@ -274,47 +274,42 @@ init bot[rescue2] preferences off;
 #alias determine_bot_action {
 	#var bot[nextAction] {};		
 	#var bot[nextActionDebug] {};
+	#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
 	#if { @is_group_fighting{}==0 } {
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:0};
-		#if { "$bot[role]"=="leader" } {
-			#if { "@findtarget{}"!="" } {
-				#var bot[nextActionDebug] {$bot[nextActionDebug] Target:1};
-				#if { $bot[poke] } {
-					#var bot[nextAction] {queueAdd nco poke_target};
-				};#else  {
-					#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
+		#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
+			queueAdd any convert;
+		};
+		#else {
+			#if { ("$bot[role]"=="leader") && ($timesincelastkill>$timer[waitkill]) } {
+				#if { "@findtarget{}"!="" } {
+					#var bot[nextActionDebug] {$bot[nextActionDebug] Target:1};
+					#if { $bot[poke] } {
+						#var bot[nextAction] {queueAdd nco poke_target};
+					};#else  {
+						#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
+					};
 				};
-			};
-			#else {
-				#var bot[nextActionDebug] {$bot[nextActionDebug] Target:0};
-				#if { @can_group_move{} } {
-					#var bot[nextActionDebug] {$bot[nextActionDebug] Move:1};
-					#if { $zone[active] } { 
-						#path get position zone[pathid];
-						#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]+2};
-						#math zone[runtime] {$MSDP_UPTIME-$zone[start]};
-						#if { $zone[remainingsteps]>1 } {
-							#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
-							#if { ($bot[move])  && ($timesincelastkill>$timer[waitkill]) } {
-								#if { "$MSDP_CLASS"=="Druid" } {
-									#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {
-										queueAdd any convert;
-									};
-									#else {
-										#var bot[nextAction] {smart_move};
-									}
+				#else {
+					#var bot[nextActionDebug] {$bot[nextActionDebug] Target:0};
+					#if { @can_group_move{} } {
+						#var bot[nextActionDebug] {$bot[nextActionDebug] Move:1};
+						#if { $zone[active] } { 
+							#path get position zone[pathid];
+							#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]+2};
+							#math zone[runtime] {$MSDP_UPTIME-$zone[start]};
+							#if { $zone[remainingsteps]>1 } {
+								#if { ($bot[move]) } {
+									#var bot[nextAction] {smart_move};
 								};
 								#else {
-									#var bot[nextAction] {smart_move};
+									#var bot[nextAction] {#nop};								
 								}
+							};#else {
+								zone_end;
 							};
-							#else {
-								#var bot[nextAction] {#nop};								
-							}
-						};#else {
-							zone_end;
-						};
-					}
+						}
+					};
 				};
 			};
 		};
