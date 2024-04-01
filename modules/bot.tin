@@ -46,6 +46,7 @@ Commands:\n
 #var bot[damage] {};
 #var bot[nextAction] {};
 #var bot[rescue] 0;
+#var bot[mount] 0;
 
 
 init bot[role2] preferences damage;
@@ -148,15 +149,19 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 0;
 			botmove 0;
+			#var bot[mount] 1;
+			#var bot[mount][name] lightning;
 			profoff;
 		};
 		#case {"Malai"} {
+			group all;
 			botrole leader;
 			#var bot[damage] #nop;
 			botcast 1;
 			botpoke 1;
 			botmove 0;
-			#unaction {A takahe nibbles on a bit of chionochloa grass.%1};
+			#var bot[mount] 1;
+			#var bot[mount][name] dragonne;
 			#unaction {A giant moa peeks shyly through the vegetation.%1};
 			#unaction {A royal albatross is hovering here.%1};
 			#unaction {A spectacled cormorant is hovering here.%1};
@@ -823,7 +828,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP #######################################################
 #NOP General
 #NOP #######################################################
-#action {The gust of wind knocks you to the ground.} {stand}
+#action {The gust of wind knocks you to the ground.} {stand;#if {$bot[mount]} {ride $bot[mount][name]}}
 #action {You had better stand up first.} {stand}
 
 #function gotFollowers {
@@ -992,6 +997,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias nextlevel {#math next_level {$MSDP_LEVEL+1};level $next_level}
 #action {[ %1] %2m  %3 %4 %5 %6 %7} {#var next_gold %3;#var next_hero %4;#show >%1< >%2< >%3< >%4< >%5< >%6< >%7<}
+
+#action {Though short, you realize that this small kender has a certain quickness.} {settarget 999 @mob_count{"%1"} kender 10 100 1}
+
 
 #NOP ROUTE NA'KANA
 #alias gonaka {2s14e14ne3n5ed4es4e2n4eu;zone_automatic_restart}
