@@ -46,7 +46,7 @@ Commands:\n
 #var bot[damage] {};
 #var bot[nextAction] {};
 #var bot[rescue] 0;
-#var bot[mount] 0;
+#var bot[mount][name] {};
 
 
 init bot[role2] preferences damage;
@@ -149,7 +149,6 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 0;
 			botmove 0;
-			#var bot[mount] 1;
 			#var bot[mount][name] lightning;
 			profoff;
 		};
@@ -160,9 +159,11 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 1;
 			botmove 0;
-			#var bot[mount] 1;
 			#var bot[mount][name] dragonne;
- 		};
+			#unac {A royal albatross is hovering here.%1};
+			#unac {A spectacled cormorant is hovering here.%1};
+			#unac {A pelegornis, lord of the birds, sits here.%1};
+		 };
 		#case {"Shaita"} {
 			botrole damage;
 			#var bot[damage] backstab;
@@ -568,7 +569,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#math zone[exp_earned] {$MSDP_EXPERIENCE-$zone[exp_start]};
 	#math zone[runtime-sec] { $zone[runtime] % 60 };
 	#math zone[runtime-min] { $zone[runtime] / 60 };
-	gt <<< Zone: $zone[name], path [$zone[path_current] of $zone[path_total]] finished in $zone[runtime-min]m $zone[runtime-sec]s, $zone[kills] kills earned us $zone[gold_earned] gold and gained $zone[exp_earned] exp >>>;
+	gt <<< Zone: $zone[name], path [$zone[path_current] of $zone[path_total]] finished in $zone[runtime-min]m $zone[runtime-sec]s, $zone[kills] kills earned us @pretty_number{$zone[gold_earned]} gold and gained @pretty_number{$zone[exp_earned]} exp >>>;
 	#var zone[active] 0;
 	updatezonelastrun {$zone[name]}; #nop set zone last run to MSDP_UPTIME;
 	#var zone[name] {};
@@ -680,7 +681,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #NOP Params    <maxMobs> <HowManyAreThere> <MobName> <MinLevel> <MaxLevel> <Priority1-3>
 #alias {settarget %1 %2 %3 %4 %5 %6} {
-	#if {($MSDP_GROUPLEVEL>=%4 && $MSDP_GROUPLEVEL<=%5) || ($MSDP_LEVEL>=%4 && $MSDP_LEVEL<=%5)} {
+	#if { ($MSDP_GROUPLEVEL>=%4 && $MSDP_GROUPLEVEL<=%5) } {
 		#if {%2>%1} { #nop are there more mobs left %2 than allowed to fight %1;
 			#show <F333><B595>TARGET IGNORE: %2 present, will max fight %1
 		};
@@ -785,9 +786,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {%0 find it too peaceful here} {
-	#if { ($bot[autozone]) && ("$bot[role]"=="leader")} {
+	#if { ($zone[active]) && ("$bot[role]"=="leader")} {
+		#path w;
 		cleartarget;
-		#path w
 	}
 }
 
@@ -835,13 +836,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
-#action {You call upon the forces of nature to heal yourself.} {queueAdd heal heal}
+#action {You call upon the forces of nature to heal yourself.} {#list {_queue[any]} delete 1;queueAdd heal heal $MSDP_CHARACTER_NAME}
 
 
 #NOP #######################################################
 #NOP General
 #NOP #######################################################
-#action {The gust of wind knocks you to the ground.} {stand;#if {$bot[mount]} {ride $bot[mount][name]}}
+#action {The gust of wind knocks you to the ground.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 #action {You had better stand up first.} {stand}
 
 #function gotFollowers {
@@ -1031,10 +1032,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #ac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 100 3}
 #ac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 100 3}
 #ac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 100 3}
-#ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 52 100 2}
-#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 53 100 2}
-#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 53 100 2}
-#ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 53 100 1}
+#ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 51 100 2}
+#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 55 100 2}
+#ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 55 100 2}
+#ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 55 100 1}
 
 
 
