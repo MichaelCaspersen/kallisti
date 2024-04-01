@@ -111,7 +111,7 @@ init bot[rescue2] preferences off;
 	#NOP #######################################################;
 	#NOP Class Specific: Assassin								;
 	#NOP #######################################################;
-	#if { "$MSDP_CLASS" == "Assassin" } {
+	#if { ("$MSDP_CLASS" == "Assassin") && ("$MSDP_CHARACTER_NAME" != "Shaita") } {
 		botrole stabber;
 		#var bot[cast] 1;
 		#var bot[damage] {backstab};
@@ -120,7 +120,7 @@ init bot[rescue2] preferences off;
 	#NOP #######################################################;
 	#NOP Class Specific: Druid									;
 	#NOP #######################################################;
-	#if { "$MSDP_CLASS" == "Druid" } {
+	#if { ("$MSDP_CLASS" == "Druid") && ("$MSDP_CHARACTER_NAME" != "Malai") } {
 		botrole leader;
 		#var bot[move] 0;
 		#var bot[autozone] 1;
