@@ -148,6 +148,7 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 0;
 			botmove 0;
+			profoff;
 		};
 		#case {"Malai"} {
 			botrole leader;
@@ -155,10 +156,18 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 1;
 			botmove 0;
+			#unac {A weka cranes its neck to look at you.%1} {settarget 999 @mob_count{"%1"} weka 49 100 3}
+			#unac {A kakapo is hovering here.%1} {settarget 999 @mob_count{"%1"} kakapo 45 100 3}
+			#unac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 100 3}
+			#unac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 52 100 2}
+			#unac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 53 100 2}
+			#unac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 53 100 2}
+			#unac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 53 100 1}
 		};
 		#case {"Shaita"} {
 			botrole damage;
 			#var bot[damage] backstab;
+			#var delay[stabber] 0.6;
 			botcast 1;
 			botpoke 0;
 			botmove 0;
@@ -709,10 +718,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 			#show <121>>INITIATE COMBAT - role:tank;queueAdd priority {$bot[damage] %1};
 		};
 		#case {"stabber"} {
-			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage] %1}} {0.4} 
-		};
-		#case {"damage"} {
-			#show <121>>INITIATE COMBAT - role:damage;#delay botstab {queueAdd any {$bot[damage] %1}} {0.4} 
+			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage] %1}} {$delay[stabber]} 
 		};
 	};
 }
