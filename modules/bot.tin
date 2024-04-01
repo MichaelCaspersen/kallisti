@@ -755,7 +755,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info};
 
 #action {Shaita places something in the back of} {
 	#if { ("$bot[role]"=="tank") && ("$MSDP_POSTION"!="Fighting") } {
-		#if $bot[rescue] {queueAdd priority rescue %1};
+		#if $bot[rescue] {queueAdd priority rescue Shaita};
 	}
 }
 
