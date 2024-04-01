@@ -965,6 +965,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 				};#else {
 					gt whole group is not here;
 					#unticker startwalking;
+					rally;
 				}
 			} {0.4};
 		};
