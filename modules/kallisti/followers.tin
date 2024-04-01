@@ -29,7 +29,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 
 #alias follower_command {
     #if {"%2" == "tnl"} {tnl};
-    #if {"%2" == "true %3"} {true %3};
+    #if {"%2" == "true"} {true %1};
     #if {"$follower_mode" == "on"} {
 		#if {"%1" == "@group_leader{}" || "%1" == "@subgroup_leader{}"} {
 			#regex {%2} {^all %*$} {
