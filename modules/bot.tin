@@ -12,6 +12,8 @@
 #NOP Stock up on free purples - recall scrolls;
 #NOP Other member skinning;
 #NOP Setup zone switching, go meta, resume zone
+#NOP if fighting too many mobs, autorecall group
+#NOP EXP tracker
 
 
 #var bot-description {Utilities for botting}
@@ -71,6 +73,14 @@ init bot[rescue2] preferences off;
 #var bot[debug] 0;
 
 #var class[lvl_path] {2s2e2se};
+
+#var container {};
+#var weapon_pri {};
+#var weapon_sec {};
+
+#var stock[recall] 1;
+#var stock[purple] 1;
+
 
 #var lastkilltime $MSDP_UPTIME;
 #var timer[waitkill] 2;
@@ -164,15 +174,22 @@ init bot[rescue2] preferences off;
 			botmove 0;
 			#var bot[mount][name] lightning;
 			profoff;
+			#var container {backpack};
+			#var weapon_pri {dagger};
+			#var weapon_sec {hermes};
 		};
 		#case {"Malai"} {
 			group all;
 			botrole leader;
 			#var bot[damage] #nop;
+			#var bot[spellSustain] heal;
 			botcast 1;
 			botpoke 1;
 			botmove 0;
 			#var bot[mount][name] dragonne;
+			#var container {backpack};
+			#var weapon_pri {knife};
+			#var weapon_sec {};
 		 };
 		#case {"Shaita"} {
 			botrole damage;
@@ -181,6 +198,9 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 0;
 			botmove 0;
+			#var container {backpack};
+			#var weapon_pri {assa};
+			#var weapon_sec {assa};
 		};
 	};
 	generate_bot_info;
@@ -401,7 +421,7 @@ init bot[rescue2] preferences off;
 #action {you start following} {gt Current role:$MSDP_CHARACTER_NAME $bot[role]}
 
 #alias {alltemple} {gt all recall;recall}
-#alias {allhome} {gt all recall;gt all home;gt all dep all}
+#alias {allhome} {gt all recall;gt all home;gt all dep all;recall;home;dep all}
 #alias {allout} {gt all recall;recall}
 #alias {allheros} {gt heros;checkheros}
 
@@ -766,13 +786,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {SEEK SHELTER AT ONCE!  %1 has begun to sing.} {
-	#if { ("$bot[role]"=="tank") && ("$MSDP_POSTION"!="Fighting") } {
+	#if { ("$bot[role]"=="tank") && ("$MSDP_POSITION"!="Fighting") } {
 		#if $bot[rescue] {breakout;queueAdd priority rescue %1};
 	}
 }
 
 #action {Shaita places something in the back of} {
-	#if { ("$bot[role]"=="tank") && ("$MSDP_POSTION"!="Fighting") } {
+	#if { ("$bot[role]"=="tank") && ("$MSDP_POSITION"!="Fighting") } {
 		#if $bot[rescue] {queueAdd priority rescue Shaita};
 	}
 }
@@ -787,7 +807,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {You can't do that in this peaceful place.} {
-	#if { ("$bot[role]"=="tank") && ("$MSDP_POSTION"!="Fighting") } {
+	#if { ("$bot[role]"=="tank") && ("$MSDP_POSITION"!="Fighting") } {
 		: find it too peaceful here;
 	}
 }
@@ -820,7 +840,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias recall {perform_recall}
 
 #alias perform_recall {
-	#if {"$MSDP_POSTION"=="Fighting" } {
+	#show TRYING TO RECALL - Position: $MSDP_POSITION;
+	#if {"$MSDP_POSITION"=="Fighting" } {
 		breakout;
 		rec reca;
 	}; #else {
@@ -831,6 +852,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You recite a scroll of recall which dissolves.} {
 	get recall all;
 }
+
+
+#action {There doesn't seem to be a recall in %1.} {#if $stock[recall] {home;with 27010;recall;2s2wn;#10 buy recall;put all.recall $container};recall};
+#action {There doesn't seem to be a purple in %1.} {#if $stock[purple] {recall;2s3wn;#10 buy purple;put all.purple $container};recall};
+
+#action {%1 makes an impressive fighting move.} {get $weapon_pri;wield $weapon_pri}
+#action {{A|An|The} %1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri}
+
 
 #NOP Necro/Demoniac specific
 #var auto[candrain] 1
