@@ -3,6 +3,17 @@
 #nop We are on GitHub
 #nop --
 
+
+
+#nop TODO:
+#NOP Fix 2 x convert;
+#NOP Make path able to walk uing vnum;
+#NOP Autometa - rem all wear all;
+#NOP Stock up on free purples - recall scrolls;
+#NOP Other member skinning;
+#NOP Setup zone switching, go meta, resume zone
+
+
 #var bot-description {Utilities for botting}
 #var bot-help {
 Commands:\n
@@ -22,6 +33,7 @@ Commands:\n
 #alias bot-register {
 	#if {@isloaded{modloader}} {
 		register_module bot;
+		bot_init;
 	} {
 		#class bot kill
 	}
@@ -60,6 +72,7 @@ init bot[rescue2] preferences off;
 
 #var class[lvl_path] {2s2e2se};
 
+#var lastkilltime $MSDP_UPTIME;
 #var timer[waitkill] 2;
 
 #alias show_debug {#if $bot[debug] {#show %1}}
@@ -160,8 +173,6 @@ init bot[rescue2] preferences off;
 			botpoke 1;
 			botmove 0;
 			#var bot[mount][name] dragonne;
-			#unac {A royal albatross is hovering here.%1};
-			#unac {A pelegornis, lord of the birds, sits here.%1};
 		 };
 		#case {"Shaita"} {
 			botrole damage;
@@ -1030,8 +1041,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #ac {A takahe nibbles on a bit of chionochloa grass.%1} {settarget 999 @mob_count{"%1"} takahe 49 100 3}
 #ac {A giant moa peeks shyly through the vegetation.%1} {settarget 999 @mob_count{"%1"} moa 51 100 2}
 #ac {A spectacled cormorant is hovering here.%1} {settarget 999 @mob_count{"%1"} cormorant 52 100 2}
-#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 55 100 2}
-#ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 55 100 1}
+#ac {A royal albatross is hovering here.%1} {settarget 999 @mob_count{"%1"} royal 53 100 2}
+#ac {A pelegornis, lord of the birds, sits here.%1} {settarget 999 @mob_count{"%1"} pelegornis 54 100 1}
 
 
 
