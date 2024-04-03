@@ -943,14 +943,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			};	
 		}
 	};
-	#if $profession[gather][auto] {
-		do_gather {%0};
-	};
-	get gold all.corpse;
-	#if {"$bot[hide]"!==""} {
-		$bot[hide];
-	}
-
+	#if $profession[gather][auto] { do_gather {%0};	};
+	#if {@gotFollowers{}>0} { get gold all.corpse; }
+	#if {"$bot[hide]"!==""} { $bot[hide]; }
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
@@ -962,10 +957,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#nop {Hook name: closed.};
 	#nop {Hook args: %1 name of door %2 direction.};
 	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i} {open %1 $i};
-	#if {{${auto[track]}} != {}}
-	{
-		look
-	};
+	#if {{${auto[track]}} != {}} { look	};
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be locked.}
@@ -977,10 +969,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#nop {Hook name: closed.};
 	#nop {Hook args: %1 name of door %2 direction.};
 	#line substitute variables #regexp {%1} {{.*} {.*}} {unlock &2 $i} {unlock %1 $i};
-	#if {{${auto[track]}} != {}}
-	{
-		look
-	};
+	#if {{${auto[track]}} != {}} { look };
 }
 
 #action {The mystic's treasure lies here. (invis)} {get all}
