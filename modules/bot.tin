@@ -444,7 +444,7 @@ init bot[rescue2] preferences off;
 {9}
 
 #alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel;}
-#alias dometa {#if {{$MSDP_ROOM_VNUM} == {MetaShop}} {dress off;withdraw all;autometa}}
+#alias dometa {#if {{$MSDP_ROOM_VNUM} == {13200}} {dress off;withdraw all;autometa}}
 
 
 
@@ -1063,10 +1063,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #VARIABLE {goto}
 {
-    {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n 1stopwalking}
-	{godspike} {8s1w2s1e7s19w2s2w4n4w1s 1stopwalking}
-	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w 1stopwalking}
-	{naka} {2s14e14n1e3n5e1d4e1s4e2n4e1u 1stopwalking}
+    {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n;stopwalking}
+	{godspike} {8s1w2s1e7s19w2s2w4n4w1s;stopwalking}
+	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w;stopwalking}
+	{naka} {2s14e14n1e3n5e1d4e1s4e2n4e1u;stopwalking}
+	{meta} {2s14e;enter tree;open door;1e;stopwalking}
 }
 
 
@@ -1082,12 +1083,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Area specific information - route + mobs 
 #NOP #######################################################
 
-#alias gometa {recall;2s14w;enter tree;open door;w}
-#alias golevel {recall;home;dep all;with $next_gold;recall;$class[lvl_path];gain}
-#alias {checklevel} {nextlevel;#if $MSDP_HERO_POINTS_TNL<0 {#how We need to meta;gometa} {#show We can level;golevel}}
-
-
-#action {Though short, you realize that this small kender has a certain quickness.} {settarget 999 @mob_count{"%1"} kender 10 100 1}
+#action {Though short, you realize that this small kender has a certain quickness.} {settarget 999 @mob_count{"%1"} kender 1 100 1}
 
 
 #NOP ROUTE NA'KANA
