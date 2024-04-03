@@ -17,6 +17,7 @@ Recharm followers, convenience commands.
 	}
 }
 
+init friends preferences {};
 init follower_mode preferences on
 init toggle[recallwithleader] preferences on
 init toggle[portalwithleader] preferences on
