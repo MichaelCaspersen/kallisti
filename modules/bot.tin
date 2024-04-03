@@ -11,9 +11,15 @@
 #NOP Autometa - rem all wear all;
 #NOP Stock up on free purples - recall scrolls;
 #NOP Other member skinning;
-#NOP Setup zone switching, go meta, resume zone
+#NOP Setup zone switching, go meta, resume zone, integrate commune/throne
 #NOP if fighting too many mobs, autorecall group
-#NOP EXP tracker
+#NOP EXP tracker (per tick, identify spawntime)
+#NOP Equ damage tracker 
+
+
+
+
+
 
 
 #var bot-description {Utilities for botting}
@@ -420,12 +426,42 @@ init bot[rescue2] preferences off;
 #action {is now a member of your group} {gt Welcome! }
 #action {you start following} {gt Current role:$MSDP_CHARACTER_NAME $bot[role]}
 
-#alias {alltemple} {gt all recall;recall}
-#alias {allhome} {gt all recall;gt all home;gt all dep all;recall;home;dep all}
-#alias {allout} {gt all recall;recall}
-#alias {allheros} {gt heros;checkheros}
+#ALIAS {^all %1} {
+	#if {"%1"!=""} {
+		#SWITCH {"%1"} {
+			#CASE {"temple"} {gt all recall;recall}
+			#CASE {"home"} {gt all recall;gt all home;gt all dep all;recall;home;dep all}
+			#CASE {"out"} {gt all recall;recall}
+			#CASE {"heros"} {gt heros;checkheros}
+			#CASE {"equ"} {gt equ damage;equ damage}
+			#CASE {"dometa"} {gt all dometa;#ticker {dometa} {}}
+		};	
+	};
+	#else {
+		#echo {All commands: temple home out heros equ dometa}
+	}
+}
+{9}
 
-#alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel}
+#alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel;}
+#alias dometa {#if {{$MSDP_ROOM_VNUM} == {MetaShop}} {dress off;withdraw all;autometa}}
+
+
+
+#action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {gt Damaged item: @colorPct{@pct{%2;%3}}% &0f%5&-- (%1)}}
+#alias {dress} {
+	#if {"$MSDP_CLASS"=="Druid"} {shapechange normal;};
+	#if {"$MSDP_CLASS"=="Necromancer"} {mortify normal;};
+	#if {"$MSDP_CLASS"=="Demoniac"} {demonform normal;};
+	#if {"%1"=="off"} {
+		rem all;
+	};
+	#else {
+		wield $weapon_pri;
+		grab $weapon_sec;
+		wear all
+	}
+}
 
 #NOP #######################################################
 #NOP Bot panel
@@ -838,6 +874,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #alias recall {perform_recall}
+#alias rr {perform_recall}
 
 #alias perform_recall {
 	#show TRYING TO RECALL - Position: $MSDP_POSITION;
