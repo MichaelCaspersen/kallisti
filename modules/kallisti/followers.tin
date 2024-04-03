@@ -34,7 +34,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
     #if {"$follower_mode" == "on"} {
 		#if {"%1" == "@group_leader{}" || "%1" == "@subgroup_leader{}"} {
 			#regex {%2} {^all %*$} {
-                #if {"%1" == "Malai"} {
+                #if {@is_friend{%1}} {
 				    &1;
                 };#else {
 				    #send &1;
