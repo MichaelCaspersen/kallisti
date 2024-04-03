@@ -429,12 +429,12 @@ init bot[rescue2] preferences off;
 #ALIAS {^all %1} {
 	#if {"%1"!=""} {
 		#SWITCH {"%1"} {
-			#CASE {"temple"} {gt all recall;recall}
-			#CASE {"home"} {gt all recall;gt all home;gt all dep all;recall;home;dep all}
-			#CASE {"out"} {gt all recall;recall}
-			#CASE {"heros"} {gt heros;checkheros}
-			#CASE {"equ"} {gt equ damage;equ damage}
-			#CASE {"dometa"} {gt all dometa;#ticker {dometa} {}}
+			#CASE {"temple"} {gt all recall;recall};
+			#CASE {"home"} {gt all recall;gt all home;gt all dep all;recall;home;dep all};
+			#CASE {"out"} {gt all recall;recall};
+			#CASE {"heros"} {gt heros;checkheros};
+			#CASE {"equ"} {gt equ damage;equ damage};
+			#CASE {"dometa"} {gt all dometa;#show Waiting 10 sec, then I will meta too;#ticker {dometa} {dometa} {10}};
 		};	
 	};
 	#else {
