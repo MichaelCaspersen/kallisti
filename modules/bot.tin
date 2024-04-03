@@ -87,8 +87,6 @@ init bot[rescue2] preferences off;
 #var stock[recall] 1;
 #var stock[purple] 1;
 
-
-#var lastkilltime $MSDP_UPTIME;
 #var timer[waitkill] 2;
 
 #alias show_debug {#if $bot[debug] {#show %1}}
@@ -265,6 +263,7 @@ init bot[rescue2] preferences off;
 
 #ALIAS {botrole} {
 	#var bot[poke] 0;
+	#var lastkilltime $MSDP_UPTIME;
 	#switch {"%0"} {
 		#case {"leader"} {
 			#var bot[running] 1;
@@ -440,15 +439,12 @@ init bot[rescue2] preferences off;
 	#else {
 		#echo {All commands: temple home out heros equ dometa}
 	}
-}
-{9}
+} {9}
 
 #alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel;}
 #alias dometa {#if {{$MSDP_ROOM_VNUM} == {13200}} {dress off;withdraw all;autometa}}
 
-
-
-#action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {gt Damaged item: @colorPctIngame{@pct{%2;%3}}% &0f%5&-- (%1)}}
+#action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {gt Damaged item: @colorPctIngame{@pct{%2;%3}}% &0f%5&--}}
 
 #alias {dress} {
 	#if {"$MSDP_CLASS"=="Druid"} {shapechange normal;};
