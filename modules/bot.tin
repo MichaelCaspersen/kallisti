@@ -7,14 +7,15 @@
 
 #nop TODO:
 #NOP Fix 2 x convert;
-#NOP Make path able to walk uing vnum;
-#NOP Autometa - rem all wear all;
 #NOP Stock up on free purples - recall scrolls;
 #NOP Other member skinning;
 #NOP Setup zone switching, go meta, resume zone, integrate commune/throne
 #NOP if fighting too many mobs, autorecall group
 #NOP EXP tracker (per tick, identify spawntime)
-#NOP Equ damage tracker 
+
+#NOP DONE - Equ damage tracker 
+#NOP DONE - Make path able to walk uing vnum;
+#NOP DONE - Autometa - rem all wear all;
 
 
 
@@ -402,7 +403,10 @@ init bot[rescue2] preferences off;
 
 #ticker autoticker {#if $bot[paused]==0 {-}} {1};
 
-#alias - {#show <Ffff><B595>$bot[nextActionDebug];#if { $zone[active] || $bot[cast] } { $bot[nextAction] };}
+#alias - {
+	#nop show <Ffff><B595>$bot[nextActionDebug];
+	#if { $zone[active] || $bot[cast] } { $bot[nextAction] };
+}
 #alias , {#show <Ffff><B595>Load current zone;zone_load}
 #alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
 
@@ -662,9 +666,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias generate_zone_info {
-	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<;
-	#show >>> New Zone: $MSDP_AREA_NAME <<<;
-	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<;
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;
+	#show >>> New Zone: $MSDP_AREA_NAME   ($MSDP_ROOM_VNUM) <<<;
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;
 	#switch {"$MSDP_AREA_NAME"} {
 		#case {"Thalos City"} {
 			#var zone[skinlist] {{"lamia"}{} {"mimic"}{} {"target3"}};
@@ -901,7 +905,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
-#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#var _queue} {1};queueAdd heal heal $MSDP_CHARACTER_NAME}
+#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#var _queue} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
 
 
 #NOP #######################################################
