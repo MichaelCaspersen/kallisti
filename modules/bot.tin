@@ -336,6 +336,7 @@ init bot[rescue2] preferences off;
 							#if { $zone[remainingsteps]>1 } {
 								#if { ($bot[move]) } {
 									#var bot[nextAction] {smart_move};
+									cleartarget;
 								};
 								#else {
 									#var bot[nextAction] {#nop};								
@@ -773,7 +774,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
 
 
-#alias poke_target {#if {$has_poked==0 && "@findtarget{}"!=""} {#var has_poked 1;: $bot[markcommand]: @findtarget{};: $bot[pokecommand] @findtarget{}}}
+#alias poke_target {#if {$has_poked==0 && "@findtarget{}"!=""} {#var has_poked 1;#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;: $bot[markcommand]: @findtarget{};: $bot[pokecommand] @findtarget{}}}
 
 #action {%0 $bot[markcommand]: %1} {
 	#switch {"$bot[role]"} {
@@ -911,6 +912,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP General
 #NOP #######################################################
 #action {The gust of wind knocks you to the ground.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
+#action {You try to ride %1, but you fall on your butt.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
+
 #action {You had better stand up first.} {stand}
 
 #function gotFollowers {
