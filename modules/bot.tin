@@ -339,7 +339,6 @@ init bot[rescue2] preferences off;
 							#if { $zone[remainingsteps]>1 } {
 								#if { ($bot[move]) } {
 									#var bot[nextAction] {smart_move};
-									cleartarget;
 								};
 								#else {
 									#var bot[nextAction] {#nop};								
@@ -403,12 +402,7 @@ init bot[rescue2] preferences off;
 
 #ticker autoticker {#if $bot[paused]==0 {-}} {1};
 
-#alias - {
-	#nop show <Ffff><B595>$bot[nextActionDebug];
-	#if { $zone[active] || $bot[cast] } { 
-		$bot[nextAction]
-	};
-}
+#alias - {#show <Ffff><B595>$bot[nextActionDebug];#if { $zone[active] || $bot[cast] } { $bot[nextAction] };}
 #alias , {#show <Ffff><B595>Load current zone;zone_load}
 #alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
 
@@ -579,7 +573,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[maxlevel] 60;
 			#var zone[path_total] 1;
 			#var zone[path] {w;n;n;n;u;d;w;s;w;w;n;e;w;w;w;u;d;s;s;e;s;w;s;e;n;w;s;s;s;u;d;e;e;e;w;n;w;e;e;w;n;w;e;e;s;e;n;w;n;w;s;w;n;n;e;e;w;w;s;e;e;e;e};
-			#var zone[skinlist] {{"The black lamia"}{} {"lamia"}{} {"mimic"}{} {"target3"}};
+			#var zone[skinlist] {{"The black lamia"}{} {"The lamia"}{} {"mimic"}{} {"target3"}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"Baramon Ingrol"} {
@@ -715,7 +709,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Nobody here by the name of '%1'.} {#if {"$bot[role]"!="leader"} {:cant see %1};cleartarget}
 #action {No target found by the name of '%1'.}  {#if {"$bot[role]"!="leader"} {:cant see %1};cleartarget}
 
-#action {%1 cant see @findtarget{}} {cleartarget;l}
+#action {%1 cant see @findtarget{}} {cleartarget}
 
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
 
