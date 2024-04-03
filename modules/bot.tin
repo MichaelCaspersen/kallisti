@@ -429,7 +429,7 @@ init bot[rescue2] preferences off;
 #ALIAS {^all %1} {
 	#if {"%1"!=""} {
 		#SWITCH {"%1"} {
-			#CASE {"list"} {#echo {All commands: temple home out heros equ dometa}};
+			#CASE {"list"} {#echo {All commands: &0ftemple home out heros equ dometa&--}};
 			#CASE {"temple"} {gt all recall;recall};
 			#CASE {"home"} {gt all recall;gt all home;gt all dep all;recall;home;dep all};
 			#CASE {"out"} {gt all recall;recall};
