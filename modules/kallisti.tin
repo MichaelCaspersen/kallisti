@@ -94,7 +94,7 @@
 #act {^                             *** PRESS ENTER ***} {#send motd;#send 3 $char_name;#send 1}
 
 #act {^Welcome to the legendary lands of Kallisti.} {post_connect_load login}
-#act {^Reconnecting.} {post_connect_load reconnect;bot_init}
+#act {^Reconnecting.} {post_connect_load reconnect}
 
 
 #nop -- Let's populate two tiles as samples as they're commonly asked for;

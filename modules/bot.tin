@@ -58,6 +58,7 @@ Commands:\n
 #var bot[paused] 0;
 #var bot[move] 0;
 #var bot[autozone] 0;
+#var bot[hide] {};
 #var bot[cast] 1;
 #var bot[join] 0;
 #var bot[poke] 0;
@@ -152,6 +153,7 @@ init bot[rescue2] preferences off;
 		botrole leader;
 		#var bot[move] 0;
 		#var bot[autozone] 1;
+		#vat bot[hide] {hide};
 		#var bot[cast] 1;
 		#var bot[poke] 0;
 		#var bot[join] 0;
@@ -185,7 +187,7 @@ init bot[rescue2] preferences off;
 		#case {"Malai"} {
 			group all;
 			botrole leader;
-			#var bot[damage] #nop;
+			#var bot[damage] {};
 			#var bot[spellSustain] heal;
 			botcast 1;
 			botpoke 1;
@@ -202,6 +204,7 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 0;
 			botmove 0;
+			#vat bot[hide] {hide};
 			#var container {backpack};
 			#var weapon_pri {assassination};
 			#var weapon_sec {assassination};
@@ -576,7 +579,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[maxlevel] 60;
 			#var zone[path_total] 1;
 			#var zone[path] {w;n;n;n;u;d;w;s;w;w;n;e;w;w;w;u;d;s;s;e;s;w;s;e;n;w;s;s;s;u;d;e;e;e;w;n;w;e;e;w;n;w;e;e;s;e;n;w;n;w;s;w;n;n;e;e;w;w;s;e;e;e;e};
-			#var zone[skinlist] {{"lamia"}{} {"mimic"}{} {"target3"}};
+			#var zone[skinlist] {{"The black lamia"}{} {"lamia"}{} {"mimic"}{} {"target3"}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"Baramon Ingrol"} {
@@ -943,7 +946,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if $profession[gather][auto] {
 		do_gather {%0};
 	};
-	get gold all.corpse
+	get gold all.corpse;
+	#if {"$bot[hide]"!==""} {
+		$bot[hide];
+	}
+
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
