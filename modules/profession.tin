@@ -273,7 +273,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 
 #NOP #######################################################
-#NOP Auto carving 
+#NOP Auto Profession 
 #NOP #######################################################
 #alias maton {
 	#var profession[refining][auto] 1;
@@ -322,7 +322,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#switch {"%3"} {
 		#case {"flawless"} {donate bone home;carve bone};
 		#case {"divine"} {donate bone home;carve bone};
-		#default {#show keep for selling;donate bone;carve bone}
+		#default {#show keep for selling;donate bone home;carve bone}
 	}
 }
 
