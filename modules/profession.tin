@@ -283,9 +283,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#var profession[refining][startexp] $MSDP_EXPERIENCE;
 	#var profession[refining][sold] 0;
 	#show Will auto process materials from %1;
-	#if {"$MSDP_ACCOUNT_NAME"=="HouseOfAnasasi"} {#var profession[mat_location] HouseOfAnasasi}
-	#if {"$MSDP_ACCOUNT_NAME"=="Eremitage"} {#var profession[mat_location] Eremitage}
-	#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {#var profession[mat_location] Kruoill}
+	#if {"$MSDP_ACCOUNT_NAME"=="HouseOfAnasasi"} {#var profession[mat_location] HouseOfAnasasi};
+	#if {"$MSDP_ACCOUNT_NAME"=="Eremitage"} {#var profession[mat_location] Eremitage};
+	#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {#var profession[mat_location] Kruoill};
 	#SWITCH {"$profession[gather][type]"} {
 		#CASE {"skinning"} {
 			#var profession[str_pickup] {get all.skin};
@@ -352,8 +352,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #alias pickup_mats {		
 	#if { $profession[refining][auto] } {
 		recall;
-		visit $profession[mat_location];e;$profession[str_pickup]};
-		countmats;$profession[str_action];
+		visit $profession[mat_location];e;
+		$profession[str_pickup];
+		countmats;
+		$profession[str_action];
 	}
 }
 
