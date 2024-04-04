@@ -910,6 +910,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP #######################################################
 #NOP General
 #NOP #######################################################
+#action {You hop on {a|an|the} %1's back.} {#var bot[mount][name] %1}
+
 #action {The gust of wind knocks you to the ground.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 #action {You had better stand up first.} {stand}
 
