@@ -6,13 +6,13 @@
 
 
 #nop TODO:
-#NOP Fix 2 x convert;
 #NOP Stock up on free purples - recall scrolls;
 #NOP Other member skinning;
 #NOP Setup zone switching, go meta, resume zone, integrate commune/throne
 #NOP if fighting too many mobs, autorecall group
 #NOP EXP tracker (per tick, identify spawntime)
 
+#NOP Fix 2 x convert;
 #NOP DONE - Equ damage tracker 
 #NOP DONE - Make path able to walk uing vnum;
 #NOP DONE - Autometa - rem all wear all;
@@ -905,7 +905,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
-#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#var _queue} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
+#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
 
 
 #NOP #######################################################
