@@ -337,8 +337,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	recall;
 	pickup_mats;
 	recall;3s2w;open gate;2s;open door;s2u4es;$profession[str_action];
+	#var total_mats 0;
 	#if { ($profession[refining][reset]) && ($profession[refining][auto]) && (2==3) } {
-		#nop var totalhides 0;
 		#nop var profession[refining][reset] 0;w;recall;2s3es;sell leather;
 	};
 	#else {
@@ -356,7 +356,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	}
 }
 
-#action {Some {hide|bone} from %2 lies here. (%3)} {#math totalmats {$totalmats+%3}}
+#action {Your personal donation fairy whisks away the bone to your manor.} {#variable profession[refining][sold] @increment{$profession[refining][sold]}}
+
+#action {Some {hide|bone} from %2 lies here. (%3)} {#math total_mats {$total_mats+%3}}
 #action {You pick up %1 {hides|bones}.} {
 	#var profession[refining][reset] 1;
 	#var matsspickedup %1;
