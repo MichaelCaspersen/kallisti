@@ -61,7 +61,7 @@ Commands:\n
 #var profession[refining][startgold] 0;
 #var profession[refining][startexp] 0;
 
-#var profession[refresher] Kaicha
+#var profession[refresher] Krell
 #var hidespickedup 0;
 
 
@@ -266,7 +266,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #nop action {There aren't any hides here you can take.} {#if {$profession[refining][auto] && $profession[refining][reset]} {#var profession[refining][reset] 0;gt No more hides at $profession[refining][donationroom]}}
 
 #action {Some hide from %0 lies here. (%1)} {#math totalhides {$totalhides+%1}}
-#action {You pick up %1 hides.} {#var profession[refining][reset] 1;#var hidespickedup %1;#math totalhidesremaining {$totalhides-%1}}
+#action {You pick up %1 {hides|bones}.} {#var profession[refining][reset] 1;#var hidespickedup %1;#math totalhidesremaining {$totalhides-%1}}
 #alias counthides {#delay removetotal {gt $profession[refining][sold] sold, $totalhidesremaining remaining} {5}}
 
 
@@ -348,9 +348,14 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #alias pickup_mats {		
 	#if { $profession[refining][auto] } {
+		recall;
 		visit eremitage;e;$profession[str_pickup];
 		visit kruoill;e;$profession[str_pickup];
 		visit houseofanasasi;e;$profession[str_pickup];
 		counthides;$profession[str_action];
 	}
 }
+
+#action {Some {bone} from %0 lies here. (%1)} {#math totalmats {$totalmats+%1}}
+#action {You pick up %1 {hides|bones}.} {#var profession[refining][reset] 1;#var matsspickedup %1;#math total_mats_remaining {$totalmats-%1}}
+#alias counthides {#delay removetotal {gt $profession[refining][sold] sold, $total_mats_remaining remaining} {5}}
