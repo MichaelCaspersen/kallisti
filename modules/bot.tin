@@ -404,7 +404,7 @@ init bot[rescue2] preferences off;
 #ticker autoticker {#if $bot[paused]==0 {-}} {1};
 
 #alias - {
-	#nop show <Ffff><B595>$bot[nextActionDebug];
+	show_debug {<Ffff><B595>$bot[nextActionDebug]};
 	#if { $zone[active] || $bot[cast] } { $bot[nextAction] };
 }
 #alias , {#show <Ffff><B595>Load current zone;zone_load}
@@ -698,8 +698,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias room_event {
 	#SWITCH {$MSDP_ROOM_VNUM} {
-		#CASE {3001} {#show END ZONE;#if $zone[active] {#var zone[active] 0}};
-		#CASE {3074} {#show END ZONE;#if $zone[active] {#var zone[active] 0}};
+		#CASE {3001} {#show <141>END ZONE;#if $zone[active] {#var zone[active] 0}};
+		#CASE {3074} {#show <141>END ZONE;#if $zone[active] {#var zone[active] 0}};
 		#DEFAULT {#nop};
 	};	
 
@@ -747,8 +747,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#else {
 			#list targetlist[%6] add %3;
 			#switch {"$bot[role]"} {
-				#case {"leader"} {#show <131>TARGET aquired: %3;};
-				#default {#show <F333><B595>TARGET aquired: %3;};
+				#case {"leader"} {#show <131>TARGET aquired: %3 (prio:%6);};
+				#default {#show <F333><B595>TARGET aquired: %3 (prio:%6);};
 			}
 		}
 	}
@@ -979,7 +979,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #ALIAS {sroom} {#gag { ! };#gag {+! };#gag {\~! };find_containers_in_room;#delay 2 {#foreach {*containers_room[]} {i} {search $containers_room[$i] %1;}};#delay 20 {#ungag { ! };#ungag {+! };#ungag {\~! };#var containers_room {}}}
-#alias find_containers_in_room {#var containers_room {};#gag {(locked)};#action {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3} {#list containers_room add %%2};l;#delay 0.4 {#show UNACTION;#unaction {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3}}}
+#alias find_containers_in_room {#var containers_room {};#gag {(locked)};#action {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3} {#list containers_room add %%2};l;#delay 0.4 {show_debug UNACTION;#unaction {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3}}}
 
 #function return_min_sec {
 	#math temp[sec] { %1 % 60 };
