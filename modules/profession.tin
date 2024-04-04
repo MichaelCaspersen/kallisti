@@ -274,13 +274,13 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	recall;
 	#if { ($profession[refining][reset]) && ($profession[refining][auto]) } {
 		#if {"$profession[gather][type]"=="extract"} {
-			#var profession[refining][reset] 0
+			#var profession[refining][reset] 0;
 			pickup_mats;
 		};
 		#if {"$profession[gather][type]"=="tanning"} {
-			#var profession[refining][reset] 0
+			#var profession[refining][reset] 0;
 			2s3es;
-			sell leather
+			sell leather;
 		};
 	};
 	#else {
