@@ -7,14 +7,15 @@
 
 #nop TODO:
 #NOP Fix 2 x convert;
-#NOP Make path able to walk uing vnum;
-#NOP Autometa - rem all wear all;
 #NOP Stock up on free purples - recall scrolls;
 #NOP Other member skinning;
 #NOP Setup zone switching, go meta, resume zone, integrate commune/throne
 #NOP if fighting too many mobs, autorecall group
 #NOP EXP tracker (per tick, identify spawntime)
-#NOP Equ damage tracker 
+
+#NOP DONE - Equ damage tracker 
+#NOP DONE - Make path able to walk uing vnum;
+#NOP DONE - Autometa - rem all wear all;
 
 
 
@@ -58,6 +59,7 @@ Commands:\n
 #var bot[paused] 0;
 #var bot[move] 0;
 #var bot[autozone] 0;
+#var bot[hide] {};
 #var bot[cast] 1;
 #var bot[join] 0;
 #var bot[poke] 0;
@@ -143,6 +145,7 @@ init bot[rescue2] preferences off;
 		botrole stabber;
 		#var bot[cast] 1;
 		#var bot[damage] {backstab};
+		#var bot[hide] {hide};
 	};
 
 	#NOP #######################################################;
@@ -185,7 +188,7 @@ init bot[rescue2] preferences off;
 		#case {"Malai"} {
 			group all;
 			botrole leader;
-			#var bot[damage] #nop;
+			#var bot[damage] {};
 			#var bot[spellSustain] heal;
 			botcast 1;
 			botpoke 1;
@@ -202,9 +205,10 @@ init bot[rescue2] preferences off;
 			botcast 1;
 			botpoke 0;
 			botmove 0;
+			#var bot[hide] {hide};
 			#var container {backpack};
-			#var weapon_pri {assa};
-			#var weapon_sec {assa};
+			#var weapon_pri {assassination};
+			#var weapon_sec {assassination};
 		};
 	};
 	generate_bot_info;
@@ -401,9 +405,7 @@ init bot[rescue2] preferences off;
 
 #alias - {
 	#nop show <Ffff><B595>$bot[nextActionDebug];
-	#if { $zone[active] || $bot[cast] } { 
-		$bot[nextAction]
-	};
+	#if { $zone[active] || $bot[cast] } { $bot[nextAction] };
 }
 #alias , {#show <Ffff><B595>Load current zone;zone_load}
 #alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
@@ -428,29 +430,28 @@ init bot[rescue2] preferences off;
 #ALIAS {^all %1} {
 	#if {"%1"!=""} {
 		#SWITCH {"%1"} {
+			#CASE {"list"} {#echo {All commands: &0ftemple home out heros equ dometa&--}};
 			#CASE {"temple"} {gt all recall;recall};
 			#CASE {"home"} {gt all recall;gt all home;gt all dep all;recall;home;dep all};
 			#CASE {"out"} {gt all recall;recall};
 			#CASE {"heros"} {gt all checkheros;checkheros};
 			#CASE {"equ"} {gt all equ damage;equ damage};
-			#CASE {"dometa"} {gt all dometa;#show Waiting 10 sec, then I will meta too;#ticker {dometa} {dometa} {10}};
+			#CASE {"dometa"} {gt all dometa;#show Waiting 10 sec, then I will meta too;#ticker dometaticker {#unticker dometaticker;dometa} {10}};
 		};	
 	};
-	#else {
-		#echo {All commands: temple home out heros equ dometa}
-	}
 } {9}
 
 #alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel;}
-#alias dometa {#if {{$MSDP_ROOM_VNUM} == {13200}} {dress off;withdraw all;autometa}}
+#alias dometa {#if {$MSDP_ROOM_VNUM == 13200} {autometa}}
+#action {The meta-sage tells you 'You have to remove ALL your items first.'} {checkheros;dress 0;with all;autometa}
 
 #action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {gt Damaged item: @colorPctIngame{@pct{%2;%3}}% &0f%5&--}}
 
-#alias {dress} {
+#alias {dress %1} {
 	#if {"$MSDP_CLASS"=="Druid"} {shapechange normal;};
 	#if {"$MSDP_CLASS"=="Necromancer"} {mortify normal;};
 	#if {"$MSDP_CLASS"=="Demoniac"} {demonform normal;};
-	#if {"%1"=="off"} {
+	#if {%1==0} {
 		rem all;
 	};
 	#else {
@@ -576,7 +577,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[maxlevel] 60;
 			#var zone[path_total] 1;
 			#var zone[path] {w;n;n;n;u;d;w;s;w;w;n;e;w;w;w;u;d;s;s;e;s;w;s;e;n;w;s;s;s;u;d;e;e;e;w;n;w;e;e;w;n;w;e;e;s;e;n;w;n;w;s;w;n;n;e;e;w;w;s;e;e;e;e};
-			#var zone[skinlist] {{"lamia"}{} {"mimic"}{} {"target3"}};
+			#var zone[skinlist] {{"The black lamia"}{} {"The lamia"}{} {"mimic"}{} {"target3"}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"Baramon Ingrol"} {
@@ -665,9 +666,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias generate_zone_info {
-	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<;
-	#show >>> New Zone: $MSDP_AREA_NAME <<<;
-	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<;
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;
+	#show >>> New Zone: $MSDP_AREA_NAME   ($MSDP_ROOM_VNUM) <<<;
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;
 	#switch {"$MSDP_AREA_NAME"} {
 		#case {"Thalos City"} {
 			#var zone[skinlist] {{"lamia"}{} {"mimic"}{} {"target3"}};
@@ -712,7 +713,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Nobody here by the name of '%1'.} {#if {"$bot[role]"!="leader"} {:cant see %1};cleartarget}
 #action {No target found by the name of '%1'.}  {#if {"$bot[role]"!="leader"} {:cant see %1};cleartarget}
 
-#action {%1 cant see @findtarget{}} {cleartarget;l}
+#action {%1 cant see @findtarget{}} {cleartarget}
 
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
 
@@ -773,7 +774,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
 
 
-#alias poke_target {#if {$has_poked==0 && "@findtarget{}"!=""} {#var has_poked 1;: $bot[markcommand]: @findtarget{};: $bot[pokecommand] @findtarget{}}}
+#alias poke_target {#if {$has_poked==0 && "@findtarget{}"!=""} {#var has_poked 1;#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;: $bot[markcommand]: @findtarget{};: $bot[pokecommand] @findtarget{}}}
 
 #action {%0 $bot[markcommand]: %1} {
 	#switch {"$bot[role]"} {
@@ -904,7 +905,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
-#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#var _queue} {1};queueAdd heal heal $MSDP_CHARACTER_NAME}
+#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#var _queue} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
 
 
 #NOP #######################################################
@@ -913,6 +914,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You hop on {a|an|the} %1's back.} {#var bot[mount][name] %1}
 
 #action {The gust of wind knocks you to the ground.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
+#action {You try to ride %1, but you fall on your butt.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
+
 #action {You had better stand up first.} {stand}
 
 #function gotFollowers {
@@ -940,10 +943,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			};	
 		}
 	};
-	#if $profession[gather][auto] {
-		do_gather {%0};
-	};
-	get gold all.corpse
+	#if $profession[gather][auto] { do_gather {%0};	};
+	#if {@gotFollowers{}>0} { get gold all.corpse; };
+	#if {"$bot[hide]"!==""} { $bot[hide]; };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
@@ -955,10 +957,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#nop {Hook name: closed.};
 	#nop {Hook args: %1 name of door %2 direction.};
 	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i} {open %1 $i};
-	#if {{${auto[track]}} != {}}
-	{
-		look
-	};
+	#if {{${auto[track]}} != {}} { look	};
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be locked.}
@@ -970,10 +969,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#nop {Hook name: closed.};
 	#nop {Hook args: %1 name of door %2 direction.};
 	#line substitute variables #regexp {%1} {{.*} {.*}} {unlock &2 $i} {unlock %1 $i};
-	#if {{${auto[track]}} != {}}
-	{
-		look
-	};
+	#if {{${auto[track]}} != {}} { look };
 }
 
 #action {The mystic's treasure lies here. (invis)} {get all}
@@ -1056,7 +1052,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias stopwalking {
 	#untick startwalking;
-	gt <<< We have arrived at our destination >>>;
+	gt <<< Welcome to: $MSDP_AREA_NAME >>>;
 }
 
 
@@ -1067,6 +1063,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w;stopwalking}
 	{naka} {2s14e14n1e3n5e1d4e1s4e2n4e1u;stopwalking}
 	{meta} {2s14w;enter tree;open door;1w;stopwalking}
+	{thalos} {2s21e6s2e3s1w;stopwalking}
+	{skarpsky} {8s1w2s1e14s2w2n2w1n3w2s1w1s;stopwalking}
+	{baal} {2s14w6s6w1n;stopwalking}
 }
 
 
