@@ -282,7 +282,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#var profession[refining][startgold] $MSDP_BANK_GOLD;
 	#var profession[refining][startexp] $MSDP_EXPERIENCE;
 	#var profession[refining][sold] 0;
-	#show Will auto process materials;
+	#show Will auto process materials from %1;
+	#if {"$MSDP_ACCOUNT_NAME"=="HouseOfAnasasi"} {#var profession[mat_location] HouseOfAnasasi}
+	#if {"$MSDP_ACCOUNT_NAME"=="Eremitage"} {#var profession[mat_location] Eremitage}
+	#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {#var profession[mat_location] Kruoill}
 	#SWITCH {"$profession[gather][type]"} {
 		#CASE {"skinning"} {
 			#var profession[str_pickup] {get all.skin};
@@ -325,11 +328,11 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	}
 }
 
-#action {You fail to improve it.} {#if $profession[refining][auto] $var profession[str_action]}
-#action {Oops, you cracked it a little.} {#if $profession[refining][auto] $var profession[str_action]}
-#action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {$var profession[str_action]} {3}}}
+#action {You fail to improve it.} {#if $profession[refining][auto] $profession[str_action]}
+#action {Oops, you cracked it a little.} {#if $profession[refining][auto] $profession[str_action]}
+#action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {$profession[str_action]} {3}}}
 #action {The some %0 bone from %1 isn't high enough quality to carve.} {#if $profession[refining][auto] {$profession[str_sack];$profession[str_action]}}
-#action {You can't carve that.} {donate bone home}
+#action {You can't carve that.} {donate bone home;$profession[str_action]}
 
 
 #action {You must also specify what you want to carve.} {
@@ -349,13 +352,15 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #alias pickup_mats {		
 	#if { $profession[refining][auto] } {
 		recall;
-		visit eremitage;e;$profession[str_pickup];
-		visit kruoill;e;$profession[str_pickup];
-		visit houseofanasasi;e;$profession[str_pickup];
-		counthides;$profession[str_action];
+		visit $profession[mat_location];e;$profession[str_pickup]};
+		countmats;$profession[str_action];
 	}
 }
 
-#action {Some {bone} from %0 lies here. (%1)} {#math totalmats {$totalmats+%1}}
-#action {You pick up %1 {hides|bones}.} {#var profession[refining][reset] 1;#var matsspickedup %1;#math total_mats_remaining {$totalmats-%1}}
-#alias counthides {#delay removetotal {gt $profession[refining][sold] sold, $total_mats_remaining remaining} {5}}
+#action {Some {hide|bone} from %2 lies here. (%3)} {#math totalmats {$totalmats+%1}}
+#action {You pick up %1 {hides|bones}.} {
+	#var profession[refining][reset] 1;
+	#var matsspickedup %1;
+	#math total_mats_remaining {$totalmats-%1}
+}
+#alias countmats {#delay removetotal {gt $profession[refining][sold] sold, $total_mats_remaining remaining} {5}}
