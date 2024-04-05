@@ -198,7 +198,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
             info spell Unknown delay for %1, using $result ms
 		};
     };
-	#show <181> spellDelay called!! >%1< we are delayed for $result;
+	show_debug {<181> spellDelay called!! >%1< we are delayed for $result &--];
 }
 
 #alias show_debug {#nop overwritten in bot file}
