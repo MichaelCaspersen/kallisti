@@ -205,7 +205,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#show Will auto process materials from %1;
 	#var profession[mat_location] %1;
 	#SWITCH {"$profession[gather][type]"} {
-		#CASE {"skinning"} {
+		#CASE {"tanning"} {
 			#var profession[str_mat] {skin};
 			#var profession[str_pickup] {get all.skin};
 			#var profession[str_action] {tan skin};
