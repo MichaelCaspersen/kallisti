@@ -206,10 +206,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#var profession[mat_location] %1;
 	#SWITCH {"$profession[gather][type]"} {
 		#CASE {"tanning"} {
-			#var profession[str_mat] {skin};
-			#var profession[str_pickup] {get all.skin};
-			#var profession[str_action] {tan skin};
-			#var profession[str_sack] {sac skin};
+			#var profession[str_mat] {hide};
+			#var profession[str_pickup] {get all.hide};
+			#var profession[str_action] {tan hide};
+			#var profession[str_sack] {sac hide};
 			#var profession[refine_location] {visit houseofanasasi;e};
 		};
 		#CASE {"butcher"} {
