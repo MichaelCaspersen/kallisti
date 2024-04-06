@@ -277,7 +277,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 			#var profession[refining][reset] 0;
 			pickup_mats;
 		};
-		#if {"$profession[gather][type]"=="tanning"} {
+		#if {"$profession[gather][type]"=="skinning"} {
 			#var profession[refining][reset] 0;
 			2s3es;
 			sell leather;
