@@ -688,7 +688,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		};
 	};
 	#action {%1 $MSDP_AREA_NAME %2 - %3 %4% %5%} {#regexp {%1} {%d} {#var area[id] &0};#regexp {%4} {%d.%d} {#var area[room] &0};#regexp {%5} {%d.%d} {#var area[mobs] &0}};
-	area completed $MSDP_AREA_NAME;
+#nop 	area completed $MSDP_AREA_NAME;
 };
 
 
