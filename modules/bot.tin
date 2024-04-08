@@ -687,10 +687,25 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#var zone[allowAOE] 1;
 		};
 	};
-	#action {%1 $MSDP_AREA_NAME %2 - %3 %4% %5%} {#regexp {%1} {%d} {#var area[id] &0};#regexp {%4} {%d.%d} {#var area[room] &0};#regexp {%5} {%d.%d} {#var area[mobs] &0}};
-#nop 	area completed $MSDP_AREA_NAME;
 };
 
+
+#action {%1 $MSDP_AREA_NAME %2 - %3 %4% %5%} {#regexp {%1} {%d} {#var area[id] &0};#regexp {%4} {%d.%d} {#var area[room] &0};#regexp {%5} {%d.%d} {#var area[mobs] &0}};
+
+#alias {showarea} {area completed $MSDP_AREA_NAME;} 
+
+#action {Total: %1 areas displayed.} {display_area_info}
+
+#alias display_area_info {
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;
+	#show >>> Zone Info: $MSDP_AREA_NAME   ($MSDP_ROOM_VNUM) <<<;
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;	
+	#show >>> Completed mobs:$area[room]% rooms:$area[room]%  <<<;
+	#show >>> Paths:											<<<;	
+	#show >>> Shops:											<<<;	
+	#show >>> Notes:											<<<;	
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;	
+}
 
 
 
