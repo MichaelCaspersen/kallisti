@@ -237,10 +237,17 @@ init bot[rescue2] preferences off;
 		#case {"1"} {
 			#show <Ffff><B595>Poke ON : $bot[pokecommand];
 			#var bot[poke] 1;
+			#var {: bot[pokecommand] pokes};
+		};
+		#case {"2"} {
+			#show <Ffff><B595>Poke ON : $bot[pokecommand];
+			#var bot[poke] 1;
+			#var bot[pokecommand] {oo kill};
 		};
 		#default {
 			#show <Ffff><B595>Poke OFF;
 			#var bot[poke] 0;
+			#var bot[pokecommand] {};
 		}
 	}
 }
@@ -795,12 +802,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {$has_poked==0 && "@findtarget{}"!=""} {
 		#var has_poked 1;
 		#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;
-		: $bot[markcommand]: @findtarget{};
-		#if { $followers>0 } {
-			oo kill @findtarget{}
-		};#else {
-			: $bot[pokecommand] @findtarget{}
-		}
+		$bot[markcommand]: @findtarget{};
+		$bot[pokecommand] @findtarget{}
 	}
 }
 
