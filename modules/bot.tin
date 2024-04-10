@@ -797,9 +797,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;
 		: $bot[markcommand]: @findtarget{};
 		#if { $followers>0 } {
-			: $bot[pokecommand] @findtarget{}
-		};#else {
 			oo kill @findtarget{}
+		};#else {
+			: $bot[pokecommand] @findtarget{}
 		}
 	}
 }
