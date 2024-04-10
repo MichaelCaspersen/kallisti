@@ -1075,6 +1075,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #VARIABLE {goto}
 {
+    {atoll} {8s1w2s1e29s9w2s1w1s1w1s1w1d1s1e1s4e;enter portal}
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n;stopwalking}
 	{godspike} {8s1w2s1e7s19w2s2w4n4w1s;stopwalking}
 	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w;stopwalking}
@@ -1083,6 +1084,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	{thalos} {2s21e6s2e3s1w;stopwalking}
 	{skarpsky} {8s1w2s1e14s2w2n2w1n3w2s1w1s;stopwalking}
 	{baal} {2s14w6s6w1n;stopwalking}
+	{saltmarsh} {2s7e6s3e3s1e1s1e1s1e2s1e1n}
+	{eros} {1n1e3n1w1d3s3e1s}
 }
 
 

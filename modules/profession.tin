@@ -311,6 +311,16 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 
 #NOP #######################################################
+#NOP Bone carving - Daggers
+#NOP #######################################################
+
+#action {You craft {a|an} %1 {dagger} made from {a|an} %3 {bone}.} {#if {"%2"=="dagger"} { exa dagger }}
+#action {Damage Dice: %1d%2 (%3)} {#if { (%3>20) && ($profession[refining][auto]) } { put dagger backpack;bonecraft bone };#else { sac dagger }}
+#action {You failed to craft anything useful.} {bonecraft bone}
+#action {You sacrifice the dagger to the gods.} {#if $profession[refining][auto] {bonecraft bone}}
+#action {You must also specify what material you want to use when {bonecrafting}.} {#var profession[refining][reset] 0;get all.bone;bonecraft bone}
+
+#NOP #######################################################
 #NOP Vendor actions 
 #NOP #######################################################
 #action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
