@@ -236,7 +236,7 @@ init bot[rescue2] preferences off;
 	#switch {"%0"} {
 		#case {"1"} {
 			#var bot[poke] 1;
-			#var {: bot[pokecommand] pokes};
+			#var bot[pokecommand] {: pokes};
 			#show <Ffff><B595>Poke ON : $bot[pokecommand];
 		};
 		#case {"2"} {
