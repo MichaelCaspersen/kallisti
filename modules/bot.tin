@@ -235,19 +235,19 @@ init bot[rescue2] preferences off;
 #alias {botpoke} {
 	#switch {"%0"} {
 		#case {"1"} {
-			#show <Ffff><B595>Poke ON : $bot[pokecommand];
 			#var bot[poke] 1;
 			#var {: bot[pokecommand] pokes};
+			#show <Ffff><B595>Poke ON : $bot[pokecommand];
 		};
 		#case {"2"} {
-			#show <Ffff><B595>Poke ON : $bot[pokecommand];
 			#var bot[poke] 1;
 			#var bot[pokecommand] {oo kill};
+			#show <Ffff><B595>Poke ON : $bot[pokecommand];
 		};
 		#default {
-			#show <Ffff><B595>Poke OFF;
 			#var bot[poke] 0;
 			#var bot[pokecommand] {};
+			#show <Ffff><B595>Poke OFF;
 		}
 	}
 }
