@@ -97,18 +97,8 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 #var charmFollowerTotal 4
 #var charmFollowerNr 1
 
-#tab harpsGive
-#tab harpsGet
-#alias harpsGive {ogfollower {harp};oo play drai}
-#alias harpsGet {oofollower {remove harp};oofollower {give harp giffel}}
-
 #alias oofollower {#loop 1 $charmFollowerTotal id {order $follower$id %1}}
 #alias ogfollower {#loop 1 $charmFollowerTotal id {give %1 $follower$id}}
-
-#action {A musician (your follower) is dead! R.I.P.} {oo stand}
-#action {A musician (your follower) is sleeping here.}{oo stand} 
-#action {A musician (your follower) slipped while climbing.}  {#show <131>FOLLOWER SLIPPED}
-
 
 #action {You failed to charm.} {
 	#show RECHARM $follower$charmFollowerNr;

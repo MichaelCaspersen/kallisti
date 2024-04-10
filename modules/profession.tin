@@ -266,7 +266,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {You fail to improve it.} {#if $profession[refining][auto] $profession[str_action]}
 #action {Oops, you cracked it a little.} {#if $profession[refining][auto] $profession[str_action]}
 #action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {$profession[str_action]} {3}}}
-#action {The some %0 bone from %1 isn't high enough quality to carve.} {#if $profession[refining][auto] {$profession[str_sack];$profession[str_action]}}
+#action {The some %0 {hide|bone} from %1 isn't high enough quality to {tan|carve}.} {#if $profession[refining][auto] {$profession[str_sack];$profession[str_action]}}
 #action {You can't carve that.} {donate bone home;$profession[str_action]}
 
 #action {You must also specify what you want to {tan|carve}.} {
@@ -309,6 +309,16 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {You pick up %1 {hides|bones}.} {#var profession[refining][reset] 1;#var total_mats_pickedup %1;#math total_mats_remaining {$total_mats-%1}}
 #alias countmats {#delay removetotal {gt $profession[refining][sold] sold, $total_mats_remaining remaining} {5}}
 
+
+#NOP #######################################################
+#NOP Bone carving - Daggers
+#NOP #######################################################
+
+#action {You craft {a|an} %1 {dagger} made from {a|an} %3 {bone}.} {#if {"%2"=="dagger"} { exa dagger }}
+#action {Damage Dice: %1d%2 (%3)} {#if { (%3>20) && ($profession[refining][auto]) } { put dagger backpack;bonecraft bone };#else { sac dagger }}
+#action {You failed to craft anything useful.} {bonecraft bone}
+#action {You sacrifice the dagger to the gods.} {#if $profession[refining][auto] {bonecraft bone}}
+#action {You must also specify what material you want to use when {bonecrafting}.} {#var profession[refining][reset] 0;get all.bone;bonecraft bone}
 
 #NOP #######################################################
 #NOP Vendor actions 

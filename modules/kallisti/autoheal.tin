@@ -49,7 +49,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
         };
         #if {$MSDP_GROUP[$_tmp][stamina] < $refreshpct } {
             #if {$MSDP_MANA > $refreshManaThreshold} {
-#show STAMINIA  $MSDP_GROUP[$_tmp][name]  $MSDP_GROUP[$_tmp][stamina];
+                show_debug {STAMINIA  $MSDP_GROUP[$_tmp][name]  $MSDP_GROUP[$_tmp][stamina]};
                 #if {@refreshBlacklist{$MSDP_GROUP[$_tmp][name]}} {
                     #nop
                 } {

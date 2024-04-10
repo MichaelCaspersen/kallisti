@@ -63,7 +63,7 @@ Commands:\n
 #var bot[cast] 1;
 #var bot[join] 0;
 #var bot[poke] 0;
-#var bot[markcommand] marks;
+#var bot[markcommand] {: marks};
 #var bot[pokecommand] pokes;
 #var bot[damage] {};
 #var bot[nextAction] {};
@@ -235,12 +235,19 @@ init bot[rescue2] preferences off;
 #alias {botpoke} {
 	#switch {"%0"} {
 		#case {"1"} {
-			#show <Ffff><B595>Poke ON : $bot[pokecommand];
 			#var bot[poke] 1;
+			#var bot[pokecommand] {: pokes};
+			#show <Ffff><B595>Poke ON : $bot[pokecommand];
+		};
+		#case {"2"} {
+			#var bot[poke] 1;
+			#var bot[pokecommand] {oo kill};
+			#show <Ffff><B595>Poke ON : $bot[pokecommand];
 		};
 		#default {
-			#show <Ffff><B595>Poke OFF;
 			#var bot[poke] 0;
+			#var bot[pokecommand] {};
+			#show <Ffff><B595>Poke OFF;
 		}
 	}
 }
@@ -690,6 +697,23 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 };
 
 
+#action {%1 $MSDP_AREA_NAME %2 - %3 %4% %5%} {#regexp {%1} {%d} {#var area[id] &0};#regexp {%4} {%d.%d} {#var area[room] &0};#regexp {%5} {%d.%d} {#var area[mobs] &0}};
+
+#alias {showarea} {area completed $MSDP_AREA_NAME;} 
+
+#action {Total: %1 areas displayed.} {display_area_info}
+
+#alias display_area_info {
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;
+	#show >>> Zone Info: $MSDP_AREA_NAME   ($MSDP_ROOM_VNUM) <<<;
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;	
+	#show >>> Completed mobs:$area[room]% rooms:$area[room]%  <<<;
+	#show >>> Paths:											<<<;	
+	#show >>> Shops:											<<<;	
+	#show >>> Notes:											<<<;	
+	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;	
+}
+
 
 
 #NOP #######################################################
@@ -774,7 +798,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
 
 
-#alias poke_target {#if {$has_poked==0 && "@findtarget{}"!=""} {#var has_poked 1;#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;: $bot[markcommand]: @findtarget{};: $bot[pokecommand] @findtarget{}}}
+#alias poke_target {
+	#if {$has_poked==0 && "@findtarget{}"!=""} {
+		#var has_poked 1;
+		#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;
+		$bot[markcommand]: @findtarget{};
+		$bot[pokecommand] @findtarget{}
+	}
+}
 
 #action {%0 $bot[markcommand]: %1} {
 	#switch {"$bot[role]"} {
@@ -1058,6 +1089,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #VARIABLE {goto}
 {
+    {atoll} {8s1w2s1e29s9w2s1w1s1w1s1w1d1s1e1s4e;enter portal}
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n;stopwalking}
 	{godspike} {8s1w2s1e7s19w2s2w4n4w1s;stopwalking}
 	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w;stopwalking}
@@ -1066,7 +1098,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	{thalos} {2s21e6s2e3s1w;stopwalking}
 	{skarpsky} {8s1w2s1e14s2w2n2w1n3w2s1w1s;stopwalking}
 	{baal} {2s14w6s6w1n;stopwalking}
+<<<<<<< HEAD
 	{mon} {2s4e6s2w;open gate;1s1w;open door;1w1d1w;open door s;1s;open door s;1s;enter portal;1u5n1s1d}
+=======
+	{saltmarsh} {2s7e6s3e3s1e1s1e1s1e2s1e1n}
+	{eros} {1n1e3n1w1d3s3e1s}
+>>>>>>> 77468c6780a96bfa85d0bc060c82b563510ae60a
 }
 
 
