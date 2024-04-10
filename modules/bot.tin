@@ -1098,12 +1098,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	{thalos} {2s21e6s2e3s1w;stopwalking}
 	{skarpsky} {8s1w2s1e14s2w2n2w1n3w2s1w1s;stopwalking}
 	{baal} {2s14w6s6w1n;stopwalking}
-<<<<<<< HEAD
 	{mon} {2s4e6s2w;open gate;1s1w;open door;1w1d1w;open door s;1s;open door s;1s;enter portal;1u5n1s1d}
-=======
 	{saltmarsh} {2s7e6s3e3s1e1s1e1s1e2s1e1n}
 	{eros} {1n1e3n1w1d3s3e1s}
->>>>>>> 77468c6780a96bfa85d0bc060c82b563510ae60a
 }
 
 
