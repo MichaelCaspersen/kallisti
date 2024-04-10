@@ -791,7 +791,18 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
 
 
-#alias poke_target {#if {$has_poked==0 && "@findtarget{}"!=""} {#var has_poked 1;#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;: $bot[markcommand]: @findtarget{};: $bot[pokecommand] @findtarget{}}}
+#alias poke_target {
+	#if {$has_poked==0 && "@findtarget{}"!=""} {
+		#var has_poked 1;
+		#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;
+		: $bot[markcommand]: @findtarget{};
+		#if { $followers>0 } {
+			: $bot[pokecommand] @findtarget{}
+		};#else {
+			oo kill @findtarget{}
+		}
+	}
+}
 
 #action {%0 $bot[markcommand]: %1} {
 	#switch {"$bot[role]"} {
