@@ -1066,6 +1066,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	{thalos} {2s21e6s2e3s1w;stopwalking}
 	{skarpsky} {8s1w2s1e14s2w2n2w1n3w2s1w1s;stopwalking}
 	{baal} {2s14w6s6w1n;stopwalking}
+	{mon} {2s4e6s2w;open gate;1s1w;open door;1w1d1w;open door s;1s;open door s;1s;enter portal;1u5n1s1d}
 }
 
 
