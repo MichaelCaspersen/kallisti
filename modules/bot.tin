@@ -741,7 +741,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {You can't do that here.} {cleartarget;#if {"$MSDP_AREA_NAME"=="The Island of Na'Kana"} {#path w}}
 
-#action {You aren't in the same group as the person currently fighting a spectacled cormorant.} {cleartarget}
+#action {You aren't in the same group as the person currently fighting %1.} {cleartarget}
 
 
 #function findtarget {
