@@ -936,7 +936,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
-#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
+#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
 
 
 #NOP #######################################################
