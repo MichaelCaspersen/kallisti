@@ -948,7 +948,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You try to ride %1, but you fall on your butt.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 #action {You lose control and fall off of %1.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 
-#action {You had better stand up first.} {stand}
+#action {You had better stand up first.} {stand;ride $bot[mount][name]}
 
 #function gotFollowers {
 	#var followers 0;
@@ -1210,13 +1210,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #ac {A lamia stands here, searching for her next meal.} {settarget 999 @mob_count{"%1"} lamia 40 60 1}
 
 
-
-
 #NOP ################ Thri-Kreen
 #alias gothri {2s21e6s3e4s}
-
-
-
 #ac {A brown colored thri-kreen moves about here, surveying the area.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
 #ac {An experienced looking thri-kreen strides about.}  {settarget 999 @mob_count{"%1"} thri 40 75 1}
 #ac {A thri-kreen is here, looking for danger.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
