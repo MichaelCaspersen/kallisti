@@ -946,6 +946,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {The gust of wind knocks you to the ground.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 #action {You try to ride %1, but you fall on your butt.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
+#action {You lose control and fall off of %1.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 
 #action {You had better stand up first.} {stand}
 
@@ -1089,7 +1090,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #VARIABLE {goto}
 {
-    {atoll} {8s1w2s1e29s9w2s1w1s1w1s1w1d1s1e1s4e;enter portal}
+    {atoll} {8s1w2s1e29s9w3s1w1s1w1s1w1d1s1e1s4e;enter portal}
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n;stopwalking}
 	{godspike} {8s1w2s1e7s19w2s2w4n4w1s;stopwalking}
 	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w;stopwalking}
