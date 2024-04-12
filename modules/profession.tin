@@ -7,7 +7,7 @@
 Commands:\n
 \tprofon <profession> / profoff      profreset \n
 \ttanon / tanoff  \n
-\tAlias: skinlist  \n
+\tAlias:   \n
 \n
 }
 
@@ -42,10 +42,39 @@ Commands:\n
 	generate_profession_info;
 	#show Will start gathering: %1;
 	#SWITCH {"%1"} {
-		#CASE {"skinning"} {#var profession[gather][type] %1;#var profession[gather][all] 0};
-		#CASE {"butcher"} {#var profession[gather][type] %1;#var profession[gather][all] 0};
-		#CASE {"extract"} {#var profession[gather][type] %1;#var profession[gather][all] 0};
-		#CASE {"all"} {#var profession[gather][all] 1};
+		#CASE {"skinning"} {
+			#var profession[gather][type] skinning;
+			#var profession[str_mat] {hide};
+			#var profession[str_corpse] {skin corpse};
+			#var profession[str_pickup] {get all.hide};
+			#var profession[str_action] {tan hide};
+			#var profession[str_sack] {sac hide};
+			#var profession[refine_location] {visit houseofanasasi;e};
+			#var profession[gather][all] 0
+		};
+		#CASE {"butcher"} {
+			#var profession[gather][type] %1;
+			#var profession[str_mat] {meat};
+			#var profession[str_corpse] {butcher corpse};
+			#var profession[str_pickup] {get all.meat};
+			#var profession[str_action] {cook meat};
+			#var profession[str_sack] {sac meat};
+			#var profession[refine_location] {visit houseofanasasi;e};
+			#var profession[gather][all] 0
+		};
+		#CASE {"extract"} {
+			#var profession[gather][type] %1;
+			#var profession[str_mat] {bone};
+			#var profession[str_corpse] {extract corpse};
+			#var profession[str_pickup] {get all.bone};
+			#var profession[str_action] {bonecraft bone};
+			#var profession[str_sack] {sac bone};
+			#var profession[refine_location] {visit houseofanasasi;e};
+			#var profession[gather][all] 0
+		};
+		#CASE {"all"} {
+			#var profession[gather][all] 1
+		};
 		#DEFAULT {#show Not a supported profession}
 	}
 }
@@ -95,101 +124,45 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
+
+
+#NOP #######################################################
+#NOP Professions - Gathering;
+#NOP #######################################################
+
 #alias {do_gather} {
-	#SWITCH {"$profession[gather][type]"} {
-		#CASE {"skinning"} {do_skin %1};
-		#CASE {"butcher"} {do_butcher %1};
-		#CASE {"extract"} {do_extract %1};
-		#DEFAULT {#nop}
-	}; 
-}
-
-
-
-
-#NOP #######################################################
-#NOP Professions - Skinning;
-#NOP #######################################################
-
-#NOP Entered new zone, update corpses to be skinned
-
-#alias {do_skin} {
+	#show <121><<< $profession[gather][type] ? %0 >>>;
 	#if $profession[gather][auto] {
 		#if $profession[gather][all] {
-			queueAdd any {skin corpse};
+			queueAdd any { $profession[str_corpse]};
 		};#else {
-			#show <121><<< Skin? %0 >>>;
-			#if { &zone[skinlist]["%0"]>0 } {
-				queueAdd any {skin corpse};
+			#if { &zone[proflist]["%0"]>0 } {
+				queueAdd any { $profession[str_corpse] };
 			}
 		}
 	}
 }
 
 
-#ACTION {You skin some %1 hide from} {
-	#show Skin type:[<131>%1];
+#ACTION {You {skin|extract|butcher} some %1 {hide|bone|meat} from} {
+	#show $profession[str_mat] type:[<131>%1];
 	#math profession[gather][total] {$profession[gather][total]+1};
 	#switch {"%1"} {
-		#case {"junk"} {sac hide};
-		#case {"rough"} {sac hide};
-		#case {"average"} {donate hide home};
+		#case {"junk"} { $profession[str_sack] };
+		#case {"rough"} { $profession[str_sack] };
+		#case {"average"} {donate $profession[str_mat] home};
 		#default {
 			#if { "$profession[gather][receiver]"=="" } {
-				donate hide home;
+				donate $profession[str_mat] home;
 			};
 			#else {
-				give hide $profession[gather][receiver];
+				give $profession[str_mat] $profession[gather][receiver];
 			};
 			#math profession[gather][success] {$profession[gather][success]+1}
 		}
 	};
 	generate_profession_info;
 }
-
-
-
-#NOP #######################################################
-#NOP Professions - Chirurgy;
-#NOP #######################################################
-
-#NOP Entered new zone, update corpses to be extracted
-#var zone[extractlist] {{"A kakapo"}{} {"A puffin"}{} {"A giant petrel"}{} {"A common murre"}{} {"A skua"}{} {"A northern gannet"}{} {"A sooty tern"}{} {"A weka"}{} {"A takahe"}{} {"A pelegornis"}{} {"A royal albatross"}{} {"A spectacled cormorant"}{} {"A giant moa"}};
-
-#alias {do_extract} {
-	#if $profession[gather][auto] {
-		#if $profession[gather][all] {
-			queueAdd priority {extract corpse};
-		};#else {
-			#show <121><<< Extract? %0 >>>;
-			#if { &zone[extractlist]["%0"]>0 } {
-				queueAdd priority {extract corpse};
-			}
-		}
-	}
-}
-
-
-#ACTION {You extract some %1 bone from} {
-	#show Bone type:[<131>%1];
-	#math profession[gather][total] {$profession[gather][total]+1};
-	#switch {"%1"} {
-		#case {"junk"} {sac bone};
-		#case {"rough"} {sac bone};
-		#case {"average"} {donate bone home};
-		#default {
-			#if { "$profession[gather][receiver]"=="" } {
-				donate bone home;
-			};
-			#else {
-				give bone $profession[gather][receiver];
-			};
-			#math profession[gather][success] {$profession[gather][success]+1}
-		}
-	};
-	generate_profession_info;
-}
-
 
 
 #NOP #######################################################
