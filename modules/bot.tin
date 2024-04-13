@@ -95,6 +95,25 @@ init bot[rescue2] preferences off;
 
 #alias bot_init {
 	#NOP #######################################################;
+	#NOP Account Specific:										;
+	#NOP #######################################################;
+	#switch {"$MSDP_ACCOUNT_NAME"} {
+		#case {"HouseOfAnasasi"} {
+			#var communication[left] {&r<&09<&09<&0d<&0f<&--};
+			#var communication[right] {&0f>&0d>&09>&09>&r>&--};
+		};
+		#case {"Eremitage"} {
+			#var communication[left] {&02-&0a~&03=&0b>&0b#&--};
+			#var communication[right] {&0b#&03<&0b=&0a~&02-&--};
+		};
+		#case {"Kruoill"} {
+			#var communication[left] {&0f.&0eo&06o&0cO&04*&--};
+			#var communication[right] {&04*&0cO&06o&0eo&0f.&--};
+		};
+	}
+	
+
+	#NOP #######################################################;
 	#NOP Class Specific: Necromancer							;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Necromancer" } {
@@ -630,7 +649,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#path get position zone[pathid];
 	#math zone[remainingsteps] {$zone[pathlen]-$zone[pathid]};
 	#show <Ffff><B595>Zone loaded: $zone[name]   steps: $zone[pathlen]   path: [$zone[path_current]/$zone[path_total]];
-	gt Zone loaded: $zone[name]   steps: $zone[pathlen]   path: [$zone[path_current]/$zone[path_total]];
+	gt $communication[left] Zone loaded: $zone[name]   steps: $zone[pathlen]   path: [$zone[path_current]/$zone[path_total]] $communication[right];
 }
 
 #alias zone_end {
@@ -638,7 +657,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#math zone[exp_earned] {$MSDP_EXPERIENCE-$zone[exp_start]};
 	#math zone[runtime-sec] { $zone[runtime] % 60 };
 	#math zone[runtime-min] { $zone[runtime] / 60 };
-	gt <<< Zone: $zone[name], path [$zone[path_current] of $zone[path_total]] finished in $zone[runtime-min]m $zone[runtime-sec]s, $zone[kills] kills earned us @pretty_number{$zone[gold_earned]} gold and gained @pretty_number{$zone[exp_earned]} exp >>>;
+	gt $communication[left] Zone: $zone[name], path [$zone[path_current] of $zone[path_total]] finished in $zone[runtime-min]m $zone[runtime-sec]s, $zone[kills] kills earned us @pretty_number{$zone[gold_earned]} gold and gained @pretty_number{$zone[exp_earned]} exp $communication[right];
 	#var zone[active] 0;
 	updatezonelastrun {$zone[name]}; #nop set zone last run to MSDP_UPTIME;
 	#var zone[name] {};
@@ -659,7 +678,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	#if { $zone[path_total]>1 } {
 		#if { $zone[path_current]<$zone[path_total] } { 
 			#math zone[path_current] {$zone[path_current]+1};
-			#show <Ffff><Bc95>Short break 5s then we proceed with next path: $zone[path_current];
+			gt $communication[left] Short break 5s then we proceed with next path: $zone[path_current] $communication[right];
 			#delay loadpath {zone_load $zone[path_current];botmove 1} 5;
 		};
 	};
@@ -766,7 +785,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias {settarget %1 %2 %3 %4 %5 %6} {
 	#if { ($MSDP_GROUPLEVEL>=%4 && $MSDP_GROUPLEVEL<=%5) } {
 		#if {%2>%1} { #nop are there more mobs left %2 than allowed to fight %1;
-			#show <F333><B595>TARGET IGNORE: %2 present, will max fight %1
+			gt $communication[left] TARGET IGNORE: %2 present, will max fight %1 $communication[right];
 		};
 		#else {
 			#list targetlist[%6] add %3;
@@ -1066,7 +1085,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 						}
 					}
 				};#else {
-					gt whole group is not here;
+					#show whole group is not here;
 					#unticker startwalking;
 					rally;
 				}
@@ -1084,7 +1103,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias stopwalking {
 	#untick startwalking;
-	gt <<< Welcome to: $MSDP_AREA_NAME >>>;
+	#show <<< Welcome to: $MSDP_AREA_NAME >>>;
 }
 
 
@@ -1109,7 +1128,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP ############### HUNT
 #ac {You start searching for tracks but then realize %1 is right here!} {#show <131> Found target %1!}
 #ac {^[* You see your target's tracks leading %1. *]} {#if {"$toggle[hunt]"=="on"} {smart_move %1}}
-#ac {[* You found %1! *]} {#show <131> Found target %1!}
+#ac {[* You found %1! *]} {gt $communication[left] Found target: %1 $communication[right]}
 
 
 
