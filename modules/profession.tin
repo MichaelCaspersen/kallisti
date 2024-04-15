@@ -40,6 +40,7 @@ Commands:\n
 #alias profon 	{
 	#var profession[gather][auto] 1;
 	generate_profession_info;
+	highlight_materials_on;
 	#show Will start gathering: %1;
 	#SWITCH {"%1"} {
 		#CASE {"skinning"} {
@@ -78,9 +79,46 @@ Commands:\n
 		#DEFAULT {#show Not a supported profession}
 	}
 }
-#alias profoff 	{#var profession[gather][auto] 0;generate_profession_info;#show Will no longer gather anything;#var profession[gather][all] 0}
+#alias profoff 	{#var profession[gather][auto] 0;highlight_materials_off;generate_profession_info;#show Will no longer gather anything;#var profession[gather][all] 0}
 #alias {profreset} {#var profession[gather][success] 0;#var profession[gather][total] 0;generate_profession_info;}
 
+#alias highlight_materials_on {
+	#highlight {average hide} {reverse underscore Jade};
+	#highlight {good hide} {reverse underscore Jade};
+	#highlight {excellent hide} {reverse underscore Jade};
+	#highlight {superior hide} {reverse underscore Jade};
+	#highlight {pristine hide} {reverse underscore Jade};
+	#highlight {exquisite hide} {reverse underscore Jade};
+	#highlight {flawless hide} {reverse underscore Jade};
+	#highlight {divine hide} {reverse underscore Jade};
+	#highlight {average bone} {reverse underscore Jade};
+	#highlight {good bone} {reverse underscore Jade};
+	#highlight {excellent bone} {reverse underscore Jade};
+	#highlight {superior bone} {reverse underscore Jade};
+	#highlight {pristine bone} {reverse underscore Jade};
+	#highlight {exquisite bone} {reverse underscore Jade};
+	#highlight {flawless bone} {reverse underscore Jade};
+	#highlight {divine bone} {reverse underscore Jade};
+}
+
+#alias highlight_materials_off {
+	#unhighlight {average hide} {reverse underscore Jade};
+	#unhighlight {good hide} {reverse underscore Jade};
+	#unhighlight {excellent hide} {reverse underscore Jade};
+	#unhighlight {superior hide} {reverse underscore Jade};
+	#unhighlight {pristine hide} {reverse underscore Jade};
+	#unhighlight {exquisite hide} {reverse underscore Jade};
+	#unhighlight {flawless hide} {reverse underscore Jade};
+	#unhighlight {divine hide} {reverse underscore Jade};
+	#unhighlight {average bone} {reverse underscore Jade};
+	#unhighlight {good bone} {reverse underscore Jade};
+	#unhighlight {excellent bone} {reverse underscore Jade};
+	#unhighlight {superior bone} {reverse underscore Jade};
+	#unhighlight {pristine bone} {reverse underscore Jade};
+	#unhighlight {exquisite bone} {reverse underscore Jade};
+	#unhighlight {flawless bone} {reverse underscore Jade};
+	#unhighlight {divine bone} {reverse underscore Jade};
+}
 
 #nop Refining can be: tan, cook, carve
 #var profession[refining][type] tanning
@@ -131,15 +169,12 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 
 #alias {do_gather} {
-	show_debug {<121><<< 1. $profession[gather][type] ? >>%0<<   , in list: &zone[proflist]["%0"] >>>};
+	show_debug {<121><<< $profession[gather][type] ? >>%0<<   , in list: &zone[proflist]["%0"] >>>};
 	#if $profession[gather][auto] {
-		show_debug {<121><<< 2. $profession[gather][type] ? %0   , in list: &zone[proflist]["%0"] >>>};
 		#if $profession[gather][all] {
 			queueAdd any { $profession[str_corpse]};
 		};#else {
-			show_debug {<121><<< 3. $profession[gather][type] ? %0   , in list: &zone[proflist]["%0"] >>>};
 			#if { &zone[proflist]["%0"]>0 } {
-				show_debug {<121><<< 4. $profession[gather][type] ? %0   , in list: &zone[proflist]["%0"] >>>};
 				queueAdd any { $profession[str_corpse] };
 			}
 		}
@@ -148,7 +183,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 
 #ACTION {You {skin|extract|butcher} some %1 {hide|bone|meat} from} {
-	#show $profession[str_mat] type:[<131>%1];
+	show_debug $profession[str_mat] type:[<131>%1];
 	#math profession[gather][total] {$profession[gather][total]+1};
 	#switch {"%1"} {
 		#case {"junk"} { $profession[str_sack] };

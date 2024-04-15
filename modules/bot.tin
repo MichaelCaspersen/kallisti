@@ -603,7 +603,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[maxlevel] 60;
 			#var zone[path_total] 1;
 			#var zone[path] {w;n;n;n;u;d;w;s;w;w;n;e;w;w;w;u;d;s;s;e;s;w;s;e;n;w;s;s;s;u;d;e;e;e;w;n;w;e;e;w;n;w;e;e;s;e;n;w;n;w;s;w;n;n;e;e;w;w;s;e;e;e;e};
-			#var zone[proflist] {{"The black lamia"}{} {"The lamia"}{} {"mimic"}{} {"target3"}};
+			#var zone[proflist] {{"The black lamia "}{} {"The lamia "}{} {"mimic "}{} {"target3"}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"Baramon Ingrol"} {
@@ -616,7 +616,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[path2] {nco enter tree;e;e;e;e;e;n;e;n;n;n;n;e;e;e;e;n;e;e;s;e;e;e;e;s;s;s;s;e;s;s;w;s;s;s;s;w;w;w;w;s;w;w;n;w;w;w;w;n;n;n;n;w;n;e;e};
 			#var zone[path3] {d;s;e;s;e;nco enter rock;w;s;e;s;e;e;n;e;n;nco enter rock;e;e;n;e;n;n;w;n;w;nco enter rock;n;n;w;n;w;w;s;w;s;nco enter rock;n;w;s;w;s};
 			#var zone[path4] {e;e;e;s;n;n;e;n;n;s;s;e;s;e;e;w;w;s;s;w;s;s};
-			#var zone[proflist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}{} {"A fledgling fire drake"}{} {"A chubby troll"}{} {"A fearless bear"}{} {"A koala bear"}{}};
+			#var zone[proflist] {{"Sabrael "}{} {"Melkyal "}{} {"Barbelo of The Four "}{} {"Empyrean "}{} {"A cave monster "}{} {"A tunnel protector "}{} {"A tunnel hermit "}{} {"A dark halfling "}{} {"A fledgling fire drake "}{} {"A chubby troll "}{} {"A fearless bear "}{} {"A koala bear "}{}};
 			
 
 			#var zone[allowAOE] 0;
@@ -629,7 +629,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[path_total] 1;
 			#nop var zone[path] {n;s;s;n;u;n;s;s;n;u;n;s;s;n;u;e;s;e;e;e;s;s;e;w;w;d;s;n;u;e;n;n;w;u;u;n;w;n;e;e;s;w;n;u;e;n;e;u;n;d;n;s;s;n;d;n;s;s;n;d;n;s;s;n;3u1s1d1w1s1w1d2s2d2w1n1w3d};
 			#var zone[path] {mrun 32055;mrun 32056;mrun 32055;mrun 32057;mrun 32055;mrun 32052;mrun 32053;mrun 32052;mrun 32054;mrun 32052;mrun 32049;mrun 32050;mrun 32049;mrun 32051;mrun 32049;mrun 32048;mrun 32047;mrun 32046;mrun 32040;mrun 32039;mrun 32041;mrun 32042;mrun 32043;mrun 32044;mrun 32043;mrun 32045;mrun 32061;mrun 32062;mrun 32061;mrun 32045;mrun 32043;mrun 32042;mrun 32041;mrun 32039;mrun 32038;mrun 32017;mrun 32014;mrun 32015;mrun 32013;mrun 32011;mrun 32012;mrun 32016;mrun 32014;mrun 32011;mrun 32010;mrun 32018;mrun 32019;mrun 32020;mrun 32021;mrun 32023;mrun 32025;mrun 32023;mrun 32026;mrun 32023;mrun 32024;mrun 32027;mrun 32024;mrun 32028;mrun 32024;mrun 32029;mrun 32030;mrun 32029;mrun 32031;mrun 32039;mrun 32055};
-			#var zone[proflist] {{"A kakapo"}{} {"A puffin"}{} {"A giant petrel"}{} {"A common murre"}{} {"A skua"}{} {"A northern gannet"}{} {"A sooty tern"}{} {"A weka"}{} {"A takahe"}{} {"A pelegornis"}{} {"A royal albatross"}{} {"A spectacled cormorant"}{} {"A giant moa"}};
+			#var zone[proflist] {{"A kakapo "}{} {"A puffin "}{} {"A giant petrel "}{} {"A common murre "}{} {"A skua "}{} {"A northern gannet "}{} {"A sooty tern "}{} {"A weka "}{} {"A takahe "}{} {"A pelegornis "}{} {"A royal albatross "}{} {"A spectacled cormorant "}{} {"A giant moa "}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"Pillar Maze"} {
@@ -639,7 +639,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[startroom] 1000;
 			#var zone[path_total] 1;
 			#var zone[path] {n;u;d;w;s;s;n;e;d;n;w;w;u;u;u;u;s;n;e;e;s;w;d;w;e;d;w;s;s;e;n;e;d;w;w;s;n;u;u;s;w;e;w;e;w;d;s;u;n;w;enter pillar};
-			#var zone[proflist] {"maze keeper"};
+			#var zone[proflist] {"maze keeper "};
 			#var zone[allowAOE] 1;
 		};
 	};
