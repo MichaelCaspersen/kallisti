@@ -110,7 +110,7 @@ init bot[rescue2] preferences off;
 			#var communication[left] {&0f.&0eo&06o&0cO&04*&--};
 			#var communication[right] {&04*&0cO&06o&0eo&0f.&--};
 		};
-	}
+	};
 	
 
 	#NOP #######################################################;
@@ -1065,7 +1065,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
     #local {i} {};
     #foreach {*{goto[]}} {i}
     {
-        #echo {$i - ${goto[$i]}}
+        #echo {<170>$i - <130>${goto[$i]}&--;}
     }
 }
 {8}
@@ -1077,48 +1077,51 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		{
 			#path unzip ${goto[%1]};
 			#ticker startwalking {
-				#if {@groupIsPresent{}} {
-					#if { ("@findtarget{}"=="") } {
-						#path w
-					} {
-						#if {@is_group_fighting{}==0} {
-							kill @findtarget{}
-						}
+				#if { (@groupIsPresent{}) && (@is_group_fighting{}==0)} {
+					#if { "@findtarget{}"==""} {
+						#path w;
+						#path get position temp_pos;
+						#path get length temp_len;
+						#show GOTO PATH: $temp_pos of $temp_len;
+						#if { $temp_pos == ($temp_len+1) } { stopwalking }
+				} {
+						kill @findtarget{}
 					}
 				};#else {
 					#show whole group is not here;
 					#unticker startwalking;
 					rally;
 				}
-			} {0.4};
+			} {0.5};
 		};
 		#else {
-			#echo {No location "%1" found. Use "goto list" for a list of locations.}
+			#echo {<170>No location "%1" found. Use "goto list" for a list of locations.}
 		}
 	};
 	#else	{
-		#echo {Please invoke goto from the Midgaard temple.}
+		#echo {<170>Please invoke goto from the Midgaard temple.}
 	}
 }
 {9}
 
 #alias stopwalking {
 	#untick startwalking;
-	#show <<< Welcome to: $MSDP_AREA_NAME >>>;
+	#show <130><<< Welcome to: $MSDP_AREA_NAME >>>;
 }
 
 
 #VARIABLE {goto}
 {
     {atoll} {8s1w2s1e29s9w3s1w1s1w1s1w1d1s1e1s4e;enter portal}
-    {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n;stopwalking}
-	{godspike} {8s1w2s1e7s19w2s2w4n4w1s;stopwalking}
-	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w;stopwalking}
-	{naka} {2s14e14n1e3n5e1d4e1s4e2n4e1u;stopwalking}
-	{meta} {2s14w;enter tree;open door;1w;stopwalking}
-	{thalos} {2s21e6s2e3s1w;stopwalking}
-	{skarpsky} {8s1w2s1e14s2w2n2w1n3w2s1w1s;stopwalking}
-	{baal} {2s14w6s6w1n;stopwalking}
+	{cult} {2s11w7n9w19n}
+    {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n}
+	{godspike} {8s1w2s1e7s19w2s2w4n4w1s}
+	{ravenloft} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1e1n4w}
+	{naka} {2s14e14n1e3n5e1d4e1s4e2n4e1u}
+	{meta} {2s14w;enter tree;open door;1w}
+	{thalos} {2s21e6s2e3s1w}
+	{skarpsky} {8s1w2s1e14s2w2n2w1n3w2s1w1s}
+	{baal} {2s14w6s6w1n}
 	{mon} {2s4e6s2w;open gate;1s1w;open door;1w1d1w;open door s;1s;open door s;1s;enter portal;1u5n1s1d}
 	{saltmarsh} {2s7e6s3e3s1e1s1e1s1e2s1e1n}
 	{eros} {1n1e3n1w1d3s3e1s}
