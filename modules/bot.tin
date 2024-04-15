@@ -110,7 +110,7 @@ init bot[rescue2] preferences off;
 			#var communication[left] {&0f.&0eo&06o&0cO&04*&--};
 			#var communication[right] {&04*&0cO&06o&0eo&0f.&--};
 		};
-	}
+	};
 	
 
 	#NOP #######################################################;
