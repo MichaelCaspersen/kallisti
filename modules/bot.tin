@@ -1064,7 +1064,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
     #local {i} {};
     #foreach {*{goto[]}} {i}
     {
-        #echo {$i - ${goto[$i]}}
+        #echo {<170>$i - <130>${goto[$i]}&--;}
     }
 }
 {8}
