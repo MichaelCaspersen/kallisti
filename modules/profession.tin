@@ -83,6 +83,8 @@ Commands:\n
 #alias {profreset} {#var profession[gather][success] 0;#var profession[gather][total] 0;generate_profession_info;}
 
 #alias highlight_materials_on {
+	#highlight {junk hide} {reverse underscore Pink};
+	#highlight {rough hide} {reverse underscore Pink};
 	#highlight {average hide} {reverse underscore Jade};
 	#highlight {good hide} {reverse underscore Jade};
 	#highlight {excellent hide} {reverse underscore Jade};
@@ -91,6 +93,8 @@ Commands:\n
 	#highlight {exquisite hide} {reverse underscore Jade};
 	#highlight {flawless hide} {reverse underscore Jade};
 	#highlight {divine hide} {reverse underscore Jade};
+	#highlight {junk bone} {reverse underscore Pink};
+	#highlight {rough bone} {reverse underscore Pink};
 	#highlight {average bone} {reverse underscore Jade};
 	#highlight {good bone} {reverse underscore Jade};
 	#highlight {excellent bone} {reverse underscore Jade};
@@ -102,22 +106,26 @@ Commands:\n
 }
 
 #alias highlight_materials_off {
-	#unhighlight {average hide} {reverse underscore Jade};
-	#unhighlight {good hide} {reverse underscore Jade};
-	#unhighlight {excellent hide} {reverse underscore Jade};
-	#unhighlight {superior hide} {reverse underscore Jade};
-	#unhighlight {pristine hide} {reverse underscore Jade};
-	#unhighlight {exquisite hide} {reverse underscore Jade};
-	#unhighlight {flawless hide} {reverse underscore Jade};
-	#unhighlight {divine hide} {reverse underscore Jade};
-	#unhighlight {average bone} {reverse underscore Jade};
-	#unhighlight {good bone} {reverse underscore Jade};
-	#unhighlight {excellent bone} {reverse underscore Jade};
-	#unhighlight {superior bone} {reverse underscore Jade};
-	#unhighlight {pristine bone} {reverse underscore Jade};
-	#unhighlight {exquisite bone} {reverse underscore Jade};
-	#unhighlight {flawless bone} {reverse underscore Jade};
-	#unhighlight {divine bone} {reverse underscore Jade};
+	#unhighlight {junk hide};
+	#unhighlight {rough hide};
+	#unhighlight {average hide};
+	#unhighlight {good hide};
+	#unhighlight {excellent hide};
+	#unhighlight {superior hide};
+	#unhighlight {pristine hide};
+	#unhighlight {exquisite hide};
+	#unhighlight {flawless hide};
+	#unhighlight {divine hide};
+	#unhighlight {junk bone};
+	#unhighlight {rough bone};
+	#unhighlight {average bone};
+	#unhighlight {good bone};
+	#unhighlight {excellent bone};
+	#unhighlight {superior bone};
+	#unhighlight {pristine bone};
+	#unhighlight {exquisite bone};
+	#unhighlight {flawless bone};
+	#unhighlight {divine bone};
 }
 
 #nop Refining can be: tan, cook, carve
