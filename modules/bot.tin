@@ -994,7 +994,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			};	
 		}
 	};
-	show_debug %0 : $profession[gather][auto];
 	#if {$profession[gather][auto]} { do_gather {%0} };
 	#if {@gotFollowers{}>0} { get gold all.corpse };
 	#if {"$bot[hide]"!==""} { $bot[hide] };
