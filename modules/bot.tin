@@ -1076,17 +1076,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		{
 			#path unzip ${goto[%1]};
 			#ticker startwalking {
-				#if {@groupIsPresent{}} {
-					#if { ("@findtarget{}"=="") } {
+				#if { (@groupIsPresent{}) && (@is_group_fighting{}==0)} {
+					#if { "@findtarget{}"==""} {
 						#path w;
 						#path get position temp_pos;
 						#path get length temp_len;
 						#show GOTO PATH: $temp_pos of $temp_len;
 						#if { $temp_pos == ($temp_len+1) } { stopwalking }
 				} {
-						#if {@is_group_fighting{}==0} {
-							kill @findtarget{}
-						}
+						kill @findtarget{}
 					}
 				};#else {
 					#show whole group is not here;
@@ -1096,18 +1094,18 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			} {0.4};
 		};
 		#else {
-			#echo {No location "%1" found. Use "goto list" for a list of locations.}
+			#echo {<170>No location "%1" found. Use "goto list" for a list of locations.}
 		}
 	};
 	#else	{
-		#echo {Please invoke goto from the Midgaard temple.}
+		#echo {<170>Please invoke goto from the Midgaard temple.}
 	}
 }
 {9}
 
 #alias stopwalking {
 	#untick startwalking;
-	#show <<< Welcome to: $MSDP_AREA_NAME >>>;
+	#show <130><<< Welcome to: $MSDP_AREA_NAME >>>;
 }
 
 
