@@ -1080,7 +1080,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 					#if { ("@findtarget{}"=="") } {
 						#path w;
 						#path get position temp_pos;
-						#path get position temp_len;
+						#path get length temp_len;
 						#show GOTO PATH: $temp_pos of $temp_len;
 						#if { $temp_pos == $temp_len } { stopwalking }
 				} {
