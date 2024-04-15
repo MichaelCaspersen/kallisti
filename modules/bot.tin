@@ -1082,7 +1082,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 						#path get position temp_pos;
 						#path get length temp_len;
 						#show GOTO PATH: $temp_pos of $temp_len;
-						#if { $temp_pos == $temp_len } { stopwalking }
+						#if { $temp_pos == ($temp_len+1) } { stopwalking }
 				} {
 						#if {@is_group_fighting{}==0} {
 							kill @findtarget{}
