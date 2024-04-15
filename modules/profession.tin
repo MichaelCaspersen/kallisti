@@ -131,7 +131,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 
 #alias {do_gather} {
-	show_debug {<121><<< $profession[gather][type] ? %0 >>>};
+	show_debug {<121><<< $profession[gather][type] ? %0   , in list: &zone[proflist]["%0"] >>>};
 	#if $profession[gather][auto] {
 		#if $profession[gather][all] {
 			queueAdd any { $profession[str_corpse]};
