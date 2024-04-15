@@ -1091,7 +1091,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 					#unticker startwalking;
 					rally;
 				}
-			} {0.4};
+			} {0.5};
 		};
 		#else {
 			#echo {<170>No location "%1" found. Use "goto list" for a list of locations.}
