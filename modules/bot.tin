@@ -697,19 +697,19 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;
 	#switch {"$MSDP_AREA_NAME"} {
 		#case {"Thalos City"} {
-			#var zone[proflist] {{"lamia"}{} {"mimic"}{} {"target3"}};
+			#var zone[proflist] {{"lamia "}{} {"mimic "}{} {"target3 "}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"Baramon Ingrol"} {
-			#var zone[proflist] {{"Sabrael"}{} {"Melkyal"}{} {"Barbelo of The Four"}{} {"Empyrean"}{} {"A cave monster"}{} {"A tunnel protector"}{} {"A tunnel hermit"}{} {"A dark halfling"}{} {"A fledgling fire drake"}{} {"A chubby troll"}{} {"A fearless bear"}{} {"A koala bear"}{}};
+			#var zone[proflist] {{"Sabrael "}{} {"Melkyal "}{} {"Barbelo of The Four "}{} {"Empyrean "}{} {"A cave monster "}{} {"A tunnel protector "}{} {"A tunnel hermit "}{} {"A dark halfling "}{} {"A fledgling fire drake "}{} {"A chubby troll "}{} {"A fearless bear "}{} {"A koala bear "}{}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"The Island of Na'Kana"} {
-			#var zone[proflist] {{"A kakapo"}{} {"A puffin"}{} {"A giant petrel"}{} {"A common murre"}{} {"A skua"}{} {"A northern gannet"}{} {"A sooty tern"}{} {"A weka"}{} {"A takahe"}{} {"A pelegornis"}{} {"A royal albatross"}{} {"A spectacled cormorant"}{} {"A giant moa"}};
+			#var zone[proflist] {{"A kakapo "}{} {"A puffin "}{} {"A giant petrel "}{} {"A common murre "}{} {"A skua "}{} {"A northern gannet "}{} {"A sooty tern "}{} {"A weka "}{} {"A takahe "}{} {"A pelegornis "}{} {"A royal albatross "}{} {"A spectacled cormorant "}{} {"A giant moa "}};
 			#var zone[allowAOE] 0;
 		};
 		#case {"Pillar Maze"} {
-			#var zone[proflist] {"maze keeper"};
+			#var zone[proflist] {"maze keeper "};
 			#var zone[allowAOE] 1;
 		};
 	};
