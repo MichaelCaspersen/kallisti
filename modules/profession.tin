@@ -36,6 +36,7 @@ Commands:\n
 #var profession[gather][success] 0
 #var profession[gather][total] 0
 #var profession[gather][receiver] {} ;#nop Empty will donate to own house, or else to <value> house
+#var profession[gather][selling] 1;
 
 #alias profon 	{
 	#var profession[gather][auto] 1;
@@ -359,9 +360,14 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 			pickup_mats;
 		};
 		#if {"$profession[gather][type]"=="skinning"} {
-			#var profession[refining][reset] 0;
-			2s3es;
-			sell leather;
+			#if $profession[gather][selling] {
+				#var profession[refining][reset] 0;
+				2s3es;
+				sell leather;
+			}; #else {
+				drop all.leather;
+				pickup_mats;
+			}
 		};
 	};
 	#else {
