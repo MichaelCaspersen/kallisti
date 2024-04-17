@@ -135,6 +135,11 @@
 }
 
 
+#alias {^mark clear$}
+{
+    #map set roomsymbol {};
+}
+
 #alias {^mark wolf$}
 {
     #map set roomsymbol {[🐺]};

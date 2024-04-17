@@ -62,6 +62,9 @@ Commands:\n
 #alias {set_left_tile %1 %2 %3 %4 %5} {
 	#var left_tiles[%1] {{color}{%2}{content}{%3}{height}{%4}{type}{%5}}
 }
+#alias {set_map_tile %1 %2 %3 %4 %5} {
+	#var map_tiles[%1] {{color}{%2}{content}{%3}{height}{%4}{type}{%5}}
+}
 
 
 #event {SCREEN RESIZE} { layout_init };
@@ -78,6 +81,12 @@ event_register {SESSION ACTIVATED} {layout} {layout_reset %1}
 	set_right_tile 2 <B85678f> group_info[%*] 10 tile;
 	set_right_tile 3 <B5f819d> queue_block 3 tile;
 	set_right_tile 31 <Fd5d8d6> player_info[%*] 24 tile;
+}
+
+
+#if {!&{map_tiles}} {
+	set_map_tile 1 <B5f819d> area_info 2 tile;
+	set_map_tile 2 <B85678f> group_info[%*] 10 tile;
 }
 
 #nop Let's set up something to at least have a layout
