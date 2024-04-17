@@ -353,15 +353,16 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {You must also specify what you want to {tan|carve}.} {
 	#var total_mats 0;
-	recall;
 	#if { ($profession[refining][reset]) && ($profession[refining][auto]) } {
 		#if {"$profession[gather][type]"=="extract"} {
 			#var profession[refining][reset] 0;
+			recall;
 			pickup_mats;
 		};
 		#if {"$profession[gather][type]"=="skinning"} {
 			#if $profession[gather][selling] {
 				#var profession[refining][reset] 0;
+				recall;
 				2s3es;
 				sell leather;
 			}; #else {
