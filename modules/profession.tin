@@ -159,7 +159,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		#var profession_gather_info {Gathering: Offline};	
 	};
 	#if $profession[refining][auto] {
-		#var profession_gather_info {$profession_gather_info \n$profession[refining][type]:$profession[refining][auto]}
+		#var profession_gather_info {$profession_gather_info \n$profession[refining][type]:$profession[refining][auto]   Selling:$profession[gather][selling]}
 	};#else  {
 		#var profession_gather_info {$profession_gather_info \nRefining: Offline}
 	};
