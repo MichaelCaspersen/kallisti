@@ -150,8 +150,8 @@
 		#map set roomnote {%1};
 		#var {MAP[dirty]} {1};
 	} ;#else {
-		#if {&{goto[%1]}} {
-			#map set roomsymbol { %1 };
+		#if { &{map_marks[%1]} } {
+			#map set roomsymbol { ${map_marks[%1]} };
 			#var {MAP[dirty]} {1};
 		};
 		#else {
