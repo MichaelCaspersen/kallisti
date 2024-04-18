@@ -6,11 +6,16 @@
 
 
 #nop TODO:
+#NOP Botpause
+#NOP When friending animals make sure refriendship timer starts
+#NOP When exploring using mapping layout - show group info, and nearby notes, https://github.com/Telsak/mozart/blob/master/mapper.mod
+#NOP 
 #NOP Stock up on free purples - recall scrolls;
 #NOP Other member skinning;
 #NOP Setup zone switching, go meta, resume zone, integrate commune/throne
 #NOP if fighting too many mobs, autorecall group
-#NOP EXP tracker (per tick, identify spawntime)
+#NOP EXP tracker (per tick, identify spawntime) Should be able to start for custom run/zone
+#NOP EXP tracker Cleanup existing
 
 #NOP Fix 2 x convert;
 #NOP DONE - Equ damage tracker 
