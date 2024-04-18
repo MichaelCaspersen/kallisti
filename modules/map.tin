@@ -135,99 +135,45 @@
 }
 
 
-#alias {^mark clear$}
+#ALIAS {^mark %slist$}
 {
-    #map set roomsymbol {};
+    #local {i} {};
+    #foreach {*{map_marks[]}} {i}
+    {
+        #echo {<170>$i - <130>${map_marks[$i]}&--;}
+    }
 }
+{8}
 
-#alias {^mark wolf$}
-{
-    #map set roomsymbol {[🐺]};
-    #var {MAP[dirty]} {1};
-}
-
-#alias {set roomnote %1}
-{
-    #map set roomnote {%1};
-    #var {MAP[dirty]} {1};
-}
-
-#alias {^mark key$}
-{
-    #map set roomsymbol { [🗝 \b] };
-    #var {MAP[dirty]} {1};
-}
-
-#alias {^mark smob$}
-{
-    #map set roomsymbol { [💀] };
-    #var {MAP[dirty]} {1};
-}
-
-#alias {^mark guild$}
-{
-    #map set roomsymbol {📜 \b};
-    #var {MAP[dirty]} {1};
-}
-
-#alias {^mark shop$}
-{
-    #map set roomsymbol { [🪙] };
-    #var {MAP[dirty]} {1};
+#ALIAS {^mark %1} {
+	#if { "%1" == "note" } {
+		#map set roomnote {%1};
+		#var {MAP[dirty]} {1};
+	} ;#else {
+		#if {&{goto[%1]}} {
+			#map set roomsymbol { %1 };
+			#var {MAP[dirty]} {1};
+		};
+		#else {
+			#echo {<170>Mark "%1" not found. Use "mark list" to see all possible marks.}
+		}
+	}
 };
+{9}
 
-#alias {^mark quest$}
+#VARIABLE {map_marks}
 {
-    #map set roomsymbol { [🗨] };
-    #var {MAP[dirty]} {1};
-};
-
-#alias {^mark inn$}
-{
-    #map set roomsymbol { [🛋]};
-    #var {MAP[dirty]} {1};
+    {clear} {}
+    {wolf} {[🐺]}
+	{key} {[🗝 \b]}
+    {smob} {[💀]}
+	{guild} {📜 \b}
+	{shop} {[🪙]}
+	{quest} {[🗨]}
+	{tame} {[🐆]}
+	{lever} {[⪚]}
+	{fountain} {[⛲]}
 }
-
-#alias {^mark tame$}
-{
-    #map set roomsymbol { [🐆] };
-    #var {MAP[dirty]} {1};
-};
-
-#alias {^mark spider$}
-{
-    #map set roomsymbol { [🕷] };
-    #var {MAP[dirty]} {1};
-};
-
-#alias {^mark sign$}
-{
-    #map set roomsymbol { [🪧 \b] };
-    #var {MAP[dirty]} {1};
-};
-
-#alias {^mark lever$}
-{
-    #map set roomsymbol { [⪚] };
-    #var {MAP[dirty]} {1};
-};
-
-#alias {^mark fountain$}
-{
-    #map set roomsymbol { [⛲]};
-    #var {MAP[dirty]} {1};
-}
-
-#alias {^mark berries}
-{
-    #map set roomsymbol { [🫐]};
-    #var {MAP[dirty]} {1};
-}
-
-#alias {^mark plant}
-{
-    #map set roomsymbol { [🪴 \b]}
-};
 
 #EVENT {PRESSED SECURE LINK MAP_MOVE MOUSE BUTTON ONE}
 {
