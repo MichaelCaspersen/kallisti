@@ -140,7 +140,7 @@
     #local {i} {};
     #foreach {*{map_marks[]}} {i}
     {
-        #echo {<170>$i - <130>${map_marks[$i]}&--;}
+        #echo {<170>$i - <130>${map_marks[$i]}}
     }
 }
 {8}
