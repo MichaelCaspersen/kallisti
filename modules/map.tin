@@ -158,7 +158,7 @@
 			#echo {<170>Mark "%1" not found. Use "mark list" to see all possible marks.}
 		}
 	}
-};
+}
 {9}
 
 #VARIABLE {map_marks}
