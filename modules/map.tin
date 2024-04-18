@@ -143,20 +143,25 @@
         #echo {<170>$i - <130>${map_marks[$i]}}
     }
 }
+{7}
+
+#ALIAS {^mark note %1}
+{
+	#echo Setting room note;
+	#map set roomnote {%1};
+	#var {MAP[dirty]} {1};
+}
 {8}
 
 #ALIAS {^mark %1} {
-	#if { "%1" == "note" } {
-		#map set roomnote {%1};
+	#echo mark called;
+	#if { &{map_marks[%1]} } {
+		#echo setting room symbol;
+		#map set roomsymbol { ${map_marks[%1]} };
 		#var {MAP[dirty]} {1};
-	} ;#else {
-		#if { &{map_marks[%1]} } {
-			#map set roomsymbol { ${map_marks[%1]} };
-			#var {MAP[dirty]} {1};
-		};
-		#else {
-			#echo {<170>Mark "%1" not found. Use "mark list" to see all possible marks.}
-		}
+	};
+	#else {
+		#echo {<170>Mark "%1" not found. Use "mark list" to see all possible marks.}
 	}
 }
 {9}
@@ -173,6 +178,7 @@
 	{tame} {[🐆]}
 	{lever} {[⪚]}
 	{fountain} {[⛲]}
+	{chest} {[💎]}
 }
 
 #EVENT {PRESSED SECURE LINK MAP_MOVE MOUSE BUTTON ONE}
