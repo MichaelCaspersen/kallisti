@@ -147,16 +147,13 @@
 
 #ALIAS {^mark note %1}
 {
-	#echo Setting room note;
 	#map set roomnote {%1};
 	#var {MAP[dirty]} {1};
 }
 {8}
 
 #ALIAS {^mark %1} {
-	#echo mark called;
 	#if { &{map_marks[%1]} } {
-		#echo setting room symbol;
 		#map set roomsymbol { ${map_marks[%1]} };
 		#var {MAP[dirty]} {1};
 	};
