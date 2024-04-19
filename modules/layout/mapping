@@ -17,14 +17,30 @@
 
 	#nop right config panel;
 	#draw <$tile_bg> tile -$scroll_height -${right_panel_offset} -3 @term_width{} {$area_info};
-
+	#draw <$tile_bg> tile -$scroll_height+3 -${right_panel_offset} -3 @term_width{} {$group_info[%*]};
+	
 	#buffer end
 
+	#if {&{map_tiles}} {display_map_tiles};
 	update_map_panel;
 }
 
+
+#alias {display_map_tiles} {
+    #math right_leftside {1 - ${right_panel}};
+    #math _bottom_row {$map_height};
+
+    #foreach {$map_tiles[%*]} {tile} {
+        #math _top_row {$_bottom_row + 1};
+        #math _bottom_row {$_top_row + $tile[height] - 1};
+
+        #draw $tile[color] tile $_top_row ${right_leftside} $_bottom_row -1 ${$tile[content]}
+    }
+}
+
 #alias {update_map_panel} {
-    #draw <B373b38> tile -$scroll_height -${right_panel_offset} -3 @term_width{} {};
+    #draw <B373b38> tile -$scroll_height -${right_panel_offset} -3 @term_width{} {$area_info};
+	#draw <$tile_bg> tile -$scroll_height+3 -${right_panel_offset} -3 @term_width{} {$group_info[%*]};
 };
 
 #nop -- vim: syntax=tt

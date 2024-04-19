@@ -32,8 +32,7 @@
     #draw <B373b38> tile 1 1 $top_rows -$bottom_right $bot_info[1];
 };
 
-#alias {display_right_tiles} {#nop}
-
+#if {@is_alias{display_right_tiles}} {display_right_tiles};
 #alias {layout_comms_update} {#nop};
 
 #nop -- vim: syntax=tt
