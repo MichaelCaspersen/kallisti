@@ -74,7 +74,7 @@ Commands:\n
 #var bot[nextAction] {};
 #var bot[rescue] 0;
 #var bot[mount][name] {};
-
+#var bot[examine] 1;
 
 init bot[role2] preferences damage;
 init bot[cast2] preferences on;
@@ -266,7 +266,7 @@ init bot[rescue2] preferences off;
 		#case {"2"} {
 			#var bot[poke] 1;
 			#var bot[pokecommand] {oo kill};
-			#show <Ffff><B595>Poke ON : $bot[pokecommand];
+			#show <Ffff><B595>Follower tanks ON;
 		};
 		#default {
 			#var bot[poke] 0;
@@ -960,7 +960,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
+#NOP Druid specific
 #action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
+#action {You get seasick as your ship tosses about in the rough weather.} {cast 'control weather' better}
+#action {You sail along happily.} {cast 'control weather' better}
 
 
 #NOP #######################################################
@@ -987,6 +990,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias ftank {	reform follow%1 prima; }
 
 #ACTION {%0 is dead!  R.I.P.} {
+	show_debug {<123>%0 is dead, what to do!!}
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	#if { "$MSDP_CLASS"=="Necromancer"} {
@@ -1002,6 +1006,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {$profession[gather][auto]} { do_gather %0 };
 	#if {@gotFollowers{}>0} { get gold all.corpse };
 	#if {"$bot[hide]"!==""} { $bot[hide] };
+	#if { $bot[examine] } { exa corpse };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
@@ -1013,7 +1018,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#nop {Hook name: closed.};
 	#nop {Hook args: %1 name of door %2 direction.};
 	#line substitute variables #regexp {%1} {{.*} {.*}} {open &2 $i} {open %1 $i};
-	#if {{${auto[track]}} != {}} { look	};
+	#if { "$toggle[hunt]"=="on" } { look	};
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be locked.}
@@ -1025,7 +1030,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#nop {Hook name: closed.};
 	#nop {Hook args: %1 name of door %2 direction.};
 	#line substitute variables #regexp {%1} {{.*} {.*}} {unlock &2 $i} {unlock %1 $i};
-	#if {{${auto[track]}} != {}} { look };
+	#if { "$toggle[hunt]"=="on" } { look };
 }
 
 #action {The mystic's treasure lies here. (invis)} {get all}
@@ -1208,6 +1213,28 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #action {You need to ADVANCE to reach a fire elemental with close ranged attacks.} {queueAdd combat {$bot[damage] fire}}
+
+#NOP ################ ARCHIPELAGO
+
+
+#action {A scorpion stands here bathing in the warm sun.%1} {settarget 999 @mob_count{"%1"} scorpion 50 100 1}
+#action {A sun scorpion is here looking alert.%1} {settarget 999 @mob_count{"%1"} scorpion 50 100 1}
+#action {A stout dinosaur bathes his shell in the hot sunlight.%1} {settarget 999 @mob_count{"%1"} dinosaur 50 100 1}
+#action {A rugged looking mage wanders about.%1} {settarget 999 @mob_count{"%1"} mage 50 100 1}
+#action {A proud looking monk walks solemnly past.%1} {settarget 999 @mob_count{"%1"} Darecha 50 100 1}
+
+#action {An almost metallic wyvern hovers close above.%1} {settarget 999 @mob_count{"%1"} wyvern 50 100 1}
+#action {A demon made of metal shards stands here.%1} {settarget 999 @mob_count{"%1"} demon 50 100 1}
+
+#action {A rather large snake lies nearby.%1} {settarget 999 @mob_count{"%1"} python 50 100 1}
+#action {A python is here looking alert.%1} {settarget 999 @mob_count{"%1"} python 50 100 1}
+#action {A man with the head of a lizard stands here.%1} {settarget 999 @mob_count{"%1"} lizardman 50 100 1}
+#action {A volcanic dragon is hovering here.%1} {settarget 999 @mob_count{"%1"} dragon 50 100 1}
+#action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
+#action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
+#action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
+#action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
+#action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
 
 
 

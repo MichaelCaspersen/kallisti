@@ -108,6 +108,9 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 	};
 }
 
+
+#action {%1 (your follower) ('%2') is now a group member %3.} {friend group}
+
 #action {^Renewing charm duration for %1 to %d hours.$} {
 	#if {$charmFollowerNr<$charmFollowerTotal} {
 		#math charmFollowerNr {$charmFollowerNr+1};
