@@ -270,7 +270,7 @@ init bot[rescue2] preferences off;
 		};
 		#default {
 			#var bot[poke] 0;
-			#var bot[pokecommand] {};
+			#var bot[pokecommand] {: pokes};
 			#show <Ffff><B595>Poke OFF;
 		}
 	}
@@ -1121,6 +1121,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #VARIABLE {goto}
 {
+    {boar} {8s1w2s1e21s1w1n2w1n1w1n3w2n1w4s1e2s}
     {atoll} {8s1w2s1e29s9w3s1w1s1w1s1w1d1s1e1s4e;enter portal}
 	{cult} {2s11w7n9w19n}
     {nedragaard} {2s7e24n1w2n9w1s4w1s2w1n1e3s1w1s1w1s1e1s2w2s1w1n1w1n}
@@ -1229,8 +1230,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A rather large snake lies nearby.%1} {settarget 999 @mob_count{"%1"} python 50 100 1}
 #action {A python is here looking alert.%1} {settarget 999 @mob_count{"%1"} python 50 100 1}
 #action {A man with the head of a lizard stands here.%1} {settarget 999 @mob_count{"%1"} lizardman 50 100 1}
+
 #action {A volcanic dragon is hovering here.%1} {settarget 999 @mob_count{"%1"} dragon 50 100 1}
-#action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
+#action {A huge red feathered bird looms above.%1} {settarget 999 @mob_count{"%1"} roc 50 100 2}
+
 #action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
 #action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
 #action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
