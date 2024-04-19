@@ -19,10 +19,9 @@
 	#draw <$tile_bg> tile -$scroll_height -${right_panel_offset} -3 @term_width{} {$area_info};
 	#draw <$tile_bg> tile -$scroll_height+3 -${right_panel_offset} -3 @term_width{} {$group_info[%*]};
 	
-	#buffer end
+	#buffer end;
 
 	#if {&{map_tiles}} {display_map_tiles};
-	update_map_panel;
 }
 
 
@@ -37,10 +36,5 @@
         #draw $tile[color] tile $_top_row ${right_leftside} $_bottom_row -1 ${$tile[content]}
     }
 }
-
-#alias {update_map_panel} {
-    #draw <B373b38> tile -$scroll_height -${right_panel_offset} -3 @term_width{} {$area_info};
-	#draw <$tile_bg> tile -$scroll_height+3 -${right_panel_offset} -3 @term_width{} {$group_info[%*]};
-};
 
 #nop -- vim: syntax=tt

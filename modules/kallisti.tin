@@ -127,14 +127,16 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
             {$_flags};
              #list group_info add {{$_line}};
     };
-    #if {@is_alias{display_right_tiles}} {display_right_tiles}
+    #if {@is_alias{display_right_tiles}} {display_right_tiles};
+    #if {@is_alias{display_map_tiles}} {display_map_tiles};
 }
 
 #alias generate_area_info {
     syslog right debug generate new area info - %1|%2|%3;
 	#if {@is_alias{room_event}} {room_event}; #nop in bot;
     #var area_info {${MSDP_AREA_NAME} - $MSDP_ROOM_VNUM - Auto:$bot[autozone]\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
-    #if {@is_alias{display_right_tiles}} {display_right_tiles}
+    #if {@is_alias{display_right_tiles}} {display_right_tiles};
+    #if {@is_alias{display_map_tiles}} {display_map_tiles};
 }
 
 event_register {variable MSDP_CHARACTER_NAME} {left} {update_player_info %1};
