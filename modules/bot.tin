@@ -963,6 +963,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Druid specific
 #action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
 #action {You get seasick as your ship tosses about in the rough weather.} {cast 'control weather' better}
+#action {You heave as your ship tosses about madly in the torrential rain and lightning.} {cast 'control weather' better}
 #action {You sail along happily.} {cast 'control weather' better}
 
 
@@ -1230,9 +1231,23 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A rather large snake lies nearby.%1} {settarget 999 @mob_count{"%1"} python 50 100 1}
 #action {A python is here looking alert.%1} {settarget 999 @mob_count{"%1"} python 50 100 1}
 #action {A man with the head of a lizard stands here.%1} {settarget 999 @mob_count{"%1"} lizardman 50 100 1}
+#action {A lizardman is here looking alert.%1} {settarget 999 @mob_count{"%1"} lizardman 50 100 1}
 
 #action {A volcanic dragon is hovering here.%1} {settarget 999 @mob_count{"%1"} dragon 50 100 1}
 #action {A huge red feathered bird looms above.%1} {settarget 999 @mob_count{"%1"} roc 50 100 2}
+
+#action {A quake demon is hovering here.%1} {settarget 999 @mob_count{"%1"} demon 50 100 1}
+#action {A howling dusty wind blows wildly here.%1} {settarget 999 @mob_count{"%1"} dust 50 100 2}
+#action {A slender man attempts to hide in the shadows.%1} {settarget 999 @mob_count{"%1"} Sabado 50 100 1}
+
+
+#action {A proud looking monk walks solemnly past.%1} {settarget 999 @mob_count{"%1"} Wrechlu 50 100 3}
+#action {A great paladin scours the land purging evil.%1} {settarget 999 @mob_count{"%1"} Miercoles 50 100 1}
+
+
+#action {A stealthy warrior looks to bring back a prize trophy.%1} {settarget 999 @mob_count{"%1"} Jueves  50 100 1}
+#action {A man sloshes through the marsh eyeing you closely.%1} {settarget 999 @mob_count{"%1"} Lunes 50 100 3}
+
 
 #action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
 #action {XXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 50 100 1}
