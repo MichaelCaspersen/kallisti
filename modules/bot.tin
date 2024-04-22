@@ -1094,13 +1094,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 						#path get length temp_len;
 						#show GOTO PATH: $temp_pos of $temp_len;
 						#if { $temp_pos == ($temp_len+1) } { stopwalking }
-				} {
-						kill @findtarget{}
+					};#else  {
+						#show whole group is not here;
+						#unticker startwalking;
+						rally;
 					}
 				};#else {
-					#show whole group is not here;
-					#unticker startwalking;
-					rally;
+					kill @findtarget{}
 				}
 			} {0.5};
 		};
