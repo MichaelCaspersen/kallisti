@@ -1086,9 +1086,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if {&{goto[%1]}}
 		{
 			#path unzip ${goto[%1]};
-			#ticker startwalking {
-				#if { "@findtarget{}"=="" && (@is_group_fighting{}==0)} {
-					#if { (@groupIsPresent{}) } {
+			#ticker 
+			{ startwalking } 
+			{
+				show_debug {TARGET: @findtarget{}  GroupFight: @is_group_fighting{}  GroupPresent: @groupIsPresent{}};
+				#if { ("@findtarget{}"=="") && (@is_group_fighting{}==0)} {
+					#if { @groupIsPresent{} } {
 						#path w;
 						#path get position temp_pos;
 						#path get length temp_len;
@@ -1102,7 +1105,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 				};#else {
 					kill @findtarget{}
 				}
-			} {0.5};
+			} 
+			{0.6};
 		};
 		#else {
 			#echo {<170>No location "%1" found. Use "goto list" for a list of locations.}
