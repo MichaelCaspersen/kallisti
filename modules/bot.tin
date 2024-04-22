@@ -1087,8 +1087,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		{
 			#path unzip ${goto[%1]};
 			#ticker startwalking {
-				#if { (@groupIsPresent{}) && (@is_group_fighting{}==0)} {
-					#if { "@findtarget{}"==""} {
+				#if { "@findtarget{}"=="" && (@is_group_fighting{}==0)} {
+					#if { (@groupIsPresent{}) } {
 						#path w;
 						#path get position temp_pos;
 						#path get length temp_len;
