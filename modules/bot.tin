@@ -1087,19 +1087,19 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		{
 			#path unzip ${goto[%1]};
 			#ticker 
-			{ startwalking } 
+			{startwalking} 
 			{
 				show_debug {TARGET: @findtarget{}  GroupFight: @is_group_fighting{}  GroupPresent: @groupIsPresent{}};
 				#if { ("@findtarget{}"=="") && (@is_group_fighting{}==0)} {
 					#if { @groupIsPresent{} } {
-						#path w;
+						smart_move;
 						#path get position temp_pos;
 						#path get length temp_len;
 						#show GOTO PATH: $temp_pos of $temp_len;
 						#if { $temp_pos == ($temp_len+1) } { stopwalking }
 					};#else  {
 						#show whole group is not here;
-						#unticker startwalking;
+						#unticker {startwalking};
 						rally;
 					}
 				};#else {
