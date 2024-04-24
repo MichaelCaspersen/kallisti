@@ -165,17 +165,25 @@
 
 #VARIABLE {map_marks}
 {
-    {clear} {}
-    {wolf} {[🐺]}
-	{key} {[🗝 \b]}
-    {smob} {[💀]}
-	{guild} {📜 \b}
-	{shop} {[🪙]}
-	{quest} {[🗨]}
-	{tame} {[🐆]}
-	{lever} {[⛩]}
-	{fountain} {[⛲]}
+	{anchor} {[⚓]}
+	{castle} {[🏰]}
 	{chest} {[💎]}
+    {clear} {}
+	{fountain} {[⛲]}
+	{guild} {📜 \b}
+	{key} {[🗝 \b]}
+	{lever} {[⛩]}
+	{palace} {[🕌]}
+	{pawn} {[♟]}
+	{quest} {[🗨]}
+	{shop} {[🪙]}
+    {smob} {[💀]}
+	{tame} {[🐆]}
+	{time} {[⌛]}
+	{town} {[🛖]}
+	{vulcano} {[🌋]}
+    {wolf} {[🐺]}
+	{zone} {[🌐]}
 }
 
 #EVENT {PRESSED SECURE LINK MAP_MOVE MOUSE BUTTON ONE}

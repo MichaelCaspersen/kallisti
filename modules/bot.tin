@@ -718,6 +718,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#var zone[allowAOE] 1;
 		};
 	};
+	#var zone_info {Zone name: $MSDP_AREA_NAME: \n Info coming about zone};
 };
 
 

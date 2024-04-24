@@ -87,6 +87,7 @@ event_register {SESSION ACTIVATED} {layout} {layout_reset %1}
 #if {!&{map_tiles}} {
 	set_map_tile 1 <B5f819d> area_info 2 tile;
 	set_map_tile 2 <B85678f> group_info[%*] 10 tile;
+	set_map_tile 3 <B5f819d> zone_info 5 tile;
 }
 
 #nop Let's set up something to at least have a layout

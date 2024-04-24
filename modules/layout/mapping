@@ -18,6 +18,7 @@
 	#nop right config panel;
 	#draw <$tile_bg> tile -$scroll_height -${right_panel_offset} -3 @term_width{} {$area_info};
 	#draw <$tile_bg> tile -$scroll_height+3 -${right_panel_offset} -3 @term_width{} {$group_info[%*]};
+	#draw <$tile_bg> tile -$scroll_height+12 -${right_panel_offset} -3 @term_width{} {$zone_info};
 	
 	#buffer end;
 
