@@ -992,7 +992,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias ftank {	reform follow%1 prima; }
 
 #ACTION {%0 is dead!  R.I.P.} {
-	show_debug {<123>%0 is dead, what to do!!}
+	show_debug {<123>%0 is dead, what to do!!};
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	#if { "$MSDP_CLASS"=="Necromancer"} {
@@ -1295,3 +1295,16 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #ac {A well camouflaged thri-kreen lurks near some cover.} {settarget 999 @mob_count{"%1"} thri 40 75 1}
 
 #nop var zone[proflist] {{"The thri-kreen scout"};{"The thri-kreen hunter"};{"The experienced looking thri-kreen"};{"The thri-kreen guard"};{"XXXXX"};{"XXXXXXX"};{"XXXXXXX"}};
+
+
+
+#NOP ################ Tellurian 
+#NOP ACTION {%0 is dead!  R.I.P.} {#show <172> Zone:[$tellu_zone]   Kill:[%0]  Room:[$MSDP_ROOM_NAME]   Terrain:[$MSDP_ROOM_TERRAIN]    Weather:[$MSDP_ROOM_WEATHER]}
+
+#action {A Tellurian Outpost                                         |    N    [U]} {#show <131>RESET ZONE;#var tellu_zone {};#action {You follow Javan %%1.} {#var tellu_zone %%1;#show <131>New zone: %%1;#unaction {You follow Javan %%%1.}}}
+
+#action {A large, glowing scarab stands here in a defensive posture.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL scarab-kin};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL scarab-kin};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL scarab-kin};}
+#action {A large wolf, with icy-blue fur stands here observing.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL tundra-snap};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL tundra-snap};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL tundra-snap};}
+#action {An extremely stout tree stands here, wavering slowly.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL topiary};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL topiary};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL topiary};}
+
+#action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
