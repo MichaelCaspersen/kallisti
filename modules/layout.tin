@@ -90,6 +90,13 @@ event_register {SESSION ACTIVATED} {layout} {layout_reset %1}
 	set_map_tile 3 <B5f819d> zone_info 5 tile;
 }
 
+#nop -- F9 toggle MAP TOGGLE PANCAKING;
+#macro {\e[20~} {toggle_map_pancake};
+#alias toggle_map_pancake {
+	#map flag pancake;
+}
+
+
 #nop Let's set up something to at least have a layout
 init layout_preference layout simple;
 layout ${layout_preference};
