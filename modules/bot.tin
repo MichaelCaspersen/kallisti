@@ -717,9 +717,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#var zone[proflist] {"maze keeper "};
 			#var zone[allowAOE] 1;
 		};
+		#case {"Tellurian Discordia"} {
+			#var zone[proflist] {{"A tellurian tundra-snap "}{} {"A tellurian scarab-kin "}{}};
+			#var zone[allowAOE] 0;
+		};
 	};
 	#var zone_info {Zone name: $MSDP_AREA_NAME:\n\tInfo coming about zone};
 };
+
 
 
 
@@ -1307,5 +1312,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A large, glowing scarab stands here in a defensive posture.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL scarab-kin};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL scarab-kin};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL scarab-kin};}
 #action {A large wolf, with icy-blue fur stands here observing.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL tundra-snap};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL tundra-snap};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL tundra-snap};}
 #action {An extremely stout tree stands here, wavering slowly.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL topiary};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL topiary};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL topiary};}
+
+#alias count_tellu_mobs_in_room {}
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
