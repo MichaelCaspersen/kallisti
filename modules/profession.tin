@@ -217,6 +217,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 #alias maton {
 	#var profession[refining][auto] 1;
+	#if { $MSDP_UPTIME>86400 } {
+		#var profession[gather][selling] 1;
+	};
 	generate_profession_info;
 	#var profession[refining][start] $MSDP_UPTIME;
 	#var profession[refining][startgold] $MSDP_BANK_GOLD;
