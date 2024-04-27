@@ -33,7 +33,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
     #if {"%2" == "true"} {nco true %1};
     #if {"%2" == "heros"} {checkheros};
     #if {"$follower_mode" == "on"} {
-		#if {"%1" == "@group_leader{}" || "%1" == "@subgroup_leader{}"} {
+		#if { ("%1" == "@group_leader{}") || ("%1" == "@subgroup_leader{}")} {
 			#regex {%2} {^all %*$} {
                 #if {@is_friend{%1}} {
 				    &1;
@@ -41,7 +41,13 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 				    #send &1;
                 }
 			}
-		} 
+		};#else {
+            #if {@is_friend{%1}} {
+                #regex {%2} {^all %*$} {
+                    &1;
+                }
+            }
+        }
 	}
 }
 
