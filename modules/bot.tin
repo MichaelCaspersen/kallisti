@@ -941,7 +941,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias rr {perform_recall}
 
 #alias perform_recall {
-	#show TRYING TO RECALL - Position: $MSDP_POSITION;
+	show_debug {TRYING TO RECALL - Position: $MSDP_POSITION};
 	#if {"$MSDP_POSITION"=="Fighting" } {
 		breakout;
 		rec reca;

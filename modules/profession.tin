@@ -398,7 +398,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {Some {hide|bone} from %2 lies here. (%3)} {#math total_mats {$total_mats+%3}}
 #action {You pick up %1 {hides|bones}.} {#var profession[refining][reset] 1;#var total_mats_pickedup %1;#math total_mats_remaining {$total_mats-%1}}
-#alias countmats {#delay removetotal {gt $profession[refining][sold] sold, $total_mats_remaining remaining} {5}}
+#alias countmats {#math profession[refining][runtime] {$MSDP_UPTIME - $profession[refining][start]};#delay removetotal {gt $profession[refining][sold] sold, $total_mats_remaining remaining , been at it for @return_min_sec{$profession[refining][runtime]}} {5}}
 
 
 
