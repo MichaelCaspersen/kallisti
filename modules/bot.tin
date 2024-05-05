@@ -417,7 +417,7 @@ init bot[rescue2] preferences off;
 #alias zone_automatic_restart {
 	#TICKER {restartzone} {
 		#if {$bot[autozone] && $zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {
-			#show starting zone;,;.
+			#show starting zone;.;
 		}
 	} {10};
 	#TICKER {gobacktozone} {
@@ -439,7 +439,7 @@ init bot[rescue2] preferences off;
 	#if { $zone[active] || $bot[cast] } { $bot[nextAction] };
 }
 #alias , {#show <Ffff><B595>Load current zone;zone_load}
-#alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
+#alias . {#if { $MSDP_ROOM_VNUM != $zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
 
 #action {%1 utters the words 'qaizzfh waia'} {
 	#if {@playerIsPresent{%1} && "$MSDP_CHARACTER_NAME"!="%1"} { #nop check if its a group member, only delay if you didnt cast the spell;
@@ -992,6 +992,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You grunt in frustration trying to chop up the vines entangling %1.} {chop %1}
 
 #action {You had better stand up first.} {stand;ride $bot[mount][name]}
+
+#action {You are too high level to attack %1 right now (%2 was recently attacked by someone much lower than you).  Wait a few minutes and try again.} {cleartarget;smart_move}
 
 #function gotFollowers {
 	#var followers 0;
