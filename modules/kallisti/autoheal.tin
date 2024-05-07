@@ -201,7 +201,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
                     #var priocategory 1;
                 };
             };
-            #show $MSDP_GROUP[$_tmp][name]    -    $prio    -    $finalprio;
+            #show [$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   -    [$prio]    -    [$finalprio];
             #list syphonlist[$priocategory] add $MSDP_GROUP[$_tmp][name];
         };
     };
