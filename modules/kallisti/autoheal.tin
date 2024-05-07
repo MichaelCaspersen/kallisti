@@ -193,10 +193,10 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 
 #function findsyphon {
 	#if {&{syphonlist[]}>0} {
-		#if {"$syphonlist[1][1]"!=""} {#return $targetlist[1][1]};
-		#if {"$syphonlist[2][1]"!=""} {#return $targetlist[2][1]};
-		#if {"$syphonlist[3][1]"!=""} {#return $targetlist[3][1]};
-		#if {"$syphonlist[4][1]"!=""} {#return $targetlist[4][1]};
+		#if {"$syphonlist[1][1]"!=""} {#return $syphonlist[1][1]};
+		#if {"$syphonlist[2][1]"!=""} {#return $syphonlist[2][1]};
+		#if {"$syphonlist[3][1]"!=""} {#return $syphonlist[3][1]};
+		#if {"$syphonlist[4][1]"!=""} {#return $syphonlist[4][1]};
 	};
 	#else #return {}
 }
