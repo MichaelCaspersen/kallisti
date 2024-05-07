@@ -154,7 +154,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 
 
 #alias {checkautosyphon} {
-    #if { ("$autosyphon" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {
+    #if { ("$toggle[autosyphon]" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {
         #variable syphonlist {};
         #foreach *MSDP_GROUP[%*] {_tmp} {
             #if { ($MSDP_GROUP[$_tmp][level]>65) && ($MSDP_GROUP[$_tmp][mana]>50) && ("$MSDP_GROUP[$_tmp][name]" != "$MSDP_CHARACTER_NAME") && ("$MSDP_GROUP[$_tmp][class]" != "DRU") && ("$MSDP_GROUP[$_tmp][class]" != "NEC") } {
