@@ -153,7 +153,9 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 }
 
 
-#alias {checkautosyphon} {
+#tab autosyphon
+#alias {autosyphon} {
+    show_debug {Will look for best syphon target in group};
     #if { ("$toggle[autosyphon]" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {
         #variable syphonlist {};
         #foreach *MSDP_GROUP[%*] {_tmp} {
@@ -191,7 +193,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
                         #var priocategory 1;
                     };
                 };
-                #show [$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   -    [$prio];
+                show_debug {[$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   -    [$prio]};
                 #list syphonlist[$priocategory] add $MSDP_GROUP[$_tmp][name];
             };
         };
