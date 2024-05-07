@@ -31,6 +31,7 @@ initlist refreshBlack preferences
 
 event_register {variable MSDP_GROUP} {autoheal} {autoheal};
 event_register {variable MSDP_HEALTH} {autoheal} {autoheal};
+event_register {variable MSDP_MANA} {autoheal} {autosyphon};
 event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 
 
