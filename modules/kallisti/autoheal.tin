@@ -21,8 +21,13 @@ init healpct preferences 80
 init refreshpct preferences 45
 init refreshManaThreshold preferences 90
 init toggle[cure] preferences off
+init syphonpct 60
+init toggle[autosyphon] preferences off
 initlist healBlack preferences
 initlist refreshBlack preferences
+
+
+
 
 event_register {variable MSDP_GROUP} {autoheal} {autoheal};
 event_register {variable MSDP_HEALTH} {autoheal} {autoheal};
@@ -148,9 +153,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 }
 
 
-#var syphonpct 50;
-#var autosyphon on;
-#alias {generate_syphon_list} {
+#alias {checkautosyphon} {
     #if { ("$autosyphon" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {
         #variable syphonlist {};
         #foreach *MSDP_GROUP[%*] {_tmp} {
