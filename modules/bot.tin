@@ -417,7 +417,7 @@ init bot[rescue2] preferences off;
 #alias zone_automatic_restart {
 	#TICKER {restartzone} {
 		#if {$bot[autozone] && $zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {
-			#show starting zone;,;.
+			#show starting zone;.;
 		}
 	} {10};
 	#TICKER {gobacktozone} {
@@ -439,7 +439,7 @@ init bot[rescue2] preferences off;
 	#if { $zone[active] || $bot[cast] } { $bot[nextAction] };
 }
 #alias , {#show <Ffff><B595>Load current zone;zone_load}
-#alias . {#if { $MSDP_ROOM_VNUM!=$zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
+#alias . {#if { $MSDP_ROOM_VNUM != $zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
 
 #action {%1 utters the words 'qaizzfh waia'} {
 	#if {@playerIsPresent{%1} && "$MSDP_CHARACTER_NAME"!="%1"} { #nop check if its a group member, only delay if you didnt cast the spell;
@@ -885,9 +885,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
-#action {Shaita places something in the back of} {
+#action {%1 places something in the back of} {
 	#if { ("$bot[role]"=="tank") && ("$MSDP_POSITION"!="Fighting") } {
-		#if $bot[rescue] {queueAdd priority rescue Shaita};
+		#if $bot[rescue] {queueAdd priority rescue %1};
+	}
+}
+
+#action {%1 tries to backstab} {
+	#if { ("$bot[role]"=="tank") && ("$MSDP_POSITION"!="Fighting") } {
+		#if $bot[rescue] {queueAdd priority rescue %1};
 	}
 }
 
@@ -935,7 +941,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias rr {perform_recall}
 
 #alias perform_recall {
-	#show TRYING TO RECALL - Position: $MSDP_POSITION;
+	show_debug {TRYING TO RECALL - Position: $MSDP_POSITION};
 	#if {"$MSDP_POSITION"=="Fighting" } {
 		breakout;
 		rec reca;
@@ -983,7 +989,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You try to ride %1, but you fall on your butt.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 #action {You lose control and fall off of %1.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 
+#action {You grunt in frustration trying to chop up the vines entangling %1.} {chop %1}
+
 #action {You had better stand up first.} {stand;ride $bot[mount][name]}
+
+#action {You are too high level to attack %1 right now (%2 was recently attacked by someone much lower than you).  Wait a few minutes and try again.} {cleartarget;smart_move}
 
 #function gotFollowers {
 	#var followers 0;
@@ -1309,9 +1319,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {A Tellurian Outpost                                         |    N    [U]} {#show <131>RESET ZONE;#var tellu_zone {};#action {You follow Javan %%1.} {#var tellu_zone %%1;#show <131>New zone: %%1;#unaction {You follow Javan %%%1.}}}
 
-#action {A large, glowing scarab stands here in a defensive posture.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL scarab-kin};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL scarab-kin};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL scarab-kin};}
-#action {A large wolf, with icy-blue fur stands here observing.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL tundra-snap};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL tundra-snap};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL tundra-snap};}
-#action {An extremely stout tree stands here, wavering slowly.} {#if { ("$tellu_zone" == "east") && ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL topiary};#if { ("$tellu_zone" == "west") && ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL topiary};#if { ("$tellu_zone" == "north") && ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL topiary};}
+#action {A large, glowing scarab stands here in a defensive posture.} {#if { ("$tellu_zone" == "east") } {#if { ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL scarab-kin} {#show <131>DONT KILL scarab-kin};};#if { ("$tellu_zone" == "west") } {#if { ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL scarab-kin} {#show <131>DONT KILL scarab-kin};};#if { ("$tellu_zone" == "north") } {#if { ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL scarab-kin} {#show <131>DONT KILL scarab-kin};}}
+
+#action {A large wolf, with icy-blue fur stands here observing.} {#if { ("$tellu_zone" == "east") } {#if { ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL tundra-snap} {#show <131>DONT KILL tundra-snap};};#if { ("$tellu_zone" == "west") } {#if { ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL tundra-snap} {#show <131>DONT KILL tundra-snap};};#if { ("$tellu_zone" == "north") } {#if { ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL tundra-snap} {#show <131>DONT KILL tundra-snap};}}
+
+#action {An extremely stout tree stands here, wavering slowly.} {#if { ("$tellu_zone" == "east") } {#if { ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL topiary} {#show <131>DONT KILL topiary};};#if { ("$tellu_zone" == "west") } {#if { ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL topiary} {#show <131>DONT KILL topiary};};#if { ("$tellu_zone" == "north") } {#if { ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL topiary} {#show <131>DONT KILL topiary};}};
 
 #alias count_tellu_mobs_in_room {}
 
