@@ -148,46 +148,51 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 }
 
 
-
+#var syphonpct 50;
+#var autosyphon on;
 #alias {generate_syphon_list} {
-    #foreach *MSDP_GROUP[%*] {_tmp} {
-        #if { ($MSDP_GROUP[$_tmp][level]>65) && ($MSDP_GROUP[$_tmp][mana]>50) && ("$MSDP_GROUP[$_tmp][name]" != "$MSDP_CHARACTER_NAME") && ("$MSDP_GROUP[$_tmp][class]" != "DRU") && ("$MSDP_GROUP[$_tmp][class]" != "NEC") } {
-            #math prio {$MSDP_GROUP[$_tmp][level]*$MSDP_GROUP[$_tmp][mana]};
-            #switch {"$MSDP_GROUP[$_tmp][class]"} {
-                #case {"BAR"} {
-                    #var priocategory 4;
+    #if { ("$autosyphon" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {
+        #variable syphonlist {};
+        #foreach *MSDP_GROUP[%*] {_tmp} {
+            #if { ($MSDP_GROUP[$_tmp][level]>65) && ($MSDP_GROUP[$_tmp][mana]>50) && ("$MSDP_GROUP[$_tmp][name]" != "$MSDP_CHARACTER_NAME") && ("$MSDP_GROUP[$_tmp][class]" != "DRU") && ("$MSDP_GROUP[$_tmp][class]" != "NEC") } {
+                #math prio {$MSDP_GROUP[$_tmp][level]*$MSDP_GROUP[$_tmp][mana]};
+                #switch {"$MSDP_GROUP[$_tmp][class]"} {
+                    #case {"BAR"} {
+                        #var priocategory 4;
+                    };
+                    #case {"WIZ"} {
+                        #var priocategory 3;
+                    };
+                    #case {"PRO"} {
+                        #var priocategory 3;
+                    };
+                    #case {"TEM"} {
+                        #var priocategory 3;
+                    };
+                    #case {"BRD"} {
+                        #var priocategory 2;
+                    };
+                    #case {"PAL"} {
+                        #var priocategory 1;
+                    };
+                    #case {"VAL"} {
+                        #var priocategory 1;
+                    };
+                    #case {"DEM"} {
+                        #var priocategory 1;
+                    };
+                    #case {"MON"} {
+                        #var priocategory 1;
+                    };
+                    #case {"SAM"} {
+                        #var priocategory 1;
+                    };
                 };
-                #case {"WIZ"} {
-                    #var priocategory 3;
-                };
-                #case {"PRO"} {
-                    #var priocategory 3;
-                };
-                #case {"TEM"} {
-                    #var priocategory 3;
-                };
-                #case {"BRD"} {
-                    #var priocategory 2;
-                };
-                #case {"PAL"} {
-                    #var priocategory 1;
-                };
-                #case {"VAL"} {
-                    #var priocategory 1;
-                };
-                #case {"DEM"} {
-                    #var priocategory 1;
-                };
-                #case {"MON"} {
-                    #var priocategory 1;
-                };
-                #case {"SAM"} {
-                    #var priocategory 1;
-                };
+                #show [$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   -    [$prio];
+                #list syphonlist[$priocategory] add $MSDP_GROUP[$_tmp][name];
             };
-            #show [$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   -    [$prio];
-            #list syphonlist[$priocategory] add $MSDP_GROUP[$_tmp][name];
         };
+        queueAdd priority {syphon @findsyphon{}}
     };
 };
 
@@ -201,12 +206,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 	#else #return {}
 }
 
-#var syphonpct 50;
-#alias syphongroup {
-    #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct} {
-        queueAdd priority {syphon @findsyphon{}}
-    }
-}
+
 
 
 
