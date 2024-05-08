@@ -757,6 +757,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#SWITCH {$MSDP_ROOM_VNUM} {
 		#CASE {3001} {#show <141>END ZONE;#if $zone[active] {#var zone[active] 0}};
 		#CASE {3074} {#show <141>END ZONE;#if $zone[active] {#var zone[active] 0}};
+		#CASE {Bandit} {#show <141>Bandit maze: neswnwse};
+		#CASE {ChaosPortal} {#show <141>Exit portal: unwd};
+		#CASE {ChaosGate} {#show <141>Enter grate: wnwnwe};
+		#CASE {13340} {#show <141>Grelic Maze: ws2nesweswn2s};
 		#DEFAULT {#nop};
 	};	
 
