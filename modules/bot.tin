@@ -456,7 +456,7 @@ init bot[rescue2] preferences off;
 #action {^%w starts following you.$} {#if @groupAmILeader{} {group %1}}
 
 #action {is now a member of your group} {gt Welcome! }
-#action {you start following} {gt Current role:$MSDP_CHARACTER_NAME $bot[role]}
+#action {you start following} {gt Current role: $bot[role]}
 #action {You now follow %1.} {#var leader %1}
 
 
@@ -1319,15 +1319,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP ################ Tellurian 
 #NOP ACTION {%0 is dead!  R.I.P.} {#show <172> Zone:[$tellu_zone]   Kill:[%0]  Room:[$MSDP_ROOM_NAME]   Terrain:[$MSDP_ROOM_TERRAIN]    Weather:[$MSDP_ROOM_WEATHER]}
 
-#action {A Tellurian Outpost                                    %1 |    N    [U]} {
-	#show <131>RESET ZONE;
-	#var tellu_zone {};
-	#action {You follow $leader %%1.} {
-		#var tellu_zone %%1;
-		#show <131>New zone: %%1;
-		#unaction {You follow $leader %%%1.}
-	}
-}
+#action {A Tellurian Outpost                                    %1 |    N    [U]} {#show <131>RESET ZONE;#var tellu_zone {};#action {You follow $leader %%2.} {#var tellu_zone %%2;#show <131>New zone: %%2;#unaction {You follow%%%2.}}}
 
 #action {A large, glowing scarab stands here in a defensive posture.} {
 	#if { ("$tellu_zone" == "east") } {#if { ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL scarab-kin - $tellu_zone} {#show <131>DONT KILL scarab-kin - $tellu_zone};};
@@ -1350,3 +1342,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias count_tellu_mobs_in_room {}
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
+
+#action {A Tellurian scarab-kin says, 'Ahh, yes.%1The %2 shall revive my body!'} {#show <172>GOOD KILL on [scarab-kin] in [%2]!!    zone:[$tellu_zone]};
+#action {A Tellurian tundra-snap says, 'Ahh, yes.%1The %2 shall revive my body!'} {#show <172>GOOD KILL on [tundra-snap] in [%2]!!    zone:[$tellu_zone]};
+#action {A Tellurian topiary says, 'Ahh, yes.%1The %2 shall revive my body!'} {#show <172>GOOD KILL on [topiary] in [%2]!!    zone:[$tellu_zone]};
+
+#action {A Tellurian scarab-kin says, 'Ahh, yes.%1The %2 shall revive my body, and my FURY!'} {#show <131>BAD KILL on [scarab-kin] in [%2]!!    zone:[$tellu_zone]};
+#action {A Tellurian tundra-snap says, 'Ahh, yes.%1The %2 shall revive my body, and my FURY!'} {#show <131>BAD KILL on [tundra-snap] in [%2]!!    zone:[$tellu_zone]};
+#action {A Tellurian topiary says, 'Ahh, yes.%1The %2 shall revive my body, and my FURY!'} {#show <131>BAD KILL on [topiary] in [%2]!!    zone:[$tellu_zone]};
+
