@@ -198,7 +198,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
             };
         };
         #if {&{syphonlist[]}>0} {
-            #show <134>Autosyphon: target @findsyphon{};
+            #show <134>Autosyphon: @findsyphon{};
             queueAdd priority {syphon @findsyphon{}}
         }
     };
