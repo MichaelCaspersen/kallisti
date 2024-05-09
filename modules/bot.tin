@@ -1349,4 +1349,4 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {tell crom <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {#show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
