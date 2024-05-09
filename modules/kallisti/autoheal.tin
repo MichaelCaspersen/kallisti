@@ -152,6 +152,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
     _preferences_save
 }
 
+#ticker autosyp {#if { ("$toggle[autosyphon]" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {autosyphon}} {10}
 
 #tab autosyphon
 #alias {autosyphon} {
