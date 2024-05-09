@@ -166,22 +166,22 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
                     #math prio {$MSDP_GROUP[$_tmp][level]*$MSDP_GROUP[$_tmp][mana]};
                     #switch {"$MSDP_GROUP[$_tmp][class]"} {
                         #case {"WIZ"} {
-                            #var priocategory 3;
+                            #var priocategory 4;
                         };
                         #case {"PRO"} {
-                            #var priocategory 3;
+                            #var priocategory 4;
                         };
                         #case {"TEM"} {
-                            #var priocategory 3;
+                            #var priocategory 4;
                         };
                         #case {"BRD"} {
-                            #var priocategory 2;
+                            #var priocategory 3;
                         };
                         #case {"PAL"} {
-                            #var priocategory 1;
+                            #var priocategory 2;
                         };
                         #case {"VAL"} {
-                            #var priocategory 1;
+                            #var priocategory 2;
                         };
                         #case {"DEM"} {
                             #var priocategory 1;
