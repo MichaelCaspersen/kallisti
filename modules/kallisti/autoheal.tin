@@ -155,7 +155,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 
 #tab autosyphon
 #alias {autosyphon} {
-    show_debug {<134>Will look for best syphon target in group, current syphonpct: [$syphonpct] currently at [@pct{$MSDP_MANA;$MSDP_MANA_MAX}] };
+    #show {<134>Run autosyphon: Current: [@pct{$MSDP_MANA;$MSDP_MANA_MAX}] Syphonpct: [$syphonpct]};
     #if { ("$toggle[autosyphon]" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {
         #variable syphonlist {};
         #foreach *MSDP_GROUP[%*] {_tmp} {
