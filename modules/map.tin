@@ -138,6 +138,7 @@
 #ALIAS {^mark %slist$}
 {
     #local {i} {};
+	#echo {<170>Use #map exitflag <dir> hide - to hide area before enter};
     #foreach {*{map_marks[]}} {i}
     {
         #echo {<170>$i - <130>${map_marks[$i]}}
