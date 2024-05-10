@@ -115,8 +115,12 @@ init bot[rescue2] preferences off;
 			#var communication[left] {&0f.&0eo&06o&0cO&04*&--};
 			#var communication[right] {&04*&0cO&06o&0eo&0f.&--};
 		};
+		#case {"Valhalla"} {
+			#var communication[left] {&05@&0dO&05*&0dO&05@&--};
+			#var communication[right] {&05@&0dO&05*&0dO&05@&--};
+		};
 	};
-	
+	#alias gtell {gt $communication[left] %1 $communication[right]}
 
 	#NOP #######################################################;
 	#NOP Class Specific: Necromancer							;
