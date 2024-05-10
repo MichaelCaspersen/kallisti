@@ -152,49 +152,54 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
     _preferences_save
 }
 
+#ticker autosyp {#if { ("$toggle[autosyphon]" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {autosyphon}} {10}
 
 #tab autosyphon
 #alias {autosyphon} {
-    show_debug {Will look for best syphon target in group};
+    #show {<134>Run autosyphon: Current: [@pct{$MSDP_MANA;$MSDP_MANA_MAX}] Syphonpct: [$syphonpct]};
     #if { ("$toggle[autosyphon]" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {
         #variable syphonlist {};
         #foreach *MSDP_GROUP[%*] {_tmp} {
-            #if { ($MSDP_GROUP[$_tmp][level]>65) && ($MSDP_GROUP[$_tmp][mana]>50) && ("$MSDP_GROUP[$_tmp][name]" != "$MSDP_CHARACTER_NAME") && ("$MSDP_GROUP[$_tmp][class]" != "DRU") && ("$MSDP_GROUP[$_tmp][class]" != "NEC") && ("$MSDP_GROUP[$_tmp][class]" != "BAR") } {
-                #math prio {$MSDP_GROUP[$_tmp][level]*$MSDP_GROUP[$_tmp][mana]};
-                #switch {"$MSDP_GROUP[$_tmp][class]"} {
-                    #case {"WIZ"} {
-                        #var priocategory 3;
+            show_debug {<135>TESTING: [$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   [$MSDP_GROUP[$_tmp][mana]] -    [$prio]};
+            #if { ("$MSDP_GROUP[$_tmp][name]" != "$MSDP_CHARACTER_NAME") && ("$MSDP_GROUP[$_tmp][class]" != "DRU") && ("$MSDP_GROUP[$_tmp][class]" != "NEC") && ("$MSDP_GROUP[$_tmp][class]" != "BAR") } {
+                #if { ($MSDP_GROUP[$_tmp][level]>65) && ($MSDP_GROUP[$_tmp][mana]>50) } {
+                    #math prio {$MSDP_GROUP[$_tmp][level]*$MSDP_GROUP[$_tmp][mana]};
+                    #switch {"$MSDP_GROUP[$_tmp][class]"} {
+                        #case {"WIZ"} {
+                            #var priocategory 4;
+                        };
+                        #case {"PRO"} {
+                            #var priocategory 4;
+                        };
+                        #case {"TEM"} {
+                            #var priocategory 4;
+                        };
+                        #case {"BRD"} {
+                            #var priocategory 3;
+                        };
+                        #case {"PAL"} {
+                            #var priocategory 2;
+                        };
+                        #case {"VAL"} {
+                            #var priocategory 2;
+                        };
+                        #case {"DEM"} {
+                            #var priocategory 1;
+                        };
+                        #case {"MON"} {
+                            #var priocategory 1;
+                        };
+                        #case {"SAM"} {
+                            #var priocategory 1;
+                        };
                     };
-                    #case {"PRO"} {
-                        #var priocategory 3;
-                    };
-                    #case {"TEM"} {
-                        #var priocategory 3;
-                    };
-                    #case {"BRD"} {
-                        #var priocategory 2;
-                    };
-                    #case {"PAL"} {
-                        #var priocategory 1;
-                    };
-                    #case {"VAL"} {
-                        #var priocategory 1;
-                    };
-                    #case {"DEM"} {
-                        #var priocategory 1;
-                    };
-                    #case {"MON"} {
-                        #var priocategory 1;
-                    };
-                    #case {"SAM"} {
-                        #var priocategory 1;
-                    };
+                    show_debug {<134>MADE THE LIST: [$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   [$MSDP_GROUP[$_tmp][mana]] -    [$prio]};
+                    #list syphonlist[$priocategory] add $MSDP_GROUP[$_tmp][name];
                 };
-                show_debug {[$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   -    [$prio]};
-                #list syphonlist[$priocategory] add $MSDP_GROUP[$_tmp][name];
             };
         };
         #if {&{syphonlist[]}>0} {
+            #show <134>Autosyphon: @findsyphon{};
             queueAdd priority {syphon @findsyphon{}}
         }
     };
