@@ -979,11 +979,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
-#NOP Druid specific
+#NOP Druid/Prophet specific
 #action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
-#action {You get seasick as your ship tosses about in the rough weather.} {cast 'control weather' better}
-#action {You heave as your ship tosses about madly in the torrential rain and lightning.} {cast 'control weather' better}
-#action {You sail along happily.} {cast 'control weather' better}
+#action {You get seasick as your ship tosses about in the rough weather.} {nco controlweather better}
+#action {You heave as your ship tosses about madly in the torrential rain and lightning.} {nco controlweather better}
+#action {You sail along happily.} {nco controlweather better}
+#action {The sky darkens.} {nco controlweather worse}
+#HIGHLIGHT {The sky darkens.} {red};
+#HIGHLIGHT {Nothing seems to happen.  The weather is as bad as it can get!} {red};
 
 
 #NOP #######################################################
@@ -1323,7 +1326,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP ################ Tellurian 
 #NOP ACTION {%0 is dead!  R.I.P.} {#show <172> Zone:[$tellu_zone]   Kill:[%0]  Room:[$MSDP_ROOM_NAME]   Terrain:[$MSDP_ROOM_TERRAIN]    Weather:[$MSDP_ROOM_WEATHER]}
 
-#action {A Tellurian Outpost                                    %1 |    N    [U]} {#show <131>RESET ZONE;#var tellu_zone {};#action {You follow $leader %%2.} {#var tellu_zone %%2;#show <131>New zone: %%2;#unaction {You follow%%%2.}}}
+#action {A Tellurian Outpost                                    %1 |    N    [U]} {#show <131>RESET ZONE;#var tellu_zone {};#action {You follow $leader %%2.} {#var tellu_zone %%2;#show <131>New zone: %%2;#unaction {You follow%%%2.}};badweather}
+#alias badweather {#delay badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
 #action {A large, glowing scarab stands here in a defensive posture.} {
 	#if { ("$tellu_zone" == "east") } {#if { ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL scarab-kin - $tellu_zone} {#show <131>DONT KILL scarab-kin - $tellu_zone};};
