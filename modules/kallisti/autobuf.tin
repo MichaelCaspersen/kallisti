@@ -166,7 +166,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{warcry} < 1} {doWarcry};
     #if {@hasAffect{tale of valor} < 1} {doTaleOfValor};
 
-    #if {@hasAffect{hand of god} < 1} {doHandOfGod};
+    #if {@hasAffect{hand of God} < 1} {doHandOfGod};
     #if {@hasAffect{spiritual guardian} < 1} {doSpiritGuardian};
     #if {@hasAffect{divine shield} < 1} {doDivineShield};
     #if {@hasAffect{blade barrier} < 1} {doBladeBarrier};
