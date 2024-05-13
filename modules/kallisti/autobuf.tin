@@ -38,6 +38,9 @@ init sanctMethod preferences auto;
 init toggle[ranged] preferences off;
 init toggle[tale] preferences off;
 init toggle[guardian] preferences off;
+init toggle[handofgod] preferences off;
+init toggle[protectiondeath] preferences off;
+init toggle[protectionevil] preferences off;
 init toggle[bladebarrier] preferences off;
 init focusStat preferences str;
 init toggle[focus] preferences off;
@@ -164,7 +167,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #nop -- Affects that must exhaust completely;
     #if {@hasAffect{warcry} < 1} {doWarcry};
     #if {@hasAffect{tale of valor} < 1} {doTaleOfValor};
-
+    #if {@hasAffect{hand of God} < 1} {doHandOfGod};
     #if {@hasAffect{spiritual guardian} < 1} {doSpiritGuardian};
     #if {@hasAffect{divine shield} < 1} {doDivineShield};
     #if {@hasAffect{blade barrier} < 1} {doBladeBarrier};
@@ -190,6 +193,8 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{bless} < 2} {doBless};
     #if {@hasAffect{crystal eyes} < 2} {doCrystalEyes};
     #if {@hasAffect{true seeing} < 2} {doTruesee};
+    #if {@hasAffect{protection from death} < 2} {doProtectionDeath};
+    #if {@hasAffect{protection from evil} < 2} {doProtectionEvil};
 
     #nop TODO looping MSDP_AFFECTS isn't good enough, we need to do expired ones as well;
     #nop We also don't want events on negative ones;
@@ -372,7 +377,25 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
 
 #alias doSpiritGuardian {
     #if {@autobuf_check{guardian} && ("$toggle[guardian]" == "on")} {
-        #if {$MSDP_MANA > 40}  {queueAdd nco {spirit}}
+        #if {$MSDP_MANA > 45}  {queueAdd nco {spirit}}
+    }
+}
+
+#alias doHandOfGod {
+    #if {@autobuf_check{hand} && ("$toggle[handofgod]" == "on")} {
+        #if {$MSDP_MANA > 40}  {queueAdd nco {handofgod}}
+    }
+}
+
+#alias doProtectionDeath {
+    #if {@autobuf_check{death} && ("$toggle[protectiondeath]" == "on")} {
+        #if {$MSDP_MANA > 40}  {queueAdd nco {pfd}}
+    }
+}
+
+#alias doProtectionEvil {
+    #if {@autobuf_check{evil} && ("$toggle[protectionevil]" == "on")} {
+        #if {$MSDP_MANA > 40}  {queueAdd nco {pfe}}
     }
 }
 
