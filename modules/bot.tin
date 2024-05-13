@@ -971,19 +971,19 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Necro/Demoniac specific
 #var auto[candrain] 1
 #action {%1 does not have enough energy left to drain.} {#var auto[candrain] 0}
-#action {You can only drain the living.} {queueAdd priority $bot[damage] @findtarget{}}
+#action {You can only drain the living.} {#var auto[candrain] 0;queueAdd priority $bot[damage] @findtarget{}}
 
 
-#action {%1 looks really sick, and shivers uncomfortably.} {nco cure %1}
-#action {You can't see a darn thing -- you're blind!} {#if {"$MSDP_CLASS" == "Druid"} {queueAdd priority cure}}
+#action {%1 looks really sick, and shivers uncomfortably.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {nco cure %1}}
+#action {You can't see a darn thing -- you're blind!} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {queueAdd priority cure}}
 #action {Your sight has returned.} {get all.gold all.corpse}
 
 
 #NOP Druid specific
 #action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
-#action {You get seasick as your ship tosses about in the rough weather.} {cast 'control weather' better}
-#action {You heave as your ship tosses about madly in the torrential rain and lightning.} {cast 'control weather' better}
-#action {You sail along happily.} {cast 'control weather' better}
+#action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
+#action {You heave as your ship tosses about madly in the torrential rain and lightning.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
+#action {You sail along happily.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
 
 
 #NOP #######################################################
@@ -1294,6 +1294,24 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #NOP {The MIST};
 #ac {The mists form into the shape of a massive beast, blocking your way.} {settarget 999 @mob_count{"%1"} mist 30 100 1}
+
+
+
+#NOP ################ LAND OF THE CULT
+#ac {Hewlitt Twang stands here obviously upset with your intrusion.} {settarget 999 @mob_count{"%1"} Twang 30 100 1}
+#ac {Nevarg Lewon stands here with a smile on his face.} {settarget 999 @mob_count{"%1"} Lewon 30 100 1}
+#ac {Seaman the friendly weasel is here.} {settarget 999 @mob_count{"%1"} Seaman 30 100 1}
+#ac {Enmar is hovering here.} {settarget 999 @mob_count{"%1"} Enmar 30 100 2}
+#ac {You sense an undead creature in the room.} {settarget 999 @mob_count{"%1"} cult 30 100 1}
+#ac {Lana, the Mayor's daughter, crouches in a corner.} {settarget 999 @mob_count{"%1"} Lana 30 100 1}
+#ac {Eleka Clay is here} {settarget 999 @mob_count{"%1"} Clay 60 100 1}
+#ac {Nala Clay is here} {settarget 999 @mob_count{"%1"} Nala 60 100 1}
+#ac {XXXXXXXXXXXXXXXXXXXX} {settarget 999 @mob_count{"%1"} XXXXX 30 100 1}
+#ac {XXXXXXXXXXXXXXXXXXXX} {settarget 999 @mob_count{"%1"} XXXXX 30 100 1}
+#ac {XXXXXXXXXXXXXXXXXXXX} {settarget 999 @mob_count{"%1"} XXXXX 30 100 1}
+#ac {XXXXXXXXXXXXXXXXXXXX} {settarget 999 @mob_count{"%1"} XXXXX 30 100 1}
+#ac {XXXXXXXXXXXXXXXXXXXX} {settarget 999 @mob_count{"%1"} XXXXX 30 100 1}
+
 
 
 #NOP ################ THALOS
