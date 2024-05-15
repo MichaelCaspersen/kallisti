@@ -421,7 +421,7 @@ init bot[rescue2] preferences off;
 #alias zone_automatic_restart {
 	#TICKER {restartzone} {
 		#if {$bot[autozone] && $zone[active]==0 && "$MSDP_AREA_NAME"=="The Island of Na'Kana"}  {
-			#show starting zone;.;
+			#show starting zone;,;.;
 		}
 	} {10};
 	#TICKER {gobacktozone} {
