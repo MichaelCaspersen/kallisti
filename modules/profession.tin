@@ -413,5 +413,5 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;pickup_mats}
 #action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;pickup_mats}
 
-#action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;e;get all.leather;recall;2s3es;sell leather}
-#action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;e;get all.leather;recall;2s3es;sell leather}
+#nop action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;e;get all.leather;recall;2s3es;sell leather}
+#nop action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;e;get all.leather;recall;2s3es;sell leather}
