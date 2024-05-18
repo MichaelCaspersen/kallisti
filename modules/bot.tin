@@ -68,7 +68,7 @@ Commands:\n
 #var bot[cast] 1;
 #var bot[join] 0;
 #var bot[poke] 0;
-#var bot[markcommand] {: marks};
+#var bot[markcommand] {marks};
 #var bot[pokecommand] pokes;
 #var bot[damage] {};
 #var bot[nextAction] {};
@@ -843,7 +843,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {$has_poked==0 && "@findtarget{}"!=""} {
 		#var has_poked 1;
 		#delay {repoke} {#show WE CAN POKE AGAIN;#var has_poked 0} {4} ;
-		$bot[markcommand]: @findtarget{};
+		: $bot[markcommand]: @findtarget{};
 		$bot[pokecommand] @findtarget{}
 	}
 }
