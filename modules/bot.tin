@@ -836,7 +836,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Combat
 #NOP #######################################################
 
-#alias damage {#var bot[damage] %1;generate_bot_info;#show New damage ability: %1}
+#alias damage {#if {"%1"!=""} {#var bot[damage] %1} {#var bot[damage] {}};generate_bot_info;#show New damage ability: [%1]}
 
 
 #alias poke_target {
