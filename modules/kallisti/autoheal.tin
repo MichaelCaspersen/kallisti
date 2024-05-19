@@ -61,10 +61,10 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
     #if {$need_powerheal>0} {
         #show <131>Recommendation: POWERHEAL
     };
-    #if {$need_heal<2} {
+    #if {$need_heal>0} {
         #show <131>Recommendation: HEAL
     };
-    #if {$need_heal<2} {
+    #if {$need_heal>2} {
         #show <131>Recommendation: GROUPHEAL
     };
 }
