@@ -33,9 +33,9 @@ event_register {variable MSDP_GROUP} {autoheal} {autoheal};
 event_register {variable MSDP_HEALTH} {autoheal} {autoheal};
 event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 
-#var healpct_heal 99;
-#var healpct_powerheal 95;
-#var healpct_fullheal 90;
+#var healpct_heal 80;
+#var healpct_powerheal 50;
+#var healpct_fullheal 20;
 
 #function pickHealMethod {
     #var need_healing 0;
