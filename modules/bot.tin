@@ -143,7 +143,7 @@ init bot[rescue2] preferences off;
 	#NOP Class Specific: Prophet								;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Prophet" } {
-		#var bot[damage] hword;
+		#var bot[damage] harm;
 		#var bot[spellCorpse] #nop;
 		#var bot[spellSustain] heal;
 
@@ -1078,6 +1078,18 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ALIAS {sroom} {#gag { ! };#gag {+! };#gag {\~! };find_containers_in_room;#delay 2 {#foreach {*containers_room[]} {i} {search $containers_room[$i] %1;}};#delay 20 {#ungag { ! };#ungag {+! };#ungag {\~! };#var containers_room {}}}
 #alias find_containers_in_room {#var containers_room {};#gag {(locked)};#action {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3} {#list containers_room add %%2};l;#delay 0.4 {show_debug UNACTION;#unaction {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3}}}
+
+#alias scon {#if {%2>0} {objs count;#var auto[id] 1;#var cur_container %1;#var max_id %2;#var item_left_id %2;#show <131>Will id all items in $cur_container, counting down from $max_id;get_item} {#show <131>scon needs params <container> <maxid>}}
+#alias get_item {#if {$item_left_id>0} {get $max_id $cur_container} {#var auto[id] 0;l;#show <131>Done id'ing $max_id items in $cur_container}}
+#action {There doesn't seem to be a $max_id in} {#if {$auto[id]} {#math max_id {$max_id-1};#var item_left_id $max_id;get_item}}
+#action {You get {a |an |the |}%2 from {a |an |the |}%3.} {#if {$auto[id]} {#math item_left_id {$item_left_id-1};#show <131> Found: [%2] [$item_left_id/$max_id];lore 1}}
+#action {You think back to stories from your childhood and legends of old...} {#if {$auto[id]} {#delay 1 {put 1 $cur_container;get_item}}}
+#action {You couldn't figure it out.} {#if {$auto[id]} {lore 1}}
+#var auto[id] 0;
+#var cur_container {};
+#var item_left_id {};
+#var max_id {};
+
 
 #function return_min_sec {
 	#math temp[sec] { %1 % 60 };
