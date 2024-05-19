@@ -407,10 +407,14 @@ init bot[rescue2] preferences off;
 					#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[damage]};
 					#var bot[nextAction] {queueAdd combat $bot[damage]};
 				};
-			 };#else {
+			};
+			#elseif { ("$bot[role]" == "healer") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<75) } {
+				#nop Don't do damage, mana too low;
+			};
+			#else {
 				#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[damage]};
 				#var bot[nextAction] {queueAdd combat $bot[damage]};
-			 }
+			}
 		};
 	};
 	#math actionDelay {@mpoch{} - $spellLock};
