@@ -33,9 +33,9 @@ event_register {variable MSDP_GROUP} {autoheal} {autoheal};
 event_register {variable MSDP_HEALTH} {autoheal} {autoheal};
 event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 
-#var healpct_heal 80;
-#var healpct_powerheal 50;
-#var healpct_fullheal 20;
+#var healpct_heal 99;
+#var healpct_powerheal 95;
+#var healpct_fullheal 90;
 
 #function pickHealMethod {
     #var need_healing 0;
@@ -45,16 +45,19 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
     #foreach *MSDP_GROUP[%*] {_tmp} {
         #show $MSDP_GROUP[$_tmp][name] $MSDP_GROUP[$_tmp][health]; 
         #if {$MSDP_GROUP[$_tmp][health] <= $healpct_fullheal} {
+            #math need_healing {$need_healing+1};
             #math need_fullheal {$need_fullheal+1};
         };
         #if { ($MSDP_GROUP[$_tmp][health] > $healpct_fullheal) && ($MSDP_GROUP[$_tmp][health] < $healpct_powerheal) } {
+            #math need_healing {$need_healing+1};
             #math need_powerheal {$need_powerheal+1};
         };
         #if { ($MSDP_GROUP[$_tmp][health] > $healpct_powerheal) && ($MSDP_GROUP[$_tmp][health] < $healpct_heal) } {
+            #math need_healing {$need_healing+1};
             #math need_heal {$need_heal+1};
         };
     };
-    #show <131>Group:[&MSDP_GROUP[]] FullHeal<0-$healpct_fullheal> [$need_fullheal]  PowerHeal<$healpct_fullheal-$healpct_powerheal> [$need_powerheal]   Heal<$healpct_powerheal-$healpct_heal> [$need_heal];
+    #show <131>Group:[&MSDP_GROUP[]] Needhealing:[$need_healing]   FullHeal<0-$healpct_fullheal> [$need_fullheal]  PowerHeal<$healpct_fullheal-$healpct_powerheal> [$need_powerheal]   Heal<$healpct_powerheal-$healpct_heal> [$need_heal];
     #if {$need_fullheal>0} {
         #show <131>Recommendation: FULLHEAL
     };
