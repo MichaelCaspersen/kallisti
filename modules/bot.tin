@@ -836,8 +836,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Combat
 #NOP #######################################################
 
-#alias damage {#if {"%1"!=""} {#var bot[damage] %1} {#var bot[damage] {}};generate_bot_info;#show New damage ability: [%1]}
-
+#alias damage {#if {"%1"!=""} {#var bot[damage] %1} {#var bot[damage] {}};generate_bot_info;#show <131>New damage ability: [%1]}
+#alias healing {#if {"%1"!=""} {#var bot[healing] %1} {#var bot[healing] {}};generate_bot_info;#show <131>New healing ability: [%1]}
 
 #alias poke_target {
 	#if {$has_poked==0 && "@findtarget{}"!=""} {
