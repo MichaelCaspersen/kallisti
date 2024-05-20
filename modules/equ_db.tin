@@ -7,35 +7,60 @@
 #action {Worn on: %1} {show_equ_match;#var equ[worn] %1}
 #action {Features: %1} {show_equ_match;#var equ[features] %1}
 #action {Composition: %1} {show_equ_match;#var equ[composition] %1}
-#action {Restricted: !Evil} {show_equ_match;#var equ[restricted] %1}
-#action {Weight: %1 stones, Value: %2 coins, Size: %3} {show_equ_match;#var equ[weight] %1;#var equ[value] %2;#var equ[size] %3}
+#action {Restricted: %1} {show_equ_match;#var equ[restricted] %1}
+#action {Weight: %1 stone{s|}, Value: %2 coins, Size: %3} {show_equ_match;#var equ[weight] %1;#var equ[value] %2;#var equ[size] %3}
+
+#action {Speed: %1 (%2), Missile type: %3} {show_equ_match;#var equ[weapon][speed] %1;#var equ[weapon][speednum] %2;#var equ[weapon][missiletype] %3}
+
+#action {Special: %1, Power: %2, Frequency: %3%} {show_equ_match;#var equ[special][name] %1;#var equ[special][power] %2;#var equ[special][frequency] %3}
+#action {Special: %1, Power: %2d%3} {show_equ_match;#var equ[special][name] %1;#var equ[special][dice1] %2;#var equ[special][dice2] %3}
+
 
 #action {Max AC-apply: %1, Current AC-apply: %2} {show_equ_match;#var equ[ac][max] %1;#var equ[ac][current] %2}
 
 #action {Hours remaining: %1} {show_equ_match;#var equ[remaining] %1}
 #action {Color: %1} {show_equ_match;#var equ[color] %1}
 
+#action {Container capacity is %1 of %2 ( %3% ).} {show_equ_match;#var equ[capacity] %2}
+
 #action {Damage Dice: %1d%2 (%3), Weapon Speed: %4 (%5), Attack Type: %6} {show_equ_match;#var equ[weapon][dice1] %1;#var equ[weapon][dice2] %2;#var equ[weapon][damage] %3;#var equ[weapon][speed] %4;#var equ[weapon][speednum] %5;#var equ[weapon][attacktype] %6}
 
+#action {Level %1 spell of:   %2} {show_equ_match;#var equ[spell][%2] %1}
+
+
 #action {Affects:} {}
+#action {  %1 Hitroll_and_Damroll} {show_equ_match;#var equ[affects][hitroll] %1;#var equ[affects][damroll] %1} {7}
+#action {  %1 Hitpoints_and_Mana} {show_equ_match;#var equ[affects][hit] %1;#var equ[affects][mana] %1} {7}
+#action {  %1 Hitroll} {show_equ_match;#var equ[affects][hitroll] %1} {8}
+#action {  %1 Damroll} {show_equ_match;#var equ[affects][damroll] %1} {8}
+#action {  %1 AttackSpeed} {show_equ_match;#var equ[affects][attackspeed] %1} {8}
+#action {  %1 StaminaRegen} {show_equ_match;#var equ[affects][staminaregen] %1} {8}
+#action {  %1 Strength} {show_equ_match;#var equ[affects][strength] %1} {8}
+#action {  %1 Wisdom} {show_equ_match;#var equ[affects][wisdom] %1} {8}
+#action {  %1 Intelligence} {show_equ_match;#var equ[affects][intelligence] %1} {8}
+#action {  %1 Dexterity} {show_equ_match;#var equ[affects][dexterity] %1} {8}
+#action {  %1 Constitution} {show_equ_match;#var equ[affects][constitution] %1} {8}
+#action {  %1 Luck} {show_equ_match;#var equ[affects][luck] %1} {8}
+#action {  %1 Rank in Multi attack} {show_equ_match;#var equ[affects][multiattack] %1}
+#action {  %1 CriticalHit} {show_equ_match;#var equ[affects][criticalhit] %1} {8}
+#action {  %1 Hide} {show_equ_match;#var equ[affects][hide] %1} {8}
+#action {  %1 Can_Fly} {show_equ_match;#var equ[affects][can_fly] %1} {8}
+#action {  %1 HitpointRegen} {show_equ_match;#var equ[affects][hitpointregen] %1} {8}
+#action {  %1 Magic_Resistance} {show_equ_match;#var equ[affects][magic_Resistance] %1} {8}
+#action {  %1 Bloodlust} {show_equ_match;#var equ[affects][Bloodlust] %1} {8}
+#action {  %1 Spiritual_Protection} {show_equ_match;#var equ[affects][Spiritual_Protection] %1} {8}
+#action {  %1 ResistNecrotic} {show_equ_match;#var equ[affects][resistnecrotic] %1} {8}
+#action {  %1 ResistPoison} {show_equ_match;#var equ[affects][resistpoison] %1} {8}
+#action {  %1 ResistFire} {show_equ_match;#var equ[affects][ResistFire] %1} {8}
+#action {  %1 Unholy_Aura} {show_equ_match;#var equ[affects][unholy_aura] %1} {8}
+#action {  %1 CarryWeight} {show_equ_match;#var equ[affects][carryweight] %1} {8}
+#action {  %1 CarryNumber} {show_equ_match;#var equ[affects][carrynumber] %1} {8}
+#action {  %1 Sense_Hidden_Life} {show_equ_match;#var equ[affects][Sense_Hidden_Life] %1} {8}
+#action {  %1 Detect_Invis} {show_equ_match;#var equ[affects][Detect_Invis] %1} {8}
+#action {  %1 Size} {show_equ_match;#var equ[affects][Size] %1} {8}
+#action {  %1 Sense_Object} {show_equ_match;#var equ[affects][Sense_Object] %1} {8}
 
-#action {  +%1 Hitroll_and_Damroll} {show_equ_match;#var equ[affects][hitroll] %1;#var equ[affects][damroll] %1} {4}
-#action {  +%1 Hitroll} {show_equ_match;#var equ[affects][hitroll] %1} {5}
-#action {  +%1 Damroll} {show_equ_match;#var equ[affects][damroll] %1} {5}
-#action {  +%1 AttackSpeed} {show_equ_match;#var equ[affects][attackspeed] %1}
-#action {  +%1 StaminaRegen} {show_equ_match;#var equ[affects][staminaregen] %1}
-#action {  +%1 Luck} {show_equ_match;#var equ[affects][luck] %1}
-#action {  +%1 Dexterity} {show_equ_match;#var equ[affects][dexterity] %1}
-
-#action {  +%1 Rank in Multi attack} {show_equ_match;#var equ[affects][multiattack] %1}
-#action {  +%1 CriticalHit} {show_equ_match;#var equ[affects][criticalhit] %1}
-#action {  +%1 Hide} {show_equ_match;#var equ[affects][hide] %1}
-
-
-#action {  +%1 HitpointRegen} {show_equ_match;#var equ[affects][hitpointregen] %1}
-#action {  +%1 ResistNecrotic} {show_equ_match;#var equ[affects][resistnecrotic] %1}
-#action {  +%1 Luck} {show_equ_match;#var equ[affects][luck] %1}
-#action {  +%1 Luck} {show_equ_match;#var equ[affects][luck] %1}
+#action {  %1 Rank in %2} {show_equ_match;#var equ[affects][%2] %1}
 
 
 #action {Minimum level:} {}
@@ -47,10 +72,19 @@
 #action { Valkyrie : %1 } {show_equ_match;#var equ[minlevel][valkyrie] %1}
 
 #action {Requirements:} {}
-#action {            Strength  Dexterity  Rank (%1)} {show_equ_match;#var equ[weapon][skill] %1}
+#action {            Strength  Dexterity  Rank (%1)} {show_equ_match;#var equ[weapon][skilltype] %1}
 
 #action {Wield :      %1         %2       %3} {show_equ_match;#var equ[weapon][wield][str] %1;#var equ[weapon][wield][dex] %2;#var equ[weapon][wield][rank] %3}
 #action {Hold  :      %1       %2       %3} {show_equ_match;#var equ[weapon][hold][str] %1;#var equ[weapon][hold][dex] %2;#var equ[weapon][hold][rank] %3}
+
+#action {            Dexterity  Rank (%1)} {#SHOW RANGED WEAPON: %1;#var equ[weapon][skilltype] %1}
+#action {Wield :       %1       %2} {show_equ_match;#var equ[weapon][wield][dex] %2;#var equ[weapon][wield][rank] %3}
+#action {Hold  :       %1       %2} {show_equ_match;#var equ[weapon][hold][dex] %2;#var equ[weapon][hold][rank] %3}
+
+#action {Strength  Rank (%1)} {#SHOW Armor: %1;#var equ[armor][type] %1}
+#action {To Wear :       %1        %2} {show_equ_match;#var equ[armor][wear][str] %1;#var equ[armor][wear][rank] %2}
+
+
 
 
 
