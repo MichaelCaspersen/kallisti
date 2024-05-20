@@ -1,0 +1,59 @@
+#action {You think back to stories from your childhood and legends of old...} {}
+#action {You are currently carrying this object.} {}
+#action {You identify '%1'} {show_equ_match;#var equ[name] %1}
+#action {From: %1} {show_equ_match;#var equ[from] %1}
+#action {Created: Tue Apr  2 16:00:26 2024} {}
+#action {Type: %1} {show_equ_match;#var equ[type] %1}
+#action {Worn on: %1} {show_equ_match;#var equ[worn] %1}
+#action {Features: %1} {show_equ_match;#var equ[features] %1}
+#action {Composition: %1} {show_equ_match;#var equ[composition] %1}
+#action {Restricted: !Evil} {show_equ_match;#var equ[restricted] %1}
+#action {Weight: %1 stones, Value: %2 coins, Size: %3} {show_equ_match;#var equ[weight] %1;#var equ[value] %2;#var equ[size] %3}
+
+#action {Max AC-apply: %1, Current AC-apply: %2} {show_equ_match;#var equ[ac][max] %1;#var equ[ac][current] %2}
+
+#action {Hours remaining: %1} {show_equ_match;#var equ[remaining] %1}
+#action {Color: %1} {show_equ_match;#var equ[color] %1}
+
+#action {Damage Dice: %1d%2 (%3), Weapon Speed: %4 (%5), Attack Type: %6} {show_equ_match;#var equ[weapon][dice1] %1;#var equ[weapon][dice2] %2;#var equ[weapon][damage] %3;#var equ[weapon][speed] %4;#var equ[weapon][speednum] %5;#var equ[weapon][attacktype] %6}
+
+#action {Affects:} {}
+
+#action {  +%1 Hitroll_and_Damroll} {show_equ_match;#var equ[affects][hitroll] %1;#var equ[affects][damroll] %1} {4}
+#action {  +%1 Hitroll} {show_equ_match;#var equ[affects][hitroll] %1} {5}
+#action {  +%1 Damroll} {show_equ_match;#var equ[affects][damroll] %1} {5}
+#action {  +%1 AttackSpeed} {show_equ_match;#var equ[affects][attackspeed] %1}
+#action {  +%1 StaminaRegen} {show_equ_match;#var equ[affects][staminaregen] %1}
+#action {  +%1 Luck} {show_equ_match;#var equ[affects][luck] %1}
+#action {  +%1 Dexterity} {show_equ_match;#var equ[affects][dexterity] %1}
+
+#action {  +%1 Rank in Multi attack} {show_equ_match;#var equ[affects][multiattack] %1}
+#action {  +%1 CriticalHit} {show_equ_match;#var equ[affects][criticalhit] %1}
+#action {  +%1 Hide} {show_equ_match;#var equ[affects][hide] %1}
+
+
+#action {  +%1 HitpointRegen} {show_equ_match;#var equ[affects][hitpointregen] %1}
+#action {  +%1 ResistNecrotic} {show_equ_match;#var equ[affects][resistnecrotic] %1}
+#action {  +%1 Luck} {show_equ_match;#var equ[affects][luck] %1}
+#action {  +%1 Luck} {show_equ_match;#var equ[affects][luck] %1}
+
+
+#action {Minimum level:} {}
+#action { Fighter  : %1   Rogue   : %2   Priest : %3   Monastic: %4   Mage       : %5 } {show_equ_match;#var equ[minlevel][fighter] %1;#var equ[minlevel][rogue] %2;#var equ[minlevel][priest] %3;#var equ[minlevel][monastic] %4;#var equ[minlevel][mage] %5}
+#action { Barbarian: %1   Assassin: %2   Templar: %3   Monk    : %4   Wizard     : %5 } {show_equ_match;#var equ[minlevel][barbarian] %1;#var equ[minlevel][assassin] %2;#var equ[minlevel][templar] %3;#var equ[minlevel][monk] %4;#var equ[minlevel][wizard] %5}
+#action { Paladin  : %1   Demoniac: %2   Druid  : %3   Samurai : %4   Necromancer: %5 } {show_equ_match;#var equ[minlevel][paladin] %1;#var equ[minlevel][demoniac] %2;#var equ[minlevel][druid] %3;#var equ[minlevel][samurai] %4;#var equ[minlevel][necromancer] %5}
+#action { Dreadlord: %1   Bard    : %2   Prophet: %3 } {show_equ_match;#var equ[minlevel][dreadlord] %1;#var equ[minlevel][bard] %2;#var equ[minlevel][prophet] %3}
+#action { Ranger   : %1 } {show_equ_match;#var equ[minlevel][ranger] %1}
+#action { Valkyrie : %1 } {show_equ_match;#var equ[minlevel][valkyrie] %1}
+
+#action {Requirements:} {}
+#action {            Strength  Dexterity  Rank (%1)} {show_equ_match;#var equ[weapon][skill] %1}
+
+#action {Wield :      %1         %2       %3} {show_equ_match;#var equ[weapon][wield][str] %1;#var equ[weapon][wield][dex] %2;#var equ[weapon][wield][rank] %3}
+#action {Hold  :      %1       %2       %3} {show_equ_match;#var equ[weapon][hold][str] %1;#var equ[weapon][hold][dex] %2;#var equ[weapon][hold][rank] %3}
+
+
+
+#alias show_equ_match {#show <131>Triggered:}
+#function {matched} {#return "Matched";}
+#alias lore {#var equ {};lor %1;#delay 0.5 {#var equ}}
