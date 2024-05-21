@@ -1079,6 +1079,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #ALIAS {sroom} {#gag { ! };#gag {+! };#gag {\~! };find_containers_in_room;#delay 2 {#foreach {*containers_room[]} {i} {search $containers_room[$i] %1;}};#delay 20 {#ungag { ! };#ungag {+! };#ungag {\~! };#var containers_room {}}}
 #alias find_containers_in_room {#var containers_room {};#gag {(locked)};#action {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3} {#list containers_room add %%2};l;#delay 0.4 {show_debug UNACTION;#unaction {%%1 {armoury|safe|case|trunk|chest|drawer|jar|basket} %%3}}}
 
+
 #alias scon {#if {%2>0} {objs count;#var auto[id] 1;#var cur_container %1;#var max_id %2;#var item_left_id %2;#show <131>Will id all items in $cur_container, counting down from $max_id;get_item} {#show <131>scon needs params <container> <maxid>}}
 #alias sco {objs count;#var auto[id] 1;#var max_id %1;#var item_left_id %1;#show <131>Will id all items in $cur_container, counting down from $max_id;get_item}
 #alias search {#var cur_container %1;searc %1}
