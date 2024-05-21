@@ -211,6 +211,17 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
+#action {%1 gives you some %2 hide from %3.} {
+	#switch {"%2"} {
+		#case {"junk"} { $profession[str_sack] };
+		#case {"rough"} { $profession[str_sack] };
+		#default {
+			donate $profession[str_mat] home;
+			#math profession[gather][success] {$profession[gather][success]+1}
+		};
+	};
+	generate_profession_info;
+}
 
 #NOP #######################################################
 #NOP Auto Profession 
