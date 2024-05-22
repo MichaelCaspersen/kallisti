@@ -1,7 +1,7 @@
 #var equ_db-description {Utilities for logging equipment}
 #var equ_db-help {
 Commands:\n
-\t\n
+\t #var equ_debug 0/1 to enable lore debugging \n
 \t\n
 \n
 \t\n
@@ -20,11 +20,11 @@ Commands:\n
 }
 
 
-#action {You think back to stories from your childhood and legends of old...} {}
-#action {You are currently carrying this object.} {}
+#nop {You think back to stories from your childhood and legends of old...} {}
+#nop {You are currently carrying this object.} {}
 #action {You identify '%1} {show_equ_match %1;#var equ[name] %1}
 #action {From: %1} {show_equ_match %1;#var equ[from] %1}
-#action {Created: Tue Apr  2 16:00:26 2024} {}
+#nop action {Created: Tue Apr  2 16:00:26 2024} {}
 #action {Type: %1,  Quality: %2} {
     show_equ_match %1 %2;
     #var equ[type] %1;
@@ -128,7 +128,7 @@ Commands:\n
 #action {Can cast all spells up to level %1.} {show_equ_match %1;#var equ[castlevel] %1}
 #action {Can play all songs up to level %1.} {show_equ_match %1;#var equ[castlevel] %1}
 
-#action {Affects:} {}
+#nop action {Affects:} {}
 
 #action {  %1 Age} {add_affect Age %1} {9}
 #action {  %1 Aqualung} {add_affect Aqualung %1} {9}
@@ -249,7 +249,7 @@ Commands:\n
 #action { Valkyrie : %1 } {show_equ_match %1;set_min_level valkyrie %1} {7}
 #action { Valkyrie : %1} {show_equ_match %1;set_min_level valkyrie %1} {6}
 
-#action {Requirements:} {}
+#nop action {Requirements:} {}
 #action {            Strength  Dexterity  Rank (%1)} {
     show_equ_match %1;
     #var equ[weapon][skilltype] %1
