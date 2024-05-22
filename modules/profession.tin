@@ -302,7 +302,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {You craft {a|an} %1 {dagger|symbol} made from {a|an} %3 {bone}.} { exa %2 }
 
-#action {Damage Dice: %1d%2 (%3)} {	
+#action {#NEED TO MOVE TO EQU_DB.TIN Damage Dice: %1d%2 (%3)} {	
 	#if { $profession[refining][auto] } {
 		#if { (%3>20) } { 
 			put dagger backpack;
