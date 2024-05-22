@@ -1083,7 +1083,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias scon {#if {%2>0} {objs count;#var auto[id] 1;#var cur_container %1;#var max_id %2;#var item_left_id %2;#show <131>Will id all items in $cur_container, counting down from $max_id;get_item} {#show <131>scon needs params <container> <maxid>}}
 #alias sco {objs count;#var auto[id] 1;#var max_id %1;#var item_left_id %1;#show <131>Will id all items in $cur_container, counting down from $max_id;get_item}
 #alias search {#var cur_container %1;searc %1}
-#alias get_item {#if {$item_left_id>0} {get $max_id $cur_container} {#var auto[id] 0;l;#show <131>Done id'ing $max_id items in $cur_container}}
+#alias get_item {#if {$item_left_id<$max_id} {savecsv};#if {$item_left_id>0} {get $max_id $cur_container} {#var auto[id] 0;l;#show <131>Done id'ing $max_id items in $cur_container}}
 #action {There doesn't seem to be a $max_id in} {#if {$auto[id]} {#math max_id {$max_id-1};#var item_left_id $max_id;get_item}}
 #action {You get {a |an |the |}%2 from {a |an |the |}%3.} {#if {$auto[id]} {#math item_left_id {$item_left_id-1};#show <131>[$item_left_id/$max_id] Found: [%2];lore 1}}
 #action {You think back to stories from your childhood and legends of old...} {#if {$auto[id]} {#delay 0.2 {put 1 $cur_container;get_item}}}

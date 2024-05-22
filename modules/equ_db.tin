@@ -1,6 +1,6 @@
 #action {You think back to stories from your childhood and legends of old...} {}
 #action {You are currently carrying this object.} {}
-#action {You identify '%1'} {show_equ_match %1;#var equ[name] %1}
+#action {You identify '%1} {show_equ_match %1;#var equ[name] %1}
 #action {From: %1} {show_equ_match %1;#var equ[from] %1}
 #action {Created: Tue Apr  2 16:00:26 2024} {}
 #action {Type: %1,  Quality: %2} {show_equ_match %1 %2;#var equ[type] %1;;#var equ[quality] %2} {7}
@@ -25,162 +25,117 @@
 #action {Damage Dice: %1d%2 (%3), Weapon Speed: %4 (%5), Attack Type: %6} {show_equ_match %1 %2 %3 %4 %5 %6;#var equ[weapon][dice1] %1;#var equ[weapon][dice2] %2;#var equ[weapon][damage] %3;#var equ[weapon][speed] %4;#var equ[weapon][speednum] %5;#var equ[weapon][attacktype] %6}
 
 #action {Holds %1 charges maximum, with %2 charges left.} {show_equ_match %1 %2;#var equ[spell][chargesmax] %1;#var equ[spell][chargesleft] %2}
-#action {Level %1 spell of: %2} {show_equ_match %1 %2;#var equ[spell][%2] %1}
-#action {Level %1 spell of:   %2} {show_equ_match %1 %2;#var equ[spell][%2] %1}
+#action {Level %1 spell of: %2} {add_spell {%2} {%1}}
+#action {Level %1 spell of:   %2} {add_spell {%2} {%1}}
+#alias {add_spell} {#nop show <132><$spell_id> <%1> <%2>;#var equ[spell][$spell_id][name] %1;#var equ[spell][$spell_id][level] %2;#math spell_id {$spell_id+1}}
 
 #action {Str Required: %1, Damage Dice: %2d%3, Missile type: %4, Boomeranging: %5} {show_equ_match %1 %2 %3 %4 %5;#var equ[missile][str_required] %1;#var equ[missile][dice1] %2;#var equ[missile][dice2] %3;#var equ[missile][type] %4;#var equ[missile][boomeranging] %5}
 
-#action {Level %1 spells of:} {show_equ_match %1;#var equ[spell][level] %1;#var equ[spell][spells] ADD-MANUALLY}
+#action {Level %1 spells of:} {show_equ_match %1;#var equ[spell][level] %1;#var equ[spell][spells] {ADD-MANUALLY $equ[name]}}
 #action {Can cast all spells up to level %1.} {show_equ_match %1;#var equ[castlevel] %1}
 #action {Can play all songs up to level %1.} {show_equ_match %1;#var equ[castlevel] %1}
 
 #action {Affects:} {}
 
-#action {  %1 Age} {show_equ_match %1;#var equ[affects][Age] %1} {9}
-#action {  %1 Aqualung} {show_equ_match %1;#var equ[affects][Aqualung] %1} {9}
-#action {  %1 Armor} {show_equ_match %1;#var equ[affects][armor] %1} {9}
-#action {  %1 AttackSpeed} {show_equ_match %1;#var equ[affects][attackspeed] %1} {8}
-#action {  %1 Awareness} {show_equ_match %1;#var equ[affects][Awareness] %1} {8}
-#action {  %1 Bloodlust} {show_equ_match %1;#var equ[affects][Bloodlust] %1} {8}
-#action {  %1 Can_Fly} {show_equ_match %1;#var equ[affects][can_fly] %1} {8}
-#action {  %1 CarryNumber} {show_equ_match %1;#var equ[affects][carrynumber] %1} {8}
-#action {  %1 CarryWeight} {show_equ_match %1;#var equ[affects][carryweight] %1} {8}
-#action {  %1 CastSpeed} {show_equ_match %1;#var equ[affects][CastSpeed] %1} {8}
-#action {  %1 CriticalHit} {show_equ_match %1;#var equ[affects][criticalhit] %1} {8}
-#action {  %1 DamageReduce} {show_equ_match %1;#var equ[affects][DamageReduce] %1} {8}
-#action {  %1 Darkvision} {show_equ_match %1;#var equ[affects][Darkvision] %1} {8}
-#action {  %1 Deaf} {show_equ_match %1;#var equ[affects][Deaf] %1} {8}
-#action {  %1 Detect_Good} {show_equ_match %1;#var equ[affects][Detect_Good] %1} {8}
-#action {  %1 Detect_Invis} {show_equ_match %1;#var equ[affects][Detect_Invis] %1} {8}
-#action {  %1 Detect_Magic} {show_equ_match %1;#var equ[affects][Detect_Magic] %1} {8}
-#action {  %1 Digging} {show_equ_match %1;#var equ[affects][Digging] %1} {8}
-#action {  %1 Divine_Weapon} {show_equ_match %1;#var equ[affects][Divine_Weapon] %1} {8}
-#action {  %1 Flaming_Weapon} {show_equ_match %1;#var equ[affects][Flaming_Weapon] %1} {8}
-#action {  %1 Freezing_Weapon} {show_equ_match %1;#var equ[affects][Freezing_Weapon] %1} {8}
-#action {  %1 Fuseport} {show_equ_match %1;#var equ[affects][Fuseport] %1} {8}
-#action {  %1 Hide} {show_equ_match %1;#var equ[affects][hide] %1} {8}
-#action {  %1 HitpointRegen} {show_equ_match %1;#var equ[affects][hitpointregen] %1} {8}
-#action {  %1 HolySymbol} {show_equ_match %1;#var equ[affects][HolySymbol] %1} {8}
-#action {  %1 Invisibility} {show_equ_match %1;#var equ[affects][Invisibility] %1} {8}
-#action {  %1 Magical_Protection} {show_equ_match %1;#var equ[affects][Magical_Protection] %1} {8}
-#action {  %1 Magic_Resistance} {show_equ_match %1;#var equ[affects][magic_Resistance] %1} {8}
-#action {  %1 ManaRegen} {show_equ_match %1;#var equ[affects][ManaRegen] %1} {8}
-#action {  %1 NatureSymbol} {show_equ_match %1;#var equ[affects][NatureSymbol] %1} {8}
-#action {  %1 PrimeRequisite} {show_equ_match;#var equ[affects][PrimeRequisite] %1} {8}
-#action {  %1 ResistAquatic} {show_equ_match %1;#var equ[affects][ResistAquatic] %1} {8}
-#action {  %1 ResistBludgeon} {show_equ_match %1;#var equ[affects][ResistBludgeon] %1} {8}
-#action {  %1 ResistCold} {show_equ_match %1;#var equ[affects][ResistCold] %1} {8}
-#action {  %1 ResistCut} {show_equ_match %1;#var equ[affects][ResistCut] %1} {8}
-#action {  %1 ResistDivine} {show_equ_match %1;#var equ[affects][ResistDivine] %1} {8}
-#action {  %1 ResistEarth} {show_equ_match %1;#var equ[affects][ResistEarth] %1} {8}
-#action {  %1 ResistFire} {show_equ_match %1;#var equ[affects][ResistFire] %1} {8}
-#action {  %1 ResistHealing} {show_equ_match %1;#var equ[affects][ResistHealing] %1} {8}
-#action {  %1 ResistNecrotic} {show_equ_match %1;#var equ[affects][resistnecrotic] %1} {8}
-#action {  %1 ResistPierce} {show_equ_match %1;#var equ[affects][ResistPierce] %1} {8}
-#action {  %1 ResistPoison} {show_equ_match %1;#var equ[affects][resistpoison] %1} {8}
-#action {  %1 ResistSonic} {show_equ_match %1;#var equ[affects][ResistSonic] %1} {8}
-#action {  %1 Sanctuary} {show_equ_match %1;#var equ[affects][Sanctuary] %1} {8}
-#action {  %1 Save_All} {show_equ_match %1;#var equ[affects][Save_All] %1} {8}
-#action {  %1 Save_Mental} {show_equ_match %1;#var equ[affects][Save_Mental] %1} {8}
-#action {  %1 Save_Physical} {show_equ_match %1;#var equ[affects][Save_Physical] %1} {8}
-#action {  %1 Save_Reflex} {show_equ_match %1;#var equ[affects][Save_Reflex] %1} {8}
-#action {  %1 Sense_Hidden_Life} {show_equ_match %1;#var equ[affects][Sense_Hidden_Life] %1} {8}
-#action {  %1 Sense_Object} {show_equ_match %1;#var equ[affects][Sense_Object] %1} {8}
-#action {  %1 Sense_Undead} {show_equ_match %1;#var equ[affects][Sense_Undead] %1} {8}
-#action {  %1 Silence} {show_equ_match %1;#var equ[affects][Silence] %1} {8}
-#action {  %1 Size} {show_equ_match %1;#var equ[affects][Size] %1} {8}
-#action {  %1 Skill_Fail} {show_equ_match %1;#var equ[affects][Skill_Fail] %1} {8}
-#action {  %1 Sneak} {show_equ_match %1;#var equ[affects][Sneak] %1} {8}
-#action {  %1 Spell_Fail} {show_equ_match %1;#var equ[affects][Spell_Fail] %1} {8}
-#action {  %1 Spiritual_Protection} {show_equ_match %1;#var equ[affects][Spiritual_Protection] %1} {8}
-#action {  %1 Stamina} {show_equ_match %1;#var equ[affects][stamina] %1} {8}
-#action {  %1 StaminaRegen} {show_equ_match %1;#var equ[affects][staminaregen] %1} {8}
-#action {  %1 Valkyrie_Charm} {show_equ_match %1;#var equ[affects][Valkyrie_Charm] %1} {8}
-#action {  %1 Vigor} {show_equ_match %1;#var equ[affects][Vigor] %1} {8}
-#action {  %1 Unholy_Aura} {show_equ_match %1;#var equ[affects][unholy_aura] %1} {8}
-#action {  %1 UnholySymbol} {show_equ_match %1;#var equ[affects][UnholySymbol] %1} {8}
-#action {  %1 Walkspeed} {show_equ_match %1;#var equ[affects][Walkspeed] %1} {8}
-#action {  %1 Weaponskills} {show_equ_match %1;#var equ[affects][Weaponskills] %1} {8}
-#action {  %1 Wraithform} {show_equ_match %1;#var equ[affects][Wraithform] %1} {8}
+#action {  %1 Age} {add_affect Age %1} {9}
+#action {  %1 Aqualung} {add_affect Aqualung %1} {9}
+#action {  %1 Armor} {add_affect armor %1} {9}
+#action {  %1 AttackSpeed} {add_affect attackspeed %1} {8}
+#action {  %1 Awareness} {add_affect Awareness %1} {8}
+#action {  %1 Bloodlust} {add_affect Bloodlust %1} {8}
+#action {  %1 Can_Fly} {add_affect can_fly %1} {8}
+#action {  %1 CarryNumber} {add_affect carrynumber %1} {8}
+#action {  %1 CarryWeight} {add_affect carryweight %1} {8}
+#action {  %1 CastSpeed} {add_affect CastSpeed %1} {8}
+#action {  %1 CriticalHit} {add_affect criticalhit %1} {8}
+#action {  %1 DamageReduce} {add_affect DamageReduce %1} {8}
+#action {  %1 Darkvision} {add_affect Darkvision %1} {8}
+#action {  %1 Deaf} {add_affect Deaf %1} {8}
+#action {  %1 Detect_Good} {add_affect Detect_Good %1} {8}
+#action {  %1 Detect_Invis} {add_affect Detect_Invis %1} {8}
+#action {  %1 Detect_Magic} {add_affect Detect_Magic %1} {8}
+#action {  %1 Digging} {add_affect Digging %1} {8}
+#action {  %1 Divine_Weapon} {add_affect Divine_Weapon %1} {8}
+#action {  %1 Flaming_Weapon} {add_affect Flaming_Weapon %1} {8}
+#action {  %1 Freezing_Weapon} {add_affect Freezing_Weapon %1} {8}
+#action {  %1 Fuseport} {add_affect Fuseport %1} {8}
+#action {  %1 Hide} {add_affect hide %1} {8}
+#action {  %1 HitpointRegen} {add_affect hitpointregen %1} {8}
+#action {  %1 HolySymbol} {add_affect HolySymbol %1} {8}
+#action {  %1 Invisibility} {add_affect Invisibility %1} {8}
+#action {  %1 Magical_Protection} {add_affect Magical_Protection %1} {8}
+#action {  %1 Magic_Resistance} {add_affect magic_Resistance %1} {8}
+#action {  %1 ManaRegen} {add_affect ManaRegen %1} {8}
+#action {  %1 NatureSymbol} {add_affect NatureSymbol %1} {8}
+#action {  %1 PrimeRequisite} {show_equ_match;add_affect PrimeRequisite %1} {8}
+#action {  %1 ResistAquatic} {add_affect ResistAquatic %1} {8}
+#action {  %1 ResistBludgeon} {add_affect ResistBludgeon %1} {8}
+#action {  %1 ResistCold} {add_affect ResistCold %1} {8}
+#action {  %1 ResistCut} {add_affect ResistCut %1} {8}
+#action {  %1 ResistDivine} {add_affect ResistDivine %1} {8}
+#action {  %1 ResistEarth} {add_affect ResistEarth %1} {8}
+#action {  %1 ResistFire} {add_affect ResistFire %1} {8}
+#action {  %1 ResistHealing} {add_affect ResistHealing %1} {8}
+#action {  %1 ResistNecrotic} {add_affect resistnecrotic %1} {8}
+#action {  %1 ResistPierce} {add_affect ResistPierce %1} {8}
+#action {  %1 ResistPoison} {add_affect resistpoison %1} {8}
+#action {  %1 ResistSonic} {add_affect ResistSonic %1} {8}
+#action {  %1 Sanctuary} {add_affect Sanctuary %1} {8}
+#action {  %1 Save_All} {add_affect Save_All %1} {8}
+#action {  %1 Save_Mental} {add_affect Save_Mental %1} {8}
+#action {  %1 Save_Physical} {add_affect Save_Physical %1} {8}
+#action {  %1 Save_Reflex} {add_affect Save_Reflex %1} {8}
+#action {  %1 Sense_Hidden_Life} {add_affect Sense_Hidden_Life %1} {8}
+#action {  %1 Sense_Object} {add_affect Sense_Object %1} {8}
+#action {  %1 Sense_Undead} {add_affect Sense_Undead %1} {8}
+#action {  %1 Silence} {add_affect Silence %1} {8}
+#action {  %1 Size} {add_affect Size %1} {8}
+#action {  %1 Skill_Fail} {add_affect Skill_Fail %1} {8}
+#action {  %1 Sneak} {add_affect Sneak %1} {8}
+#action {  %1 Spell_Fail} {add_affect Spell_Fail %1} {8}
+#action {  %1 Spiritual_Protection} {add_affect Spiritual_Protection %1} {8}
+#action {  %1 Stamina} {add_affect stamina %1} {8}
+#action {  %1 StaminaRegen} {add_affect staminaregen %1} {8}
+#action {  %1 Valkyrie_Charm} {add_affect Valkyrie_Charm %1} {8}
+#action {  %1 Vigor} {add_affect Vigor %1} {8}
+#action {  %1 Unholy_Aura} {add_affect unholy_aura %1} {8}
+#action {  %1 UnholySymbol} {add_affect UnholySymbol %1} {8}
+#action {  %1 Walkspeed} {add_affect Walkspeed %1} {8}
+#action {  %1 Weaponskills} {add_affect Weaponskills %1} {8}
+#action {  %1 Wraithform} {add_affect Wraithform %1} {8}
 
-#action {  %1 Rank in Acid blast} {show_equ_match %1 %2;#var equ[affects][Acid_blast] %1} {8}
-#action {  %1 Rank in Animal friendship} {show_equ_match %1 %2;#var equ[affects][Animal_friendship] %1} {8}
-#action {  %1 Rank in Assimilate} {show_equ_match %1 %2;#var equ[affects][Assimilate] %1} {8}
-#action {  %1 Rank in Armor use} {show_equ_match %1 %2;#var equ[affects][Armor_use] %1} {8}
-#action {  %1 Rank in Backstab} {show_equ_match %1 %2;#var equ[affects][Backstab] %1} {8}
-#action {  %1 Rank in Banish undead} {show_equ_match %1 %2;#var equ[affects][Banish_undead] %1} {8}
-#action {  %1 Rank in Bash} {show_equ_match %1 %2;#var equ[affects][Bash] %1} {8}
-#action {  %1 Rank in Call lightning} {show_equ_match %1 %2;#var equ[affects][Call_Lightning] %1} {8}
-#action {  %1 Rank in Charge} {show_equ_match %1 %2;#var equ[affects][Charge] %1} {8}
-#action {  %1 Rank in Cooking} {show_equ_match %1 %2;#var equ[affects][Cooking] %1} {8}
-#action {  %1 Rank in Critical hits} {show_equ_match %1 %2;#var equ[affects][Critical_hits] %1} {8}
-#action {  %1 Rank in Chromatic orb} {show_equ_match %1 %2;#var equ[affects][Chromatic orb] %1} {8}
-#action {  %1 Rank in Deathbond} {show_equ_match %1 %2;#var equ[affects][Deathbond] %1} {8}
-#action {  %1 Rank in Deathstroke} {show_equ_match %1 %2;#var equ[affects][Deathstroke] %1} {8}
-#action {  %1 Rank in Defend} {show_equ_match %1 %2;#var equ[affects][Defend] %1} {8}
-#action {  %1 Rank in Deepdraw} {show_equ_match %1 %2;#var equ[affects][Deepdraw] %1} {8}
-#action {  %1 Rank in Dirge of doom} {show_equ_match %1 %2;#var equ[affects][Dirge_of_doom] %1} {8}
-#action {  %1 Rank in Disarm} {show_equ_match %1 %2;#var equ[affects][Disarm] %1} {8}
-#action {  %1 Rank in Disguise} {show_equ_match %1 %2;#var equ[affects][Disguise] %1} {8}
-#action {  %1 Rank in Dodge} {show_equ_match %1 %2;#var equ[affects][Dodge] %1} {8}
-#action {  %1 Rank in Evade} {show_equ_match %1 %2;#var equ[affects][Evade] %1} {8}
-#action {  %1 Rank in Fishing} {show_equ_match %1 %2;#var equ[affects][Fishing] %1} {8}
-#action {  %1 Rank in Focus} {show_equ_match %1 %2;#var equ[affects][Focus] %1} {8}
-#action {  %1 Rank in Glory} {show_equ_match %1 %2;#var equ[affects][Glory] %1} {8}
-#action {  %1 Rank in Gouge} {show_equ_match %1 %2;#var equ[affects][Gouge] %1} {8}
-#action {  %1 Rank in Haggle} {show_equ_match %1 %2;#var equ[affects][Haggle] %1} {8}
-#action {  %1 Rank in Heal} {show_equ_match %1 %2;#var equ[affects][Heal] %1} {8}
-#action {  %1 Rank in Hunt} {show_equ_match %1 %2;#var equ[affects][Hunt] %1} {8}
-#action {  %1 Rank in Leatherworking} {show_equ_match %1 %2;#var equ[affects][Leatherworking] %1} {8}
-#action {  %1 Rank in Multi Attack} {show_equ_match %1 %2;#var equ[affects][Multi_Attack] %1} {8}
-#action {  %1 Rank in Natural weapons} {show_equ_match %1 %2;#var equ[affects][Natural_weapons] %1} {8}
-#action {  %1 Rank in Parry} {show_equ_match %1 %2;#var equ[affects][Parry] %1} {8}
-#action {  %1 Rank in Rage} {show_equ_match %1 %2;#var equ[affects][Rage] %1} {8}
-#action {  %1 Rank in Ranged weapons} {show_equ_match %1 %2;#var equ[affects][Ranged_weapons] %1} {8}
-#action {  %1 Rank in Redemption} {show_equ_match %1 %2;#var equ[affects][Redemption] %1} {8}
-#action {  %1 Rank in Rescue} {show_equ_match %1 %2;#var equ[affects][Rescue] %1} {8}
-#action {  %1 Rank in Shapechange} {show_equ_match %1 %2;#var equ[affects][Shapechange] %1} {8}
-#action {  %1 Rank in Snapshot} {show_equ_match %1 %2;#var equ[affects][Snapshot] %1} {8}
-#action {  %1 Rank in Sneak} {show_equ_match %1 %2;#var equ[affects][Sneak] %1} {8}
-#action {  %1 Rank in Steal} {show_equ_match %1 %2;#var equ[affects][Steal] %1} {8}
-#action {  %1 Rank in Tale of valor} {show_equ_match %1 %2;#var equ[affects][Tale_of_valor] %1} {8}
-#action {  %1 Rank in Tanning} {show_equ_match %1 %2;#var equ[affects][Tanning] %1} {8}
-#action {  %1 Rank in Weaving} {show_equ_match %1 %2;#var equ[affects][Weaving] %1} {8}
-#action {  %1 Rank in Earthquake} {show_equ_match %1 %2;#var equ[affects][Earthquake] %1} {8}
+#action {  %1 Hitpoints_and_Mana} {add_affect hitpoints %1;add_affect mana %1} {6}
+#action {  %1 Mana} {add_affect mana %1} {7}
+#action {  %1 HitPoints} {add_affect hitpoints %1} {7}
+#action {  %1 Hitroll_and_Damroll} {add_affect hitroll %1;add_affect damroll %1} {7}
+#action {  %1 Hitroll} {add_affect hitroll %1} {8}
+#action {  %1 Damroll} {add_affect damroll %1} {8}
 
-#action {  %1 Rank in %2} {#show <132> %2 %1;gt <$equ[name]> <%2> <%1>;#var equ[affects][in][%2] %1} {9}
+#action {  %1 Strength} {add_affect strength %1} {8}
+#action {  %1 Wisdom} {add_affect wisdom %1} {8}
+#action {  %1 Intelligence} {add_affect intelligence %1} {8}
+#action {  %1 Dexterity} {add_affect dexterity %1} {8}
+#action {  %1 Constitution} {add_affect constitution %1} {8}
+#action {  %1 Luck} {add_affect luck %1} {8}
 
-#action {  %1 Rank in %2} {#show <132>NEW %2 %1;add_affect {%2} {%1}} {9}
-#alias {add_affect} {#show <$affects_id> <%1> <%2>;#var equ[affects][$affects_id][name] %1;#var equ[affects][$affects_id][rank] %2;#math affects_id {$affects_id+1}}
-
-
-
-#action {  %1 Hitpoints_and_Mana} {show_equ_match %1;#var equ[affects][hit] %1;#var equ[affects][mana] %1} {6}
-#action {  %1 Mana} {show_equ_match %1;#var equ[affects][mana] %1} {7}
-#action {  %1 HitPoints} {show_equ_match %1;#var equ[affects][hit] %1} {7}
-#action {  %1 Hitroll_and_Damroll} {show_equ_match %1;#var equ[affects][hitroll] %1;#var equ[affects][damroll] %1} {7}
-#action {  %1 Hitroll} {show_equ_match %1;#var equ[affects][hitroll] %1} {8}
-#action {  %1 Damroll} {show_equ_match %1;#var equ[affects][damroll] %1} {8}
-
-#action {  %1 Strength} {show_equ_match %1;#var equ[affects][strength] %1} {8}
-#action {  %1 Wisdom} {show_equ_match %1;#var equ[affects][wisdom] %1} {8}
-#action {  %1 Intelligence} {show_equ_match %1;#var equ[affects][intelligence] %1} {8}
-#action {  %1 Dexterity} {show_equ_match %1;#var equ[affects][dexterity] %1} {8}
-#action {  %1 Constitution} {show_equ_match %1;#var equ[affects][constitution] %1} {8}
-#action {  %1 Luck} {show_equ_match %1;#var equ[affects][luck] %1} {8}
+#action {  %1 Rank in %2} {add_affect {%2} {%1}} {9}
+#alias {add_affect} {#nop show <132><$affects_id> <%1> <%2>;#var equ[affects][$affects_id][name] %1;#var equ[affects][$affects_id][rank] %2;#math affects_id {$affects_id+1}}
 
 
 
 #action {Minimum level:} {}
-#action { Fighter  : %1   Rogue   : %2   Priest : %3   Monastic: %4   Mage       : %5 } {show_equ_match %1 %2 %3 %4 %5;#var equ[minlevel][fighter] %1;#var equ[minlevel][rogue] %2;#var equ[minlevel][priest] %3;#var equ[minlevel][monastic] %4;#var equ[minlevel][mage] %5}
-#action { Barbarian: %1   Assassin: %2   Templar: %3   Monk    : %4   Wizard     : %5 } {show_equ_match %1 %2 %3 %4 %5;#var equ[minlevel][barbarian] %1;#var equ[minlevel][assassin] %2;#var equ[minlevel][templar] %3;#var equ[minlevel][monk] %4;#var equ[minlevel][wizard] %5}
-#action { Paladin  : %1   Demoniac: %2   Druid  : %3   Samurai : %4   Necromancer: %5 } {show_equ_match %1 %2 %3 %4 %5;#var equ[minlevel][paladin] %1;#var equ[minlevel][demoniac] %2;#var equ[minlevel][druid] %3;#var equ[minlevel][samurai] %4;#var equ[minlevel][necromancer] %5}
-#action { Dreadlord: %1   Bard    : %2   Prophet: %3 } {show_equ_match %1 %2 %3;#var equ[minlevel][dreadlord] %1;#var equ[minlevel][bard] %2;#var equ[minlevel][prophet] %3}
-#action { Ranger   : %1 } {show_equ_match %1;#var equ[minlevel][ranger] %1} {6}
-#action { Ranger   : %1} {show_equ_match %1;#var equ[minlevel][ranger] %1} {7}
-#action { Valkyrie : %1 } {show_equ_match %1;#var equ[minlevel][valkyrie] %1} {6}
-#action { Valkyrie : %1} {show_equ_match %1;#var equ[minlevel][valkyrie] %1} {7}
+#action { Fighter  : %1   Rogue   : %2   Priest : %3   Monastic: %4   Mage       : %5 } {show_equ_match %1 %2 %3 %4 %5;set_min_level fighter %1;set_min_level rogue %2;set_min_level priest %3;set_min_level monastic %4;set_min_level mage %5}
+#action { Barbarian: %1   Assassin: %2   Templar: %3   Monk    : %4   Wizard     : %5 } {show_equ_match %1 %2 %3 %4 %5;set_min_level barbarian %1;set_min_level assassin %2;set_min_level templar %3;set_min_level monk %4;set_min_level wizard %5}
+#action { Paladin  : %1   Demoniac: %2   Druid  : %3   Samurai : %4   Necromancer: %5 } {show_equ_match %1 %2 %3 %4 %5;set_min_level paladin %1;set_min_level demoniac %2;set_min_level druid %3;set_min_level samurai %4;set_min_level necromancer %5}
+#action { Dreadlord: %1   Bard    : %2   Prophet: %3 } {show_equ_match %1 %2 %3;set_min_level dreadlord %1;set_min_level bard %2;set_min_level prophet %3}
+#action { Ranger   : %1 } {show_equ_match %1;set_min_level ranger %1} {7}
+#action { Ranger   : %1} {show_equ_match %1;set_min_level ranger %1} {6}
+#action { Valkyrie : %1 } {show_equ_match %1;set_min_level valkyrie %1} {7}
+#action { Valkyrie : %1} {show_equ_match %1;set_min_level valkyrie %1} {6}
 
+#alias set_min_level {#nop <131> <%1> <%2>;#var _temp_class %1;#var _temp_level %2;#if {"$_temp_level"=="!"} {#var equ[minlevel][%1] 999} {#var equ[minlevel][%1] %2}}
+
+Ranger   :  !  
 #action {Requirements:} {}
 #action {            Strength  Dexterity  Rank (%1)} {show_equ_match %1;#var equ[weapon][skilltype] %1}
 #action {Wield :      %1         %2       %3} {show_equ_match  %1 %2 %3;#var equ[weapon][wield][str] %1;#var equ[weapon][wield][dex] %2;#var equ[weapon][wield][rank] %3}
@@ -207,6 +162,7 @@
 #action {Strength  Rank (%1)} {show_equ_match %1;#var equ[armor][type] %1}
 #action {To Wear :       %1        %2} {show_equ_match %1 %2;#var equ[armor][wear][str] %1;#var equ[armor][wear][rank] %2}
 
-#alias show_equ_match {#show <131>Triggered: %0}
-#function {matched} {#return "Matched";}
-#alias lore {#var equ {};#var affects_id 1;lor %1;#nop delay 0.5 {#var equ}}
+#alias show_equ_match {#nop show <131>Triggered: >%0<}
+#alias lore {#var equ {};#var affects_id 1;#var spell_id 1;lor %1;#nop delay 0.5 {#var equ}}
+#var log {equ.csv}
+#alias savecsv {#var equcsv {"$equ[name]"£"$equ[from]"£"$equ[type]"£"$equ[quality]"£"$equ[worn]"£"$equ[features]"£"$equ[composition]"£"$equ[restricted]"£"$equ[weight]"£"$equ[value]"£"$equ[size]"£"$equ[weapon][speed]"£"$equ[weapon][speednum]"£"$equ[weapon][missiletype]"£"$equ[punchdamage][dice1]"£"$equ[punchdamage][dice2]"£"$equ[special][name]"£"$equ[special][power]"£"$equ[special][frequency]"£"$equ[special][frequencynum]"£"$equ[special][dice1]"£"$equ[special][dice2]"£"$equ[ac][max]"£"$equ[ac][current]"£"$equ[hoursremaining]"£"$equ[color]"£"$equ[capacity]"£"$equ[weapon][dice1]"£"$equ[weapon][dice2]"£"$equ[weapon][damage]"£"$equ[weapon][speed]"£"$equ[weapon][speednum]"£"$equ[weapon][attacktype]"£"$equ[spell][chargesmax]"£"$equ[spell][chargesleft]"£"$equ[missile][str_required]"£"$equ[missile][dice1]"£"$equ[missile][dice2]"£"$equ[missile][type]"£"$equ[missile][boomeranging]"£"$equ[spell][level]"£"$equ[spell][spells]"£"$equ[spell][1][name]"£"$equ[spell][1][level]"£"$equ[spell][2][name]"£"$equ[spell][2][level]"£"$equ[spell][3][name]"£"$equ[spell][3][level]"£"$equ[castlevel]"£"$equ[affects][1][name]"£"$equ[affects][1][rank]"£"$equ[affects][2][name]"£"$equ[affects][2][rank]"£"$equ[affects][3][name]"£"$equ[affects][3][rank]"£"$equ[affects][4][name]"£"$equ[affects][4][rank]"£"$equ[affects][5][name]"£"$equ[affects][5][rank]"£"$equ[affects][6][name]"£"$equ[affects][6][rank]"£"$equ[affects][7][name]"£"$equ[affects][7][rank]"£"$equ[minlevel][fighter]"£"$equ[minlevel][rogue]"£"$equ[minlevel][priest]"£"$equ[minlevel][monastic]"£"$equ[minlevel][mage]"£"$equ[minlevel][barbarian]"£"$equ[minlevel][assassin]"£"$equ[minlevel][templar]"£"$equ[minlevel][monk]"£"$equ[minlevel][wizard]"£"$equ[minlevel][paladin]"£"$equ[minlevel][demoniac]"£"$equ[minlevel][druid]"£"$equ[minlevel][samurai]"£"$equ[minlevel][necromancer]"£"$equ[minlevel][dreadlord]"£"$equ[minlevel][bard]"£"$equ[minlevel][prophet]"£"$equ[minlevel][ranger]"£"$equ[minlevel][valkyrie]"£"$equ[weapon][skilltype]"£"$equ[weapon][wield][str]"£"$equ[weapon][wield][dex]"£"$equ[weapon][wield][rank]"£"$equ[weapon][hold][str]"£"$equ[weapon][hold][dex]"£"$equ[weapon][hold][rank]"£"$equ[weapon][skilltype]"£"$equ[weapon][wield][dex]"£"$equ[weapon][wield][rank]"£"$equ[weapon][hold][dex]"£"$equ[weapon][hold][rank]"£"$equ[armor][type]"£"$equ[armor][wear][str]"£"$equ[armor][wear][rank]"};#line log {$log} $equcsv }
