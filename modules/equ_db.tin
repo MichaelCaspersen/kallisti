@@ -1,37 +1,130 @@
+#var equ-description {Utilities for logging equipment}
+#var equ-help {
+Commands:\n
+\t\n
+\t\n
+\n
+\t\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias equ-register {
+	#if {@isloaded{modloader}} {
+		register_module equ;
+	} {
+		#class equ kill
+	}
+}
+
+
 #action {You think back to stories from your childhood and legends of old...} {}
 #action {You are currently carrying this object.} {}
 #action {You identify '%1} {show_equ_match %1;#var equ[name] %1}
 #action {From: %1} {show_equ_match %1;#var equ[from] %1}
 #action {Created: Tue Apr  2 16:00:26 2024} {}
-#action {Type: %1,  Quality: %2} {show_equ_match %1 %2;#var equ[type] %1;;#var equ[quality] %2} {7}
+#action {Type: %1,  Quality: %2} {
+    show_equ_match %1 %2;
+    #var equ[type] %1;
+    #var equ[quality] %2
+} {7}
 #action {Type: %1} {show_equ_match %1;#var equ[type] %1} {8}
 #action {Worn on: %1} {show_equ_match %1;#var equ[worn] %1}
 #action {Features: %1} {show_equ_match %1;#var equ[features] %1}
 #action {Composition: %1} {show_equ_match %1;#var equ[composition] %1}
 #action {Restricted: %1} {show_equ_match %1;#var equ[restricted] %1}
-#action {Weight: %1 stone{s|}, Value: %2 coins, Size: %3} {show_equ_match %1 %2 %3;#var equ[weight] %1;#var equ[value] %2;#var equ[size] %3}
-#action {Speed: %1 (%2), Missile type: %3} {show_equ_match %1 %2 %3;#var equ[weapon][speed] %1;#var equ[weapon][speednum] %2;#var equ[weapon][missiletype] %3}
-#action {Punch Damage Bonus: %1d%2} {show_equ_match %1 %2;#var equ[punchdamage][dice1] %1;;#var equ[punchdamage][dice2] %2}
-#action {Special: %1, Frequency: %4 (%3%), Power: %2} {show_equ_match %1 %2 %3 %4;#var equ[special][name] %1;#var equ[special][power] %2;#var equ[special][frequency] %3;#var equ[special][frequencynum] %4}
-#action {Special: %1, Power: %2, Frequency: %3%} {show_equ_match %1 %2 %3;#var equ[special][name] %1;#var equ[special][power] %2;#var equ[special][frequency] %3}
-#action {Special: %1, Power: %2d%3} {show_equ_match %1 %2 %3;#var equ[special][name] %1;#var equ[special][dice1] %2;#var equ[special][dice2] %3}
-#action {Max AC-apply: %1, Current AC-apply: %2} {show_equ_match %1 %2;#var equ[ac][max] %1;#var equ[ac][current] %2}
+#action {Weight: %1 stone{s|}, Value: %2 coins, Size: %3} {
+    show_equ_match %1 %2 %3;
+    #var equ[weight] %1;
+    #var equ[value] %2;
+    #var equ[size] %3
+}
+#action {Speed: %1 (%2), Missile type: %3} {
+    show_equ_match %1 %2 %3;
+    #var equ[weapon][speed] %1;
+    #var equ[weapon][speednum] %2;
+    #var equ[weapon][missiletype] %3
+}
+#action {Punch Damage Bonus: %1d%2} {
+    show_equ_match %1 %2;
+    #var equ[punchdamage][dice1] %1;
+    #var equ[punchdamage][dice2] %2
+}
+#action {Special: %1, Frequency: %4 (%3%), Power: %2} {
+    show_equ_match %1 %2 %3 %4;
+    #var equ[special][name] %1;
+    #var equ[special][power] %2;
+    #var equ[special][frequency] %3;
+    #var equ[special][frequencynum] %4
+}
+#action {Special: %1, Power: %2, Frequency: %3%} {
+    show_equ_match %1 %2 %3;
+    #var equ[special][name] %1;
+    #var equ[special][power] %2;
+    #var equ[special][frequency] %3
+}
+#action {Special: %1, Power: %2d%3} {
+    show_equ_match %1 %2 %3;
+    #var equ[special][name] %1;
+    #var equ[special][dice1] %2;
+    #var equ[special][dice2] %3
+}
+#action {Max AC-apply: %1, Current AC-apply: %2} {
+    show_equ_match %1 %2;
+    #var equ[ac][max] %1;
+    #var equ[ac][current] %2
+}
 #action {Hours remaining: %1} {show_equ_match %1;#var equ[remaining] %1}
 #action {Color: %1} {show_equ_match %1;#var equ[color] %1}
-#action {Container capacity is %1 of %2 ( %3% ).} {show_equ_match %1 %2 %3;#var equ[capacity] %2}
+#action {Container capacity is %1 of %2 ( %3% ).} {
+    show_equ_match %1 %2 %3;
+    #var equ[capacity] %2
+}
 
-#action {Damage Dice: %1d%2 (%3), Weapon Speed: %4 (%5), Attack Type: %6} {show_equ_match %1 %2 %3 %4 %5 %6;#var equ[weapon][dice1] %1;#var equ[weapon][dice2] %2;#var equ[weapon][damage] %3;#var equ[weapon][speed] %4;#var equ[weapon][speednum] %5;#var equ[weapon][attacktype] %6}
+#action {Damage Dice: %1d%2 (%3), Weapon Speed: %4 (%5), Attack Type: %6} {
+    show_equ_match %1 %2 %3 %4 %5 %6;
+    #var equ[weapon][dice1] %1;
+    #var equ[weapon][dice2] %2;
+    #var equ[weapon][damage] %3;
+    #var equ[weapon][speed] %4;
+    #var equ[weapon][speednum] %5;
+    #var equ[weapon][attacktype] %6
+}
 
-#action {Damage Dice: %1d%2 (%3), Weapon Speed: %4 (%5), Attack Type: %6} {show_equ_match %1 %2 %3 %4 %5 %6;#var equ[weapon][dice1] %1;#var equ[weapon][dice2] %2;#var equ[weapon][damage] %3;#var equ[weapon][speed] %4;#var equ[weapon][speednum] %5;#var equ[weapon][attacktype] %6}
+#action {Damage Dice: %1d%2 (%3), Weapon Speed: %4 (%5), Attack Type: %6} {
+    show_equ_match %1 %2 %3 %4 %5 %6;
+    #var equ[weapon][dice1] %1;
+    #var equ[weapon][dice2] %2;
+    #var equ[weapon][damage] %3;
+    #var equ[weapon][speed] %4;
+    #var equ[weapon][speednum] %5;
+    #var equ[weapon][attacktype] %6
+}
 
-#action {Holds %1 charges maximum, with %2 charges left.} {show_equ_match %1 %2;#var equ[spell][chargesmax] %1;#var equ[spell][chargesleft] %2}
+#action {Holds %1 charges maximum, with %2 charges left.} {
+    show_equ_match %1 %2;
+    #var equ[spell][chargesmax] %1;
+    #var equ[spell][chargesleft] %2
+}
 #action {Level %1 spell of: %2} {add_spell {%2} {%1}}
 #action {Level %1 spell of:   %2} {add_spell {%2} {%1}}
-#alias {add_spell} {#nop show <132><$spell_id> <%1> <%2>;#var equ[spell][$spell_id][name] %1;#var equ[spell][$spell_id][level] %2;#math spell_id {$spell_id+1}}
 
-#action {Str Required: %1, Damage Dice: %2d%3, Missile type: %4, Boomeranging: %5} {show_equ_match %1 %2 %3 %4 %5;#var equ[missile][str_required] %1;#var equ[missile][dice1] %2;#var equ[missile][dice2] %3;#var equ[missile][type] %4;#var equ[missile][boomeranging] %5}
+#action {Str Required: %1, Damage Dice: %2d%3, Missile type: %4, Boomeranging: %5} {
+    show_equ_match %1 %2 %3 %4 %5;
+    #var equ[missile][str_required] %1;
+    #var equ[missile][dice1] %2;
+    #var equ[missile][dice2] %3;
+    #var equ[missile][type] %4;
+    #var equ[missile][boomeranging] %5
+}
 
-#action {Level %1 spells of:} {show_equ_match %1;#var equ[spell][level] %1;#var equ[spell][spells] {ADD-MANUALLY $equ[name]}}
+#action {Level %1 spells of:} {
+    show_equ_match %1;
+    #var equ[spell][level] %1;
+    #var equ[spell][spells] {ADD-MANUALLY $equ[name]}
+}
 #action {Can cast all spells up to level %1.} {show_equ_match %1;#var equ[castlevel] %1}
 #action {Can play all songs up to level %1.} {show_equ_match %1;#var equ[castlevel] %1}
 
@@ -119,51 +212,161 @@
 #action {  %1 Luck} {add_affect luck %1} {8}
 
 #action {  %1 Rank in %2} {add_affect {%2} {%1}} {9}
-#alias {add_affect} {#nop show <132><$affects_id> <%1> <%2>;#var equ[affects][$affects_id][name] %1;#var equ[affects][$affects_id][rank] %2;#math affects_id {$affects_id+1}}
-
-
 
 #action {Minimum level:} {}
-#action { Fighter  : %1   Rogue   : %2   Priest : %3   Monastic: %4   Mage       : %5} {show_equ_match %1 %2 %3 %4 %5;set_min_level fighter %1;set_min_level rogue %2;set_min_level priest %3;set_min_level monastic %4;set_min_level mage %5}
-#action { Barbarian: %1   Assassin: %2   Templar: %3   Monk    : %4   Wizard     : %5} {show_equ_match %1 %2 %3 %4 %5;set_min_level barbarian %1;set_min_level assassin %2;set_min_level templar %3;set_min_level monk %4;set_min_level wizard %5}
-#action { Paladin  : %1   Demoniac: %2   Druid  : %3   Samurai : %4   Necromancer: %5} {show_equ_match %1 %2 %3 %4 %5;set_min_level paladin %1;set_min_level demoniac %2;set_min_level druid %3;set_min_level samurai %4;set_min_level necromancer %5}
-#action { Dreadlord: %1   Bard    : %2   Prophet: %3} {show_equ_match %1 %2 %3;set_min_level dreadlord %1;set_min_level bard %2;set_min_level prophet %3}
+#action { Fighter  : %1   Rogue   : %2   Priest : %3   Monastic: %4   Mage       : %5} {
+    show_equ_match %1 %2 %3 %4 %5;
+    set_min_level fighter %1;
+    set_min_level rogue %2;
+    set_min_level priest %3;
+    set_min_level monastic %4;
+    set_min_level mage %5
+}
+#action { Barbarian: %1   Assassin: %2   Templar: %3   Monk    : %4   Wizard     : %5} {
+    show_equ_match %1 %2 %3 %4 %5;
+    set_min_level barbarian %1;
+    set_min_level assassin %2;
+    set_min_level templar %3;
+    set_min_level monk %4;
+    set_min_level wizard %5
+}
+#action { Paladin  : %1   Demoniac: %2   Druid  : %3   Samurai : %4   Necromancer: %5} {
+    show_equ_match %1 %2 %3 %4 %5;
+    set_min_level paladin %1;
+    set_min_level demoniac %2;
+    set_min_level druid %3;
+    set_min_level samurai %4;
+    set_min_level necromancer %5
+}
+#action { Dreadlord: %1   Bard    : %2   Prophet: %3} {
+    show_equ_match %1 %2 %3;
+    set_min_level dreadlord %1;
+    set_min_level bard %2;
+    set_min_level prophet %3
+}
 #action { Ranger   : %1 } {show_equ_match %1;set_min_level ranger %1} {7}
 #action { Ranger   : %1} {show_equ_match %1;set_min_level ranger %1} {6}
 #action { Valkyrie : %1 } {show_equ_match %1;set_min_level valkyrie %1} {7}
 #action { Valkyrie : %1} {show_equ_match %1;set_min_level valkyrie %1} {6}
 
-#alias set_min_level {#show <131> <%1> <%2>;#var _temp_class %1;#var _temp_level %2;#if {"$_temp_level"=="!"} {#var equ[minlevel][%1] 999} {#var equ[minlevel][%1] %2}}
-
-Ranger   :  !  
 #action {Requirements:} {}
-#action {            Strength  Dexterity  Rank (%1)} {show_equ_match %1;#var equ[weapon][skilltype] %1}
-#action {Wield :      %1         %2       %3} {show_equ_match  %1 %2 %3;#var equ[weapon][wield][str] %1;#var equ[weapon][wield][dex] %2;#var equ[weapon][wield][rank] %3}
-#action {Wield :      %1        %2       %3} {show_equ_match %1 %2 %3;#var equ[weapon][wield][str] %1;#var equ[weapon][wield][dex] %2;#var equ[weapon][wield][rank] %3}
-#action {Wield :      %1      %2} {show_equ_match %1 %2;#var equ[weapon][wield][str] %1;#var equ[weapon][wield][dex] %2}
-#action {Hold  :      %1       %2       %3} {show_equ_match %1 %2 %3;#var equ[weapon][hold][str] %1;#var equ[weapon][hold][dex] %2;#var equ[weapon][hold][rank] %3}
-#action {Hold  :      %1       %2      %3} {show_equ_match %1 %2 %3;#var equ[weapon][hold][str] %1;#var equ[weapon][hold][dex] %2;#var equ[weapon][hold][rank] %3}
-#action {Hold  :      %1      %2} {show_equ_match %1 %2;#var equ[weapon][hold][str] %1;#var equ[weapon][hold][dex] %2}
+#action {            Strength  Dexterity  Rank (%1)} {
+    show_equ_match %1;
+    #var equ[weapon][skilltype] %1
+}
+#action {Wield :      %1         %2       %3} {
+    show_equ_match  %1 %2 %3;
+    #var equ[weapon][wield][str] %1;
+    #var equ[weapon][wield][dex] %2;
+    #var equ[weapon][wield][rank] %3
+}
+#action {Wield :      %1        %2       %3} {
+    show_equ_match %1 %2 %3;
+    #var equ[weapon][wield][str] %1;
+    #var equ[weapon][wield][dex] %2;
+    #var equ[weapon][wield][rank] %3
+}
+#action {Wield :      %1      %2} {
+    show_equ_match %1 %2;
+    #var equ[weapon][wield][str] %1;
+    #var equ[weapon][wield][dex] %2
+}
+#action {Hold  :      %1       %2       %3} {
+    show_equ_match %1 %2 %3;
+    #var equ[weapon][hold][str] %1;
+    #var equ[weapon][hold][dex] %2;
+    #var equ[weapon][hold][rank] %3
+}
+#action {Hold  :      %1       %2      %3} {
+    show_equ_match %1 %2 %3;
+    #var equ[weapon][hold][str] %1;
+    #var equ[weapon][hold][dex] %2;
+    #var equ[weapon][hold][rank] %3
+}
+#action {Hold  :      %1      %2} {
+    show_equ_match %1 %2;
+    #var equ[weapon][hold][str] %1;
+    #var equ[weapon][hold][dex] %2
+}
 
-#action {            Dexterity  Rank (%1)} {show_equ_match %1;#var equ[weapon][skilltype] %1}
-#action {Wield :       %1       %2} {show_equ_match %1 %2 ;#var equ[weapon][wield][dex] %2;#var equ[weapon][wield][rank] %3}
-#action {Hold  :       %1       %2} {show_equ_match %1 %2 ;#var equ[weapon][hold][dex] %2;#var equ[weapon][hold][rank] %3}
+#action {            Dexterity  Rank (%1)} {
+    show_equ_match %1;
+    #var equ[weapon][skilltype] %1
+}
+#action {Wield :       %1       %2} {
+    show_equ_match %1 %2;
+    #var equ[weapon][wield][dex] %2;
+    #var equ[weapon][wield][rank] %3
+}
+#action {Hold  :       %1       %2} {
+    show_equ_match %1 %2;
+    #var equ[weapon][hold][dex] %2;
+    #var equ[weapon][hold][rank] %3
+}
 
-#action {Wield :       %1       %2} {show_equ_match %1 %2 ;#var equ[weapon][wield][dex] %2;#var equ[weapon][wield][rank] %3}
-#action {Hold  :       %1       %2} {show_equ_match %1 %2 ;#var equ[weapon][hold][dex] %2;#var equ[weapon][hold][rank] %3}
+#action {Wield :       %1       %2} {
+    show_equ_match %1 %2;
+    #var equ[weapon][wield][dex] %2;
+    #var equ[weapon][wield][rank] %3
+}
+#action {Hold  :       %1       %2} {
+    show_equ_match %1 %2;
+    #var equ[weapon][hold][dex] %2;
+    #var equ[weapon][hold][rank] %3
+}
 
-#action {Wield :     %1} {show_equ_match %1;#var equ[weapon][wield][str] %1}
-#action {Hold  :     %1} {show_equ_match %1;#var equ[weapon][hold][str] %1}
+#action {Wield :     %1} {
+    show_equ_match %1;
+    #var equ[weapon][wield][str] %1
+}
+#action {Hold  :     %1} {
+    show_equ_match %1;
+    #var equ[weapon][hold][str] %1
+}
 
+#action {Strength  Rank (%1)} {
+    show_equ_match %1;
+    #var equ[armor][type] %1
+}
+#action {To Wear :       %1        %2} {
+    show_equ_match %1 %2;
+    #var equ[armor][wear][str] %1;
+    #var equ[armor][wear][rank] %2
+}
 
+#alias {add_affect} {
+    #if {$equ_debug} {#show <132><$affects_id> <%1> <%2>};
+    #var equ[affects][$affects_id][name] %1;
+    #var equ[affects][$affects_id][rank] %2;
+    #math affects_id {$affects_id+1};
+}
+#alias {add_spell} {
+    #if {$equ_debug} {#show <132><$spell_id> <%1> <%2>};
+    #var equ[spell][$spell_id][name] %1;
+    #var equ[spell][$spell_id][level] %2;
+    #math spell_id {$spell_id+1};
+}
+#alias set_min_level {
+    #if {$equ_debug} {#show <131> <%1> <%2>};
+    #var _temp_class %1;
+    #var _temp_level %2;
+    #if {"$_temp_level"=="!"} 
+        {#var equ[minlevel][%1] 999} 
+        {#var equ[minlevel][%1] %2}
+}
+#alias show_equ_match {
+    #nop show <131>Triggered: >%0<;
+}
+#alias lore {
+    #var equ {};
+    #var affects_id 1;
+    #var spell_id 1;
+    lor %1;
+    #nop delay 0.5 {#var equ}
+}
 
-
-
-#action {Strength  Rank (%1)} {show_equ_match %1;#var equ[armor][type] %1}
-#action {To Wear :       %1        %2} {show_equ_match %1 %2;#var equ[armor][wear][str] %1;#var equ[armor][wear][rank] %2}
-
-#alias show_equ_match {#show <131>Triggered: >%0<}
-#alias lore {#var equ {};#var affects_id 1;#var spell_id 1;lor %1;#nop delay 0.5 {#var equ}}
+#variable equ_debug 0;
 #variable log {equ.csv}
-#variable csvheader {"[name]"£"[from]"£"[type]"£"[quality]"£"[worn]"£"[features]"£"[composition]"£"[restricted]"£"[weight]"£"[value]"£"[size]"£"[weapon-speed]"£"[weapon-speednum]"£"[weapon-missiletype]"£"[punchdamage-dice1]"£"[punchdamage-dice2]"£"[special-name]"£"[special-power]"£"[special-frequency]"£"[special-frequencynum]"£"[special-dice1]"£"[special-dice2]"£"[ac-max]"£"[ac-current]"£"[hoursremaining]"£"[color]"£"[capacity]"£"[weapon-dice1]"£"[weapon-dice2]"£"[weapon-damage]"£"[weapon-speed]"£"[weapon-speednum]"£"[weapon-attacktype]"£"[spell-chargesmax]"£"[spell-chargesleft]"£"[missile-str_required]"£"[missile-dice1]"£"[missile-dice2]"£"[missile-type]"£"[missile-boomeranging]"£"[spell-level]"£"[spell-spells]"£"[spell-1-name]"£"[spell-1-level]"£"[spell-2-name]"£"[spell-2-level]"£"[spell-3-name]"£"[spell-3-level]"£"[castlevel]"£"[affects-1-name]"£"[affects-1-rank]"£"[affects-2-name]"£"[affects-2-rank]"£"[affects-3-name]"£"[affects-3-rank]"£"[affects-4-name]"£"[affects-4-rank]"£"[affects-5-name]"£"[affects-5-rank]"£"[affects-6-name]"£"[affects-6-rank]"£"[affects-7-name]"£"[affects-7-rank]"£"[minlevel-fighter]"£"[minlevel-rogue]"£"[minlevel-priest]"£"[minlevel-monastic]"£"[minlevel-mage]"£"[minlevel-barbarian]"£"[minlevel-assassin]"£"[minlevel-templar]"£"[minlevel-monk]"£"[minlevel-wizard]"£"[minlevel-paladin]"£"[minlevel-demoniac]"£"[minlevel-druid]"£"[minlevel-samurai]"£"[minlevel-necromancer]"£"[minlevel-dreadlord]"£"[minlevel-bard]"£"[minlevel-prophet]"£"[minlevel-ranger]"£"[minlevel-valkyrie]"£"[weapon-skilltype]"£"[weapon-wield-str]"£"[weapon-wield-dex]"£"[weapon-wield-rank]"£"[weapon-hold-str]"£"[weapon-hold-dex]"£"[weapon-hold-rank]"£"[weapon-skilltype]"£"[weapon-wield-dex]"£"[weapon-wield-rank]"£"[weapon-hold-dex]"£"[weapon-hold-rank]"£"[armor-type]"£"[armor-wear-str]"£"[armor-wear-rank]"}
+#variable csvheader {name£from£type£quality£worn£features£composition£restricted£weight£value£size£weapon-speed£weapon-speednum£weapon-missiletype£punchdamage-dice1£punchdamage-dice2£special-name£special-power£special-frequency£special-frequencynum£special-dice1£special-dice2£ac-max£ac-current£hoursremaining£color£capacity£weapon-dice1£weapon-dice2£weapon-damage£weapon-speed£weapon-speednum£weapon-attacktype£spell-chargesmax£spell-chargesleft£missile-str_required£missile-dice1£missile-dice2£missile-type£missile-boomeranging£spell-level£spell-spells£spell-1-name£spell-1-level£spell-2-name£spell-2-level£spell-3-name£spell-3-level£castlevel£affects-1-name£affects-1-rank£affects-2-name£affects-2-rank£affects-3-name£affects-3-rank£affects-4-name£affects-4-rank£affects-5-name£affects-5-rank£affects-6-name£affects-6-rank£affects-7-name£affects-7-rank£minlevel-fighter£minlevel-rogue£minlevel-priest£minlevel-monastic£minlevel-mage£minlevel-barbarian£minlevel-assassin£minlevel-templar£minlevel-monk£minlevel-wizard£minlevel-paladin£minlevel-demoniac£minlevel-druid£minlevel-samurai£minlevel-necromancer£minlevel-dreadlord£minlevel-bard£minlevel-prophet£minlevel-ranger£minlevel-valkyrie£weapon-skilltype£weapon-wield-str£weapon-wield-dex£weapon-wield-rank£weapon-hold-str£weapon-hold-dex£weapon-hold-rank£weapon-skilltype£weapon-wield-dex£weapon-wield-rank£weapon-hold-dex£weapon-hold-rank£armor-type£armor-wear-str£armor-wear-rank}
+
 #alias savecsv {#var equcsv {"$equ[name]"£"$equ[from]"£"$equ[type]"£"$equ[quality]"£"$equ[worn]"£"$equ[features]"£"$equ[composition]"£"$equ[restricted]"£"$equ[weight]"£"$equ[value]"£"$equ[size]"£"$equ[weapon][speed]"£"$equ[weapon][speednum]"£"$equ[weapon][missiletype]"£"$equ[punchdamage][dice1]"£"$equ[punchdamage][dice2]"£"$equ[special][name]"£"$equ[special][power]"£"$equ[special][frequency]"£"$equ[special][frequencynum]"£"$equ[special][dice1]"£"$equ[special][dice2]"£"$equ[ac][max]"£"$equ[ac][current]"£"$equ[hoursremaining]"£"$equ[color]"£"$equ[capacity]"£"$equ[weapon][dice1]"£"$equ[weapon][dice2]"£"$equ[weapon][damage]"£"$equ[weapon][speed]"£"$equ[weapon][speednum]"£"$equ[weapon][attacktype]"£"$equ[spell][chargesmax]"£"$equ[spell][chargesleft]"£"$equ[missile][str_required]"£"$equ[missile][dice1]"£"$equ[missile][dice2]"£"$equ[missile][type]"£"$equ[missile][boomeranging]"£"$equ[spell][level]"£"$equ[spell][spells]"£"$equ[spell][1][name]"£"$equ[spell][1][level]"£"$equ[spell][2][name]"£"$equ[spell][2][level]"£"$equ[spell][3][name]"£"$equ[spell][3][level]"£"$equ[castlevel]"£"$equ[affects][1][name]"£"$equ[affects][1][rank]"£"$equ[affects][2][name]"£"$equ[affects][2][rank]"£"$equ[affects][3][name]"£"$equ[affects][3][rank]"£"$equ[affects][4][name]"£"$equ[affects][4][rank]"£"$equ[affects][5][name]"£"$equ[affects][5][rank]"£"$equ[affects][6][name]"£"$equ[affects][6][rank]"£"$equ[affects][7][name]"£"$equ[affects][7][rank]"£"$equ[minlevel][fighter]"£"$equ[minlevel][rogue]"£"$equ[minlevel][priest]"£"$equ[minlevel][monastic]"£"$equ[minlevel][mage]"£"$equ[minlevel][barbarian]"£"$equ[minlevel][assassin]"£"$equ[minlevel][templar]"£"$equ[minlevel][monk]"£"$equ[minlevel][wizard]"£"$equ[minlevel][paladin]"£"$equ[minlevel][demoniac]"£"$equ[minlevel][druid]"£"$equ[minlevel][samurai]"£"$equ[minlevel][necromancer]"£"$equ[minlevel][dreadlord]"£"$equ[minlevel][bard]"£"$equ[minlevel][prophet]"£"$equ[minlevel][ranger]"£"$equ[minlevel][valkyrie]"£"$equ[weapon][skilltype]"£"$equ[weapon][wield][str]"£"$equ[weapon][wield][dex]"£"$equ[weapon][wield][rank]"£"$equ[weapon][hold][str]"£"$equ[weapon][hold][dex]"£"$equ[weapon][hold][rank]"£"$equ[weapon][skilltype]"£"$equ[weapon][wield][dex]"£"$equ[weapon][wield][rank]"£"$equ[weapon][hold][dex]"£"$equ[weapon][hold][rank]"£"$equ[armor][type]"£"$equ[armor][wear][str]"£"$equ[armor][wear][rank]"};#line log {$log} $equcsv}
