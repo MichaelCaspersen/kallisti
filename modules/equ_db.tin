@@ -1,5 +1,5 @@
-#var equ-description {Utilities for logging equipment}
-#var equ-help {
+#var equ_db-description {Utilities for logging equipment}
+#var equ_db-help {
 Commands:\n
 \t\n
 \t\n
@@ -11,11 +11,11 @@ Commands:\n
 #nop Modloader Stuff
 #nop --
 
-#alias equ-register {
+#alias equ_db-register {
 	#if {@isloaded{modloader}} {
-		register_module equ;
+		register_module equ_db;
 	} {
-		#class equ kill
+		#class equ_db kill
 	}
 }
 
