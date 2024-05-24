@@ -401,8 +401,7 @@ Commands:\n
     #format temp_length_ %L $temp_;
     #math cutlength {$temp_length_-1};
     #var cutstring {%.$cutlength}s;
-    #show cutstring;
-    #format final_ %.{$cutlength}s %1;
-    #show >$final_<;
+    #format final_ $cutstring $temp_;
+    #return $final_;
 }
 
