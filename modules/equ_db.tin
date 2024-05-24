@@ -390,3 +390,18 @@ Commands:\n
     }
 }
 
+#function safesql {
+    #var temp_ %1;
+    #replace {temp_} {!} {anti-};
+    #return $temp_;
+}
+
+#function striplastchar {
+    #var temp_ %1;
+    #format temp_length_ %L $temp_;
+    #math cutlength {$temp_length_-1};
+    #var cutstring {%.$cutlength}s;
+    #format final_ %.{$cutlength}s %1;
+    #return $final_;
+}
+
