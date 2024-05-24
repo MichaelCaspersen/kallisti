@@ -293,8 +293,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {You don't have access to the proper equipment here.} {#var profession[refining][auto] 0}
 
-#action {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {gt <<< Need to meta or level >>>;matoff}
-#action {The weight of your experience thrums a discordant note in your soul.} {gt <<< Need to meta or level >>>;matoff}
+#action {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
+#action {The weight of your experience thrums a discordant note in your soul.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
 
 #NOP #######################################################
 #NOP Crafting - Daggers, Symbols
