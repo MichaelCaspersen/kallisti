@@ -33,6 +33,7 @@ Commands:\n
 #action {Type: %1} {show_equ_match %1;#var equ[type] %1} {8}
 #action {Worn on: %1} {show_equ_match %1;#var equ[worn] %1}
 #action {Features: %1} {show_equ_match %1;#var equ[features] %1}
+#action {Can be entered %1 more times.} {#nop Root}
 #action {Composition: %1} {show_equ_match %1;#var equ[composition] %1}
 #action {Restricted: %1} {show_equ_match %1;#var equ[restricted] %1}
 #action {Weight: %1 stone{s|}, Value: %2 coins, Size: %3} {
