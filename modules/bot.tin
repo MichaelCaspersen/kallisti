@@ -1132,7 +1132,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 #alias get_item {
 	#if {$item_left_id<$max_id} {
-		savecsv
+		savecsv;
+		sql_save_item;
 	};
 	#if {$item_left_id>0} {
 		get $max_id $cur_container
