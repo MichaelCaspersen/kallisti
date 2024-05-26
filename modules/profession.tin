@@ -423,8 +423,6 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 #action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
 #action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]};sell leather}
-#action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;pickup_mats}
-#action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;pickup_mats}
-
-#nop action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;e;get all.leather;recall;2s3es;sell leather}
-#nop action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;e;get all.leather;recall;2s3es;sell leather}
+#action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;#if {$profession[gather][selling] && $profession[refining][auto]} {e;get all.leather;recall;2s3es;sell leather};#else {pickup_mats}}
+#action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;#if {$profession[gather][selling] && $profession[refining][auto]} {e;get all.leather;recall;2s3es;sell leather};#else {pickup_mats}}
+#action {There aren't any leathers here you can take.} {#var profession[gather][selling] 0}
