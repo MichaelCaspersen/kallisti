@@ -124,39 +124,72 @@ Javan
 <floating>     a droplet of rain (magic) (glows)
 
 
-Gary is using: (Necromancer 100)
-<light>        Yorick's skull [socketed: a giant's sinew] (infinite bright cyan light) (hums)   
-<head>         the crown of champions [socketed: a chaos seed] (insured) (magic) (glows)        
-<neck>         a pristinely frigid ornament 'Sigil of The North' (magic)                        
-<neck>         a pristinely frigid ornament 'Sigil of The North' (magic)                        
-<neck>         a pristinely frigid ornament 'Sigil of The North' (magic)                        
-<face>         the titanic mask of Gemini [socketed: a giant's sinew] (glows)                   
-<eyes>         a monocle of blue desoy (magic)                                                  
-<earring>      a black pearl earring (magic) (hums)                                             
-<earring>      a black pearl earring (magic) (hums)                                             
-<body>         the skeleton armor [socketed: a chaos seed] (insured) (invis) (anti-good) (magic)
-<back>         a tattoo of a red dragon (magic) (glows)                                         
-<about body>   the Protective Force of Gary (insured) (magic)                                   
-<badge>        a protective clan badge (magic)                                                  
-<left arm>     a shadow-infused sleeve of energy (insured) (anti-good) (magic)                  
-<right arm>    a shadow-infused sleeve of energy (insured) (anti-good) (magic)                  
-<wrist>        the bracelet of Melkor (insured) (anti-good) (magic)                             
-<wrist>        the bracelet of Melkor (insured) (invis) (anti-good) (magic)                     
-<hands>        the gloves of the Hermit                                                         
-<finger>       a band of shadow (anti-good) (magic) (hums)                                      
-<finger>       a sapphire ring (insured)                                                        
-<finger>       a sapphire ring (insured)                                                        
-<finger>       the ring of precision (magic) (glows)                                            
-<shield>       the Will of Gary (insured) (magic)                                               
-<other shield> the Volition of Gary (insured) (magic)                                           
-<waist>        a belt with a silver demon's head buckle [socketed: a giant's sinew]             
-<right leg>    a tattoo of serpents (insured) (anti-good) (magic) (glows)                       
-<left leg>     a tattoo of serpents (insured) (anti-good) (magic) (glows)                       
-<ankles>       a diamond-cast flameclasp                                                        
-<feet>         a pair of plane-shifting shoes (insured) (magic)                                 
-<surrounding>  a mage mystical aura of the seasons (insured) (magic) (glows)                    
-<floating>     a radiant yellow stone <fuses: 2> (magic)  
+    You see nothing special about him.
+    ...he exudes an evil dark aura.
+    ...he is slightly translucent.
+    ...he is surrounded by black flames.
+    
+    Gary is using:
+    <light>        Yorick's skull [socketed: a giant's sinew] (infinite bright cyan light) (hums)
+    <head>         the crown of champions [socketed: a chaos seed] (insured) (glows)
+    <neck>         a pristinely frigid ornament 'Sigil of The North'
+    <neck>         a pristinely frigid ornament 'Sigil of The North'
+    <neck>         a pristinely frigid ornament 'Sigil of The North'
+    <face>         the titanic mask of Gemini [socketed: a giant's sinew] (glows)
+    <eyes>         a monocle of blue desoy
+    <earring>      a bleeding stone earring (hums)
+    <earring>      a bleeding stone earring (hums)
+    <body>         the skeleton armor [socketed: a chaos seed] (insured) (invis)
+    <back>         a tattoo of a red dragon (glows)
+    <about body>   the Protective Force of Gary (insured)
+    <badge>        a protective clan badge
+    <left arm>     a shadow-infused sleeve of energy (insured)
+    <right arm>    a shadow-infused sleeve of energy (insured)
+    <wrist>        the bracelet of Melkor (insured)
+    <wrist>        the bracelet of Melkor (insured) (invis)
+    <hands>        the gloves of the Hermit
+    <finger>       a band of shadow (hums)
+    <finger>       a sapphire ring (insured)
+    <finger>       a sapphire ring (insured)
+    <finger>       the ring of precision (glows)
+    <shield>       the Volition of Gary (insured)
+    <other shield> the Will of Gary (insured)
+    <waist>        a belt with a silver demon's head buckle [socketed: a giant's sinew]
+    <right leg>    a tattoo of serpents (insured) (glows)
+    <left leg>     a tattoo of serpents (insured) (glows)
+    <ankles>       a diamond-cast flameclasp
+    <feet>         a pair of plane-shifting shoes (insured)
+    <surrounding>  a mage mystical aura of the seasons (insured) (glows)
+    <floating>     a radiant yellow stone <fuses: 2>
+    
+        Chief's Living Quarters                                     |    N
+        Inside Underground                                          |   -+-
+                                                                    |    S
+        An absolutely exquisite longsword lies here. (5)
+        A pretty dagger has been discarded here. (3)
+        A wooden mallet is lying here. (10)
+        A battered wooden mask is lying here.
+        A battered shield is lying here. (damaged) (5)
+        Rampage the werewolf is here, riding a phoenix. [ sanc blades ]
+        A zombie troglodyte is here, fighting a chief!
+        A zombie human of a phase guard is here, fighting a chief!
+        A zombie lizardman of a sahuagin warrior is here, fighting a chief!
+        Gary the cyclops-lich is here, fighting a chief! [ wraith grim ward unholy aura ]
+        Kilen the werewolf is hovering here. [ sanc invis ]
+        Fitty the troglodyte is hovering here. [ sanc ]
+        Strom the werewolf is hovering here. [ sanc ]
+        A chief is here, fighting Gary! [ sanc bashed ]
 
+        Gary utters the words 'oculoahp yao'
+        Gary fills the room with noxious fumes.
+        Gary spews deadly fog from his mouth which suffocates a chief.
+        
+        < Crom | 6160h 456m 3194s | x:-205235510 | fVS >
+        Gary utters the words 'oculoahp yao'
+        Gary fills the room with noxious fumes.
+        Gary spews deadly fog from his mouth which suffocates a chief.
+        
+         
 
 
 You see nothing special about her. - RAMPAGE lvl 79 TEMPLAR
