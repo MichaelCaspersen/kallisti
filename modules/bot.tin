@@ -1082,7 +1082,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#gag {\~! };
 	find_containers_in_room;
 	#delay 2 {
-		#foreach {*containers_room[]} {i} {search $containers_room[$i] %1;}
+		#foreach {*containers_room[]} {i} {searc $containers_room[$i] %1;}
 	};
 	#delay 20 {
 		#ungag { ! };
