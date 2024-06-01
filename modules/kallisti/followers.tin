@@ -28,6 +28,8 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
     #line sub vars #act {^%1 appears in the middle} {fol %1;#unact {^%1 appears in the middle}}
 }
 
+#action {%1 signs 'all %2'} {follower_command {%1} {%2}}
+
 #alias follower_command {
     #if {"%2" == "tnl"} {tnl};
     #if {"%2" == "true"} {nco true %1};
