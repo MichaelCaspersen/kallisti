@@ -149,14 +149,19 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 }
 
 #alias charm_group {
-    #switch {"$MSDP_CLASS"} {
-        #case {"Druid"} {nco friend group};
-        #case {"Ranger"} {nco friend group};
-        #case {"Prophet"} {#show <132>CHARM $follower$charmFollowerNr;nco charm $follower$charmFollowerNr};
-        #case {"Necromancer"} {#show <132>CONTROLUNDEAD $follower$charmFollowerNr;nco controlundead $follower$charmFollowerNr};
-        #case {"Demoniac"} {#show POSSESS $follower$charmFollowerNr;nco possess $follower$charmFollowerNr};
-        #default {err No recharm method for $MSDP_CLASS};
+    #if {"@group_leader"=="$MSDP_CHARACTER_NAME"} {
+        #switch {"$MSDP_CLASS"} {
+            #case {"Druid"} {nco friend group};
+            #case {"Ranger"} {nco friend group};
+            #case {"Prophet"} {#show <132>CHARM $follower$charmFollowerNr;nco charm $follower$charmFollowerNr};
+            #case {"Necromancer"} {#show <132>CONTROLUNDEAD $follower$charmFollowerNr;nco controlundead $follower$charmFollowerNr};
+            #case {"Demoniac"} {#show POSSESS $follower$charmFollowerNr;nco possess $follower$charmFollowerNr};
+            #default {err No recharm method for $MSDP_CLASS};
+        };
     };
+    #else {
+        #untick {charmm failer};
+    }
 }
 
 #function groupAmILeader {                                                                                
