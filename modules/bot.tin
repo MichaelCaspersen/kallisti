@@ -87,7 +87,7 @@ init bot[rescue2] preferences off;
 
 #var class[lvl_path] {2s2e2se};
 
-#var container {};
+#var container {backpack};
 #var weapon_pri {};
 #var weapon_sec {};
 
@@ -308,7 +308,6 @@ init bot[rescue2] preferences off;
 			#var bot[running] 1;
 			#var bot[role] leader;
 			#var bot[poke] 1;
-			zone_automatic_restart;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
 		#case {"tank"} {
@@ -960,7 +959,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		breakout;
 		rec reca;
 	}; #else {
-		recal;
+		if {"$MSDP_ACCOUNT_NAME"=="Valhalla"} {rec reca} {recal;}
+		
 	}
 }
 

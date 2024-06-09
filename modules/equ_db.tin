@@ -1,3 +1,7 @@
+#nop TODO
+#nop add: equ[weapon][wield][wis], equ[armor][wear][dex]
+#nop better logging / separation of sql response
+
 #var equ_db-description {Utilities for logging equipment}
 #var equ_db-help {
 Commands:\n
@@ -261,10 +265,37 @@ Commands:\n
 #action { Valkyrie : %1} {show_equ_match %1;set_min_level valkyrie %1} {6}
 
 #nop action {Requirements:} {}
+#action {            Strength  Dexterity  Wisdom  Rank (%1)} {
+    show_equ_match %1;
+    #var equ[weapon][skilltype] %1
+}
+
+#action {Wield :      %1        %2        %3      %4} {
+    show_equ_match  %1 %2 %3 %4;
+    #var equ[weapon][wield][str] %1;
+    #var equ[weapon][wield][dex] %2;
+    #var equ[weapon][wield][wis] %3;
+    #var equ[weapon][wield][rank] %4;
+}
+#action {Hold  :      %1       %2       %3      %4} {
+    show_equ_match  %1 %2 %3 %4;
+    #var equ[weapon][hold][str] %1;
+    #var equ[weapon][hold][dex] %2;
+    #var equ[weapon][hold][wis] %3;
+    #var equ[weapon][hold][rank] %4;
+}
+
 #action {            Strength  Dexterity  Rank (%1)} {
     show_equ_match %1;
     #var equ[weapon][skilltype] %1
 }
+#action {To Wear :      %1         %2       %3} {
+    show_equ_match  %1 %2 %3;
+    #var equ[armor][wear][str] %1;
+    #var equ[armor][wear][dex] %2;
+    #var equ[armor][wear][rank] %3
+}
+
 #action {Wield :      %1         %2       %3} {
     show_equ_match  %1 %2 %3;
     #var equ[weapon][wield][str] %1;
@@ -306,24 +337,24 @@ Commands:\n
 }
 #action {Wield :       %1       %2} {
     show_equ_match %1 %2;
-    #var equ[weapon][wield][dex] %2;
-    #var equ[weapon][wield][rank] %3
+    #var equ[weapon][wield][dex] %1;
+    #var equ[weapon][wield][rank] %2
 }
 #action {Hold  :       %1       %2} {
     show_equ_match %1 %2;
-    #var equ[weapon][hold][dex] %2;
-    #var equ[weapon][hold][rank] %3
+    #var equ[weapon][hold][dex] %1;
+    #var equ[weapon][hold][rank] %2
 }
 
 #action {Wield :       %1       %2} {
     show_equ_match %1 %2;
-    #var equ[weapon][wield][dex] %2;
-    #var equ[weapon][wield][rank] %3
+    #var equ[weapon][wield][dex] %1;
+    #var equ[weapon][wield][rank] %2
 }
 #action {Hold  :       %1       %2} {
     show_equ_match %1 %2;
-    #var equ[weapon][hold][dex] %2;
-    #var equ[weapon][hold][rank] %3
+    #var equ[weapon][hold][dex] %1;
+    #var equ[weapon][hold][rank] %2
 }
 
 #action {Wield :     %1} {
