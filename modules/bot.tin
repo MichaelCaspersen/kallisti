@@ -1006,9 +1006,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You try to ride %1, but you fall on your butt.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 #action {You lose control and fall off of %1.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 
+
+
 #action {You grunt in frustration trying to chop up the vines entangling %1.} {chop %1}
 
 #action {You had better stand up first.} {stand;ride $bot[mount][name]}
+#action {picks you up by the neck} {stand;ride $bot[mount][name]}
 
 #action {You are too high level to attack %1 right now (%2 was recently attacked by someone much lower than you).  Wait a few minutes and try again.} {cleartarget;smart_move}
 
