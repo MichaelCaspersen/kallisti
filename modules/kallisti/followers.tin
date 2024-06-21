@@ -149,7 +149,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 }
 
 #alias charm_group {
-    #if {"@group_leader"=="$MSDP_CHARACTER_NAME"} {
+    #if {@groupAmILeader{}} {
         #switch {"$MSDP_CLASS"} {
             #case {"Druid"} {nco friend group};
             #case {"Ranger"} {nco friend group};

@@ -959,8 +959,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		breakout;
 		rec reca;
 	}; #else {
-		if {"$MSDP_ACCOUNT_NAME"=="Valhalla"} {rec reca} {recal;}
-		
+		#if {"$MSDP_ACCOUNT_NAME"=="Valhalla"} {rec reca} {recal;}
 	}
 }
 
