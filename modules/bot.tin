@@ -615,6 +615,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[name] {Thalos};
 			#var zone[minlevel] 40;
 			#var zone[maxlevel] 60;
+			#var zone[startroom] 5200;
 			#var zone[path_total] 1;
 			#var zone[path] {w;n;n;n;u;d;w;s;w;w;n;e;w;w;w;u;d;s;s;e;s;w;s;e;n;w;s;s;s;u;d;e;e;e;w;n;w;e;e;w;n;w;e;e;s;e;n;w;n;w;s;w;n;n;e;e;w;w;s;e;e;e;e};
 			#var zone[proflist] {{"The black lamia "}{} {"The lamia "}{} {"mimic "}{} {"target3"}};
