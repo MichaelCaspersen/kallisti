@@ -49,6 +49,7 @@ init toggle[haste] preferences off;
 init toggle[ceyes] preferences off;
 init toggle[truesee] preferences off;
 init toggle[vivify] preferences off;
+init toggle[fireshield] preferences off;
 init toggle[iceshield] preferences off;
 init toggle[blur] preferences off;
 init toggle[vigor] preferences off;
@@ -184,6 +185,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@autobuf_check{"spirit of bushido"} && @hasAffect{spirit of bushido} < 1} {doBushido};
 
     #nop -- Affects we can renew during the last tick;
+    #if {@hasAffect{fireshield} < 2} {doFireshield};
     #if {@hasAffect{iceshield} < 2} {doIceshield};
     #if {@hasAffect{blur} < 2} {doBlur};
     #if {@hasAffect{unholy aura} < 2} {doUnholyAura};
@@ -233,6 +235,12 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     }
 }
 
+
+#alias doFireshield {
+    #if { "$toggle[fireshield]" == "on"} { 
+        queueAdd nco {fireshield} 
+    }
+}
 
 #alias doIceshield {
     #if { "$toggle[iceshield]" == "on"} { 
