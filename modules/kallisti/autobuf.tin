@@ -50,6 +50,7 @@ init toggle[ceyes] preferences off;
 init toggle[truesee] preferences off;
 init toggle[vivify] preferences off;
 init toggle[fireshield] preferences off;
+init toggle[magicshield] preferences off;
 init toggle[iceshield] preferences off;
 init toggle[blur] preferences off;
 init toggle[vigor] preferences off;
@@ -188,6 +189,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{fireshield} < 2} {doFireshield};
     #if {@hasAffect{iceshield} < 2} {doIceshield};
     #if {@hasAffect{blur} < 2} {doBlur};
+    #if {@hasAffect{magic shield} < 2} {doMagicshield};
     #if {@hasAffect{unholy aura} < 2} {doUnholyAura};
     #if {@hasAffect{divine armor} < 2} {doDivineArmor};
     #if {@hasAffect{vigor} < 2} {doVigor};
@@ -239,6 +241,12 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
 #alias doFireshield {
     #if { "$toggle[fireshield]" == "on"} { 
         queueAdd nco {fireshield} 
+    }
+}
+
+#alias doMagicshield {
+    #if { "$toggle[magicshield]" == "on"} { 
+        queueAdd nco {mshield} 
     }
 }
 
