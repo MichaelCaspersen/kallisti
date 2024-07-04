@@ -111,6 +111,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 #action {You failed to charm.} {
 	#show RECHARM $follower$charmFollowerNr;
 	#switch {"$MSDP_CLASS"} {
+		#case {"Wizard"} {nco charmm $follower$charmFollowerNr};
 		#case {"Prophet"} {nco charm $follower$charmFollowerNr};
 		#case {"Necromancer"} {nco controlundead $follower$charmFollowerNr};
 	};
@@ -135,6 +136,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 		#math charmFollowerNr {$charmFollowerNr+1};
 		#show NEXT CHARM $follower$charmFollowerNr;
 		#switch {"$MSDP_CLASS"} {
+			#case {"Wizard"} {nco charmm $follower$charmFollowerNr};
 			#case {"Prophet"} {nco charm $follower$charmFollowerNr};
 			#case {"Necromancer"} {nco controlundead $follower$charmFollowerNr};
 			#case {"Demoniac"} {nco possess $follower$charmFollowerNr};
@@ -153,6 +155,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
         #switch {"$MSDP_CLASS"} {
             #case {"Druid"} {nco friend group};
             #case {"Ranger"} {nco friend group};
+            #case {"Wizard"} {#show <132>CHARM $follower$charmFollowerNr;nco charmm $follower$charmFollowerNr};
             #case {"Prophet"} {#show <132>CHARM $follower$charmFollowerNr;nco charm $follower$charmFollowerNr};
             #case {"Necromancer"} {#show <132>CONTROLUNDEAD $follower$charmFollowerNr;nco controlundead $follower$charmFollowerNr};
             #case {"Demoniac"} {#show POSSESS $follower$charmFollowerNr;nco possess $follower$charmFollowerNr};
