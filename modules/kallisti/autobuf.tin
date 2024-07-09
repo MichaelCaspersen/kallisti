@@ -386,6 +386,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@autobuf_check{dshield} && ("$autodshield" == "on")} {
         #switch {"$MSDP_CLASS"} {
             #case {"Templar"} {#if {$MSDP_MANA > 160} {queueAdd nco {dshield}}};
+            #case {"Paladin"} {#if {$MSDP_MANA > 160} {queueAdd nco {dshield}}};
             #default {warn autobuf Divine Shield preference is on but you are class $MSDP_CLASS}
         }
     }
