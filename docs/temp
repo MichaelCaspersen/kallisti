@@ -1,0 +1,61 @@
+
+
+
+#var autowalkspeed 0,5;
+#var botAction 0;
+#var waypointdelay 10;
+#var autowalk 1;
+#var waypoints {3062,14108}
+#list waypoints explode ,
+
+#alias walkTo {
+	#show <131>WALKTO CALLED- STARTING FROM WAYPOINT;
+	#list waypoints get 1 destination;
+	takeStep;
+}
+
+#alias takeStep {
+	#if {$MSDP_ROOM_VNUM==$destination} {
+		#show <131>WE ARE ALREADY AT DESTINATION;
+	};#else {
+		#if {$botAction==0} {
+			#show <131>CurrentRoomNum (COMING FROM): $MSDP_ROOM_VNUM;
+			#map find $destination;
+			#path map;
+			#path get length path_length;
+			#show <131>$path_length;
+			#if {$path_length>0} {
+				#show <131>We move on;
+				#path walk
+		};#else {
+			#show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH
+		}
+	}
+}
+
+#alias room_event {
+	#show <131>New ROOM detected $MSDP_ROOM_VNUM;
+	#if {$MSDP_ROOM_VNUM==$destination} {
+		#show <131>WE HAVE ARRIVED;
+		getNextDestination
+	}; #elseif {$destination>0} {
+		#show <131>Still not there;
+		#if { ($autowalk && $botAction==0)}  {#delay $autowalkspeed {#show <131>AUTOWALK;takeStep}}
+	}; #else {
+		#nop;
+	}
+}
+
+#alias getNextDestination {
+	#list waypoints delete 1;
+	#show <142>GET NEXT DESTINATION <&waypoints[]> left;
+	#if {&waypoints[]>0} {
+		#show <142>Next route starting in $waypointdelay secs;
+		#delay $waypointdelay {walkTo}
+	};#else {
+		#show <131>NO MORE WAYPOINT - FINAL DESTINATION;
+		#var destination {};
+	}
+}
+
+#action {A small pile of gold coins lies here.} {#show <131>WE NEED TO ACT STOP WALKING;#var botAction 0}
