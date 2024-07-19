@@ -438,9 +438,11 @@ Commands:\n
 }
 
 #function safesql {
-    #local safe_sql_temp_ %1;
-    #replace {safe_sql_temp_} {!} {anti-};
-    #return $safe_sql_temp_;
+    #if {"%1"!=""} {
+        #local safe_sql_temp_ %1;
+        #replace {safe_sql_temp_} {!} {anti-};
+        #return $safe_sql_temp_;
+    }
 }
 
 #function striplastchar {
