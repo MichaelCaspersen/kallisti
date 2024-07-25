@@ -342,6 +342,24 @@
     #return $_res;
 }
 
+#function getShortClassName {                                                                                 
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if { ("$MSDP_GROUP[$index][name]" == "MSDP_CHARACTER_NAME") } {
+                #return $MSDP_GROUP[$index][class];
+        }
+    };
+    #return 0;
+}
+
+#function getMaxRemortLevel {
+    #loop {1} {&MSDP_REMORT_LEVELS[]} {index} {
+        #if { ("$MSDP_REMORT_LEVELS[$index][class]" == "@getShortClassName{}") } {
+                #return $MSDP_REMORT_LEVELS[$index][level];
+        }
+    };
+    #return 0;
+}
+
 #function playerIsPresent {                                                                                 
     #loop {1} {&MSDP_GROUP[]} {index} {
         #if { ("$MSDP_GROUP[$index][name]" == "%1" ) &&

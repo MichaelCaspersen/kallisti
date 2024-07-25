@@ -1,3 +1,36 @@
+LEVEL LOGIC
+
+{You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.}
+
+#alias doMetaOrGain {
+	#if { $MSDP_EXPERIENCE_TNL < 0 } {
+		#if {$MSDP_LEVEL < @getMaxRemortLevel{}} { gogain } { checkNobPoints }
+	};#else {
+		returntostart;
+	}
+}
+
+#alias checkNobPoints {
+		#if { $MSDP_HERO_POINTS_TNL < 0} { goGain } { doMeta }
+}
+
+#alias goGain {
+	recall;
+	home;
+	with $goldlevel[$MSDP_LEVEL];
+	Go to guild;
+	gain;
+	doMetaOrGain;
+}
+
+#alias doMeta {
+	Go to meta shop
+	With gold
+	Remove equipment
+	levelreq (+3 levels)
+	autometa
+	Done return to original location - Walk/Tell
+}
 
 
 
