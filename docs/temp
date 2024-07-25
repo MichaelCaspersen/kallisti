@@ -59,3 +59,29 @@
 }
 
 #action {A small pile of gold coins lies here.} {#show <131>WE NEED TO ACT STOP WALKING;#var botAction 0}
+
+
+
+prompt exp
+toggle brief
+
+
+#ac {A swordswoman is here, practicing with her blade.} {ba sword} 1
+#ac {A foul-smelling goblin skulks about, avoiding your gaze.} {ba goblin} 1
+#ac {A small kobold tries to look tough as he prepares for a fight.} {ba kobol} 1
+#ac {An evil cleric preaches to the masses about her dark gods.} {ba cleric} 1
+
+#ac {A man dressed in robes of the blackest night tries to animate a corpse.} {ba necromancer} 2-4
+#ac {A princess from the drow underworld stares at you coldly.} {ba princess} 2-4
+#ac {A decrepit old hag cackles wickedly as she prepares something gruesome.} {ba hag} 2-4
+#ac {A man stands back in the shadows, observing the others in silence.} {ba assa} 2-4
+#ac {A female guest is here half passed out in her chair.} {ba guest} 5-6
+#ac {A male guest is here half passed out in his chair.} {ba guest} 5-6
+#ac {A lady is here flirting with the guys.} {ba lady} 7-8
+#ac {A guy is here flirting with the gals.} {ba guy} 7-8
+#ac {xxxxxxxx} {ba xxxx}
+#ac {xxxxxxxx} {ba xxxx}
+#ac {xxxxxxxx} {ba xxxx}
+#ac {xxxxxxxx} {ba xxxx}
+
+
