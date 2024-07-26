@@ -34,6 +34,11 @@ LEVEL LOGIC
 
 
 
+
+
+
+
+
 #var autowalkspeed 0,5;
 #var botAction 0;
 #var waypointdelay 10;
@@ -100,12 +105,12 @@ LEVEL LOGIC
 
 
 
+Level 1-8 ~ 5min
 prompt exp
 toggle brief
 
 
-event_register {level gain} {checklevelaction} {checklevelaction};
-#alias checklevelaction {#show <131>We gained a level %2 now what?;tell pif sum me};
+
 
 
 #action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
@@ -127,7 +132,7 @@ event_register {level gain} {checklevelaction} {checklevelaction};
 #action {A gypsy woman is dancing wildly to the music.%1} {settarget 999 @mob_count{"%1"} gypsy 6 8 1}
 
 
-level 8 - call for help
+level 8 - call for help ~ 10 min
 toggle autojoin (OFF)
 toggle ranged
 
@@ -184,12 +189,13 @@ toggle ranged
 
 
 
-Level 20-50+ - Tanning
+Level 20-50+ - Tanning - Approx 1000-1100 hides needed ~ 1h30m - 1h45m
 Prac Tanning
 Equip tanning gear
 
 #var tanningnotmaxed 1;
 #var guildpath {3s3w3s}
+#var guildpath {2s2e3s}
 #action {* * * You now have enough experience to gain a level! * * *} {gogain}
 #alias gogain {recall;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];recall;$guildpath;gain;#if { ($MSDP_LEVEL<53) && ($profession[refining][auto])} {visit house;dep all;e;get all.hide;tan hide}}
 
@@ -206,7 +212,14 @@ Equip tanning gear
 #alias doallpracs_barb {#10 prac edged;#5 prac parry;#5 prac focus;toggle focus;prac scare;#5 prac warcry;toggle warcry;#5 prac warpaint;toggle warpaint;#5 prac multi attack;#10 prac two handed;#5 prac deathstroke;damage deathstroke;home;dep all;recall}
 
 level 50+ Tell group
+
+event_register {level gain} {checklevelaction} {checklevelaction};
+#alias checklevelaction {#show <131>We gained a level %2 now what?;tell pif sum me};
+
+
+
 matoff
+
 
 
 
