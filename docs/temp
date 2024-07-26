@@ -95,26 +95,121 @@ LEVEL LOGIC
 
 
 
+
+
+
+
+
 prompt exp
 toggle brief
 
 
-#ac {A swordswoman is here, practicing with her blade.} {ba sword} 1
-#ac {A foul-smelling goblin skulks about, avoiding your gaze.} {ba goblin} 1
-#ac {A small kobold tries to look tough as he prepares for a fight.} {ba kobol} 1
-#ac {An evil cleric preaches to the masses about her dark gods.} {ba cleric} 1
-
-#ac {A man dressed in robes of the blackest night tries to animate a corpse.} {ba necromancer} 2-4
-#ac {A princess from the drow underworld stares at you coldly.} {ba princess} 2-4
-#ac {A decrepit old hag cackles wickedly as she prepares something gruesome.} {ba hag} 2-4
-#ac {A man stands back in the shadows, observing the others in silence.} {ba assa} 2-4
-#ac {A female guest is here half passed out in her chair.} {ba guest} 5-6
-#ac {A male guest is here half passed out in his chair.} {ba guest} 5-6
-#ac {A lady is here flirting with the guys.} {ba lady} 7-8
-#ac {A guy is here flirting with the gals.} {ba guy} 7-8
-#ac {xxxxxxxx} {ba xxxx}
-#ac {xxxxxxxx} {ba xxxx}
-#ac {xxxxxxxx} {ba xxxx}
-#ac {xxxxxxxx} {ba xxxx}
+event_register {level gain} {checklevelaction} {checklevelaction};
+#alias checklevelaction {#show <131>We gained a level %2 now what?;tell pif sum me};
 
 
+#action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
+#action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1}
+
+#action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%1"} necromancer 2 4 1}
+#action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%1"} hag 2 4 1}
+#action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%1"} assa 2 4 1}
+#action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 2 4 1}
+
+
+#action {A female guest is here half passed out in her chair.%1} {settarget 999 @mob_count{"%1"} guest 5 6 1}
+#action {A male guest is here half passed out in his chair.%1} {settarget 999 @mob_count{"%1"} guest 5 6 1}
+#action {A lady is here flirting with the guys.%1} {settarget 999 @mob_count{"%1"} flirt 6 7 1}
+#action {A guy is here flirting with the gals.%1} {settarget 999 @mob_count{"%1"} flirt 6 7 1}
+
+#action {A man is here, enjoying the carnival.%1} {settarget 999 @mob_count{"%1"} patron 6 8 1}
+#action {A gypsy man is dancing wildly to the music.%1} {settarget 999 @mob_count{"%1"} gypsy 6 8 1}
+#action {A gypsy woman is dancing wildly to the music.%1} {settarget 999 @mob_count{"%1"} gypsy 6 8 1}
+
+
+level 8 - call for help
+toggle autojoin (OFF)
+toggle ranged
+
+
+#alias godarkport {}
+#action {An octopus drifts lazily along in the currents, probably looking for things to grab, and eat.%1} {settarget 999 @mob_count{"%1"} octoopus 40 100 1}
+#action {A large salmon darts by.%1} {settarget 999 @mob_count{"%1"} salmon 40 100 1}
+#action {A stingray floats just below you.%1} {settarget 999 @mob_count{"%1"} stingray 40 100 1}
+#action {One of the many cod in these waters swims by.%1} {settarget 999 @mob_count{"%1"} cod 40 100 1}
+
+
+#alias {golagoon} {}
+#action {A porcupine fish picks at the coral here.%1} {settarget 999 @mob_count{"%1"} porcupine 40 100 1}
+#action {A yellow tang lazily looks for food.%1} {settarget 999 @mob_count{"%1"} yellow 40 100 1}
+#action {A foxface fish swims peacefully through the water.%1} {settarget 999 @mob_count{"%1"} foxface 40 100 1}
+#action {A lobster crawls along the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} lobster 40 100 1}
+#action {A manta ray glides through the water.%1} {settarget 999 @mob_count{"%1"} manta 40 100 1}
+
+#action {A ghost crab skitters along the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} crab 40 100 1}
+#action {A blue and yellow fish zips through the water.%1} {settarget 999 @mob_count{"%1"} damselfish 40 100 1}
+#action {An odd creature with eight tentacles and a fish body floats here.%1} {settarget 999 @mob_count{"%1"} cuttlefish 40 100 1}
+#action {An eel with razor sharp teeth looks for food.%1} {settarget 999 @mob_count{"%1"} moray 40 100 1}
+#action {A giant clam sits on the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} clam 40 100 1}
+#action {An urchin sits on the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} urchin 40 100 1}
+
+
+#alias {gohalladar} {2s14e14ne3n4ed4e2n2e5nw5n3w2ne}
+#action {A lightly armored {woman|man}%2} {#if {"$MSDP_AREA_NAME"=="Halladar's Keep"} {settarget 999 @mob_count{"%2"} %1 40 100 1}}
+#action {An young archer stands watch%1} {#if {"$MSDP_AREA_NAME"=="Halladar's Keep"} {settarget 999 @mob_count{"%1"} archer 40 100 1}}
+#action {A short archer watches out over the battlements%1} {#if {"$MSDP_AREA_NAME"=="Halladar's Keep"} {settarget 999 @mob_count{"%1"} archer 40 100 1}}
+#action {An extremely angry man stalks about, glaring at everyone in sight.%1} {settarget 999 @mob_count{"%1"} man 40 100 1}
+
+
+
+#alias gogoblincastle
+#action {A goblin sentry stands here guarding the castle.%1} {settarget 999 @mob_count{"%1"} sentry 40 100 1}
+#action {The goblin noble stands here tripping over his over sized cloak.%1} {settarget 999 @mob_count{"%1"} noble 40 100 1}
+#action {A goblin guard wanders about the area looking for trespassers.%1} {settarget 999 @mob_count{"%1"} guard 40 100 1}
+#action {The goblin archer sits here staring at his bow.%1} {settarget 999 @mob_count{"%1"} archer 40 100 1}
+#action {The goblin king stands here staring at the paintings.%1} {settarget 999 @mob_count{"%1"} king 40 100 1}
+
+
+
+
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+
+
+
+
+
+
+
+
+
+Level 20-50+ - Tanning
+Prac Tanning
+Equip tanning gear
+
+#var tanningnotmaxed 1;
+#var guildpath {3s3w3s}
+#action {* * * You now have enough experience to gain a level! * * *} {gogain}
+#alias gogain {recall;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];recall;$guildpath;gain;#if { ($MSDP_LEVEL<53) && ($profession[refining][auto])} {visit house;dep all;e;get all.hide;tan hide}}
+
+#action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {visit house;with 45000;recall;4nwnnn}}
+
+#action {Wasat%1s Workshop} {#if $tanningnotmaxed {prac tanning}}
+#action {You practice tanning for a while...} {#if $tanningnotmaxed {prac tanning}}
+#action {Wasat says, 'At rank 10, you know all that I can teach you in tanning.'} {#var tanningnotmaxed 0;remorttan}
+#action {You do not have enough proficiency points left to learn what I can teach you.} {remorttan}
+
+#alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.hide;tan hide}
+
+#alias doallpracs {visit house;with 5000000;recall;$guildpath;doallpracs_barb}
+#alias doallpracs_barb {#10 prac edged;#5 prac parry;#5 prac focus;toggle focus;prac scare;#5 prac warcry;toggle warcry;#5 prac warpaint;toggle warpaint;#5 prac multi attack;#10 prac two handed;#5 prac deathstroke;damage deathstroke;home;dep all;recall}
+
+level 50+ Tell group
+matoff
+
+
+
+before remort 
+buy all stats;
+prac toughness

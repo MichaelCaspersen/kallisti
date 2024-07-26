@@ -136,6 +136,7 @@ Commands:\n
 #var profession[refining][start] 0;
 #var profession[refining][startgold] 0;
 #var profession[refining][startexp] 0;
+#var profession[refining][haggledgold] 0;
 
 #var profession[refresher] Krell
 #var hidespickedup 0;
@@ -235,6 +236,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#var profession[refining][start] $MSDP_UPTIME;
 	#var profession[refining][startgold] $MSDP_BANK_GOLD;
 	#var profession[refining][startexp] $MSDP_EXPERIENCE;
+	#var profession[refining][haggledgold] 0;
 	#var profession[refining][sold] 0;
 	#show Will auto process materials from %1;
 	#var profession[mat_location] %1;
@@ -288,7 +290,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 	#show Will no longer process $profession[str_mat];
 	gt <<< Processing session done: $profession[gather][type] >>>;
-	gt Time: [@return_min_sec{$profession[refining][runtime]}]  Processed: [$profession[refining][sold]] Average: [$profession[refining][averagesell]]  Gold: [@pretty_number{$profession[refining][earnedgold]}]  Exp: [@pretty_number{$profession[refining][earnedexp]}];
+	gt Time: [@return_min_sec{$profession[refining][runtime]}]  Processed: [$profession[refining][sold]] Average: [$profession[refining][averagesell]]  Gold: [@pretty_number{$profession[refining][earnedgold]}]  Exp: [@pretty_number{$profession[refining][earnedexp]}]  Haggled: [@pretty_number{$profession[refining][haggledgold]}];
 }
 
 #action {You don't have access to the proper equipment here.} {#var profession[refining][auto] 0}
@@ -423,6 +425,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 #action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
 #action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]};sell leather}
+#action {You haggle to increase the price by %1 coins.} {#math profession[refining][haggledgold] {$profession[refining][haggledgold]+%1}}
 #action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;#if {$profession[gather][selling] && $profession[refining][auto]} {e;get all.leather;egress;2s3es;sell leather};#else {pickup_mats}}
 #action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;#if {$profession[gather][selling] && $profession[refining][auto]} {e;get all.leather;egress;2s3es;sell leather};#else {pickup_mats}}
 #action {There aren't any leathers here you can take.} {#var profession[gather][selling] 0}
