@@ -2,8 +2,8 @@
 #var botAction 0;
 #var waypointdelay 10;
 #var autowalk 1;
-#var waypoints {3062,14108};
-#list waypoints explode ,;
+#var waypoints {34502,34501};
+#list waypoints explode {,};
 
 #alias walkTo {
 	#show <131>WALKTO CALLED- STARTING FROM WAYPOINT;
@@ -12,12 +12,19 @@
 }
 
 #alias takeStep {
-	#if {$MSDP_ROOM_VNUM==$destination} {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {
+        #map get roomvnum cur_room_vnum;
+    }; 
+    #else {
+        #var cur_room_vnum $MSDP_ROOM_VNUM;
+    };
+        
+	#if {$cur_room_vnum==$destination} {
 		#show <131>WE ARE ALREADY AT DESTINATION;
 	};
     #else {
 		#if {$botAction==0} {
-			#show <131>CurrentRoomNum (COMING FROM): $MSDP_ROOM_VNUM;
+			#show <131>CurrentRoomNum (COMING FROM): $cur_room_vnum;
 			#map find $destination;
 			#path map;
 			#path get length path_length;
@@ -34,8 +41,14 @@
 }
 
 #alias room_event {
-	#show <131>New ROOM detected $MSDP_ROOM_VNUM;
-	#if {$MSDP_ROOM_VNUM==$destination} {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {
+        #map get roomvnum cur_room_vnum;
+    }; 
+    #else {
+        #var cur_room_vnum $MSDP_ROOM_VNUM;
+    };
+	#show <131>New ROOM detected $cur_room_vnum;
+	#if {$cur_room_vnum==$destination} {
 		#show <131>WE HAVE ARRIVED;
 		getNextDestination
 	}; #elseif {$destination>0} {
