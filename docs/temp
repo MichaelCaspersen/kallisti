@@ -1,40 +1,26 @@
 LEVEL LOGIC
 
-{You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.}
-
-#alias doMetaOrGain {
-	#if { $MSDP_EXPERIENCE_TNL < 0 } {
-		#if {$MSDP_LEVEL < @getMaxRemortLevel{}} { gogain } { checkNobPoints }
-	};#else {
-		returntostart;
-	}
-}
-
-#alias checkNobPoints {
-		#if { $MSDP_HERO_POINTS_TNL < 0} { goGain } { doMeta }
-}
-
-#alias goGain {
-	recall;
-	home;
-	with $goldlevel[$MSDP_LEVEL];
-	Go to guild;
-	gain;
-	doMetaOrGain;
-}
-
-#alias doMeta {
-	Go to meta shop
-	With gold
-	Remove equipment
-	levelreq (+3 levels)
-	autometa
-	Done return to original location - Walk/Tell
-}
 
 
 
 
+#tab doMetaOrGain
+#action {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {doMetaOrGain}
+#alias doMetaOrGain {#show <131>Check Meta or Gain;#if { $MSDP_EXPERIENCE_TNL < 0 } {#if {$MSDP_LEVEL < @getMaxRemortLevel{}} { gogain } { checkNobPoints }};#else {returntostart;}}
+#alias checkNobPoints {#if { $MSDP_HERO_POINTS_TNL < 0} { goGain } { doMeta }}
+#alias setguildpath {#switch {"$MSDP_CLASS"} {#case {"Barbarian"} {#var guildpath 2s2e3s};#case {"Paladin"} {#var guildpath 2s2e2su};#case {"Dreadlord"} {#var guildpath 2s2e2sd};#case {"Ranger"} {#var guildpath 2s2e2se};#case {"Valkyrie"} {#var guildpath 2s2e2sw};#case {"Assassin"} {#var guildpath 3s3w3s};#case {"Demoniac"} {#var guildpath 3s3w2sw};#case {"Bard"} {#var guildpath 3s3w2se};#case {"Templar"} {#var guildpath swne};#case {"Druid"} {#var guildpath swn2w};#case {"Prophet"} {#var guildpath sw2n};#case {"Necromancer"} {#var guildpath 2s2w2sd};#case {"Wizard"} {#var guildpath 2s2w2su};#case {"Monk"} {#var guildpath 2s6e2su};#case {"Samurai"} {#var guildpath 2s6e2se};}}
+#alias goGain {setguildpath;recall;home;with $goldlevel[$MSDP_LEVEL];recall;$guildpath;gain;#delay 5 doMetaOrGain}
+#alias doMeta {recall;2s14w;enter tree;open door;w;#if {$MSDP_BANK_GOLD>100000000} {with 10000000} {with all};rem all;#math lvlreq {$MSDP_LEVEL+3};levelreq $lvlreq;autometa}
+#ACTION {^The meta-sage tells you 'You don't have enough experience.} {#var autometa off;dep all;wear all;returntostart}
+#alias {returntostart} {recall;home;dep all;recall;8sw2se29s9w2sswswswdses4e;enter portal}
+
+
+
+
+#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$profession[refining][auto]} {doMetaOrGain}}
+#alias {returntostart} {recall;visit house;e;tan hide}
+
+#var profession[gather][selling]
 
 
 
@@ -199,6 +185,10 @@ Equip tanning gear
 #action {* * * You now have enough experience to gain a level! * * *} {gogain}
 #alias gogain {recall;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];recall;$guildpath;gain;#if { ($MSDP_LEVEL<53) && ($profession[refining][auto])} {visit house;dep all;e;get all.hide;tan hide}}
 
+event_register {level gain} {checklevelaction} {checklevelaction};
+#alias checklevelaction {#show <131>We gained a level %2 now what?;recall;8sw2se29s9w2sswswswdses4e;enter portal};
+
+
 #action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {visit house;with 45000;recall;4nwnnn}}
 
 #action {Wasat%1s Workshop} {#if $tanningnotmaxed {prac tanning}}
@@ -213,8 +203,6 @@ Equip tanning gear
 
 level 50+ Tell group
 
-event_register {level gain} {checklevelaction} {checklevelaction};
-#alias checklevelaction {#show <131>We gained a level %2 now what?;tell pif sum me};
 
 
 

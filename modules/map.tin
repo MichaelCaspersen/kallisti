@@ -62,7 +62,7 @@
 
 
 
-#list mapZoneBlacklist create {BLACKLISTS};
+#list mapZoneBlacklist create {Unknown};
 
 #nop -- ---------------------------------------------------------------
 #nop -- Aliases
@@ -70,7 +70,9 @@
 
 
 #alias mapRoom {
-	#map goto {$MSDP_ROOM_VNUM} {dig};
+	#if {"$MSDP_ROOM_VNUM"!="?"} {
+		#map goto {$MSDP_ROOM_VNUM} {dig};
+	}
 	#map set roomarea $MSDP_AREA_NAME;
 	#map set roomname $MSDP_ROOM_NAME;
 	#map set roomterrain @strip_ansi{$MSDP_ROOM_TERRAIN};

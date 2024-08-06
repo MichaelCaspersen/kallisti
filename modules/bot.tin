@@ -488,7 +488,7 @@ init bot[rescue2] preferences off;
 
 #alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel;}
 #alias dometa {#if {$MSDP_ROOM_VNUM == 13200} {autometa}}
-#action {The meta-sage tells you 'You have to remove ALL your items first.'} {checkheros;dress 0;with all;autometa}
+#action {The meta-sage tells you 'You have to remove ALL your items first.'} {checkheros;dress 0;autometa}
 
 #action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {gt Damaged item: @colorPctIngame{@pct{%2;%3}}% &0f%5&--}}
 
@@ -1458,30 +1458,45 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP ACTION {%0 is dead!  R.I.P.} {#show <172> Zone:[$tellu_zone]   Kill:[%0]  Room:[$MSDP_ROOM_NAME]   Terrain:[$MSDP_ROOM_TERRAIN]    Weather:[$MSDP_ROOM_WEATHER]}
 
 #action {A Tellurian Outpost                                    %1 |    N    [U]} {#show <131>RESET ZONE;#var tellu_zone {};#action {You follow $leader %%2.} {#var tellu_zone %%2;#show <131>New zone: %%2;#unaction {You follow%%%2.}};badweather}
+
+#var tell_mobs[east][normal][Forest] {"snap", "scarab", "wolf"}
+#var tell_mobs[east][normal][Desert] {"topiary", "snap", "wolf"}
+#var tell_mobs[east][normal][Tundra] {"scarab", "topiary"}
+#var tell_mobs[east][clear][Forest] {"tree", "topiary"}
+#var tell_mobs[east][clear][Desert] {"scarab"}
+#var tell_mobs[east][clear][Tundra] {"wolf", "snap"}
+
+#var tell_mobs[west][normal][Forest] {"snap", "topiary", "wolf"}
+#var tell_mobs[west][normal][Desert] {"scarab", "topiary"}
+#var tell_mobs[west][normal][Tundra] {"scarab", "snap", "wolf"}
+#var tell_mobs[west][clear][Forest] {"scarab"}
+#var tell_mobs[west][clear][Desert] {"wolf", "snap"}
+#var tell_mobs[west][clear][Tundra] {"tree", "topiary"}
+
+#var tell_mobs[north][normal][Forest] {"scarab", "topiary"}
+#var tell_mobs[north][normal][Desert] {"snap", "scarab", "wolf"}
+#var tell_mobs[north][normal][Tundra] {"topiary", "snap", "wolf"}
+#var tell_mobs[north][clear][Forest] {"wolf", "snap"}
+#var tell_mobs[north][clear][Desert] {"tree", "topiary"}
+#var tell_mobs[north][clear][Tundra] {"scarab"}
+
+#var tellu_zone east
+#var tellu_mode normal
+#var tellu_target wolf
+
+#alias tellu_kill {#regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} {#show TRUE} {#show FALSE}}
+
 #alias badweather {#delay badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
-#action {A large, glowing scarab stands here in a defensive posture.} {
-	#if { ("$tellu_zone" == "east") } {#if { ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL scarab-kin - $tellu_zone} {#show <131>DONT KILL scarab-kin - $tellu_zone};};
-	#if { ("$tellu_zone" == "west") } {#if { ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL scarab-kin - $tellu_zone} {#show <131>DONT KILL scarab-kin - $tellu_zone};};
-	#if { ("$tellu_zone" == "north") } {#if { ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL scarab-kin - $tellu_zone} {#show <131>DONT KILL scarab-kin - $tellu_zone};}
-};
+#action {A large, glowing scarab stands here in a defensive posture.} {#var tellu_target scarab;tellu_kill};
+#action {A large wolf, with icy-blue fur stands here observing.} {#var tellu_target wolf;tellu_kill};
+#action {An extremely stout tree stands here, wavering slowly.} {#var tellu_target tree;tellu_kill};
+#action {A Tellurian scarab-kin is here looking alert.} {#var tellu_target scarab;tellu_kill};
 
-#action {A large wolf, with icy-blue fur stands here observing.} {
-	#if { ("$tellu_zone" == "east") } {#if { ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL tundra-snap - $tellu_zone} {#show <131>DONT KILL tundra-sna - $tellu_zonep};};
-	#if { ("$tellu_zone" == "west") } {#if { ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL tundra-snap - $tellu_zone} {#show <131>DONT KILL tundra-snap - $tellu_zone};};
-	#if { ("$tellu_zone" == "north") } {#if { ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL tundra-snap - $tellu_zone} {#show <131>DONT KILL tundra-snap - $tellu_zone};}
-};
 
-#action {An extremely stout tree stands here, wavering slowly.} {
-	#if { ("$tellu_zone" == "east") } {#if { ("$MSDP_ROOM_TERRAIN" == "Desert") } {#show <172>SAFEKILL topiary - $tellu_zone} {#show <131>DONT KILL topiary - $tellu_zone};};
-	#if { ("$tellu_zone" == "west") } {#if { ("$MSDP_ROOM_TERRAIN" == "Forest") } {#show <172>SAFEKILL topiary - $tellu_zone} {#show <131>DONT KILL topiary - $tellu_zone};};
-	#if { ("$tellu_zone" == "north") } {#if { ("$MSDP_ROOM_TERRAIN" == "Tundra") } {#show <172>SAFEKILL topiary - $tellu_zone} {#show <131>DONT KILL topiary - $tellu_zone};}
-};
 
 #alias count_tellu_mobs_in_room {}
-
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
-
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {#show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
