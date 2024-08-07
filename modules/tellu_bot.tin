@@ -1,5 +1,6 @@
-#var autowalkspeed 0.5;
-#var botAction 0;
+#var autowalkspeed 0.2;
+#var botPostitive 0;
+#var botNegative 0;
 #var waypointdelay 0.1;
 #var zonedelay 5;
 #var autowalk 1;
@@ -43,7 +44,7 @@
 		show_debug {<131>WE ARE ALREADY AT DESTINATION};
 	};
     #else {
-		#if {$botAction==0} {
+		#if {$botPostive!=1 && $botNegative<1} {
 			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
 			#nop path map;
@@ -64,6 +65,9 @@
     }
  }
 
+
+#alias actionCleared {#var botPostitive 0;#var botNegative 0;takeStep}
+
 #nop event_register {variable cur_room_vnum} {right} {room_event {%0} {%1} {%2}};
 
 #alias room_event {
@@ -74,15 +78,15 @@
         #var cur_room_vnum $MSDP_ROOM_VNUM;
     };
 	show_debug {<131>New ROOM detected $cur_room_vnum};
-	#if {$cur_room_vnum==$destination} {
-		show_debug {<131>WE HAVE ARRIVED};
-		getNextDestination
-	}; #elseif {$destination>0} {
-		show_debug {<131>Still not there};
-		#if { ($autowalk && $botAction==0)}  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
-	}; #else {
-		#nop;
-	}
+    #if {$cur_room_vnum==$destination} {
+        show_debug {<131>WE HAVE ARRIVED};
+        getNextDestination
+    }; #elseif {$destination>0} {
+        show_debug {<131>Still not there};
+        #if { ($autowalk && $botPostitive!=1 && $botNegative<1)}  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
+    }; #else {
+        #nop;
+    }
 }
 
 #alias getNextDestination {
@@ -100,7 +104,7 @@
 
 #action {A small pile of gold coins lies here.} {#show <131>WE NEED TO ACT STOP WALKING;#var botAction 0}
 
-
+#action {prudent resting place} {#show BAD KILL}
 
 
 #action {A Tellurian Outpost                                    %1 |    N    [U]} {
@@ -131,16 +135,22 @@
 #var tell_mobs[north][clear][Desert] {"tree", "topiary"};
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
-#alias tellu_kill {#regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} {#show TRUE;#var botAction 1} {#show FALSE}}
+#alias tellu_kill {
+    #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
+    {#show <172> %1 TRUE;#var botPositive %1} 
+    {#show <131> %1 FALSE;#var botNegative %1}
+}
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
-#action {A large, glowing scarab stands here in a defensive posture.} {#var tellu_target scarab;tellu_kill};
-#action {A large wolf, with icy-blue fur stands here observing.} {#var tellu_target wolf;tellu_kill};
-#action {An extremely stout tree stands here, wavering slowly.} {#var tellu_target tree;tellu_kill};
-#action {A Tellurian scarab-kin is here looking alert.} {#var tellu_target scarab;tellu_kill};
+#action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
+#action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}};
+#action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target tree;tellu_kill @mob_count{"%1"}};
+#action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
 
-#alias count_tellu_mobs_in_room {}
+#alias count_tellu_mobs_in_room {
+
+}
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
