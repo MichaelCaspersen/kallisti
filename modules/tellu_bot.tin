@@ -20,25 +20,25 @@
     };
         
 	#if {$cur_room_vnum==$destination} {
-		#show <131>WE ARE ALREADY AT DESTINATION;
+		show_debug {<131>WE ARE ALREADY AT DESTINATION};
 	};
     #else {
 		#if {$botAction==0} {
-			#show <131>CurrentRoomNum (COMING FROM): $cur_room_vnum;
+			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
 			#path map;
 			#path get length path_length;
-			#show <131>$path_length;
+			show_debug {<131>$path_length};
 			#if {$path_length>0} {
-				#show <131>We move on;
+				show_debug {<131>We move on};
 				#path walk;
                 #if {"$MSDP_ROOM_VNUM"=="?"} {
-                    #show <131>We are in Unknown area, forcewalk after delay;
+                    show_debug {<131>We are in Unknown area, forcewalk after delay};
                     #delay $autowalkspeed room_event;
                 }
             };
             #else {
-                #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH
+                show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
             }
         }
     }
@@ -53,13 +53,13 @@
     #else {
         #var cur_room_vnum $MSDP_ROOM_VNUM;
     };
-	#show <131>New ROOM detected $cur_room_vnum;
+	show_debug {<131>New ROOM detected $cur_room_vnum};
 	#if {$cur_room_vnum==$destination} {
-		#show <131>WE HAVE ARRIVED;
+		show_debug {<131>WE HAVE ARRIVED};
 		getNextDestination
 	}; #elseif {$destination>0} {
-		#show <131>Still not there;
-		#if { ($autowalk && $botAction==0)}  {#delay $autowalkspeed {#show <131>AUTOWALK;takeStep}}
+		show_debug {<131>Still not there};
+		#if { ($autowalk && $botAction==0)}  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
 	}; #else {
 		#nop;
 	}
