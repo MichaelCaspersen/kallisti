@@ -1,7 +1,7 @@
-#var autowalkspeed 1;
+#var autowalkspeed 0.5;
 #var botPostitive 0;
 #var botNegative 0;
-#var waypointdelay 1;
+#var waypointdelay 0.5;
 #var zonedelay 5;
 #var autowalk 2;
 
@@ -69,7 +69,8 @@
             };
             #else {
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
-                : marks $tellu_target for death.
+                : marks $tellu_target for death.;
+                #delay 0.2 {kill $tellu_target}
             }
         }
     }
@@ -163,6 +164,6 @@
 
 }
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {#show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#delay 2 {actionCleared};#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my fuel FURY!'} {#delay 2 {actionCleared};#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {#delay 2 {actionCleared};#show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
