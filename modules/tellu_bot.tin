@@ -31,7 +31,10 @@
 			#show <131>$path_length;
 			#if {$path_length>0} {
 				#show <131>We move on;
-				#path walk
+				#path walk;
+                #if {"$MSDP_ROOM_VNUM"=="?"} {
+                    #delay $autowalkspeed room_event;
+                }
             };
             #else {
                 #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH
@@ -39,6 +42,8 @@
         }
     }
 }
+
+event_register {variable cur_room_vnum} {right} {room_event {%0} {%1} {%2}};
 
 #alias room_event {
     #if {"$MSDP_ROOM_VNUM"=="?"} {
