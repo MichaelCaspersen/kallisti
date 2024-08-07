@@ -1,7 +1,7 @@
-#var autowalkspeed 2;
+#var autowalkspeed 1;
 #var botPostitive 0;
 #var botNegative 0;
-#var waypointdelay 2;
+#var waypointdelay 1;
 #var zonedelay 5;
 #var autowalk 2;
 
@@ -64,10 +64,11 @@
         };
         #else {
             #if {$botNegative>0} {
-                #show <131>BAD GUYS MOVE ON;
+                show_debug {<131>BAD GUYS MOVE ON};
+                actionCleared;
             };
             #else {
-                #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH;
+                show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 : marks $tellu_target for death.
             }
         }
