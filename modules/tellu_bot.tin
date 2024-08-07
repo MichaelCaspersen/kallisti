@@ -1,9 +1,9 @@
-#var autowalkspeed 0.2;
+#var autowalkspeed 0.5;
 #var botPostitive 0;
 #var botNegative 0;
-#var waypointdelay 0.1;
+#var waypointdelay 0.5;
 #var zonedelay 5;
-#var autowalk 1;
+#var autowalk 2;
 
 #var tellu_mode normal
 #var tellu[zindex] 0;
