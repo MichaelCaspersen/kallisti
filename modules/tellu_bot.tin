@@ -45,7 +45,7 @@
 	};
     #else {
         #show <131>TAKESTEP Positive: $botPositive   Negative: $botNegative;
-		#if {$botPositive>!=1} {
+		#if {$botPositive!=1} {
 			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
 			#nop path map;
