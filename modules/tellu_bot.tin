@@ -45,7 +45,7 @@
 	};
     #else {
         #show <131>TAKESTEP Positive: $botPositive   Negative: $botNegative;
-		#if {$botPositive!=1 && $botNegative<1} {
+		#if {$botPositive<1 && $botNegative<1} {
 			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
 			#nop path map;
@@ -85,9 +85,8 @@
         show_debug {<131>WE HAVE ARRIVED};
         getNextDestination
     }; #elseif {$destination>0} {
-        #nop show <131>ROOMEVENT Positive: $botPositive   Negative: $botNegative;
         show_debug {<131>Still not there};
-        #if { ($autowalk && $botPositive!=1 && $botNegative<1)}  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
+        #if { ($autowalk && $botPositive<1 && $botNegative<1)}  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
     }; #else {
         #nop;
     }
