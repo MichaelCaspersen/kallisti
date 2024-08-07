@@ -147,7 +147,7 @@
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
 #alias tellu_kill {
-    #math tellu_mobs_in_room {$tellu_mobs_in_room+@mob_count{"%1"}}
+    #math tellu_mobs_in_room {$tellu_mobs_in_room+@mob_count{"%1"}};
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
     {#show <172> [$tellu_mobs_in_room] TRUE;#var botPositive $tellu_mobs_in_room} 
     {#show <131> [$tellu_mobs_in_room] FALSE;#var botNegative $tellu_mobs_in_room} 
