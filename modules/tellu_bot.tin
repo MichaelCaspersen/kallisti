@@ -57,12 +57,12 @@
                     #delay $autowalkspeed room_event;
                 }
             };
-            #else {
-                show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
-            }
+        };
+        #else {
+            #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH;
         }
     }
-}
+ }
 
 #nop event_register {variable cur_room_vnum} {right} {room_event {%0} {%1} {%2}};
 
@@ -131,7 +131,7 @@
 #var tell_mobs[north][clear][Desert] {"tree", "topiary"};
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
-#alias tellu_kill {#regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} {#show TRUE} {#show FALSE}}
+#alias tellu_kill {#regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} {#show TRUE;#var botAction 1} {#show FALSE}}
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
