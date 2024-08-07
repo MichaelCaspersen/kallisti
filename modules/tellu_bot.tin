@@ -25,7 +25,7 @@
 
 
 #alias load_route {
-	#show <131>LOAD ROUTE CALLED - $tellu_zone;
+	show_debug {<131>LOAD ROUTE CALLED - $tellu_zone};
     #list waypoints[$tellu_zone] explode {,};
 	#list waypoints[$tellu_zone] get 1 destination;
 	takeStep;
@@ -92,7 +92,7 @@
 		show_debug {<142>Next route starting in $waypointdelay secs};
 		#delay $waypointdelay {load_route}
 	};#else {
-		#show <131>End of zone - next zone starting in $zonedelay seconds;
+		#show <131>End of $tellu_zone zone - next zone starting in $zonedelay seconds;
 		#var destination {};
         #delay $zonedelay nextTellZone;
 	}
