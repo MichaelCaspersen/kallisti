@@ -5,17 +5,17 @@
 #var waypoints_north {34502,34501,34528,34504,34555,34507,34530,34508,34509,34595};
 
 #var tellu_mode normal
-#var tellu[zone][index] 0;
+#var tellu[zindex] 0;
 #var tellu[zone] {"west","north","east"};
 #list tellu[zone] explode {,};
 
 #alias nextTellZone {
-    #if {$tellu[zone][index] < &tellu[zone][]} {
-        #math tellu[zone][index] {$tellu[zone][index]+1};
+    #if {$tellu[zindex] < &tellu[zone][]} {
+        #math tellu[zindex] {$tellu[zindex]+1};
     };#else {
-        tellu[zone][index] 0;
+        tellu[zindex] 0;
     };
-    #var tellu_zone $tellu[zone][$tellu[zone][index]];
+    #var tellu_zone $tellu[zone][$tellu[zindex]];
     #show NEXT TELLU ZONE: $tellu_zone;
 }
 
