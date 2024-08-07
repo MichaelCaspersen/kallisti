@@ -5,7 +5,7 @@
 
 #var tellu_mode normal
 #var tellu[zindex] 0;
-#var tellu[zone] {"west","north","east"};
+#var tellu[zone] {west,north,east};
 #list tellu[zone] explode {,};
 
 #alias nextTellZone {
@@ -89,7 +89,7 @@
 	#show <142>GET NEXT DESTINATION <&waypoints[$tellu_zone][]> left;
 	#if {&waypoints[$tellu_zone][]>0} {
 		#show <142>Next route starting in $waypointdelay secs;
-		#delay $waypointdelay {walkTo}
+		#delay $waypointdelay {load_route}
 	};#else {
 		#show <131>NO MORE WAYPOINT - FINAL DESTINATION;
 		#var destination {};
