@@ -87,9 +87,9 @@
 
 #alias getNextDestination {
 	#list waypoints[$tellu_zone] delete 1;
-	#show <142>GET NEXT DESTINATION <&waypoints[$tellu_zone][]> left;
+	show_debug {<142>GET NEXT DESTINATION <&waypoints[$tellu_zone][]> left};
 	#if {&waypoints[$tellu_zone][]>0} {
-		#show <142>Next route starting in $waypointdelay secs;
+		show_debug {<142>Next route starting in $waypointdelay secs};
 		#delay $waypointdelay {load_route}
 	};#else {
 		#show <131>NO MORE WAYPOINT - LOAD NEXT ZONE;
