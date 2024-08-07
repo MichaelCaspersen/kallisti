@@ -45,11 +45,8 @@
 	};
     #else {
         #show <131>TAKESTEP Positive: $botPositive   Negative: $botNegative;
-		#if {$botPositive==1 && $botNegative==0} {
-            #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH;
-        };
-        #else {
-                show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
+		#if {$botPositive>!=1} {
+			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
 			#nop path map;
 			#path get length path_length;
@@ -64,6 +61,14 @@
                     #delay $autowalkspeed room_event;
                 }
             };
+        };
+        #else {
+            #if {$botNegative>0} {
+                #show <131>BAD GUYS MOVE ON;
+            };
+            #else {
+                #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH;
+            }
         }
     }
  }
@@ -86,7 +91,7 @@
         getNextDestination
     }; #elseif {$destination>0} {
         show_debug {<131>Still not there};
-        #if { ($autowalk && $botPositive<1 && $botNegative<1)}  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
+        #if { $autowalk }  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
     }; #else {
         #nop;
     }
