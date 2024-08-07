@@ -1,9 +1,11 @@
-#var autowalkspeed 0.5;
 #var botPostitive 0;
 #var botNegative 0;
-#var waypointdelay 0.5;
+#var tellu_mobs_in_room 0;
+
+#var autowalkspeed 0.4;
+#var waypointdelay 0.4;
 #var zonedelay 5;
-#var autowalk 2;
+#var autowalk 1;
 
 #var tellu_mode normal
 #var tellu[zindex] 0;
@@ -81,7 +83,9 @@
  }
 
 
-#alias actionCleared {#var tellu_mobs_in_room 0;#var botPositive 0;#var botNegative 0;takeStep}
+#action {**Spencer: 'Target not found: [%1].'} {#if {"%1"=="$tellu_target"} {actionCleared}} 1
+
+#alias actionCleared {#var tellu_mobs_in_room 0;#var botPositive 0;#var botNegative 0;#if {"$MSDP_POSITION"!="Fighting"} {takeStep}}
 
 #nop event_register {variable cur_room_vnum} {right} {room_event {%0} {%1} {%2}};
 
@@ -116,8 +120,6 @@
         #delay $zonedelay nextTellZone;
 	}
 }
-
-#action {A small pile of gold coins lies here.} {#show <131>WE NEED TO ACT STOP WALKING;#var botAction 0}
 
 #action {prudent resting place} {#show BAD KILL}
 
@@ -165,13 +167,16 @@
 #action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target tree;tellu_kill @mob_count{"%1"}};
 #action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
 
+#var tellu_stats[revive] 0;
+#var tellu_stats[fury] 0;
+#var tellu_stats[prudent] 0;
+#var tellu_kill_delay 4;
 
+#alias tellu_stats {#show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent]  }
 
-#alias count_tellu_mobs_in_room {
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[revive] @increment{$tellu_stats[revive]};#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[fury] @increment{$tellu_stats[fury]};#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[fury] @increment{$tellu_stats[fury]};#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[prudent] @increment{$tellu_stats[prudent]};#show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 
-}
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#delay 4 {actionCleared};#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {#delay 4 {actionCleared};#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#delay 4 {actionCleared};#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {#delay 4 {actionCleared};#show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
