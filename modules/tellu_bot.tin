@@ -11,7 +11,10 @@
 #list tellu[zone] explode {,};
 
 #alias nextTellZone {
-    #math tellu[zindex] {$tellu[zindex]+1};
+    #var botPositive 0;
+    #var botNegative 0;
+    #var tellu_mobs_in_room 0;
+#math tellu[zindex] {$tellu[zindex]+1};
     #if {$tellu[zindex] <= &tellu[zone][]} {
     };#else {
         #var tellu[zindex] 1;
@@ -44,7 +47,7 @@
 		show_debug {<131>WE ARE ALREADY AT DESTINATION};
 	};
     #else {
-        #show <131>TAKESTEP Positive: $botPositive   Negative: $botNegative;
+        #show <131>TAKESTEP Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room;
 		#if {$botPositive!=1} {
 			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
@@ -157,10 +160,10 @@
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
-#action {A large, glowing scarab stands here in a defensive posture.%1} {#show <%1> <@mob_count{"%1"}>;#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
-#action {A large wolf, with icy-blue fur stands here observing.%1} {#show <%1> <@mob_count{"%1"}>;#var tellu_target wolf;tellu_kill @mob_count{"%1"}};
-#action {An extremely stout tree stands here, wavering slowly.%1} {#show <%1> <@mob_count{"%1"}>;#var tellu_target tree;tellu_kill @mob_count{"%1"}};
-#action {A Tellurian scarab-kin is here looking alert.%1} {#show <%1> <@mob_count{"%1"}>;#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
+#action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
+#action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}};
+#action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target tree;tellu_kill @mob_count{"%1"}};
+#action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
 
 
 
