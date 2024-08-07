@@ -13,7 +13,7 @@
     #if {$tellu[zindex] < &tellu[zone][]} {
         #math tellu[zindex] {$tellu[zindex]+1};
     };#else {
-        tellu[zindex] 0;
+        #var tellu[zindex] 0;
     };
     #var tellu_zone $tellu[zone][$tellu[zindex]];
     #show NEXT TELLU ZONE: $tellu_zone;
