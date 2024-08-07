@@ -45,8 +45,11 @@
 	};
     #else {
         #show <131>TAKESTEP Positive: $botPositive   Negative: $botNegative;
-		#if {$botPositive<1 && $botNegative<1} {
-			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
+		#if {$botPositive==1 && $botNegative==0} {
+            #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH;
+        };
+        #else {
+                show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
 			#nop path map;
 			#path get length path_length;
@@ -61,9 +64,6 @@
                     #delay $autowalkspeed room_event;
                 }
             };
-        };
-        #else {
-            #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH;
         }
     }
  }
