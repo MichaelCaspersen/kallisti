@@ -71,7 +71,7 @@
             #else {
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 : marks $tellu_target for death.;
-                #delay 0.2 {kill $tellu_target}
+                #nop delay 0.2 {kill $tellu_target}
             }
         }
     }
@@ -148,8 +148,8 @@
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
 #alias tellu_kill {
-    #var tellu_mob_in_room @mob_count{"%1"};
-    #math tellu_mobs_in_room {$tellu_mobs_in_room+$tellu_mob_in_room};
+    #var tellu_mob_in_room %1;
+    #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
     {#show <172> [$tellu_mob_in_room] TRUE;#var botPositive $tellu_mob_in_room}
     {#show <131> [$tellu_mob_in_room] FALSE;#var botNegative $tellu_mob_in_room} 
@@ -157,10 +157,12 @@
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
-#action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
-#action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}};
-#action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target tree;tellu_kill @mob_count{"%1"}};
-#action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
+#action {A large, glowing scarab stands here in a defensive posture.%1} {#show <%1> <@mob_count{"%1"}>;#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
+#action {A large wolf, with icy-blue fur stands here observing.%1} {#show <%1> <@mob_count{"%1"}>;#var tellu_target wolf;tellu_kill @mob_count{"%1"}};
+#action {An extremely stout tree stands here, wavering slowly.%1} {#show <%1> <@mob_count{"%1"}>;#var tellu_target tree;tellu_kill @mob_count{"%1"}};
+#action {A Tellurian scarab-kin is here looking alert.%1} {#show <%1> <@mob_count{"%1"}>;#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
+
+
 
 #alias count_tellu_mobs_in_room {
 
@@ -168,4 +170,5 @@
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#delay 2 {actionCleared};#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my fuel FURY!'} {#delay 2 {actionCleared};#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#delay 2 {actionCleared};#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {#delay 2 {actionCleared};#show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
