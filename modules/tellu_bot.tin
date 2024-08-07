@@ -138,9 +138,11 @@
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
 #alias tellu_kill {
+    #var tellu_mobs_in_room %1;
+    #if {"$tellu_mobs_in_room"==""} {#var tellu_mobs_in_room 1};
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
-    {#show <172> [%1] TRUE;#if {"%1"==""} {#var botPositive 1} {#var botPositive %1}} 
-    {#show <131> [%1] FALSE;#if {"%1"==""} {#var botNegative 1} {#var botNegative %1}} 
+    {#show <172> [$tellu_mobs_in_room] TRUE;#var botPositive $tellu_mobs_in_room} 
+    {#show <131> [$tellu_mobs_in_room] FALSE;#var botNegative $tellu_mobs_in_room} 
 }
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
