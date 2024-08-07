@@ -46,7 +46,7 @@
 		#if {$botAction==0} {
 			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
-			#path map;
+			#nop path map;
 			#path get length path_length;
 			show_debug {<131>$path_length};
 			#if {$path_length>0} {
@@ -92,7 +92,7 @@
 		show_debug {<142>Next route starting in $waypointdelay secs};
 		#delay $waypointdelay {load_route}
 	};#else {
-		#show <131>NO MORE WAYPOINT - LOAD NEXT ZONE;
+		#show <131>End of zone - next zone starting in $zonedelay seconds;
 		#var destination {};
         #delay $zonedelay nextTellZone;
 	}
