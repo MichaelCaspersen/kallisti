@@ -63,7 +63,7 @@
             };
         };
         #else {
-            #if {$botNegative>0} {
+            #if {$botNegative>0 || $tellu_mobs_in_room>1} {
                 show_debug {<131>BAD GUYS MOVE ON};
                 actionCleared;
             };
