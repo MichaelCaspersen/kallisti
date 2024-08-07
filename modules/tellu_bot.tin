@@ -1,12 +1,28 @@
 #var autowalkspeed 0.5;
 #var botAction 0;
-#var waypointdelay 10;
+#var waypointdelay 0.1;
 #var autowalk 1;
-#var waypoints {34502,34501};
-#list waypoints explode {,};
+#var waypoints_north {34502,34501,34528,34504,34555,34507,34530,34508,34509,34595};
 
-#alias walkTo {
+#var tellu_mode normal
+#var tellu[zone][index] 0;
+#var tellu[zone] {"west","north","east"};
+#list tellu[zone] explode {,};
+
+#alias nextTellZone {
+    #if {$tellu[zone][index] < &tellu[zone][]} {
+        #math tellu[zone][index] {$tellu[zone][index]+1};
+    };#else {
+        tellu[zone][index] 0;
+    };
+    #var tellu_zone $tellu[zone][$tellu[zone][index]];
+    #show NEXT TELLU ZONE: $tellu_zone;
+}
+
+
+#alias load_route {
 	#show <131>WALKTO CALLED- STARTING FROM WAYPOINT;
+    #list waypoints explode {,};
 	#list waypoints get 1 destination;
 	takeStep;
 }
@@ -81,8 +97,6 @@
 
 
 
-#var tellu_zone east
-#var tellu_mode normal
 
 #action {A Tellurian Outpost                                    %1 |    N    [U]} {
     #show <131>RESET ZONE;
