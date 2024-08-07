@@ -1,6 +1,7 @@
 #var autowalkspeed 0.5;
 #var botAction 0;
 #var waypointdelay 0.1;
+#var zonedelay 5;
 #var autowalk 1;
 
 #var tellu_mode normal
@@ -12,7 +13,7 @@
     #if {$tellu[zindex] < &tellu[zone][]} {
         #math tellu[zindex] {$tellu[zindex]+1};
     };#else {
-        #var tellu[zindex] 1;
+        #var tellu[zindex] 0;
     };
     #var tellu_zone $tellu[zone][$tellu[zindex]];
     #show NEXT TELLU ZONE: $tellu_zone;
@@ -91,8 +92,9 @@
 		#show <142>Next route starting in $waypointdelay secs;
 		#delay $waypointdelay {load_route}
 	};#else {
-		#show <131>NO MORE WAYPOINT - FINAL DESTINATION;
+		#show <131>NO MORE WAYPOINT - LOAD NEXT ZONE;
 		#var destination {};
+        #delay $zonedelay nextTellZone;
 	}
 }
 
