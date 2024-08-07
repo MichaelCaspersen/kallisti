@@ -1,4 +1,4 @@
-#var autowalkspeed 0,5;
+#var autowalkspeed 0.5;
 #var botAction 0;
 #var waypointdelay 10;
 #var autowalk 1;
@@ -33,6 +33,7 @@
 				#show <131>We move on;
 				#path walk;
                 #if {"$MSDP_ROOM_VNUM"=="?"} {
+                    #show <131>We are in Unknown area, forcewalk after delay;
                     #delay $autowalkspeed room_event;
                 }
             };
@@ -43,7 +44,7 @@
     }
 }
 
-event_register {variable cur_room_vnum} {right} {room_event {%0} {%1} {%2}};
+#nop event_register {variable cur_room_vnum} {right} {room_event {%0} {%1} {%2}};
 
 #alias room_event {
     #if {"$MSDP_ROOM_VNUM"=="?"} {
