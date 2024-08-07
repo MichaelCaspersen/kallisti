@@ -139,8 +139,8 @@
 
 #alias tellu_kill {
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
-    {#show <172> %1 TRUE;#var botPositive %1} 
-    {#show <131> %1 FALSE;#var botNegative %1}
+    {#show <172> [%1] TRUE;#if {"%1"==""} {#var botPositive 1} {#var botPositive %1}} 
+    {#show <131> [%1] FALSE;#if {"%1"==""} {#var botNegative 1} {#var botNegative %1}} 
 }
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
