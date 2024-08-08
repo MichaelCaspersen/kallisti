@@ -115,7 +115,6 @@
                 #if {@verifyTelluZone{}} {
                     : marks $tellu_target for death.;
                     #delay 5 {#show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{};#if { (@tellu_lastkilltime{}>10) && ("$MSDP_POSITION"!="Fighting")} {actionCleared}}
-                }
                 }; #else {
                     actionCleared;
                 };
