@@ -96,8 +96,9 @@
                 #var botPositive 0;
                 #var botNegative 0;
                 #var tellu_mobs_in_room 0;
-                smart_move;
-				#nop #path walk;
+                #if { @can_group_move{} } {
+                   #path walk
+                };
                 #if {"$MSDP_ROOM_VNUM"=="?"} {
                     show_debug {<131>We are in Unknown area, forcewalk after delay};
                     #delay $autowalkspeed room_event;
@@ -112,7 +113,9 @@
             #else {
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
-                : marks $tellu_target for death.;
+                    : marks $tellu_target for death.;
+                    #delay 5 {#show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{};#if { (@tellu_lastkilltime{}>10) && ("$MSDP_POSITION"!="Fighting")} {actionCleared}}
+                }
                 }; #else {
                     actionCleared;
                 };
@@ -127,6 +130,8 @@
     #return $tellu_zone_correct
 }
 
+
+#alias telly_reset {#show <143>END ZONE, RETURN TO START;#list waypoints[$tellu_zone] clear;#var destination 34595;takeStep}
 
 #action {**Spencer: 'Target not found: [%1].'} {#if {"%1"=="$tellu_target"} {actionCleared}} 1
 
@@ -178,8 +183,8 @@
     #var tellu_mob_in_room %1;
     #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
-    {#show <172> [$tellu_mob_in_room] TRUE;#var botPositive $tellu_mob_in_room}
-    {#show <131> [$tellu_mob_in_room] FALSE;#var botNegative $tellu_mob_in_room} 
+    {#show <172> [$tellu_mob_in_room] TRUE - $tellu_mode;#var botPositive $tellu_mob_in_room}
+    {#show <131> [$tellu_mob_in_room] FALSE - $tellu_mode;#var botNegative $tellu_mob_in_room} 
 }
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
@@ -191,7 +196,6 @@
 
 #function tellu_lastkilltime {#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };#return $timesincelastkill}
 
-#ticker restarttellu {#show <135>Test if we are stuck! Time Since Kill: @tellu_lastkilltime{};#if { (@tellu_lastkilltime{}>100) && ("$MSDP_POSITION"!="Fighting")} {actionCleared}} 25
 
 #alias tellu_stats {#show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent]  }
 
