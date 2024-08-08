@@ -96,7 +96,8 @@
                 #var botPositive 0;
                 #var botNegative 0;
                 #var tellu_mobs_in_room 0;
-				#path walk;
+                smart_move;
+				#nop #path walk;
                 #if {"$MSDP_ROOM_VNUM"=="?"} {
                     show_debug {<131>We are in Unknown area, forcewalk after delay};
                     #delay $autowalkspeed room_event;
