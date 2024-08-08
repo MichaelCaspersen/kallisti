@@ -135,7 +135,7 @@
 
 #action {**Spencer: 'Target not found: [%1].'} {#if {"%1"=="$tellu_target"} {actionCleared}} 1
 #action {^%1 tells you, 'sum me'} {
-    #regexp {$need_summons} {%1} {#show Already added} {#show Add to summon;#list need_summons add %1};
+    #regexp {$need_summons} {%1} {#show Already added} {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#list need_summons add %1};
 }
 
 
