@@ -7,16 +7,50 @@
 #var zonedelay 5;
 #var autowalk 1;
 
+#var tellu_stats[revive] 0;
+#var tellu_stats[fury] 0;
+#var tellu_stats[prudent] 0;
+#var tellu_kill_delay 4;
+
 #var tellu_mode normal
 #var tellu[zindex] 0;
 #var tellu[zone] {west,north,east};
+
+#var tellu_rooms[north] {34509,34531,34556,34529,34502,34527,34551,34526,34501,34528,34553,34530,34508,34532,34506,34554,34503,34552,34505,34557,34558,34533,34507,34555,34504,34529,34556,34531,34509};
+#var tellu_rooms[west] {34543,34569,34518,34568,34542,34570,34520,34572,34549,34574,34525,34575,34550,34573,34548,34524,34547,34521,34546,34522,34523,34571,34545,34519,34544,34568,34518,34569,34543};
+#var tellu_rooms[east] {34566,34516,34541,34517,34567,34515,34539,34513,34560,34511,34534,34510,34559,34512,34561,34535,34562,34538,34563,34537,34536,34514,34564,34540,34565,34517,34541,34516,34566};
+
+#list tellu_rooms[$tellu_zone] explode {,};
+
+#var tell_mobs[east][normal][Forest] {"snap", "scarab", "wolf"};
+#var tell_mobs[east][normal][Desert] {"topiary", "snap", "wolf"};
+#var tell_mobs[east][normal][Tundra] {"scarab", "topiary"};
+#var tell_mobs[east][clear][Forest] {"tree", "topiary"};
+#var tell_mobs[east][clear][Desert] {"scarab"};
+#var tell_mobs[east][clear][Tundra] {"wolf", "snap"};
+
+#var tell_mobs[west][normal][Forest] {"snap", "topiary", "wolf"};
+#var tell_mobs[west][normal][Desert] {"scarab", "topiary"};
+#var tell_mobs[west][normal][Tundra] {"scarab", "snap", "wolf"};
+#var tell_mobs[west][clear][Forest] {"scarab"};
+#var tell_mobs[west][clear][Desert] {"wolf", "snap"};
+#var tell_mobs[west][clear][Tundra] {"tree", "topiary"};
+
+#var tell_mobs[north][normal][Forest] {"scarab", "topiary"};
+#var tell_mobs[north][normal][Desert] {"snap", "scarab", "wolf"};
+#var tell_mobs[north][normal][Tundra] {"topiary", "snap", "wolf"};
+#var tell_mobs[north][clear][Forest] {"wolf", "snap"};
+#var tell_mobs[north][clear][Desert] {"tree", "topiary"};
+#var tell_mobs[north][clear][Tundra] {"scarab"};
+
+
 #list tellu[zone] explode {,};
 
 #alias nextTellZone {
     #var botPositive 0;
     #var botNegative 0;
     #var tellu_mobs_in_room 0;
-#math tellu[zindex] {$tellu[zindex]+1};
+    #math tellu[zindex] {$tellu[zindex]+1};
     #if {$tellu[zindex] <= &tellu[zone][]} {
     };#else {
         #var tellu[zindex] 1;
@@ -48,6 +82,7 @@
 	#if {$cur_room_vnum==$destination} {
 		show_debug {<131>WE ARE ALREADY AT DESTINATION};
 	};
+
     #else {
         #show <131>TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  TimeSinceKill: @tellu_lastkilltime{};
 		#if {$botPositive!=1} {
@@ -75,12 +110,22 @@
             };
             #else {
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
+                #if {@verifyTelluZone{}} {
                 : marks $tellu_target for death.;
+                }; #else {
+                    actionCleared;
+                }
                 #nop delay 0.2 {kill $tellu_target}
             }
         }
     }
  }
+
+ #function verifyTelluZone {
+    #var tellu_zone_correct 0;
+    #regexp {$tellu_rooms[$tellu_zone]} {$cur_room_vnum} {#var tellu_zone_correct 1};
+    #return $tellu_zone_correct
+}
 
 
 #action {**Spencer: 'Target not found: [%1].'} {#if {"%1"=="$tellu_target"} {actionCleared}} 1
@@ -128,26 +173,6 @@
     badweather
 }
 
-#var tell_mobs[east][normal][Forest] {"snap", "scarab", "wolf"};
-#var tell_mobs[east][normal][Desert] {"topiary", "snap", "wolf"};
-#var tell_mobs[east][normal][Tundra] {"scarab", "topiary"};
-#var tell_mobs[east][clear][Forest] {"tree", "topiary"};
-#var tell_mobs[east][clear][Desert] {"scarab"};
-#var tell_mobs[east][clear][Tundra] {"wolf", "snap"};
-
-#var tell_mobs[west][normal][Forest] {"snap", "topiary", "wolf"};
-#var tell_mobs[west][normal][Desert] {"scarab", "topiary"};
-#var tell_mobs[west][normal][Tundra] {"scarab", "snap", "wolf"};
-#var tell_mobs[west][clear][Forest] {"scarab"};
-#var tell_mobs[west][clear][Desert] {"wolf", "snap"};
-#var tell_mobs[west][clear][Tundra] {"tree", "topiary"};
-
-#var tell_mobs[north][normal][Forest] {"scarab", "topiary"};
-#var tell_mobs[north][normal][Desert] {"snap", "scarab", "wolf"};
-#var tell_mobs[north][normal][Tundra] {"topiary", "snap", "wolf"};
-#var tell_mobs[north][clear][Forest] {"wolf", "snap"};
-#var tell_mobs[north][clear][Desert] {"tree", "topiary"};
-#var tell_mobs[north][clear][Tundra] {"scarab"};
 
 #alias tellu_kill {
     #var tellu_mob_in_room %1;
@@ -164,15 +189,9 @@
 #action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target tree;tellu_kill @mob_count{"%1"}};
 #action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
 
-#var tellu_stats[revive] 0;
-#var tellu_stats[fury] 0;
-#var tellu_stats[prudent] 0;
-#var tellu_kill_delay 4;
-
 #function tellu_lastkilltime {#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };#return $timesincelastkill}
 
 #ticker restarttellu {#show <135>Test if we are stuck! Time Since Kill: @tellu_lastkilltime{};#if { (@tellu_lastkilltime{}>100) && ("$MSDP_POSITION"!="Fighting")} {actionCleared}} 25
-
 
 #alias tellu_stats {#show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent]  }
 
