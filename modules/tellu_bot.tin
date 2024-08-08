@@ -84,7 +84,7 @@
 	};
 
     #else {
-        #show <131>TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  TimeSinceKill: @tellu_lastkilltime{};
+        show_debug {TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  TimeSinceKill: @tellu_lastkilltime{}};
 		#if {$botPositive!=1} {
 			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
