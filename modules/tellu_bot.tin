@@ -12,16 +12,18 @@
 #var tellu_stats[fury] 0;
 #var tellu_stats[prudent] 0;
 
-#var tellu_mode normal
+#var tellu_mode normal;
 
 #var tellu[zindex] 0;
 #var tellu[zone] {west,north,east};
+#list tellu[zone] explode {,};
 
 #var tellu_rooms[north] {34509,34531,34556,34529,34502,34527,34551,34526,34501,34528,34553,34530,34508,34532,34506,34554,34503,34552,34505,34557,34558,34533,34507,34555,34504,34529,34556,34531,34509};
 #var tellu_rooms[west] {34543,34569,34518,34568,34542,34570,34520,34572,34549,34574,34525,34575,34550,34573,34548,34524,34547,34521,34546,34522,34523,34571,34545,34519,34544,34568,34518,34569,34543};
 #var tellu_rooms[east] {34566,34516,34541,34517,34567,34515,34539,34513,34560,34511,34534,34510,34559,34512,34561,34535,34562,34538,34563,34537,34536,34514,34564,34540,34565,34517,34541,34516,34566};
-
-#list tellu_rooms[$tellu_zone] explode {,};
+#list tellu_rooms[north] explode {,};
+#list tellu_rooms[west] explode {,};
+#list tellu_rooms[east] explode {,};
 
 #var tell_mobs[east][normal][Forest] {"snap", "scarab", "wolf"};
 #var tell_mobs[east][normal][Desert] {"topiary", "snap", "wolf"};
@@ -45,7 +47,6 @@
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
 
-#list tellu[zone] explode {,};
 
 #alias nextTellZone {
     #var botPositive 0;
@@ -81,9 +82,8 @@
     };
         
 	#if {$cur_room_vnum==$destination} {
-		show_debug {<131>WE ARE ALREADY AT DESTINATION Room:[$cur_room_vnum] Dest:[$destination]};
+		#show {<131>WE ARE ALREADY AT DESTINATION Room:[$cur_room_vnum] Dest:[$destination]};
 	};
-
     #else {
         show_debug {TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  TimeSinceKill: @tellu_lastkilltime{}};
 		#if {$botPositive!=1} {
@@ -94,11 +94,11 @@
 			show_debug {<131>$path_length};
 			#if {$path_length>0} {
 				show_debug {<131>We move on - GroupCanMove: @can_group_move{}};
-                #var botPositive 0;
-                #var botNegative 0;
-                #var tellu_mobs_in_room 0;
                 #if { @can_group_move{} } {
-                   #path walk
+                    #var botPositive 0;
+                    #var botNegative 0;
+                    #var tellu_mobs_in_room 0;
+                    #path walk
                 };
                 #if {"$MSDP_ROOM_VNUM"=="?"} {
                     show_debug {<131>We are in Unknown area, forcewalk after delay};
@@ -115,7 +115,12 @@
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
                     : marks $tellu_target for death.;
-                    #delay 5 {#show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION;#if { (@tellu_lastkilltime{}>6) && ("$MSDP_POSITION"!="Fighting")} {actionCleared}}
+                    #delay 5 {
+                        #show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION;
+                        #if { (@tellu_lastkilltime{}>6) && ("$MSDP_POSITION"!="Fighting")} {
+                            actionCleared
+                        }
+                    };
                 }; #else {
                     actionCleared;
                 };
@@ -124,23 +129,6 @@
     }
  }
 
- #function verifyTelluZone {
-    #var tellu_zone_correct 0;
-    #regexp {$tellu_rooms[$tellu_zone]} {$cur_room_vnum} {#var tellu_zone_correct 1};
-    #return $tellu_zone_correct
-}
-
-
-#alias telly_reset {#show <143>END ZONE, RETURN TO START;#list waypoints[$tellu_zone] clear;#var destination 34595;takeStep}
-
-#action {**Spencer: 'Target not found: [%1].'} {#if {"%1"=="$tellu_target"} {actionCleared}} 1
-
-#action {^%1 tells you, 'sum me'} {    #regexp {$need_summons} {%1} {#show Already added} {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};}
-
-
-#alias actionCleared {#var tellu_mobs_in_room 0;#var botPositive 0;#var botNegative 0;#if {"$MSDP_POSITION"!="Fighting"} {takeStep}}
-
-#nop event_register {variable cur_room_vnum} {right} {room_event {%0} {%1} {%2}};
 
 #alias room_event {
     #if {"$MSDP_ROOM_VNUM"=="?"} {
@@ -154,10 +142,11 @@
         show_debug {<131>WE HAVE ARRIVED};
         getNextDestination
     }; #elseif {$destination>0} {
-        show_debug {<131>Still not there};
+        show_debug {<131>Still not at current destination CurrentRoom: $cur_room_vnum Dest: $destination};
         #if { $autowalk }  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
     }; #else {
-        #nop;
+        show_debug {<131>We don't have a destination};
+        #nop
     }
 }
 
@@ -165,7 +154,7 @@
 	#list waypoints[$tellu_zone] delete 1;
 	show_debug {<142>GET NEXT DESTINATION <&waypoints[$tellu_zone][]> left};
 	#if {&waypoints[$tellu_zone][]>0} {
-		show_debug {<142>Next route starting in $waypointdelay secs};
+		show_debug {<142>Next path starting in $waypointdelay secs};
 		#delay $waypointdelay {load_route}
 	};#else {
 		#show <132>End of zone: $tellu_zone - Next zone starting in $zonedelay seconds;
@@ -180,19 +169,37 @@
 	}
 }
 
+
+#alias actionCleared {
+    #var tellu_mobs_in_room 0;
+    #var botPositive 0;
+    #var botNegative 0;
+    #if {"$MSDP_POSITION"!="Fighting"} {takeStep}
+}
+
+ #function verifyTelluZone {
+    #var tellu_zone_correct 0;
+    #regexp {$tellu_rooms[$tellu_zone]} {$cur_room_vnum} {#var tellu_zone_correct 1};
+    #return $tellu_zone_correct
+}
+
+
+#alias tellu_reset {
+    #show <143>END ZONE, RETURN TO START;
+    #list waypoints[$tellu_zone] clear;
+    #var destination 34595;
+    takeStep
+}
+
+#action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
+
+
 #alias tellu_kill {
     #var tellu_mob_in_room %1;
     #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
     {#show <172> [$tellu_mob_in_room] TRUE - $tellu_mode;#var botPositive $tellu_mob_in_room}
     {#show <131> [$tellu_mob_in_room] FALSE - $tellu_mode;#var botNegative $tellu_mob_in_room} 
-}
-
-#alias tellu_summon {
-    #if {&need_summons[]>0} {
-        #loop 1 &need_summons[] {id} {gt sum 0.$need_summons[$id];gt portal 0.$need_summons[$id];sum 0.$need_summons[$id];portal 0.$need_summons[$id]};
-        #var need_summons {};
-    }
 }
 
 #function tellu_lastkilltime {
@@ -203,6 +210,25 @@
 #alias tellu_stats {
     #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent]  
 }
+
+
+
+
+#action {^%1 tells you, 'sum me'} {    #regexp {$need_summons} {%1} {#show Already added} {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};}
+
+#alias tellu_summon {
+    #if {&need_summons[]>0} {
+        #loop 1 &need_summons[] {id} {
+            gt sum 0.$need_summons[$id];
+            gt portal 0.$need_summons[$id];
+            #if { ("MSDP_CLASS"=="Prophet") || ("MSDP_CLASS"=="Templar") || ("MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
+            #if {"MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
+        };
+        #var need_summons {};
+    }
+}
+
+
 
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
