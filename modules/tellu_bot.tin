@@ -5,14 +5,15 @@
 #var autowalkspeed 0.4;
 #var waypointdelay 0.4;
 #var zonedelay 5;
+#var tellu_kill_delay 4;
 #var autowalk 1;
 
 #var tellu_stats[revive] 0;
 #var tellu_stats[fury] 0;
 #var tellu_stats[prudent] 0;
-#var tellu_kill_delay 4;
 
 #var tellu_mode normal
+
 #var tellu[zindex] 0;
 #var tellu[zone] {west,north,east};
 
@@ -114,7 +115,7 @@
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
                     : marks $tellu_target for death.;
-                    #delay 5 {#show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION;#if { (@tellu_lastkilltime{}>7) && ("$MSDP_POSITION"!="Fighting")} {actionCleared}}
+                    #delay 5 {#show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION;#if { (@tellu_lastkilltime{}>6) && ("$MSDP_POSITION"!="Fighting")} {actionCleared}}
                 }; #else {
                     actionCleared;
                 };
@@ -133,6 +134,10 @@
 #alias telly_reset {#show <143>END ZONE, RETURN TO START;#list waypoints[$tellu_zone] clear;#var destination 34595;takeStep}
 
 #action {**Spencer: 'Target not found: [%1].'} {#if {"%1"=="$tellu_target"} {actionCleared}} 1
+#action {^%1 tells you, 'sum me'} {
+    #regexp {$need_summons} {%1} {#show Already added} {#show Add to summon;#list need_summons add %1};
+}
+
 
 #alias actionCleared {#var tellu_mobs_in_room 0;#var botPositive 0;#var botNegative 0;#if {"$MSDP_POSITION"!="Fighting"} {takeStep}}
 
@@ -166,17 +171,16 @@
 	};#else {
 		#show <132>End of zone: $tellu_zone - Next zone starting in $zonedelay seconds;
 		#var destination {};
-        #delay $zonedelay nextTellZone;
+        #if {&need_summons[]>0} {
+            #math zonedelay {$zonedelay+3};
+            #loop 1 &need_summons[] {id} {gt sum $need_summons[$id];gt portal $need_summons[$id]};
+            #var need_summons {};
+            #delay $zonedelay nextTellZone;
+        }; #else {
+            #delay $zonedelay nextTellZone;
+        }
 	}
 }
-
-#action {A Tellurian Outpost                                    %1 |    N    [U]} {
-    #show <131>RESET ZONE;
-    #nop var tellu_zone {};
-    #action {You follow $leader %%2.} {#var tellu_zone %%2;#show <131>New zone: %%2;#unaction {You follow%%%2.}};
-    badweather
-}
-
 
 #alias tellu_kill {
     #var tellu_mob_in_room %1;
@@ -192,6 +196,10 @@
 #action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}};
 #action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target tree;tellu_kill @mob_count{"%1"}};
 #action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
+#action {A Tellurian tundra-snap is here looking alert.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}};
+
+#action {A Tellurian blood-mage is hovering here. [ blur wraith shockshield ranged ]} {#var tellu_target mage;tellu_kill @mob_count{"%1"}};
+
 
 #function tellu_lastkilltime {#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };#return $timesincelastkill}
 
