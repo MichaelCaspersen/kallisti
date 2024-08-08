@@ -173,8 +173,7 @@
 		#var destination {};
         #if {&need_summons[]>0} {
             #math zonedelay {$zonedelay+3};
-            #loop 1 &need_summons[] {id} {gt sum $need_summons[$id];gt portal $need_summons[$id]};
-            #var need_summons {};
+            tellu_summon;
             #delay $zonedelay nextTellZone;
         }; #else {
             #delay $zonedelay nextTellZone;
@@ -190,6 +189,23 @@
     {#show <131> [$tellu_mob_in_room] FALSE - $tellu_mode;#var botNegative $tellu_mob_in_room} 
 }
 
+#alias tellu_summon {
+    #if {&need_summons[]>0} {
+        #loop 1 &need_summons[] {id} {gt sum $need_summons[$id];gt portal $need_summons[$id]};
+        #var need_summons {};
+    }
+}
+
+#function tellu_lastkilltime {
+    #math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
+    #return $timesincelastkill
+}
+
+#alias tellu_stats {
+    #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent]  
+}
+
+
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
 #action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}};
@@ -199,12 +215,6 @@
 #action {A Tellurian tundra-snap is here looking alert.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}};
 
 #action {A Tellurian blood-mage is hovering here. [ blur wraith shockshield ranged ]} {#var tellu_target mage;tellu_kill @mob_count{"%1"}};
-
-
-#function tellu_lastkilltime {#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };#return $timesincelastkill}
-
-
-#alias tellu_stats {#show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent]  }
 
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[revive] @increment{$tellu_stats[revive]};#var lastkilltime $MSDP_UPTIME;#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[fury] @increment{$tellu_stats[fury]};#var lastkilltime $MSDP_UPTIME;#show <131>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
