@@ -80,7 +80,7 @@
     };
         
 	#if {$cur_room_vnum==$destination} {
-		show_debug {<131>WE ARE ALREADY AT DESTINATION};
+		show_debug {<131>WE ARE ALREADY AT DESTINATION Room:[$cur_room_vnum] Dest:[$destination]};
 	};
 
     #else {
@@ -92,7 +92,7 @@
 			#path get length path_length;
 			show_debug {<131>$path_length};
 			#if {$path_length>0} {
-				show_debug {<131>We move on};
+				show_debug {<131>We move on - GroupCanMove: @can_group_move{}};
                 #var botPositive 0;
                 #var botNegative 0;
                 #var tellu_mobs_in_room 0;
