@@ -114,8 +114,7 @@
                 : marks $tellu_target for death.;
                 }; #else {
                     actionCleared;
-                }
-                #nop delay 0.2 {kill $tellu_target}
+                };
             }
         }
     }
