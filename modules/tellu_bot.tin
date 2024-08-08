@@ -134,9 +134,8 @@
 #alias telly_reset {#show <143>END ZONE, RETURN TO START;#list waypoints[$tellu_zone] clear;#var destination 34595;takeStep}
 
 #action {**Spencer: 'Target not found: [%1].'} {#if {"%1"=="$tellu_target"} {actionCleared}} 1
-#action {^%1 tells you, 'sum me'} {
-    #regexp {$need_summons} {%1} {#show Already added} {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#list need_summons add %1};
-}
+
+#action {^%1 tells you, 'sum me'} {    #regexp {$need_summons} {%1} {#show Already added} {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};}
 
 
 #alias actionCleared {#var tellu_mobs_in_room 0;#var botPositive 0;#var botNegative 0;#if {"$MSDP_POSITION"!="Fighting"} {takeStep}}
@@ -191,7 +190,7 @@
 
 #alias tellu_summon {
     #if {&need_summons[]>0} {
-        #loop 1 &need_summons[] {id} {gt sum $need_summons[$id];gt portal $need_summons[$id]};
+        #loop 1 &need_summons[] {id} {gt sum 0.$need_summons[$id];gt portal 0.$need_summons[$id];sum 0.$need_summons[$id];portal 0.$need_summons[$id]};
         #var need_summons {};
     }
 }
