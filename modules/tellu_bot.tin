@@ -198,6 +198,8 @@
     takeStep
 }
 
+#action {^%1 chops up the vines entangling %2.} {#if {"%2"=="$char_entangled"} {#var char_entangled {}}}
+
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
 
 #ticker tellu_restart_ticker {#show <152>Time since last kill: $timesincelastkill   GroupCanMove: @can_group_move{};#if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} {gt got stuck.. here we go;actionCleared}} {10}
@@ -265,7 +267,7 @@
 #action {A Tellurian %1 arrives from the %2.} {#show <112>>%1< >< >%2< >ARRIVES<;safetokill {%1} {} {%2} {ARRIVES}}
 
 
-#alias safetokill {%1} {%2} {%3} {%4} {
+#alias safetokill {%1 %2 %3 %4} {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
     #show <112>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
@@ -274,21 +276,21 @@
         #case {scarab-kin} {#var tellu_joiner scarab};
     };
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_joiner} 
-        {
-            #nop MOB in safe room;
-            #if {"%4"=="JOINED"} {
-                gt $tellu_joiner JOINED %2, SAFE kill
-            };#else {
-                #show $tellu_joiner ARRIVED from %3, SAFE KILL
-            }
+    {
+        #nop MOB in safe room;
+        #if {"%4"=="JOINED"} {
+            gt $tellu_joiner JOINED %2, SAFE kill
+        };#else {
+            #show $tellu_joiner ARRIVED from %3, SAFE KILL
         }
-        {
-            #nop MOB in BAD room;
-            #if {"%4"=="JOINED"} {
-                gt $tellu_joiner JOINED %2, BAD kill
-            };#else {
-                #show $tellu_joiner ARRIVED from %3, BAD KILL
-            }
-        };
+    }
+    {
+        #nop MOB in BAD room;
+        #if {"%4"=="JOINED"} {
+            gt $tellu_joiner JOINED %2, BAD kill
+        };#else {
+            #show $tellu_joiner ARRIVED from %3, BAD KILL
+        }
+    };
     #var tellu_joiner {};
 }
