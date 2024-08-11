@@ -102,7 +102,7 @@
                 }; #else {
                     #if {"$char_entangled"!=""} {gt all chop $char_entangled};
                     #var char_entangled {};
-                }
+                };
                 #if {"$MSDP_ROOM_VNUM"=="?"} {
                     show_debug {<131>We are in Unknown area, forcewalk after delay};
                     #delay $autowalkspeed room_event;
@@ -275,7 +275,7 @@
     };
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_joiner} 
         {
-            #nop MOB in safe room
+            #nop MOB in safe room;
             #if {"%4"=="JOINED"} {
                 gt $tellu_joiner JOINED %2, SAFE kill
             };#else {
@@ -283,7 +283,7 @@
             }
         }
         {
-            #nop MOB in BAD room
+            #nop MOB in BAD room;
             #if {"%4"=="JOINED"} {
                 gt $tellu_joiner JOINED %2, BAD kill
             };#else {
