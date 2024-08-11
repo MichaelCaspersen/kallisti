@@ -11,6 +11,10 @@
 #var tellu_stats[revive] 0;
 #var tellu_stats[fury] 0;
 #var tellu_stats[prudent] 0;
+#var tellu_stats[scarab-kin] 0;
+#var tellu_stats[topiary] 0;
+#var tellu_stats[tundra-snap] 0;
+
 
 #var tellu_mode normal;
 
@@ -196,7 +200,7 @@
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
 
-#ticker tellu_restart_ticker {#show <152>Time since last kill: $timesincelastkill   GroupCanMove: @can_group_move{};#if { ($autowalk) && ($timesincelastkill>50) && (@can_group_move{})} {actionCleared}} 10
+#ticker tellu_restart_ticker {#show <152>Time since last kill: $timesincelastkill   GroupCanMove: @can_group_move{};#if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} {gt got stuck.. here we go;actionCleared}} {10}
 
 #alias tellu_kill {
     #var tellu_mob_in_room %1;
@@ -268,6 +272,7 @@
 
 #alias safetokill %1 %2 %3 %4 {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
+    #show >%1< >%2< >%3< >%4<;
     #switch {"%1"} {
         #case {tundra-snap} {#var tellu_joiner wolf};
         #case {topiary} {#var tellu_joiner topiary};
