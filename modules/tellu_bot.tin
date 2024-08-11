@@ -262,11 +262,10 @@
 
 #action {A Tellurian %1 comes to a Tellurian %2's aid.} {
     safetokill {%1} {%2} {} {JOINED};
-    gt JOINER: %1 joined %2;
 }
 
 #action {A Tellurian %1 arrives from the %2.} {
-    safetokill {%1} {} {%2} {ARRIVES}
+    safetokill {%1} {} {%2} {ARRIVES};
 }
 
 
