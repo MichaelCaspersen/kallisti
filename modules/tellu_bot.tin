@@ -267,7 +267,7 @@
 #action {A Tellurian %1 arrives from the %2.} {#show <112>>%1< >< >%2< >ARRIVES<;safetokill {%1} {} {%2} {ARRIVES}}
 
 
-#alias safetokill {%1 %2 %3 %4} {
+#alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
     #show <112>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
