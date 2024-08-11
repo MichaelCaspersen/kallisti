@@ -272,7 +272,7 @@
 
 #alias safetokill %1 %2 %3 %4 {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
-    #show >%1< >%2< >%3< >%4<;
+    #show <112>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
         #case {tundra-snap} {#var tellu_joiner wolf};
         #case {topiary} {#var tellu_joiner topiary};
