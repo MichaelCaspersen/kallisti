@@ -281,7 +281,7 @@
         #if {"%4"=="JOINED"} {
             gt $tellu_joiner JOINED %2, SAFE kill
         };#else {
-            #show $tellu_joiner ARRIVED from %3, SAFE KILL
+            #show <131>$tellu_joiner ARRIVED from %3, SAFE KILL
         }
     }
     {
@@ -289,7 +289,7 @@
         #if {"%4"=="JOINED"} {
             gt $tellu_joiner JOINED %2, BAD kill
         };#else {
-            #show $tellu_joiner ARRIVED from %3, BAD KILL
+            #show <131>$tellu_joiner ARRIVED from %3, BAD KILL
         }
     };
     #var tellu_joiner {};
