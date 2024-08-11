@@ -255,25 +255,25 @@
 #action {A Tellurian blood-mage is hovering here. [ blur wraith shockshield ranged ]} {#var tellu_target mage;tellu_kill @mob_count{"%1"}};
 
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[%1] @increment{$tellu_stats[%1]};#var tellu_stats[revive] @increment{$tellu_stats[revive]};#var lastkilltime $MSDP_UPTIME;#show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[%1] @increment{$tellu_stats[%1]};#var tellu_stats[fury] @increment{$tellu_stats[fury]};#var lastkilltime $MSDP_UPTIME;#show <Bfca><F000>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
-#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[%1] @increment{$tellu_stats[%1]};#var tellu_stats[fury] @increment{$tellu_stats[fury]};#var lastkilltime $MSDP_UPTIME;#show <Bfca><F000>BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[%1] @increment{$tellu_stats[%1]};#var tellu_stats[fury] @increment{$tellu_stats[fury]};#var lastkilltime $MSDP_UPTIME;#show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[%1] @increment{$tellu_stats[%1]};#var tellu_stats[fury] @increment{$tellu_stats[fury]};#var lastkilltime $MSDP_UPTIME;#show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]};
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {#delay $tellu_kill_delay {actionCleared};#var tellu_stats[%1] @increment{$tellu_stats[%1]};#var tellu_stats[prudent] @increment{$tellu_stats[prudent]};#var lastkilltime $MSDP_UPTIME;#show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone];gt BAD KILL};
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
 
 
-#action {A Tellurian %1 comes to a Tellurian %2's aid.} {#show <112>>%1< >%2< >< >JOINED<;safetokill {%1} {%2} {} {JOINED}}
+#action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
 
-#action {A Tellurian %1 arrives from the %2.} {#show <112>>%1< >< >%2< >ARRIVES<;safetokill {%1} {} {%2} {ARRIVES}}
+#action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
 
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
     #show <112>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
-        #case {tundra-snap} {#var tellu_joiner wolf};
-        #case {topiary} {#var tellu_joiner topiary};
-        #case {scarab-kin} {#var tellu_joiner scarab};
+        #case {"tundra-snap"} {#var tellu_joiner wolf};
+        #case {"topiary"} {#var tellu_joiner topiary};
+        #case {"scarab-kin"} {#var tellu_joiner scarab};
     };
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_joiner} 
     {
