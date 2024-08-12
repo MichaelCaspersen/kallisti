@@ -227,15 +227,19 @@
 #nop Do stats announcements
 #nop log good/bad kills 
 
-#action {^%1 tells you, 'sum me'} {    #regexp {$need_summons} {%1} {#show Already added} {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};}
+#action {^%1 tells you, 'sum me'} {
+    #regexp {$need_summons} {%1} 
+    {#show Already added} 
+    {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};
+}
 
 #alias tellu_summon {
     #if {&need_summons[]>0} {
         #loop 1 &need_summons[] {id} {
-            gt sum 0.$need_summons[$id];
-            gt portal 0.$need_summons[$id];
-            #if { ("MSDP_CLASS"=="Prophet") || ("MSDP_CLASS"=="Templar") || ("MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
-            #if {"MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
+            gt sum $need_summons[$id];
+            gt portal $need_summons[$id];
+            #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Templar") || ("$MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
+            #if {"$MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
         };
         #var need_summons {};
     }
