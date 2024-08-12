@@ -198,11 +198,11 @@
     takeStep
 }
 
-#action {^%1 chops up the vines entangling %2.} {#if {"%2"=="$char_entangled"} {#var char_entangled {}}}
+#action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}}}
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
 
-#ticker tellu_restart_ticker {#show <152>Time since last kill: $timesincelastkill   GroupCanMove: @can_group_move{};#if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} {gt got stuck.. here we go;actionCleared}} {10}
+#ticker tellu_restart_ticker {#show <152>Time since last kill: $timesincelastkill   GroupCanMove: @can_group_move{};#if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} {gt was stuck.. here we go;actionCleared}} {10}
 
 #alias tellu_kill {
     #var tellu_mob_in_room %1;
