@@ -44,6 +44,7 @@
 }
 
 #alias post_connect_load {
+	#config {LOG MODE} PLAIN;
     #showme %0;
 	info Loading post-connect modules;
 	load_module prefs;

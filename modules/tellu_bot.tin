@@ -2,7 +2,7 @@
 #var botNegative 0;
 #var tellu_mobs_in_room 0;
 
-#var autowalkspeed 0.4;
+#var autowalkspeed 0.5;
 #var waypointdelay 0.4;
 #var zonedelay 5;
 #var tellu_kill_delay 4;
