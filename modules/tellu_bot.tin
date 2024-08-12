@@ -285,7 +285,7 @@
         #if {"%4"=="JOINED"} {
             gt $tellu_joiner JOINED %2, SAFE kill
         };#else {
-            #show <131>$tellu_joiner ARRIVED from %3, SAFE KILL
+            #show <131>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
     }
     {
@@ -293,7 +293,7 @@
         #if {"%4"=="JOINED"} {
             gt $tellu_joiner JOINED %2, BAD kill
         };#else {
-            #show <131>$tellu_joiner ARRIVED from %3, BAD KILL
+            #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
     };
     #var tellu_joiner {};
