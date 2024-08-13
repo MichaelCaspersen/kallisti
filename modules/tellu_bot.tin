@@ -207,7 +207,7 @@
 
 #alias decidedamage {
     #switch {$MSDP_CLASS} {
-        #case {Wizard} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostfire} {damage zap} };
+        #case {Wizard} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostbite} {damage zap} };
         #default {#nop};
     }
 }
