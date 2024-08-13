@@ -125,7 +125,7 @@
                     : marks $tellu_target for death.;
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
-                        #show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION ;
+                        #show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
                         #if { (@tellu_lastkilltime{}>6) && ("$MSDP_POSITION"!="Fighting")} {
                             actionCleared
                         }
@@ -276,8 +276,8 @@
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[revive] @increment{$tellu_stats[revive]};
     #var lastkilltime $MSDP_UPTIME;
-    #math tellu_kill_timer { $tellu_kill_timer-$MSDP_UPTIME };
-    #show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {
@@ -285,8 +285,8 @@
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
-    #math tellu_kill_timer { $tellu_kill_timer-$MSDP_UPTIME };
-    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone];
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {
@@ -294,8 +294,8 @@
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
-    #math tellu_kill_timer { $tellu_kill_timer-$MSDP_UPTIME };
-    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone];
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
@@ -303,8 +303,8 @@
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[prudent] @increment{$tellu_stats[prudent]};
     #var lastkilltime $MSDP_UPTIME;
-    #math tellu_kill_timer { $tellu_kill_timer-$MSDP_UPTIME };
-    #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone];
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     gt BAD KILL;
     addAverageKillTime $tellu_kill_timer
 };
