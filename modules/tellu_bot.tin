@@ -220,7 +220,7 @@
 }
 
 #alias addAverageKillTime {
-    #math tellu_stats[average_kill_time] { $tellu_stats[average_kill_time] + %1 }
+    #math tellu_stats[average_kill_time] { $tellu_stats[average_kill_time] + %1 };
     #var tellu_kill_timer {}
 }
 
