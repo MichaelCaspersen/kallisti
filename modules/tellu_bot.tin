@@ -125,7 +125,7 @@
                     : marks $tellu_target for death.;
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
-                        #show <135>Test if poke had effect! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
+                        #show <135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
                         #if { (@tellu_lastkilltime{}>6) && ("$MSDP_POSITION"!="Fighting")} {
                             actionCleared
                         }
