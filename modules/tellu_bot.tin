@@ -171,6 +171,7 @@
         #if {&need_summons[]>0} {
             #nop math zonedelay {$zonedelay+3};
             tellu_summon;
+            decidedamage;
             #delay $zonedelay nextTellZone;
         }; #else {
             #delay $zonedelay nextTellZone;
@@ -203,6 +204,8 @@
 #action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}}}
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
+
+#alias decidedamage {#if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostfire} {damage zap}}
 
 #ticker tellu_restart_ticker {#show <152>Time since last kill: $timesincelastkill   GroupCanMove: @can_group_move{};#if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} {gt was stuck.. here we go;actionCleared}} {10}
 
@@ -319,7 +322,7 @@
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
-    #show <112>>%1< >%2< >%3< >%4<;
+    #show <132>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
         #case {"tundra-snap"} {#var tellu_joiner wolf};
         #case {"topiary"} {#var tellu_joiner topiary};
@@ -331,7 +334,7 @@
         #if {"%4"=="JOINED"} {
             gt $tellu_joiner JOINED %2, SAFE kill
         };#else {
-            #show <131>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+            #show <172>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
     }
     {
