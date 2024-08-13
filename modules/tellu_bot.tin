@@ -223,15 +223,14 @@
 }
 
 #alias addAverageKillTime {
-    #math total_kills { $tellu_stats[revive] + $tellu_stats[fury] + $tellu_stats[prudent] };
-    #math tellu_stats[average_kill_time] { ((( $total_kills-1 ) * $tellu_stats[average_kill_time]) + %1 ) / $total_kills };
-    #var tellu_kill_timer {}
+    #nop math total_kills { $tellu_stats[revive] + $tellu_stats[fury] + $tellu_stats[prudent] };
+    #nop math tellu_stats[average_kill_time] { ((( $total_kills-1 ) * $tellu_stats[average_kill_time]) + %1 ) / $total_kills };
 }
 
 #alias tellu_stats {
     #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
     #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
-    #show <134> Average kill time: $tellu_stats[average_kill_time](s);
+    #show <134> Last kill: $tellu_kill_timer(s);
 }
 
 
@@ -282,7 +281,7 @@
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
-    addAverageKillTime $tellu_kill_timer
+    #nop addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {
     #delay $tellu_kill_delay {actionCleared};
@@ -291,7 +290,7 @@
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
-    addAverageKillTime $tellu_kill_timer
+    #nop addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {
     #delay $tellu_kill_delay {actionCleared};
@@ -300,7 +299,7 @@
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
-    addAverageKillTime $tellu_kill_timer
+    #nop addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
     #delay $tellu_kill_delay {actionCleared};
@@ -310,7 +309,7 @@
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     gt BAD KILL;
-    addAverageKillTime $tellu_kill_timer
+    #nop addAverageKillTime $tellu_kill_timer
 };
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
