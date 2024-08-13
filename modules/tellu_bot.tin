@@ -221,14 +221,14 @@
 
 #alias addAverageKillTime {
     #math total_kills { $tellu_stats[revive] + $tellu_stats[fury] + $tellu_stats[prudent] };
-    #math tellu_stats[average_kill_time] { $tellu_stats[average_kill_time] + ( %1 / $total_kills ) };
+    #math tellu_stats[average_kill_time] { ((( $total_kills-1 ) * $tellu_stats[average_kill_time]) + %1 ) / $total_kills };
     #var tellu_kill_timer {}
 }
 
 #alias tellu_stats {
     #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
     #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
-    #show <134> Average kill time: $tellu_stats[average_kill_time];
+    #show <134> Average kill time: $tellu_stats[average_kill_time](s);
 }
 
 
