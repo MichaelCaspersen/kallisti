@@ -168,10 +168,10 @@
 	};#else {
 		#show <132>End of zone: $tellu_zone - Next zone starting in $zonedelay seconds;
 		#var destination {};
+        decidedamage;
         #if {&need_summons[]>0} {
             #nop math zonedelay {$zonedelay+3};
             tellu_summon;
-            decidedamage;
             #delay $zonedelay nextTellZone;
         }; #else {
             #delay $zonedelay nextTellZone;
@@ -205,7 +205,12 @@
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
 
-#alias decidedamage {#if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostfire} {damage zap}}
+#alias decidedamage {
+    #switch {$MSDP_CLASS} {
+        #case {Wizard} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostfire} {damage zap} };
+        #default {#nop};
+    }
+}
 
 #ticker tellu_restart_ticker {#show <152>Time since last kill: $timesincelastkill   GroupCanMove: @can_group_move{};#if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} {gt was stuck.. here we go;actionCleared}} {10}
 
