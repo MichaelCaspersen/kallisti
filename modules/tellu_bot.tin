@@ -8,6 +8,8 @@
 #var tellu_kill_delay 4;
 #var autowalk 1;
 
+#var tell_start_kill 0; #nop Will initiate kill, ask for rescue
+
 #var tellu_stats[average_kill_time] 0;
 #var tellu_stats[revive] 0;
 #var tellu_stats[fury] 0;
@@ -103,7 +105,8 @@
                     #var botPositive 0;
                     #var botNegative 0;
                     #var tellu_mobs_in_room 0;
-                    #path walk
+                    smart_move
+                    #nop #path walk
                 }; #else {
                     #if {"$char_entangled"!=""} {gt all chop $char_entangled};
                     #var char_entangled {};
@@ -123,6 +126,7 @@
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
                     : marks $tellu_target for death.;
+                    #if {$tell_start_kill} {kill $tellu_target};
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
                         #show <135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
