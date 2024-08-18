@@ -361,7 +361,7 @@
     {
         #nop MOB in safe room;
         #if {"%4"=="JOINED"} {
-            gt $tellu_joiner JOINED %2, SAFE kill
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt $tellu_joiner JOINED %2, SAFE kill} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
         };#else {
             #show <172>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
@@ -369,7 +369,7 @@
     {
         #nop MOB in BAD room;
         #if {"%4"=="JOINED"} {
-            gt $tellu_joiner JOINED %2, BAD kill
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt $tellu_joiner JOINED %2, BAD kill} {#show <132>$tellu_joiner JOINED %2, BAD kill};
         };#else {
             #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }

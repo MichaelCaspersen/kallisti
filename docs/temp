@@ -182,14 +182,14 @@ Equip tanning gear
 #var tanningnotmaxed 1;
 #var guildpath {3s3w3s}
 #var guildpath {2s2e3s}
-#action {* * * You now have enough experience to gain a level! * * *} {gogain}
-#alias gogain {recall;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];recall;$guildpath;gain;#if { ($MSDP_LEVEL<53) && ($profession[refining][auto])} {visit house;dep all;e;get all.hide;tan hide}}
+#action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
+#alias gogain {egress;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egress;$guildpath;gain;#if { ($MSDP_LEVEL<56) && ($profession[refining][auto])} {visit house;dep all;e;get all.hide;tan hide}}
 
 event_register {level gain} {checklevelaction} {checklevelaction};
-#alias checklevelaction {#show <131>We gained a level %2 now what?;recall;8sw2se29s9w2sswswswdses4e;enter portal};
+#alias checklevelaction {#show <131>We gained a level %2 now what?;egress;8sw2se29s9w2sswswswdses4e;enter portal};
 
 
-#action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {visit house;with 45000;recall;4nwnnn}}
+#action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {visit house;with 45000;egress;4nwnnn}}
 
 #action {Wasat%1s Workshop} {#if $tanningnotmaxed {prac tanning}}
 #action {You practice tanning for a while...} {#if $tanningnotmaxed {prac tanning}}
@@ -198,7 +198,7 @@ event_register {level gain} {checklevelaction} {checklevelaction};
 
 #alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.hide;tan hide}
 
-#alias doallpracs {visit house;with 5000000;recall;$guildpath;doallpracs_barb}
+#alias doallpracs {visit house;with 5000000;egress;$guildpath;doallpracs_barb}
 #alias doallpracs_barb {#10 prac edged;#5 prac parry;#5 prac focus;toggle focus;prac scare;#5 prac warcry;toggle warcry;#5 prac warpaint;toggle warpaint;#5 prac multi attack;#10 prac two handed;#5 prac deathstroke;damage deathstroke;home;dep all;recall}
 
 level 50+ Tell group
