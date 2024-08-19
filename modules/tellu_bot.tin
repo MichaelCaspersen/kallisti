@@ -101,11 +101,10 @@
 			show_debug {<131>$path_length};
 			#if {$path_length>0} {
 				show_debug {<131>We move on - GroupCanMove: @can_group_move{}};
-                #if { (@can_group_move{}) } {
+                #if { (@can_group_move{}) && ("$_queue[move]"!="") } {
                     #var botPositive 0;
                     #var botNegative 0;
                     #var tellu_mobs_in_room 0;
-                    #show <131> DO WE HAVE TARGET: <$tellu_target>;
                     smart_move;
                     #nop #path walk
                 }; #else {
