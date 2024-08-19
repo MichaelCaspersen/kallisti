@@ -235,11 +235,11 @@
     #var oldgroupsize $groupsize;
 }
 
-#ticker tellu_restart_ticker {
-    #show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};
+#ticker tellu_restart_ticker {#show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};
     #if { ($autowalk) && ($timesincelastkill>$tellu_allowed_downtime) && (@can_group_move{})} 
     {
         #show <131>Was stuck.. here we go;
+        #var lastkilltime $MSDP_UPTIME;
         actionCleared
     }
 } 
@@ -278,8 +278,8 @@
 #alias tellu_summon {
     #if {&need_summons[]>0} {
         #loop 1 &need_summons[] {id} {
-            gt sum $need_summons[$id];
-            gt portal $need_summons[$id];
+            gt all sum $need_summons[$id];
+            gt all portal $need_summons[$id];
             #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Templar") || ("$MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
             #if {"$MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
         };

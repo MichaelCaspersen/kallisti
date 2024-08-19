@@ -183,10 +183,10 @@ Equip tanning gear
 #var guildpath {3s3w3s}
 #var guildpath {2s2e3s}
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egress;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egress;$guildpath;gain;#if { ($MSDP_LEVEL<56) && ($profession[refining][auto])} {visit house;dep all;e;get all.hide;tan hide}}
+#alias gogain {recall;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];recall;$guildpath;gain;#if { ($MSDP_LEVEL<56) && ($profession[refining][auto])} {visit house;dep all;e;get all.hide;tan hide}}
 
 event_register {level gain} {checklevelaction} {checklevelaction};
-#alias checklevelaction {#show <131>We gained a level %2 now what?;egress;8sw2se29s9w2sswswswdses4e;enter portal};
+#alias checklevelaction {#show <131>We gained a level %2 now what?;recall;8sw2se29s9w2sswswswdses4e;enter portal};
 
 
 #action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {visit house;with 45000;egress;4nwnnn}}
