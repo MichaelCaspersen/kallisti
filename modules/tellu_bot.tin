@@ -14,6 +14,7 @@
 #var waypointdelay 0.3;
 #var zonedelay 5;
 #var tellu_kill_delay 4;
+#avr tellu_allowed_downtime 100;
 #var autowalk 1;
 
 #var tell_start_kill 1; #nop Will initiate kill, ask for rescue
@@ -211,7 +212,7 @@
     takeStep
 }
 
-#action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}}}
+#action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}};#if {"%2"=="you"} {actionCleared}}
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
 
@@ -235,9 +236,10 @@
 
 #ticker tellu_restart_ticker {
     #show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};
-    #if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} 
+    #if { ($autowalk) && ($timesincelastkill>$tellu_allowed_downtime) && (@can_group_move{})} 
     {
-        #show Was stuck.. here we go;actionCleared
+        #show <131>Was stuck.. here we go;
+        actionCleared
     }
 } 
 {10}
@@ -352,7 +354,8 @@
 
 #action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
 
-#action {A Tellurian topiary utters the words 'unsohaiorz'} {#show ENDS COMBAT}
+#action {A Tellurian %1 utters the words 'unsohaiorz'} {#show <131>%1 ENDS COMBAT}
+#action {A Tellurian %1 steps out of the shadows.} {#show <131>%1 JOINER!!!!}
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
