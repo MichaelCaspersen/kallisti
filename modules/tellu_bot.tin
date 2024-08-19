@@ -101,7 +101,7 @@
 			show_debug {<131>$path_length};
 			#if {$path_length>0} {
 				show_debug {<131>We move on - GroupCanMove: @can_group_move{}};
-                #if { (@can_group_move{}) && ("$tellu_target"!="") } {
+                #if { (@can_group_move{}) && ("$tellu_target"=="") } {
                     #var botPositive 0;
                     #var botNegative 0;
                     #var tellu_mobs_in_room 0;
@@ -230,7 +230,14 @@
     #var oldgroupsize $groupsize;
 }
 
-#ticker tellu_restart_ticker {#show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};#if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} {#show Was stuck.. here we go;actionCleared}} {10}
+#ticker tellu_restart_ticker {
+    #show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};
+    #if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} 
+    {
+        #show Was stuck.. here we go;actionCleared
+    }
+} 
+{10}
 
 #alias tellu_kill {
     #var tellu_mob_in_room %1;
