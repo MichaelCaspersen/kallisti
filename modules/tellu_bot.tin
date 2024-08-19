@@ -133,7 +133,13 @@
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
                     : marks $tellu_target for death.;
-                    #if {$tell_start_kill} {#delay 0.1 kill $tellu_target};
+                    #if {$tell_start_kill} {
+                        #if {"$bot[damage]"!=""} {
+                            #delay 0.1 $bot[damage] $tellu_target
+                        };#else {
+                            #delay 0.1 kill $tellu_target
+                        }
+                    };
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
                         #show <135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
@@ -157,15 +163,17 @@
     #else {
         #var cur_room_vnum $MSDP_ROOM_VNUM;
     };
-    #if {$cur_room_vnum==$destination} {
-        show_debug {<131>ROOM EVENT: We have arrived $cur_room_vnum};
-        getNextDestination
-    }; #elseif {$destination>0} {
-        show_debug {<131>ROOM EVENT: Not at destination CurRoom: $cur_room_vnum Dest: $destination};
-        #if { $autowalk }  {#delay $autowalkspeed {show_debug {<146>AUTOWALK called after $autowalkspeed (s)};takeStep}}
-    }; #else {
-        show_debug {<131>ROOM EVENT: No destination};
-        #nop
+    #if {$autowalk} {
+        #if {$cur_room_vnum==$destination} {
+            show_debug {<131>ROOM EVENT: We have arrived $cur_room_vnum};
+            getNextDestination
+        }; #elseif {$destination>0} {
+            show_debug {<131>ROOM EVENT: Not at destination CurRoom: $cur_room_vnum Dest: $destination};
+            #if { $autowalk }  {#delay $autowalkspeed {show_debug {<146>AUTOWALK called after $autowalkspeed (s)};takeStep}}
+        }; #else {
+            show_debug {<131>ROOM EVENT: No destination};
+            #nop
+        }    
     }
 }
 
@@ -196,7 +204,7 @@
     #var botPositive 0;
     #var botNegative 0;
     #var tellu_target {};
-    #if {"$MSDP_POSITION"!="Fighting"} {takeStep}
+    #if {"$MSDP_POSITION"!="Fighting"} { room_event };
 }
 
  #function verifyTelluZone {
@@ -210,7 +218,7 @@
     #show <143>END ZONE, RETURN TO START;
     #list waypoints[$tellu_zone] clear;
     #var destination 34595;
-    takeStep
+    room_event;
 }
 
 #action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}};#if {"%2"=="you"} {actionCleared}}
