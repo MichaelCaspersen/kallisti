@@ -100,13 +100,11 @@
 		#show {<131>WE ARE ALREADY AT DESTINATION Room:[$cur_room_vnum] Dest:[$destination]};
 	};
     #else {
-        show_debug {TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  TimeSinceKill: @tellu_lastkilltime{}};
+        show_debug {TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  PrevPathLength: $path_length  GroupCanMove: @can_group_move{} TimeSinceKill: @tellu_lastkilltime{}};
 		#if {$botPositive!=1} {
 			#map find $destination;
 			#path get length path_length;
-			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum , Path Length: $path_length};
 			#if {$path_length>0} {
-				show_debug {<131>We move on - GroupCanMove: @can_group_move{}};
                 #if { (@can_group_move{}) } {
                     #var botPositive 0;
                     #var botNegative 0;
@@ -114,7 +112,7 @@
                     #if { (&_queue[move][]==0) } {
                         smart_move;
                         #if {"$MSDP_ROOM_VNUM"=="?"} {
-                            show_debug {<131>We are in Unknown area, check room action after delay};
+                            show_debug {<131>We are in Unknown area, check room action after $autowalkspeed(s) delay};
                             #delay $autowalkspeed room_event;
                         }
                     }
@@ -157,13 +155,13 @@
     #else {
         #var cur_room_vnum $MSDP_ROOM_VNUM;
     };
-	show_debug {<131>New ROOM detected $cur_room_vnum};
+	show_debug {<131>New ROOM event called: $cur_room_vnum};
     #if {$cur_room_vnum==$destination} {
         show_debug {<131>WE HAVE ARRIVED};
         getNextDestination
     }; #elseif {$destination>0} {
         show_debug {<131>Still not at current destination CurrentRoom: $cur_room_vnum Dest: $destination};
-        #if { $autowalk }  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
+        #if { $autowalk }  {#delay $autowalkspeed {show_debug {<131>AUTOWALK called after $autowalkspeed (s)};takeStep}}
     }; #else {
         show_debug {<131>We don't have a destination};
         #nop
