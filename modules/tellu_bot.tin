@@ -105,7 +105,7 @@
                     #var botPositive 0;
                     #var botNegative 0;
                     #var tellu_mobs_in_room 0;
-                    smart_move
+                    smart_move;
                     #nop #path walk
                 }; #else {
                     #if {"$char_entangled"!=""} {gt all chop $char_entangled};
