@@ -101,10 +101,11 @@
 			show_debug {<131>$path_length};
 			#if {$path_length>0} {
 				show_debug {<131>We move on - GroupCanMove: @can_group_move{}};
-                #if { @can_group_move{} } {
+                #if { (@can_group_move{}) && ("$tellu_target"!="") } {
                     #var botPositive 0;
                     #var botNegative 0;
                     #var tellu_mobs_in_room 0;
+                    #show <131> DO WE HAVE TARGET: <$tellu_target>;
                     smart_move;
                     #nop #path walk
                 }; #else {
@@ -126,7 +127,7 @@
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
                     : marks $tellu_target for death.;
-                    #if {$tell_start_kill} {kill $tellu_target};
+                    #if {$tell_start_kill} {#delay 0.1 kill $tellu_target};
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
                         #show <135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
@@ -189,6 +190,7 @@
     #var tellu_mobs_in_room 0;
     #var botPositive 0;
     #var botNegative 0;
+    #var tellu_target {};
     #if {"$MSDP_POSITION"!="Fighting"} {takeStep}
 }
 
