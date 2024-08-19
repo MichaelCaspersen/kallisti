@@ -83,7 +83,7 @@
 
 
 #alias load_route {
-	show_debug {<131>LOAD ROUTE CALLED - $tellu_zone};
+	show_debug {<131>LOAD ROUTE CALLED - We are in $tellu_zone zone};
 	#list waypoints[$tellu_zone] get 1 destination;
 	takeStep;
 }
@@ -155,15 +155,14 @@
     #else {
         #var cur_room_vnum $MSDP_ROOM_VNUM;
     };
-	show_debug {<131>New ROOM event called: $cur_room_vnum};
     #if {$cur_room_vnum==$destination} {
-        show_debug {<131>WE HAVE ARRIVED};
+        show_debug {<131>ROOM EVENT: We have arrived $cur_room_vnum};
         getNextDestination
     }; #elseif {$destination>0} {
-        show_debug {<131>Still not at current destination CurrentRoom: $cur_room_vnum Dest: $destination};
-        #if { $autowalk }  {#delay $autowalkspeed {show_debug {<131>AUTOWALK called after $autowalkspeed (s)};takeStep}}
+        show_debug {<131>ROOM EVENT: Not at destination CurRoom: $cur_room_vnum Dest: $destination};
+        #if { $autowalk }  {#delay $autowalkspeed {show_debug {<146>AUTOWALK called after $autowalkspeed (s)};takeStep}}
     }; #else {
-        show_debug {<131>We don't have a destination};
+        show_debug {<131>ROOM EVENT: No destination};
         #nop
     }
 }
