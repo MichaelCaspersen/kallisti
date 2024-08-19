@@ -1,0 +1,386 @@
+#var botPostitive 0;
+#var botNegative 0;
+#var tellu_mobs_in_room 0;
+
+#var autowalkspeed 0.5;
+#var waypointdelay 0.4;
+#var zonedelay 5;
+#var tellu_kill_delay 4;
+#var autowalk 1;
+
+#var tell_start_kill 0; #nop Will initiate kill, ask for rescue
+
+#var tellu_stats[average_kill_time] 0;
+#var tellu_stats[revive] 0;
+#var tellu_stats[fury] 0;
+#var tellu_stats[prudent] 0;
+#var tellu_stats[scarab-kin] 0;
+#var tellu_stats[topiary] 0;
+#var tellu_stats[tundra-snap] 0;
+
+
+#var tellu_mode normal;
+
+#var tellu[zindex] 0;
+#var tellu[zone] {west,north,east};
+#list tellu[zone] explode {,};
+
+#var tellu_rooms[north] {34509,34531,34556,34529,34502,34527,34551,34526,34501,34528,34553,34530,34508,34532,34506,34554,34503,34552,34505,34557,34558,34533,34507,34555,34504,34529,34556,34531,34509};
+#var tellu_rooms[west] {34543,34569,34518,34568,34542,34570,34520,34572,34549,34574,34525,34575,34550,34573,34548,34524,34547,34521,34546,34522,34523,34571,34545,34519,34544,34568,34518,34569,34543};
+#var tellu_rooms[east] {34566,34516,34541,34517,34567,34515,34539,34513,34560,34511,34534,34510,34559,34512,34561,34535,34562,34538,34563,34537,34536,34514,34564,34540,34565,34517,34541,34516,34566};
+#list tellu_rooms[north] explode {,};
+#list tellu_rooms[west] explode {,};
+#list tellu_rooms[east] explode {,};
+
+#var tell_mobs[east][normal][Forest] {"snap", "scarab", "wolf"};
+#var tell_mobs[east][normal][Desert] {"topiary", "snap", "wolf"};
+#var tell_mobs[east][normal][Tundra] {"scarab", "topiary"};
+#var tell_mobs[east][clear][Forest] {"tree", "topiary"};
+#var tell_mobs[east][clear][Desert] {"scarab"};
+#var tell_mobs[east][clear][Tundra] {"wolf", "snap"};
+
+#var tell_mobs[west][normal][Forest] {"snap", "topiary", "wolf"};
+#var tell_mobs[west][normal][Desert] {"scarab", "topiary"};
+#var tell_mobs[west][normal][Tundra] {"scarab", "snap", "wolf"};
+#var tell_mobs[west][clear][Forest] {"scarab"};
+#var tell_mobs[west][clear][Desert] {"wolf", "snap"};
+#var tell_mobs[west][clear][Tundra] {"tree", "topiary"};
+
+#var tell_mobs[north][normal][Forest] {"scarab", "topiary"};
+#var tell_mobs[north][normal][Desert] {"snap", "scarab", "wolf"};
+#var tell_mobs[north][normal][Tundra] {"topiary", "snap", "wolf"};
+#var tell_mobs[north][clear][Forest] {"wolf", "snap"};
+#var tell_mobs[north][clear][Desert] {"tree", "topiary"};
+#var tell_mobs[north][clear][Tundra] {"scarab"};
+
+
+
+#alias nextTellZone {
+    #var botPositive 0;
+    #var botNegative 0;
+    #var tellu_mobs_in_room 0;
+    #math tellu[zindex] {$tellu[zindex]+1};
+    #if {$tellu[zindex] <= &tellu[zone][]} {
+    };#else {
+        #var tellu[zindex] 1;
+    };
+    #var tellu_zone $tellu[zone][$tellu[zindex]];
+    #show <131>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone;
+    #var waypoints[north] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595};
+    #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595};
+    #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595};
+    #list waypoints[$tellu_zone] explode {,};
+    load_route;
+}
+
+
+#alias load_route {
+	show_debug {<131>LOAD ROUTE CALLED - $tellu_zone};
+	#list waypoints[$tellu_zone] get 1 destination;
+	takeStep;
+}
+
+#alias takeStep {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {
+        #map get roomvnum cur_room_vnum;
+    }; 
+    #else {
+        #var cur_room_vnum $MSDP_ROOM_VNUM;
+    };
+        
+	#if {$cur_room_vnum==$destination} {
+		#show {<131>WE ARE ALREADY AT DESTINATION Room:[$cur_room_vnum] Dest:[$destination]};
+	};
+    #else {
+        show_debug {TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  TimeSinceKill: @tellu_lastkilltime{}};
+		#if {$botPositive!=1} {
+			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
+			#map find $destination;
+			#nop path map;
+			#path get length path_length;
+			show_debug {<131>$path_length};
+			#if {$path_length>0} {
+				show_debug {<131>We move on - GroupCanMove: @can_group_move{}};
+                #if { (@can_group_move{}) && (&_queue[move][]==0) } {
+                    #var botPositive 0;
+                    #var botNegative 0;
+                    #var tellu_mobs_in_room 0;
+                    smart_move;
+                    #nop #path walk
+                }; #else {
+                    #if {"$char_entangled"!=""} {gt all chop $char_entangled};
+                    #var char_entangled {};
+                };
+                #if {"$MSDP_ROOM_VNUM"=="?"} {
+                    show_debug {<131>We are in Unknown area, forcewalk after delay};
+                    #delay $autowalkspeed room_event;
+                }
+            };
+        };
+        #else {
+            #if {$botNegative>0 || $tellu_mobs_in_room>1} {
+                show_debug {<131>BAD GUYS MOVE ON};
+                actionCleared;
+            };
+            #else {
+                show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
+                #if {@verifyTelluZone{}} {
+                    : marks $tellu_target for death.;
+                    #if {$tell_start_kill} {#delay 0.1 kill $tellu_target};
+                    #var tellu_kill_timer $MSDP_UPTIME;
+                    #delay 5 {
+                        #show <135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
+                        #if { (@tellu_lastkilltime{}>6) && ("$MSDP_POSITION"!="Fighting")} {
+                            actionCleared
+                        }
+                    };
+                }; #else {
+                    actionCleared;
+                };
+            }
+        }
+    }
+ }
+
+
+#alias room_event {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {
+        #map get roomvnum cur_room_vnum;
+    }; 
+    #else {
+        #var cur_room_vnum $MSDP_ROOM_VNUM;
+    };
+	show_debug {<131>New ROOM detected $cur_room_vnum};
+    #if {$cur_room_vnum==$destination} {
+        show_debug {<131>WE HAVE ARRIVED};
+        getNextDestination
+    }; #elseif {$destination>0} {
+        show_debug {<131>Still not at current destination CurrentRoom: $cur_room_vnum Dest: $destination};
+        #if { $autowalk }  {#delay $autowalkspeed {show_debug {<131>AUTOWALK};takeStep}}
+    }; #else {
+        show_debug {<131>We don't have a destination};
+        #nop
+    }
+}
+
+#alias getNextDestination {
+	#list waypoints[$tellu_zone] delete 1;
+	show_debug {<142>GET NEXT DESTINATION <&waypoints[$tellu_zone][]> left};
+	#if {&waypoints[$tellu_zone][]>0} {
+		show_debug {<142>Next path starting in $waypointdelay secs};
+		#delay $waypointdelay {load_route}
+	};#else {
+		#show <132>End of zone: $tellu_zone - Next zone starting in $zonedelay seconds;
+		#var destination {};
+        decidedamage;
+        updategroupname;
+        #if {&need_summons[]>0} {
+            #nop math zonedelay {$zonedelay+3};
+            tellu_summon;
+            #delay $zonedelay nextTellZone;
+        }; #else {
+            #delay $zonedelay nextTellZone;
+        }
+	}
+}
+
+
+#alias actionCleared {
+    #var tellu_mobs_in_room 0;
+    #var botPositive 0;
+    #var botNegative 0;
+    #var tellu_target {};
+    #if {"$MSDP_POSITION"!="Fighting"} {takeStep}
+}
+
+ #function verifyTelluZone {
+    #var tellu_zone_correct 0;
+    #regexp {$tellu_rooms[$tellu_zone]} {$cur_room_vnum} {#var tellu_zone_correct 1};
+    #return $tellu_zone_correct
+}
+
+
+#alias tellu_reset {
+    #show <143>END ZONE, RETURN TO START;
+    #list waypoints[$tellu_zone] clear;
+    #var destination 34595;
+    takeStep
+}
+
+#action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}}}
+
+#action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
+
+#alias decidedamage {
+    #switch {"$MSDP_CLASS"} {
+        #case {"Wizard"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostbite} {damage zap} };
+        #default {#nop};
+    }
+}
+
+#alias updategroupname {
+    #var groupsize &MSDP_GROUP[];
+    #if {$oldgroupsize!=$groupsize} {
+        #math groupsizefree {9-$groupsize};
+        #if {$groupsizefree==1} 
+        {#show Tellurian: $groupsizefree open spot} 
+        {#show Tellurian: $groupsizefree open spots}
+    };
+    #var oldgroupsize $groupsize;
+}
+
+#ticker tellu_restart_ticker {
+    #show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};
+    #if { ($autowalk) && ($timesincelastkill>300) && (@can_group_move{})} 
+    {
+        #show Was stuck.. here we go;actionCleared
+    }
+} 
+{10}
+
+#alias tellu_kill {
+    #var tellu_mob_in_room %1;
+    #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
+    #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
+    {#show <172> [$tellu_mob_in_room] TRUE - $tellu_mode;#var botPositive $tellu_mob_in_room}
+    {#show <131> [$tellu_mob_in_room] FALSE - $tellu_mode;#var botNegative $tellu_mob_in_room} 
+}
+
+#function tellu_lastkilltime {
+    #math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
+    #return $timesincelastkill
+}
+
+#alias addAverageKillTime {
+    #nop math total_kills { $tellu_stats[revive] + $tellu_stats[fury] + $tellu_stats[prudent] };
+    #nop math tellu_stats[average_kill_time] { ((( $total_kills-1 ) * $tellu_stats[average_kill_time]) + %1 ) / $total_kills };
+}
+
+#alias tellu_stats {
+    #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
+    #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
+    #show <134> Last kill: $tellu_kill_timer(s);
+}
+
+
+#nop Starts following you - Please TURN OFF all targetted attacks.
+#nop Do stats announcements
+#nop log good/bad kills 
+#nop log time of kill, times since last kill, averages , kills per zone (wen)
+
+#action {^%1 tells you, 'sum me'} {
+    #regexp {$need_summons} {%1} 
+    {#show Already added} 
+    {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};
+}
+
+#alias tellu_summon {
+    #if {&need_summons[]>0} {
+        #loop 1 &need_summons[] {id} {
+            gt sum $need_summons[$id];
+            gt portal $need_summons[$id];
+            #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Templar") || ("$MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
+            #if {"$MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
+        };
+        #var need_summons {};
+    }
+}
+
+
+
+
+#alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
+
+#action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}}
+#action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}}
+#action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target topiary;tellu_kill @mob_count{"%1"}}
+#action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}}
+#action {A Tellurian tundra-snap is here looking alert.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}}
+#action {A Tellurian topiary is here looking alert.%1} {#var tellu_target topiary;tellu_kill @mob_count{"%1"}}
+
+#action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;: marks $tellu_target for death.}
+
+#action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
+
+#action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {damage dmagic}}
+#action {A Tellurian fury steps out of the shadows.} {#show <131>FURY JOINED THE FIGHT!!!}
+
+#action {A Tellurian elder is hovering here.} {#var tellu_target elder;: marks $tellu_target for death.}
+
+#action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {damage dmagic}}
+
+#action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
+
+#action {Grodan glimmers as the remaining visages infuse him with their life essence.} {#show <131>VISAGES SPAWNED, MIRACLE!!!}
+#action {A visage of Grodan is hovering here.} {#var tellu_target grodan;: marks $tellu_target for death.}
+#highlight {All of Telluria shakes and rumbles as the ground shifts.} {reverse yellow}
+
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {
+    #delay $tellu_kill_delay {actionCleared};
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[revive] @increment{$tellu_stats[revive]};
+    #var lastkilltime $MSDP_UPTIME;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #nop addAverageKillTime $tellu_kill_timer
+};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {
+    #delay $tellu_kill_delay {actionCleared};
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[fury] @increment{$tellu_stats[fury]};
+    #var lastkilltime $MSDP_UPTIME;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #nop addAverageKillTime $tellu_kill_timer
+};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {
+    #delay $tellu_kill_delay {actionCleared};
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[fury] @increment{$tellu_stats[fury]};
+    #var lastkilltime $MSDP_UPTIME;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #nop addAverageKillTime $tellu_kill_timer
+};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
+    #delay $tellu_kill_delay {actionCleared};
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[prudent] @increment{$tellu_stats[prudent]};
+    #var lastkilltime $MSDP_UPTIME;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    gt BAD KILL;
+    #nop addAverageKillTime $tellu_kill_timer
+};
+
+#action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
+
+#action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
+
+#alias safetokill {
+    #nop %1 joiner, %2 aided, %3 direction, %4 action ;
+    #show <132>>%1< >%2< >%3< >%4<;
+    #switch {"%1"} {
+        #case {"tundra-snap"} {#var tellu_joiner wolf};
+        #case {"topiary"} {#var tellu_joiner topiary};
+        #case {"scarab-kin"} {#var tellu_joiner scarab};
+    };
+    #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_joiner} 
+    {
+        #nop MOB in safe room;
+        #if {"%4"=="JOINED"} {
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt $tellu_joiner JOINED %2, SAFE kill} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
+        };#else {
+            #show <172>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+        }
+    }
+    {
+        #nop MOB in BAD room;
+        #if {"%4"=="JOINED"} {
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt $tellu_joiner JOINED %2, BAD kill} {#show <132>$tellu_joiner JOINED %2, BAD kill};
+        };#else {
+            #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+        }
+    };
+    #var tellu_joiner {};
+}
