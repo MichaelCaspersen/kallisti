@@ -14,7 +14,7 @@
 #var waypointdelay 0.3;
 #var zonedelay 5;
 #var tellu_kill_delay 4;
-#avr tellu_allowed_downtime 100;
+#var tellu_allowed_downtime 100;
 #var autowalk 1;
 
 #var tell_start_kill 1; #nop Will initiate kill, ask for rescue
