@@ -1,3 +1,14 @@
+
+
+
+#nop Starts following you - Please TURN OFF all targetted attacks.
+#nop Do stats announcements
+#nop log good/bad kills 
+#nop log time of kill, times since last kill, averages , kills per zone (wen)
+
+
+
+
 #var botPostitive 0;
 #var botNegative 0;
 #var tellu_mobs_in_room 0;
@@ -94,27 +105,26 @@
     #else {
         show_debug {TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  TimeSinceKill: @tellu_lastkilltime{}};
 		#if {$botPositive!=1} {
-			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum};
 			#map find $destination;
-			#nop path map;
 			#path get length path_length;
-			show_debug {<131>$path_length};
+			show_debug {<131>CurrentRoomNum (COMING FROM): $cur_room_vnum , Path Length: $path_length};
 			#if {$path_length>0} {
 				show_debug {<131>We move on - GroupCanMove: @can_group_move{}};
-                #if { (@can_group_move{}) && (&_queue[move][]==0) } {
+                #if { (@can_group_move{}) } {
                     #var botPositive 0;
                     #var botNegative 0;
                     #var tellu_mobs_in_room 0;
-                    smart_move;
-                    #nop #path walk
+                    #if { (&_queue[move][]==0) } {
+                        smart_move;
+                        #if {"$MSDP_ROOM_VNUM"=="?"} {
+                            show_debug {<131>We are in Unknown area, check room action after delay};
+                            #delay $autowalkspeed room_event;
+                        }
+                    }
                 }; #else {
                     #if {"$char_entangled"!=""} {gt all chop $char_entangled};
                     #var char_entangled {};
                 };
-                #if {"$MSDP_ROOM_VNUM"=="?"} {
-                    show_debug {<131>We are in Unknown area, forcewalk after delay};
-                    #delay $autowalkspeed room_event;
-                }
             };
         };
         #else {
@@ -262,12 +272,6 @@
     #show <134> Last kill: $tellu_kill_timer(s);
 }
 
-
-#nop Starts following you - Please TURN OFF all targetted attacks.
-#nop Do stats announcements
-#nop log good/bad kills 
-#nop log time of kill, times since last kill, averages , kills per zone (wen)
-
 #action {^%1 tells you, 'sum me'} {
     #regexp {$need_summons} {%1} 
     {#show Already added} 
@@ -285,9 +289,6 @@
         #var need_summons {};
     }
 }
-
-
-
 
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
@@ -356,6 +357,8 @@
 #action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
 
 #action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
+
+#action {A Tellurian topiary utters the words 'unsohaiorz'} {#show ENDS COMBAT}
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
