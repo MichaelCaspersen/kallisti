@@ -221,9 +221,9 @@
     room_event;
 }
 
-#action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}};#if {"%2"=="you"} {actionCleared}}
+#action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}};nco actionCleared;}
 
-#action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {actionCleared}} 1
+#action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {nco actionCleared}} 1
 
 #alias decidedamage {
     #switch {"$MSDP_CLASS"} {
