@@ -136,7 +136,6 @@
             #else {
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
-                    : marks $tellu_target for death.;
                     #if {$tell_start_kill} {
                         #if {"$bot[damage]"!=""} {
                             #delay $tell_start_kill_delay {queueAdd combat {$bot[damage] $tellu_target}}
@@ -144,6 +143,7 @@
                             #delay $tell_start_kill_delay {queueAdd combat {kill $tellu_target}}
                         }
                     };
+                    : marks $tellu_target for death.;
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
                         #show <135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
