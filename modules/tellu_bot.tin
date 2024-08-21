@@ -398,7 +398,6 @@
 
 #alias tellu_bot_info {
 	#if $autowalk {
-        @tellu_lastkilltime{};
 		#format tellu_bot_info[1] {<B538d87><Fffffff>Zone:<Fd5d8d6> %-5s   <Fffffff>Autokill:<Fd5d8d6> %s} {$tellu_mode} {$tell_start_kill};
         #format tellu_bot_info[2] {<B538d87><Fffffff>Walk:<Fd5d8d6> %-3s  <Fffffff>WayP:<Fd5d8d6> %s <Fffffff>Delays Kill:<Fd5d8d6> %s <Fffffff>Zone:<Fd5d8d6> %s } {$autowalkspeed} {$waypointdelay} {$tellu_kill_delay} {$zonedelay};
         #format tellu_bot_info[3] {<B538d87><Fffffff>LastKill:<Fd5d8d6> %-2s(s) <Fffffff>Allowed:<Fd5d8d6> %s(s)} {@tellu_lastkilltime{}} {$tellu_allowed_downtime};
