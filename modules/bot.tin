@@ -342,7 +342,6 @@ init bot[rescue2] preferences off;
 		}
 	};
 	generate_bot_info;
-	#if {@is_alias{tellu_bot_info}} {tellu_bot_info};
 }
 
 #alias determine_bot_action {
@@ -424,6 +423,7 @@ init bot[rescue2] preferences off;
 	};
 	#math actionDelay {@mpoch{} - $spellLock};
 	generate_bot_info;
+	#if {@is_alias{tellu_bot_info}} {tellu_bot_info};
 }
 
 
