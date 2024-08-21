@@ -527,6 +527,9 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#math time2 {$MSDP_UPTIME - $master[list][2][timesinceclear]};
 			#format bot_info[5] {<B538d87><388><188>%s} {Next zone: $master[list][1][name] - @return_min_sec{$time1}};
 			#format bot_info[6] {<B538d87><388><188>%s} {Upcoming zone: $master[list][2][name] - @return_min_sec{$time2}};
+		}; #else {
+			#format bot_info[5] {<B538d87><388><188>%s} {};
+			#format bot_info[6] {<B538d87><388><188>%s} {};
 		}
 	};
 	#else {
@@ -545,7 +548,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 #NOP Navigation and walking routes - MasterPlanner
 #NOP #######################################################
 
-#var master[active] 1;
+#var master[active] 0;
 #var master[current] 1;
 
 #var master[list] {
