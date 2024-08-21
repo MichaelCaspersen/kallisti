@@ -396,8 +396,6 @@
 }
 
 
-event_register {variable cur_room_vnum} {right} {tellu_bot_info};
-
 #alias tellu_bot_info {
 	#if $autowalk {
 		#format tellu_bot_info[1] {<B538d87><Fffffff>Zone:<Fd5d8d6> %-5s   <Fffffff>Autokill:<Fd5d8d6> %s} {$tellu_mode} {$tell_start_kill};
