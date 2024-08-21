@@ -243,7 +243,7 @@
     #var oldgroupsize $groupsize;
 }
 
-#ticker tellu_restart_ticker {#show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};
+#ticker tellu_restart_ticker {#nop show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};
     #if { ($autowalk) && ($timesincelastkill>$tellu_allowed_downtime) && (@can_group_move{})} 
     {
         #show <131>Was stuck.. here we go;
@@ -395,6 +395,7 @@
 }
 
 
+event_register {variable cur_room_vnum} {right} {tellu_bot_info};
 
 #alias tellu_bot_info {
 	#if $autowalk {
