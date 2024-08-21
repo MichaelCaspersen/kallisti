@@ -227,10 +227,9 @@
 
 #action {^%1 chops up the vines entangling %2.} {
     #format char_entangled %l $char_entangled;
-    #show <131>CHOPPED: $char_entangled;
     #if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {
         #var char_entangled {}
-    };#delay {1} {#show <131>CHOPPED;nco actionCleared}
+    };#delay {1} {nco actionCleared}
 };
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {nco actionCleared}} 1
