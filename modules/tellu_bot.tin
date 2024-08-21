@@ -120,7 +120,10 @@
                         }
                     }
                 }; #else {
-                    #if {"$char_entangled"!=""} {gt all chop $char_entangled};
+                    #if {"$char_entangled"!=""} {
+                        #format char_entangled %l $char_entangled;
+                        gt all chop $char_entangled
+                    };
                     #var char_entangled {};
                 };
             };
@@ -222,7 +225,13 @@
     room_event;
 }
 
-#action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {};#delay {1} {nco actionCleared}}};
+#action {^%1 chops up the vines entangling %2.} {
+    #format char_entangled %l $char_entangled;
+    #show <131>CHOPPED: $char_entangled;
+    #if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {
+        #var char_entangled {}
+    };#delay {1} {#show <131>CHOPPED;nco actionCleared}
+};
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {nco actionCleared}} 1
 
@@ -400,7 +409,7 @@
 	#if $autowalk {
         #math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
 		#format tellu_bot_info[1] {<B538d87><Fffffff>Zone:<Fd5d8d6>%-5s <Fffffff>Autokill:<Fd5d8d6>%s (%ss) <Fffffff>Autowalk:<Fd5d8d6>%s} {$tellu_mode} {$tell_start_kill} {$tell_start_kill_delay} {$autowalk};
-        #format tellu_bot_info[2] {<B538d87><Fffffff>Walk:<Fd5d8d6>%-3s  <Fffffff>WayP:<Fd5d8d6>%s <Fffffff>Delays Kill:<Fd5d8d6>%s <Fffffff>Zone:<Fd5d8d6> %s } {$autowalkspeed} {$waypointdelay} {$tellu_kill_delay} {$zonedelay};
+        #format tellu_bot_info[2] {<B538d87><Fffffff>Walk:<Fd5d8d6>%-3s <Fffffff>WayP:<Fd5d8d6>%s <Fffffff>Delays Kill:<Fd5d8d6>%s <Fffffff>Zone:<Fd5d8d6> %s } {$autowalkspeed} {$waypointdelay} {$tellu_kill_delay} {$zonedelay};
         #format tellu_bot_info[3] {<B538d87><Fffffff>LastKill:<Fd5d8d6>%+3s(s) <Fffffff>Allowed:<Fd5d8d6>%s(s)} {@tellu_lastkilltime{}} {$tellu_allowed_downtime};
         #format tellu_bot_info[4] {<B538d87><Fffffff>Prudent:<Fd5d8d6> %-1s <Fffffff>Revive:<Fd5d8d6>%s <Fffffff>Fury:<Fd5d8d6>%s} {$tellu_stats[prudent]} {$tellu_stats[revive]} {$tellu_stats[fury]};
     };
