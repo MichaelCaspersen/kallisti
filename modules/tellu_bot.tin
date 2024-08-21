@@ -229,7 +229,7 @@
     #format char_entangled %l $char_entangled;
     #if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {
         #var char_entangled {}
-    };#delay {1} {nco actionCleared}
+    };#delay {2} {nco actionCleared}
 };
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {nco actionCleared}} 1
