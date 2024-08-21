@@ -364,7 +364,7 @@
 #action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
 
 #action {A Tellurian %1 utters the words 'unsohaiorz'} {#show <131>%1 ENDS COMBAT}
-#action {A Tellurian %1 steps out of the shadows.} {#show <131>%1 JOINER!!!!}
+#action {A Tellurian %1 steps out of the shadows.} {#nop show <131>%1 JOINER!!!!}
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
