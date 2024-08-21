@@ -135,9 +135,9 @@
                     : marks $tellu_target for death.;
                     #if {$tell_start_kill} {
                         #if {"$bot[damage]"!=""} {
-                            #delay 0.1 $bot[damage] $tellu_target
+                            #delay 0.1 {queueAdd combat {$bot[damage] $tellu_target}}
                         };#else {
-                            #delay 0.1 kill $tellu_target
+                            #delay 0.1 {queueAdd combat {kill $tellu_target}}
                         }
                     };
                     #var tellu_kill_timer $MSDP_UPTIME;
@@ -190,7 +190,7 @@
         updategroupname;
         #if {&need_summons[]>0} {
             #nop math zonedelay {$zonedelay+3};
-            tellu_summon;
+            nco tellu_summon;
             #delay $zonedelay nextTellZone;
         }; #else {
             #delay $zonedelay nextTellZone;
