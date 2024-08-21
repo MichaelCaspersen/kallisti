@@ -393,3 +393,23 @@
     };
     #var tellu_joiner {};
 }
+
+
+
+#alias tellu_bot_info {
+	#if $autowalk {
+		#format tellu_bot_info[1] {<B538d87><388><188>%s} {Zone:$tellu_zone,  Mode: $tellu_mode Autokill: $tell_start_kill};
+		#format tellu_bot_info[2] {<B538d87><388><188>%s} {Walk:$autowalkspeed WayP:$waypointdelay Delays Kill $tellu_kill_delay Zone $zonedelay};
+		#format tellu_bot_info[3] {<B538d87><388><188>%s} {TimeSinceLastKill:@tellu_lastkilltime{} Allowed: $tellu_allowed_downtime};       
+		#format tellu_bot_info[4] {<B538d87><388><188>%s} {Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent]};
+	};
+	#else {
+		#var tellu_bot_info {Tellu Bot: offline};
+	};
+    #if {@is_alias{display_right_tiles}} {display_right_tiles};
+}
+
+#if {&{right_tiles}} {
+	set_right_tile 11 <B85678f> tellu_bot_info[%*] 4 tile;
+	tellu_bot_info;
+}
