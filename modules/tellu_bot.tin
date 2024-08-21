@@ -137,10 +137,14 @@
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
                     #if {$tell_start_kill} {
-                        #if {"$bot[damage]"!=""} {
-                            #delay $tell_start_kill_delay {queueAdd combat {$bot[damage] $tellu_target}}
+                        #if {$tell_start_kill_delay==0} {
+                            kill $tellu_target;
                         };#else {
-                            #delay $tell_start_kill_delay {queueAdd combat {kill $tellu_target}}
+                            #if {"$bot[damage]"!=""} {
+                                #delay $tell_start_kill_delay {queueAdd combat {$bot[damage] $tellu_target}}
+                            };#else {
+                                #delay $tell_start_kill_delay {queueAdd combat {kill $tellu_target}}
+                            }
                         }
                     };
                     : marks $tellu_target for death.;
