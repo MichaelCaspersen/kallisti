@@ -141,9 +141,9 @@
                             kill $tellu_target;
                         };#else {
                             #if {"$bot[damage]"!=""} {
-                                #delay $tell_start_kill_delay {queueAdd combat {$bot[damage] $tellu_target}}
+                                #delay $tell_start_kill_delay {$bot[damage] $tellu_target}
                             };#else {
-                                #delay $tell_start_kill_delay {queueAdd combat {kill $tellu_target}}
+                                #delay $tell_start_kill_delay {kill $tellu_target}
                             }
                         }
                     };
