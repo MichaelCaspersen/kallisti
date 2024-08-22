@@ -303,19 +303,19 @@ event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
 
 
 #alias clan_command {
-    #show CLAN COMMAND CALLED  <%1><%2><%3><%4>;
     #REGEXP {%2} {%S (%S)} {
-        #show BY &1;
         #if {"&1" != "Someone"} {
             #nop test if clannie;
             #action {^Clan: %%1 (%%2)} {
                 #if {"%1"=="FTP"} {
-                    #show CLANNIE: want %2;
+                    #var clannie 1;
+                    reply Command is being processed;
                 };#else {
-                    #show NOT CLANNIE: want %2;
+                    #var clannie 0;
+                    reply Command will be ignored;
                 };
                 #unaction {^Clan: %%1 (%%2)}
-            }
+            };
             whois &1;
         }
     } 
