@@ -409,7 +409,7 @@
 
 
 
-#function getKillBar {#var killbar {};#local _tempkillbar $_meter[KILLS];#list _tempkillbar sort;#list _tempkillbar reverse;#local _tempkillbarmax $_tempkillbar[0];#loop 1 &_meter[KILLS][] id { #math _killbarcurrent { @pct{$_meter[KILLS][$id];$_tempkillbarmax} };#format _killbarcurrent {%d} {$_killbarcurrent};#cat  killbar { @colorPctBlock{$_killbarcurrent} }};#return $killbar}
+#function getKillBar {#var killbar {};#local _tempkillbar $_meter[KILLS];#list _tempkillbar sort;#list _tempkillbar reverse;#local _tempkillbarmax $_tempkillbar[0];#loop 1 &_meter[KILLS][] id { #math _killbarcurrent { @pct{$_meter[KILLS][$id];$_tempkillbarmax} };#format _killbarcurrent {%d} {$_killbarcurrent};#cat killbar {@colorPctBlock{$_killbarcurrent}}};#return $killbar}
 
 
 
