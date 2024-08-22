@@ -425,7 +425,7 @@
             #cat odobar {<bffffff><f000000>■}
         }
     };
-    #cat odobar {&--};
+    #cat odobar {<B538d87>};
     #return $odobar
 }
 
