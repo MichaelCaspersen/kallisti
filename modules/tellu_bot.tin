@@ -18,6 +18,7 @@
 #var autowalk 1;
 
 #var tell_start_kill 1; #nop Will initiate kill, ask for rescue
+#var tell_start_kill_delay 0.1; #nop time we wait before initiating combat
 
 #var tellu_stats[average_kill_time] 0;
 #var tellu_stats[revive] 0;
@@ -119,7 +120,10 @@
                         }
                     }
                 }; #else {
-                    #if {"$char_entangled"!=""} {gt all chop $char_entangled};
+                    #if {"$char_entangled"!=""} {
+                        #format char_entangled %l $char_entangled;
+                        gt all chop $char_entangled
+                    };
                     #var char_entangled {};
                 };
             };
@@ -132,14 +136,18 @@
             #else {
                 show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
                 #if {@verifyTelluZone{}} {
-                    : marks $tellu_target for death.;
                     #if {$tell_start_kill} {
-                        #if {"$bot[damage]"!=""} {
-                            #delay 0.1 {queueAdd combat {$bot[damage] $tellu_target}}
+                        #if {$tell_start_kill_delay==0} {
+                            kill $tellu_target;
                         };#else {
-                            #delay 0.1 {queueAdd combat {kill $tellu_target}}
+                            #if {"$bot[damage]"!=""} {
+                                #delay $tell_start_kill_delay {$bot[damage] $tellu_target}
+                            };#else {
+                                #delay $tell_start_kill_delay {kill $tellu_target}
+                            }
                         }
                     };
+                    : marks $tellu_target for death.;
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
                         #show <135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
@@ -221,7 +229,12 @@
     room_event;
 }
 
-#action {^%1 chops up the vines entangling %2.} {#if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {#var char_entangled {}};nco actionCleared;}
+#action {^%1 chops up the vines entangling %2.} {
+    #format char_entangled %l $char_entangled;
+    #if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {
+        #var char_entangled {}
+    };#delay {2} {nco actionCleared}
+};
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {nco actionCleared}} 1
 
@@ -364,7 +377,7 @@
 #action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
 
 #action {A Tellurian %1 utters the words 'unsohaiorz'} {#show <131>%1 ENDS COMBAT}
-#action {A Tellurian %1 steps out of the shadows.} {#show <131>%1 JOINER!!!!}
+#action {A Tellurian %1 steps out of the shadows.} {#nop show <131>%1 JOINER!!!!}
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
@@ -403,10 +416,10 @@
 #alias tellu_bot_info {
 	#if $autowalk {
         #math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
-		#format tellu_bot_info[1] {<B538d87><Fffffff>Zone:<Fd5d8d6> %-5s  <Fffffff>Autokill:<Fd5d8d6> %s <Fffffff>Autowalk:<Fd5d8d6> %s} {$tellu_mode} {$tell_start_kill} {$autowalk};
-        #format tellu_bot_info[2] {<B538d87><Fffffff>Walk:<Fd5d8d6> %-3s  <Fffffff>WayP:<Fd5d8d6> %s <Fffffff>Delays Kill:<Fd5d8d6> %s <Fffffff>Zone:<Fd5d8d6> %s } {$autowalkspeed} {$waypointdelay} {$tellu_kill_delay} {$zonedelay};
-        #format tellu_bot_info[3] {<B538d87><Fffffff>LastKill:<Fd5d8d6> %-2s(s) <Fffffff>Allowed:<Fd5d8d6> %s(s)} {@tellu_lastkilltime{}} {$tellu_allowed_downtime};
-        #format tellu_bot_info[4] {<B538d87><Fffffff>Prudent:<Fd5d8d6> %-1s  <Fffffff>Revive:<Fd5d8d6> %s <Fffffff>Fury:<Fd5d8d6> %s} {$tellu_stats[prudent]} {$tellu_stats[revive]} {$tellu_stats[fury]};
+		#format tellu_bot_info[1] {<B538d87><Fffffff>Zone:<Fd5d8d6>%-5s <Fffffff>Autokill:<Fd5d8d6>%s (%ss) <Fffffff>Autowalk:<Fd5d8d6>%s} {$tellu_mode} {$tell_start_kill} {$tell_start_kill_delay} {$autowalk};
+        #format tellu_bot_info[2] {<B538d87><Fffffff>Walk:<Fd5d8d6>%-3s <Fffffff>WayP:<Fd5d8d6>%s <Fffffff>Delays Kill:<Fd5d8d6>%s <Fffffff>Zone:<Fd5d8d6> %s } {$autowalkspeed} {$waypointdelay} {$tellu_kill_delay} {$zonedelay};
+        #format tellu_bot_info[3] {<B538d87><Fffffff>LastKill:<Fd5d8d6>%+3s(s) <Fffffff>Allowed:<Fd5d8d6>%s(s)} {@tellu_lastkilltime{}} {$tellu_allowed_downtime};
+        #format tellu_bot_info[4] {<B538d87><Fffffff>Prudent:<Fd5d8d6> %-1s <Fffffff>Revive:<Fd5d8d6>%s <Fffffff>Fury:<Fd5d8d6>%s} {$tellu_stats[prudent]} {$tellu_stats[revive]} {$tellu_stats[fury]};
     };
 	#else {
 		#var tellu_bot_info {Tellu Bot: offline};
