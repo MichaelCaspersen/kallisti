@@ -291,6 +291,10 @@
     #show <134> Last kill: $tellu_kill_timer(s);
 }
 
+
+
+event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
+
 #action {^%1 tells you, 'sum me'} {
     #regexp {$need_summons} {%1} 
     {#show Already added} 
