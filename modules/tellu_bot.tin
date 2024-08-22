@@ -422,9 +422,10 @@
         #if {$MSDP_WORLD_TIME != $id} {
             #cat odobar {@colorPctBlock{$_odo_bar_current}}
         };#else {
-            #cat odobar {*}
+            #cat odobar {<bffffff><f000000>■}
         }
     };
+    #cat odobar {&--};
     #return $odobar
 }
 

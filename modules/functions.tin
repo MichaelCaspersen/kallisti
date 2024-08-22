@@ -176,12 +176,12 @@
 }
 
 #func {colorPctBlock} {
-    #if { %1 > 95 } { #var result <f68f473>X};
-    #elseif { %1 > 80 } { #var result <b3ae722>X};
-    #elseif { %1 > 60 } { #var result <bdcf24b>X};
-    #elseif { %1 > 40 } { #var result <beca826>X};
-    #elseif { %1 > 20 } { #var result <bec3d26>X};
-    #elseif { %1 <=20 } { #var result <bec2b41>X};
+    #if { %1 > 95 } { #var result <b68f473> };
+    #elseif { %1 > 80 } { #var result <b3ae722> };
+    #elseif { %1 > 60 } { #var result <bdcf24b> };
+    #elseif { %1 > 40 } { #var result <beca826> };
+    #elseif { %1 > 20 } { #var result <bec3d26> };
+    #elseif { %1 <=20 } { #var result <bec2b41> };
 }
 
 #func {colorPctIngame} {
