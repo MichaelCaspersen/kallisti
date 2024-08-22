@@ -303,7 +303,9 @@ event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
 
 
 #alias clan_command {
+    #show CLAN COMMAND CALLED;
     #REGEXP {%1} {%S (%S)} {
+        #show BY &1;
         #if {"&1" != "Someone"} {
             #nop test if clannie;
             #action {^Clan: %%1 (%%2)} {
