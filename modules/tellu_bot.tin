@@ -303,16 +303,17 @@ event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
 
 
 #alias clan_command {
+    #nop 1:commsTell 2:Who 3:Message 4:Everything
     #REGEXP {%2} {%S (%S)} {
         #if {"&1" != "Someone"} {
             #nop test if clannie;
             #action {^Clan: %%1 (%%2)} {
-                #if {"%1"=="FTP"} {
+                #if {"%1"=="FTB"} {
                     #var clannie 1;
-                    reply Command is being processed;
+                    tell &1 Command <&2> is being processed;
                 };#else {
                     #var clannie 0;
-                    reply Command will be ignored;
+                    tell &1 Command <&2> will be ignored;
                 };
                 #unaction {^Clan: %%1 (%%2)}
             };
