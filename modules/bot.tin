@@ -467,6 +467,7 @@ init bot[rescue2] preferences off;
 #NOP #######################################################
 #action {^%w beckons you to follow.$} {fol %1}
 #action {^%w starts following you.$} {#if @groupAmILeader{} {group %1}}
+#action {You're too busy fighting to be messing with your followers right now.} {nco {group all}}
 
 #action {is now a member of your group} {gt Welcome! }
 #action {you start following} {gt Current role: $bot[role]}

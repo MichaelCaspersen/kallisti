@@ -150,7 +150,7 @@
                     : marks $tellu_target for death.;
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
-                        #show <135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>;
+                        #show \n<135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>.;
                         #if { (@tellu_lastkilltime{}>6) && ("$MSDP_POSITION"!="Fighting")} {
                             actionCleared
                         }
@@ -233,7 +233,8 @@
     #format char_entangled %l $char_entangled;
     #if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {
         #var char_entangled {}
-    };#delay {2} {nco actionCleared}
+    };
+    #delay {2} {nco actionCleared}
 };
 
 #action {^**%1: 'Target not found: [%2].'} {#if {"%2"=="$tellu_target"} {nco actionCleared}} 1
@@ -259,7 +260,7 @@
 #ticker tellu_restart_ticker {#nop show <152>Time since last kill: @tellu_lastkilltime{}   GroupCanMove: @can_group_move{};
     #if { ($autowalk) && ($timesincelastkill>$tellu_allowed_downtime) && (@can_group_move{})} 
     {
-        #show <131>Was stuck.. here we go;
+        #show \n<131>Was stuck.. here we go;
         #var lastkilltime $MSDP_UPTIME;
         actionCleared
     }
@@ -294,7 +295,27 @@
     #regexp {$need_summons} {%1} 
     {#show Already added} 
     {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};
+} {2}
+
+
+#alias clan_command {
+    #REGEXP {%1} {%S (%S)} {
+        #if {"&1" != "Someone"} {
+            #nop test if clannie
+            #action {^Clan: %%1 (%%2)} {
+                #if {"%1"=="FTP"} {
+                    #show CLANNIE: want %2;
+                };#else {
+                    #show NOT CLANNIE: want %2;
+                };
+                #unaction {^Clan: %%1 (%%2)}
+            }
+            whois &1;
+        }
+    } 
 }
+
+#nop CLAN COMMAND: <commsTell><Werlynn (testing something)><><Werlynn tells you, 'testing something'>
 
 #alias tellu_summon {
     #if {&need_summons[]>0} {
@@ -340,7 +361,7 @@
     #var tellu_stats[revive] @increment{$tellu_stats[revive]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
-    #show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #show \n<172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     #nop addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {
@@ -349,7 +370,7 @@
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
-    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #show \n<Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     #nop addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {
@@ -358,7 +379,7 @@
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
-    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #show \n<Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     #nop addAverageKillTime $tellu_kill_timer
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
@@ -367,7 +388,7 @@
     #var tellu_stats[prudent] @increment{$tellu_stats[prudent]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
-    #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #show \n131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     gt BAD KILL;
     #nop addAverageKillTime $tellu_kill_timer
 };
@@ -376,12 +397,12 @@
 
 #action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
 
-#action {A Tellurian %1 utters the words 'unsohaiorz'} {#show <131>%1 ENDS COMBAT}
+#action {A Tellurian %1 utters the words 'unsohaiorz'} {#nop show <131>%1 ENDS COMBAT}
 #action {A Tellurian %1 steps out of the shadows.} {#nop show <131>%1 JOINER!!!!}
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
-    #show <132>>%1< >%2< >%3< >%4<;
+    #show \n<132>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
         #case {"tundra-snap"} {#var tellu_joiner wolf};
         #case {"topiary"} {#var tellu_joiner topiary};

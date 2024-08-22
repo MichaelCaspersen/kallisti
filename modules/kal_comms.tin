@@ -173,4 +173,6 @@ event_register {commsSay}   {kal_comms} {update_chat say {%4}};
 event_register {commsHero}  {kal_comms} {update_chat hero {%4}};
 event_register {commsAdvice}{kal_comms} {update_chat advice {%4}};
 
+event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
+
 #nop -- vim: syntax=tt
