@@ -175,6 +175,15 @@
     #elseif { %1 <=20 } { #var result <fec2b41>%1};
 }
 
+#func {colorPctBlock} {
+    #if { %1 > 95 } { #var result <f68f473>#};
+    #elseif { %1 > 80 } { #var result <f3ae722>#};
+    #elseif { %1 > 60 } { #var result <fdcf24b>#};
+    #elseif { %1 > 40 } { #var result <feca826>#};
+    #elseif { %1 > 20 } { #var result <fec3d26>#};
+    #elseif { %1 <=20 } { #var result <fec2b41>#};
+}
+
 #func {colorPctIngame} {
     #if { %1 > 95 } { #var result &02%&--};
     #elseif { %1 > 80 } { #var result &0a%1&--};
