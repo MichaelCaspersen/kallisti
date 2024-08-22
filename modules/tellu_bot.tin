@@ -303,11 +303,12 @@ event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
 
 
 #alias clan_command {
-    #nop 1:commsTell 2:Who 3:Message 4:Everything;
+    #nop CLAN COMMAND: <commsTell><Werlynn (testing something)><><Werlynn tells you, 'testing something'>;
     #REGEXP {%2} {%S (%S)} {
         #if {"&1" != "Someone"} {
             #nop test if clannie;
             #action {^Clan: %%1 (%%2)} {
+                #show CLAN: %1;
                 #if {"%1"=="FTB"} {
                     #var clannie 1;
                     tell &1 Command <&2> is being processed;
@@ -322,7 +323,9 @@ event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
     } 
 }
 
-#nop CLAN COMMAND: <commsTell><Werlynn (testing something)><><Werlynn tells you, 'testing something'>
+
+Clan: FTB (Sorter of Bins)
+
 
 #alias tellu_summon {
     #if {&need_summons[]>0} {
