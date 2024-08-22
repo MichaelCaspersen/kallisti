@@ -1036,6 +1036,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias ftank {	reform follow%1 prima; }
 
+
+#ticker true_tanks {#if {@gotFollowers{}>0} {nco true tank1;nco true tank2}} 350
+#ticker check_reset {#if { ("$MSDP_POSITION"!="Fighting") && (@gotFollowers{}>0) } {#show RESET;rally;cleartarget;l;}} 20
+
 #ACTION {%0 is dead!  R.I.P.} {
 	show_debug {<123>%0 is dead, what to do!!};
 	cleartarget;
