@@ -415,10 +415,15 @@
     #list _temp_odo_bar sort;
     #list _temp_odo_bar reverse;
     #local _temp_odo_bar_max $_temp_odo_bar[0];
+
     #loop 1 &_meter[KILLS][] id {
         #math _odo_bar_current { @pct{$_meter[KILLS][$id];$_temp_odo_bar_max} };
         #format _odo_bar_current {%d} {$_odo_bar_current};
-        #cat odobar {@colorPctBlock{$_odo_bar_current}}
+        #if {$MSDP_WORLD_TIME != $id} {
+            #cat odobar {@colorPctBlock{$_odo_bar_current}}
+        };#else {
+            #cat odobar {*}
+        }
     };
     #return $odobar
 }
