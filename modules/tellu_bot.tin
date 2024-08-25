@@ -339,6 +339,18 @@ Clan: FTB (Sorter of Bins)
     }
 }
 
+#ACTION {A Tellurian Outpost                                    %1 |    N    [U]} {
+    #if { ("@group_leader{}"!="$MSDP_CHARACTER_NAME") && ($autowalk==0)} {
+        #var tellu_zone {};
+        #action {You follow $leader %%2.} {
+            #var tellu_zone %%2;
+            show_debug {<131>Zone being reset, new zone: %%2};
+            #unaction {You follow%%%2.}
+        };
+        badweather
+    }
+}  
+
 #alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
 
 #action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}}
