@@ -1010,6 +1010,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP #######################################################
 #NOP General
 #NOP #######################################################
+
+#action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
+
 #action {You hop on {a|an|the} %1's back.} {#var bot[mount][name] %1}
 
 #action {The gust of wind knocks you to the ground.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
@@ -1036,10 +1039,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #alias ftank {	reform follow%1 prima; }
-
-
-#ticker true_tanks {#if {@gotFollowers{}>0} {nco true tank1;nco true tank2}} 350
-#ticker check_reset {#if { ("$MSDP_POSITION"!="Fighting") && (@gotFollowers{}>0) } {#show RESET;rally;cleartarget;l;}} 20
 
 #ACTION {%0 is dead!  R.I.P.} {
 	show_debug {<123>%0 is dead, what to do!!};
@@ -1307,7 +1306,17 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #NOP ROUTE NA'KANA
-#alias gonaka {2s14e14ne3n5ed4es4e2n4eu;zone_automatic_restart}
+#alias gonaka {
+	2s14e14ne3n5ed4es4e2n4eu;
+	#var bot[autozone] 1;
+	zone_automatic_restart;
+	#if {"$MSDP_CHARACTER_NAME"=="Volva"} {
+		#gag {The weight of your experience thrums a discordant note in your soul.};
+		#gag {You must 'meta' or 'gain' a level to collect more xp.};
+		#ticker true_tanks {#if {@gotFollowers{}>0} {nco true tank1;nco true tank2}} 350;
+		#ticker check_reset {#if { ("$MSDP_POSITION"!="Fighting") && (@gotFollowers{}>0) } {#show RESET;rally;cleartarget;l;}} 20;
+	};
+}
 
 #ac {A puffin bobs up and down in the rolling waves.%1} {settarget 999 @mob_count{"%1"} puffin 20 100 3}
 #ac {A giant petrel guards its nest here.%1} {settarget 999 @mob_count{"%1"} petrel 20 100 3}
