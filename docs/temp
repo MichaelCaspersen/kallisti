@@ -182,8 +182,11 @@ Equip tanning gear
 #var tanningnotmaxed 1;
 #var guildpath {3s3w3s}
 #var guildpath {2s2e3s}
+
+
+#var guildpath {2s2w2su}
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {recall;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];recall;$guildpath;gain;#if { ($MSDP_LEVEL<56) && ($profession[refining][auto])} {visit house;dep all;e;get all.hide;tan hide}}
+#alias gogain {recall;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];recall;$guildpath;gain;#if { ($MSDP_LEVEL<56) && ($profession[refining][auto])} {visit house;dep all;e;drop all;get all.hide;tan hide}}
 
 event_register {level gain} {checklevelaction} {checklevelaction};
 #alias checklevelaction {#show <131>We gained a level %2 now what?;recall;8sw2se29s9w2sswswswdses4e;enter portal};

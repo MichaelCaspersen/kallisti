@@ -1038,6 +1038,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#return $followers;
 }
 
+
+#alias dowildernessdrain {#if { (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) } {#show \n<131>WILDERNESS CHECK - LOW LIFE;vdrain corpse} { #if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<80) } {#show \n<131>WILDERNESS CHECK - LOW MANA;edrain corpse} {#show \n<172>WILDERNESS CHECK - ALL GOOD}}}
+
+
+
 #alias ftank {	reform follow%1 prima; }
 
 #ACTION {%0 is dead!  R.I.P.} {

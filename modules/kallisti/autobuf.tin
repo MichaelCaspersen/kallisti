@@ -54,6 +54,7 @@ init toggle[magicshield] preferences off;
 init toggle[iceshield] preferences off;
 init toggle[blur] preferences off;
 init toggle[vigor] preferences off;
+init toggle[prayer] preferences off;
 init toggle[warcry] preferences off;
 init toggle[warpaint] preferences off;
 init warpaint preferences mandrake;
@@ -181,6 +182,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{wraithform} < 1} {doWraithForm};
     #if {@hasAffect{vivify} < 1} {doVivify};
     #if {@hasAffect{warpaint} < 1} {doWarpaint};    
+    #if {@hasAffect{prayer} < 1} {doPrayer};    
     
     #if {@autobuf_check{focus} && @hasAffect{focus} < 1} {doFocus};
     #if {@autobuf_check{"spirit of bushido"} && @hasAffect{spirit of bushido} < 1} {doBushido};
@@ -237,6 +239,11 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     }
 }
 
+#alias doPrayer {
+    #if { "$toggle[prayer]" == "on"} { 
+        queueAdd nco {prayer} 
+    }
+}
 
 #alias doFireshield {
     #if { "$toggle[fireshield]" == "on"} { 
