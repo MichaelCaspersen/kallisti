@@ -86,3 +86,15 @@
 #alias layout_comms_update {update_top_panel}
 
 #nop vim: syntax=tt
+
+
+
+
+#foreach $_queue {id} {#if {"$id"!=""} {#nop $id &{_queue[$id][]};#if {&{_queue[$id][]}} {#foreach ${_queue[$id]} {sid} {#if {$sid>0} {#nop} {#show <142>$id - $sid}}}}}
+
+priority
+heal
+any
+combat 
+nco 
+move

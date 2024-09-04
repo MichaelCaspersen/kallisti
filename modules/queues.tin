@@ -44,9 +44,9 @@ Combat queues clear at the end of combat automatically.\n
 #alias {queueAdd %1 %2} {
     #list _queue[%1] find {%2} {sindex};
     #if {$sindex} {
-        #if {"%1"=="move"} {show_debug {<161>info spell Not adding "%2" as it is already in list at position $sindex}};
+        info spell Not adding "%2" as it is already in list at position $sindex;
     }   {
-        #if {"%1"=="move"} { show_debug {<161>info spell Adding command "%2" to %1 queue} };
+        info spell Adding command "%2" to %1 queue;
         #list _queue[%1] add {%2};
         queue_block
     };
@@ -113,7 +113,7 @@ Combat queues clear at the end of combat automatically.\n
         #if {&{_queue[move][]}} {
             #if {"$MSDP_POSITION" != "Fighting"} {
                 #if {@spell_can_cast{}} {
-show_debug {MOVE IS EXECUTED - Queue is cleared};
+                    show_debug {MOVE IS EXECUTED - Queue is cleared};
                     info spell Executing $_queue[move][1];
                     spell_cast_actual $_queue[move][1];
                     #list {_queue[move]} delete 1;
@@ -190,7 +190,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"creeping"} #var result 2000;
         #case {"poke_target"} #var result 2000;
         #case {"hellstream"} #var result 1000;
-        #case {"tornado"} #var result 1400;
+        #case {"tornado"} #var result 300;
         #case {"poke_target"} #var result 3000;
         #case {":"} #var result 2000;
         #default {
