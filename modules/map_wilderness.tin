@@ -143,56 +143,54 @@
 
 
 #NOP Room Short with Exits
-#action {%2 [ %3 ]} {
-    #if {"%2"=="$MSDP_ROOM_NAME"} {
-        #show show ROOM: %2,   EXITS: %3;
-        #var room %2;
-        #var exits %3;
-        #if {"$mapping" == "on"} {
-            #if {"$finding_here" == "off"} {
-                #replace exits { } {;};
-                #foreach {$exits} {eachexit} {
-                    #switch {"$eachexit"} {
-                        #case {"N"}		{#map dig n};
-                        #case {"E"}		{#map dig e};
-                        #case {"S"}		{#map dig s};
-                        #case {"W"}		{#map dig w};
-                        #case {"U"}		{#map dig u};
-                        #case {"D"}		{#map dig d};
-                        #default		{#map dig $eachexit}
-                    }
-                };
-                #map get {roomexit} {rexit};
-                #foreach {$rexit} {eachexit} {
-                    #map at {$eachexit} {
-                        #map get {roomarea} {eacharea};
-                        #if {"$eacharea" == ""} {
-                            #map set {roomcolor} {<118>}
-                        }
-                    }
+#alias map_wilderness_room {
+    #show show ROOM: %2,   EXITS: %3;
+    #var room %2;
+    #var exits {N E S W};
+    #if {"$mapping" == "on"} {
+        #if {"$finding_here" == "off"} {
+            #replace exits { } {;};
+            #foreach {$exits} {eachexit} {
+                #switch {"$eachexit"} {
+                    #case {"N"}		{#map dig n};
+                    #case {"E"}		{#map dig e};
+                    #case {"S"}		{#map dig s};
+                    #case {"W"}		{#map dig w};
+                    #case {"U"}		{#map dig u};
+                    #case {"D"}		{#map dig d};
+                    #default		{#map dig $eachexit}
                 }
             };
-            #map {set} {roomvnum} {$MSDP_ROOM_VNUM};
-            #if {$roomname_len == 0} {
-                #map set roomname {%2 [ %3 ]}
-            };
-            #if {$roomarea_len == 0} {
-                #map set roomarea {$MSDP_AREA_NAME};
-                #map set roomcolor
-            };
-            #if {$roomdesc_len == 0 || "$finding_here" == "on"} {
-                #var longcap on;
-                #var long {};
-                #act {%%1} {
-                    #if {@cartcheck{%%1}} {
-                            #nop
-                        } {
-                            #var long {${long}%%1 }
+            #map get {roomexit} {rexit};
+            #foreach {$rexit} {eachexit} {
+                #map at {$eachexit} {
+                    #map get {roomarea} {eacharea};
+                    #if {"$eacharea" == ""} {
+                        #map set {roomcolor} {<118>}
                     }
-                } {2}
-            };
-            #delay 0 mapupdate
-        }
+                }
+            }
+        };
+        #map {set} {roomvnum} {$MSDP_ROOM_VNUM};
+        #if {$roomname_len == 0} {
+            #map set roomname {%2 [ %3 ]}
+        };
+        #if {$roomarea_len == 0} {
+            #map set roomarea {$MSDP_AREA_NAME};
+            #map set roomcolor
+        };
+        #if {$roomdesc_len == 0 || "$finding_here" == "on"} {
+            #var longcap on;
+            #var long {};
+            #act {%%1} {
+                #if {@cartcheck{%%1}} {
+                        #nop
+                    } {
+                        #var long {${long}%%1 }
+                }
+            } {2}
+        };
+        #delay 0 mapupdate
     }
 }
 
