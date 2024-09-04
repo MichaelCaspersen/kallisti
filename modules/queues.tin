@@ -44,9 +44,9 @@ Combat queues clear at the end of combat automatically.\n
 #alias {queueAdd %1 %2} {
     #list _queue[%1] find {%2} {sindex};
     #if {$sindex} {
-        #if {"%1"=="move"} {show_debug {<161>info spell Not adding "%2" as it is already in list at position $sindex}};
+        info spell Not adding "%2" as it is already in list at position $sindex;
     }   {
-        #if {"%1"=="move"} { show_debug {<161>info spell Adding command "%2" to %1 queue} };
+        info spell Adding command "%2" to %1 queue;
         #list _queue[%1] add {%2};
         queue_block
     };
