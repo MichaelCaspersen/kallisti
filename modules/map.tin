@@ -109,14 +109,23 @@
 
 }
 
-#alias createExit {#map link $prevdir $old_vnum both}
+#alias createExit {
+	#map get {roomexits} {EXIT_LIST};
+	#if { ($EXIT_LIST[@dA{$prevdir}]>0) && ("$MSDP_ROOM_EXITS[$prevdir]" == "?") } 
+	{ 
+		#nop LINK ALREADY EXITS; 
+	} {
+		#nop NO EXIT EXISTS, CREATE IT;
+		#map link @dA{$prevdir} $old_vnum both;
+	}
+}
 
-#alias n {north;#var prevdir s}
-#alias e {east;#var prevdir w}
-#alias w {west;#var prevdir e}
-#alias s {south;#var prevdir n}
-#alias u {up;#var prevdir d}
-#alias d {down;#var prevdir u}
+#alias n {north;#var curdir north;#var prevdir south}
+#alias e {east;#var curdir east;#var prevdir west}
+#alias w {west;#var curdir west;#var prevdir east}
+#alias s {south;#var curdir south;#var prevdir north}
+#alias u {up;#var curdir up;#var prevdir down}
+#alias d {down;#var curdir down;#var prevdir uu}
 
 #nop -- ---------------------------------------------------------------
 #nop -- Actions
@@ -126,7 +135,13 @@
 #nop -- Events
 #nop -- ---------------------------------------------------------------
 #event {SESSION DISCONNECTED} {#map write $db/msdp.map}
-#event {MAP ENTER ROOM} {#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>ENTER ROOM OLD:$old_vnum NEW:$MSDP_ROOM_VNUM;createExit;#var old_vnum $MSDP_ROOM_VNUM}}
+#event {MAP ENTER ROOM} {
+	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
+		#show <131>ENTER ROOM OLD:$old_vnum NEW:$MSDP_ROOM_VNUM;
+		createExit;
+		#var old_vnum $MSDP_ROOM_VNUM
+	}
+}
 
 #nop -- ---------------------------------------------------------------
 #nop -- Functions
