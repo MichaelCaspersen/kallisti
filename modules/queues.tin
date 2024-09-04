@@ -134,22 +134,16 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
 
 
 #alias {queue_block} {
-    #format {queue_block[1]} {<388>%-44s<088>\nPriority: %d     Heal: %d     Any: %d\n  Combat: %d      NCO: %d    Move: %d}
-    {Action Queues}
-    {&{_queue[priority][]}}
-    {&{_queue[heal][]}}
-    {&{_queue[any][]}}
-    {&{_queue[combat][]}}
-    {&{_queue[nco][]}}
-    {&{_queue[move][]}};
 
-    #foreach *_queue[%*] {_idx} {
-        #var _flags $MSDP_GROUP[$_idx][flags];
+    #format {queue_block} {<388>%-44s<088>\nPriority: %d     Heal: %d     Any: %d\n  Combat: %d      NCO: %d    Move: %d}
+    	{Action Queues}
+        {&{_queue[priority][]}}
+        {&{_queue[heal][]}}
+        {&{_queue[any][]}}
+        {&{_queue[combat][]}}
+        {&{_queue[nco][]}}
+		{&{_queue[move][]}};
 
-        #format _line {<ffff>%-10.9s <ffff>}
-            {$_idx};
-        #list queue_block add {{$_line}};
-    };
 	#if {@is_alias{display_right_tiles}} {display_right_tiles};
 }
 
