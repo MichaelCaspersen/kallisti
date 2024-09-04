@@ -147,8 +147,8 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #var _flags $MSDP_GROUP[$_idx][flags];
 
         #format _line {<ffff>%-10.9s <ffff>}
-            {$_idx}
-                #list queue_block add {{$_line}};
+            {$_idx};
+        #list queue_block add {{$_line}};
     };
 	#if {@is_alias{display_right_tiles}} {display_right_tiles};
 }
