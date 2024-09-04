@@ -151,7 +151,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[priority] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>Prio: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -161,7 +161,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[heal] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>Heal: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -171,7 +171,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[any] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>Any: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -181,7 +181,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[combat] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>Combat: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -191,7 +191,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[nco] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>NCO: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -201,7 +201,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[move] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>Move: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
