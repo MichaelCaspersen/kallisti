@@ -146,8 +146,59 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
 
     #var queue_block_spells {};
     #local spell_idx 1;
+
+    #if { (&{_queue[priority][]}>0) && ($spell_idx<5) } {
+        #foreach $_queue[priority] {id} {
+            #if {$id>0} {#nop} 
+            {
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #math spell_idx {$spell_idx+1};
+            }
+        }
+    };
+
     #if { (&{_queue[heal][]}>0) && ($spell_idx<5) } {
         #foreach $_queue[heal] {id} {
+            #if {$id>0} {#nop} 
+            {
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #math spell_idx {$spell_idx+1};
+            }
+        }
+    };
+
+    #if { (&{_queue[any][]}>0) && ($spell_idx<5) } {
+        #foreach $_queue[any] {id} {
+            #if {$id>0} {#nop} 
+            {
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #math spell_idx {$spell_idx+1};
+            }
+        }
+    };
+
+    #if { (&{_queue[combat][]}>0) && ($spell_idx<5) } {
+        #foreach $_queue[combat] {id} {
+            #if {$id>0} {#nop} 
+            {
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #math spell_idx {$spell_idx+1};
+            }
+        }
+    };
+
+    #if { (&{_queue[nco][]}>0) && ($spell_idx<5) } {
+        #foreach $_queue[nco] {id} {
+            #if {$id>0} {#nop} 
+            {
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #math spell_idx {$spell_idx+1};
+            }
+        }
+    };
+
+    #if { (&{_queue[move][]}>0) && ($spell_idx<5) } {
+        #foreach $_queue[move] {id} {
             #if {$id>0} {#nop} 
             {
                 #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
