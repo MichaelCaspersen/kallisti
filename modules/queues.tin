@@ -144,6 +144,17 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         {&{_queue[nco][]}}
 		{&{_queue[move][]}};
 
+    #local spell_idx 1;
+    #if { (&{_queue[heal][]}>0) && ($spell_idx<5) } {
+        #foreach $_queue[heal] {id} {
+            #if {$id>0} {#nop} 
+            {
+                #format queue_block_spells[$spell_idx] {<B538d87><388><188>--%s} {$id};
+                #math spell_idx {$spell_idx+1};
+            }
+        }
+    };
+
 	#if {@is_alias{display_right_tiles}} {display_right_tiles};
 }
 

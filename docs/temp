@@ -217,3 +217,10 @@ matoff
 before remort 
 buy all stats;
 prac toughness
+
+
+
+#foreach $_queue {id} {#if {"$id"!=""} {#show >$id<  >&{_queue[$id][]}<;#if {&{_queue[$id][]}} {#show <131>Children;#foreach &{_queue[$id]} {sid} {#show <142>$sid[0] }}}
+
+priority
+heal
