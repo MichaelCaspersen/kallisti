@@ -1,0 +1,395 @@
+#class {mapper} {open}
+#NOP REQUIRED:  draw.tin
+
+#regex {"$world"} {3s} {
+	#map read db/wilderness.map
+} {
+	#map read db/wilderness.map
+}
+
+#var map[height] 17
+#var map[width] 42
+#NOP #var map[position] top
+
+#if {"$map[$world][position]" == ""} {
+	#map goto {roomnote} {home}
+} {
+	#map goto $map[$world][position]
+}
+
+/* Move Event */
+#alias {mapupdate} {
+	#map {get} {ROOMVNUM} {roomvnum};
+	#map {get} {ROOMAREA} {roomarea};
+	#map {get} {ROOMNAME} {roomname};
+	#map {get} {ROOMDESC} {roomdesc};
+	#format {roomname_len}	{%L} {$roomname};
+	#format {roomvnum_len}	{%L} {$roomvnum};
+	#format {roomarea_len}	{%L} {$roomarea};
+	#format {roomdesc_len}	{%L} {$roomdesc};
+	#math {name_len} {42-$roomvnum_len-3};
+	#format {name_trunc} {%.${name_len}s} {$roomname};
+	#unvar area_mapped;
+	#map list {} {} {} {$roomarea} {variable} {area_mapped};
+	#var {room_cnt} {&area_mapped[]};
+	#if {"$draw[map]" == "on"} {
+		#if {"$map[position]" == "top"} {
+			#draw {tile} $map[height]-1 -$map[width] $map[height]-1 -1 {<029>$roomarea <149>(<129>$room_cnt<149>)<099>};
+			#draw {tile} $map[height] -$map[width] $map[height] -1 {<149>[<039>$roomvnum<149>] <139>$name_trunc<099>}
+		}; #elseif {"$map[position]" == "bottom"} {
+			#draw {tile} -$status[height]-$map[height]-3 -$map[width] -$status[height]-$map[height]-3 -1 {<029>$roomarea <149>(<129>$room_cnt<149>)<099>};
+			#draw {tile} -$status[height]-$map[height]-2 -$map[width] -$status[height]-$map[height]-2 -1 {<149>[<039>$roomvnum<149>] <139>$name_trunc<099>}
+		}
+	}
+}
+
+#event {MAP UPDATED VTMAP} {
+	#delay {0.05} {mapupdate}
+}
+
+#event {MAP ENTER ROOM} {
+	#if {"$mapping" == "on"} {
+		mapupdate
+	}
+}
+
+#event {MAP EXIT ROOM} {
+	#list nouns clear
+}
+
+/* Map Follow on Following Others */
+#act {^%w begins to follow %w\.} {
+	#format {follower} {%l} {%1};
+	#if {"$follower" == "$world"} {
+		#var {following} {%2}
+	}
+}
+
+#act {^You are no longer following %w\.} {
+	#if {"%1" == "$following"} {
+		#unvar following
+	}
+}
+
+#act {%1 leaves %2\.} {
+	#if {"%1" == "$following"} {
+		#var foldir %2;
+
+		#switch {"$foldir"} {
+			#case {"north"}			{#var foldir n};
+			#case {"south"}			{#var foldir s};
+			#case {"east"}			{#var foldir e};
+			#case {"west"}			{#var foldir w};
+			#case {"down"}			{#var foldir d};
+			#case {"up"}			{#var foldir u};
+			#case {"northeast"} 		{#var foldir ne};
+			#case {"northwest"}		{#var foldir nw};
+			#case {"southeast"}		{#var foldir se};
+			#case {"southwest"}		{#var foldir sw};
+			#case {"through the portal"}	{#var foldir enter portal};
+			#default 	#var foldir %2
+		}
+	}
+}
+
+#act {%w leaves following %w\.} {
+	#format {follower} {%l} {%1};
+	#if {"$follower" == "$world" && "%2" == "$following"} {
+		#map move $foldir
+	}
+} {4}
+
+/* Map Update on Wimpy */
+#act {^Your legs run away with you %w.} {
+	#var wimpy[dir] %1;
+
+	#switch {"$wimpy[dir]"} {
+		#case {"north"}                 {#var wimpy[dir] n};
+		#case {"south"}                 {#var wimpy[dir] s};
+		#case {"east"}                  {#var wimpy[dir] e};
+		#case {"west"}                  {#var wimpy[dir] w};
+		#case {"down"}                  {#var wimpy[dir] d};
+		#case {"up"}                    {#var wimpy[dir] u};
+		#case {"northeast"}             {#var wimpy[dir] ne};
+		#case {"northwest"}             {#var wimpy[dir] nw};
+		#case {"southeast"}             {#var wimpy[dir] se};
+		#case {"southwest"}             {#var wimpy[dir] sw};
+		#default        		#var wimpy[dir] %1
+	};
+
+	#NOP If stepper is on, stop stepper before moving map;
+	#if {$bot == 1} {
+		.stop
+	};
+
+	#NOP Update map with wimpied direction;
+	#map move $wimpy[dir];
+}
+	
+
+/* Data Grab Trigger */
+#var longcap off
+#var finding_here off
+
+#function cartcheck {
+	#format cart {%.40s} {%0};
+	#if {"$cart" == "                                        " ||
+	     "$cart" == ""} {
+		#return 1
+	} {
+		#return 0
+	}
+}
+
+
+#NOP Room Short with Exits
+#action {%2 [ %3 ]} {
+    #if {"%2"=="$MSDP_ROOM_NAME"} {
+        #show show ROOM: %2,   EXITS: %3;
+        #var room %2;
+        #var exits %3;
+        #if {"$mapping" == "on"} {
+            #if {"$finding_here" == "off"} {
+                #replace exits { } {;};
+                #foreach {$exits} {eachexit} {
+                    #switch {"$eachexit"} {
+                        #case {"N"}		{#map dig n};
+                        #case {"E"}		{#map dig e};
+                        #case {"S"}		{#map dig s};
+                        #case {"W"}		{#map dig w};
+                        #case {"U"}		{#map dig u};
+                        #case {"D"}		{#map dig d};
+                        #default		{#map dig $eachexit}
+                    }
+                };
+                #map get {roomexit} {rexit};
+                #foreach {$rexit} {eachexit} {
+                    #map at {$eachexit} {
+                        #map get {roomarea} {eacharea};
+                        #if {"$eacharea" == ""} {
+                            #map set {roomcolor} {<118>}
+                        }
+                    }
+                }
+            };
+            #map {set} {roomvnum} {$MSDP_ROOM_VNUM};
+            #if {$roomname_len == 0} {
+                #map set roomname {%2 [ %3 ]}
+            };
+            #if {$roomarea_len == 0} {
+                #map set roomarea {$MSDP_AREA_NAME};
+                #map set roomcolor
+            };
+            #if {$roomdesc_len == 0 || "$finding_here" == "on"} {
+                #var longcap on;
+                #var long {};
+                #act {%%1} {
+                    #if {@cartcheck{%%1}} {
+                            #nop
+                        } {
+                            #var long {${long}%%1 }
+                    }
+                } {2}
+            };
+            #delay 0 mapupdate
+        }
+    }
+}
+
+#NOP Room Short with No Exits, Lowered Priority
+#act {=S=%1%s=S=} {
+	#var room %1;
+	#if {"$mapping" == "on"} {
+		#if {$roomname_len == 0} {
+			#map set roomname {%1}
+		};
+		#if {$roomarea_len == 0} {
+			#map set roomarea {$area};
+			#map set roomcolor
+		};
+		#if {$roomdesc_len == 0 || "$finding_here" == "on"} {
+			#var longcap on;
+			#unvar long;
+			#act {%%1} {
+				#if {@cartcheck{%%1}} {
+						#nop
+					} {
+						#var long {${long}%%1 }
+				}
+			} {2}
+		};
+		#map get {roomvnum} {gonum};
+		#map goto $gonum;
+	}
+} {6}
+
+#act {=X={.*}} {
+	#if {"$longcap" == "on"} {
+		#var longcap off;
+		#unact {%%1};
+		#if {"$finding_here" == "off"} {
+			#map set roomdesc {$long}
+		}
+	}
+} {1}
+
+#act {AREA NAME: %1 [%2]} {
+	#var area %1
+}
+
+
+/* Aliases */
+#NOP Map position toggle
+#alias {mappos} {
+	#if {"%1" == "top"} {
+		#screen clear square -$status[height]-$map[height]-3 -$map[width] -$status[height]-$map[height]-2 -1;
+		#var map[position] top;
+	}; #elseif {"%1" == "bottom"} {
+		#delay 0 #screen clear square $map[height]-1 -$map[width] $map[height] -1;
+		#var map[position] bottom
+	}; #elseif {"%1" == ""} {
+		#if {"$map[position]" == "top"} {
+			#var map[position] bottom;
+		} {
+			#var map[position] top
+		}
+	}; #else {
+		#echo {!INVALID MAP POSITION!}
+	};
+	#read .tt/3k/draw.tin
+}
+		
+#NOP count the # of rooms mapped
+#alias {area_mapped %1} {
+	#unvar area_mapped;
+	#map list {} {} {} {%1} {variable} {area_mapped};
+	#showme {&area_mapped[] rooms mapped.};
+}
+
+#NOP Color rooms that have no area set (unexplored)
+#alias nacolor {
+	#loop 1 20000 {cnt} {
+		#map at {$cnt} {
+			#map get {roomarea} {cntarea};
+			#if {"$cntarea" == ""} {#map set roomcolor <118>}
+		}
+	};
+	#map get {roomvnum} {gonum};
+	#map goto $gonum;
+	#if {"$draw[map]" == "on"} {
+		#if {"$map[position]" == "top"} {
+			#draw {tile} $map[height]-1 -$map[width] $map[height]-1 -1 {<020>$roomarea <140>(<120>$room_cnt<140>)<099>};
+			#draw {tile} $map[height] -$map[width] $map[height] -1 {<140>[<030>$roomvnum<140>] <130>$roomname<099>}
+		}; #elseif {"$map[position]" == "bottom"} {
+			#draw {tile} -$status[height]-$map[height]-3 -$map[width] -$status[height]-$map[height]-3 -1 {<020>$roomarea <140>(<120>$room_cnt<140>)<099>};
+			#draw {tile} -$status[height]-$map[height]-2 -$map[width] -$status[height]-$map[height]-2 -1 {<140>[<030>$roomvnum<140>] <130>$roomname<099>}
+		}
+	}
+}
+
+#alias {go} {
+	#if {"%1" == "home"} {
+		#if {"%2" == ""} {
+			#map run {{roomnote} {home}}
+		} {
+			#map run {{roomnote} {resid}};
+			#delay {gohome} {home %2} {2}
+		}
+	} {
+		#map run {{roomnote} {%0%*}}
+	}
+}
+
+#alias {mapgo} {#map goto {roomnote} {%0}}
+
+#alias {findhere} {
+	#var finding_here on;
+	rating;
+	#delay 1 mapon;
+	#delay 2 look;
+	#delay 3 {
+		#var findexits $exits;
+		#replace findexits {,} {;};
+		#map list {roomarea} {$area} {roomname} {$room%*} {roomexits} {$findexits} {roomdesc} {$long};
+		#map list {roomarea} {$area} {roomname} {$room%*} {roomexits} {$findexits} {roomdesc} {$long} {variable} {findroom};
+		#if {&findroom[] == 1} {
+			#map goto *findroom[1..1]
+		};
+		#var finding_here off;
+		mapoff
+	}
+}
+
+
+#alias {mapsearch} {
+	#show <129>Name matches:<088>;
+	#map list {%i%*%0%*};
+	#show \n;
+	#show <129>Note matches:<088>;
+	#map list {} {} {} {} {%i%*%0%*};
+}
+
+#alias {mapsave} {
+	#regex {"$world"} {3s} {
+		#map write db/wilderness.map
+	} {
+		#switch {"$area"} {
+			#case {"Biome"}		{#map write db/wilderness.map};
+			#case {"Breed"}		{#map write db/wilderness.map};
+			#case {"The Abyss"}	{#map write db/wilderness.map};
+			#default		{#map write db/wilderness.map}
+		}
+	}
+}
+
+#alias {bmapsave} {#map write db/wilderness.map}
+
+#alias {mapon} {
+	#send !brief off yes;
+	#map flag static off;
+	#var mapstatic 1;
+	#var area %1;
+	#var mapping on;
+}
+#alias {mapoff}{
+	#send !brief on yes;
+	#map flag static on;
+	#unvar mapstatic;
+	#unvar mapping;
+}
+#map flag static on
+#unvar mapstatic
+
+#alias {ma} {#map set roomarea {$area}}
+
+#NOP List all Roomnotes for 'go' alias
+#alias {notelist} {
+	#map list {roomnote} {%+} {variable} {noterooms};
+	#foreach {*noterooms[]} {room} {#map get {roomnote} {notes[$room]} {$room}};
+	#list notes sort;
+	#var notes
+}
+
+#NOP Search Room Nouns (built by MIP)
+#alias {sn} {
+	#var noun_cnt &{nouns[]};
+	#loop 1 &{nouns[]} cnt {
+		exa $nouns[$cnt];
+		search $nouns[$cnt]
+	};
+	#delay 0.5 {
+		#if {$noun_cnt < &{nouns[]}} {
+			#echo {<128>New items found!  Search again!<088>}
+		}
+	}
+}
+
+#NOP Link rooms with a void insert
+#alias voidlink {
+	#var dir %1;
+	#var dest_num %2;
+	#map link $dir $dest_num both;
+	#map insert $dir void
+}
+
+#class {mapper} {close}
