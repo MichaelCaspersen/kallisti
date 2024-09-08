@@ -81,6 +81,8 @@ init bot[cast2] preferences on;
 init bot[poke2] preferences off;
 init bot[rescue2] preferences off;
 
+#var healpct_damage_allowed 85;
+
 #var master[active] 1;
 
 #var bot[debug] 0;
@@ -151,6 +153,7 @@ init bot[rescue2] preferences off;
 		#var autodarmor on;
 		#var autovigor on;
 		#var autosanctuary on;
+		#var healpct_damage_allowed 85;
 	};
 
 	#NOP #######################################################;
@@ -412,7 +415,7 @@ init bot[rescue2] preferences off;
 					#var bot[nextAction] {queueAdd combat $bot[damage]};
 				};
 			};
-			#elseif { ("$bot[role]" == "healer") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<75) } {
+			#elseif { ("$bot[role]" == "healer") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
 				#nop Don't do damage, mana too low;
 			};
 			#else {
