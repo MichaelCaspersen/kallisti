@@ -72,6 +72,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
     };
 }
 
+#alias pheal {queueAdd heal phea %1}
 
 #alias {autoheal} {
     #nop %0;
