@@ -82,6 +82,7 @@ init bot[poke2] preferences off;
 init bot[rescue2] preferences off;
 
 #var healpct_damage_allowed 85;
+#var recall_below_hit 20;
 
 #var master[active] 1;
 
@@ -398,7 +399,7 @@ init bot[rescue2] preferences off;
 	};
 	#else {
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
-		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<20 } {
+		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$recall_below_hit } {
 			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
 			#var bot[nextAction] {queueAdd priority recall};
 		}; #else {
