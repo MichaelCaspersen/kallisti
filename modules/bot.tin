@@ -1064,6 +1064,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			};	
 		}
 	};
+	#if { "$MSDP_CLASS"=="Prophet" } {
+		#if {$MSDP_THIRST<10 && $MSDP_MANA<$MSDP_MANA_MAX*0.8} {gt mp};
+	};
 	#if {$profession[gather][auto]} { do_gather %0 };
 	#if {@gotFollowers{}>0} { get gold all.corpse };
 	#if {"$bot[hide]"!==""} { $bot[hide] };
