@@ -118,6 +118,8 @@
 #alias u {up;#var prevdir d}
 #alias d {down;#var prevdir u}
 
+#var mapwilderness 0;
+
 #nop -- ---------------------------------------------------------------
 #nop -- Actions
 #nop -- ---------------------------------------------------------------
@@ -126,7 +128,7 @@
 #nop -- Events
 #nop -- ---------------------------------------------------------------
 #event {SESSION DISCONNECTED} {#map write $db/msdp.map}
-#event {MAP ENTER ROOM} {#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>ENTER ROOM OLD:$old_vnum NEW:$MSDP_ROOM_VNUM;createExit;#var old_vnum $MSDP_ROOM_VNUM}}
+#event {MAP ENTER ROOM} {#if { ("$MSDP_AREA_NAME"=="The Wilderness") && ($mapwilderness)} {#show <131>ENTER ROOM OLD:$old_vnum NEW:$MSDP_ROOM_VNUM;createExit;#var old_vnum $MSDP_ROOM_VNUM}}
 
 #nop -- ---------------------------------------------------------------
 #nop -- Functions

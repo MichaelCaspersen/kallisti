@@ -187,6 +187,7 @@ init bot[rescue2] preferences off;
 		#var bot[poke] 0;
 		#var bot[join] 0;
 		#var bot[damage] {tornado};
+		#var druid_convert_at 50;
 
 		#var autobark on;
 		#var autobless on;
@@ -350,12 +351,12 @@ init bot[rescue2] preferences off;
 	#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
 	#if { @is_group_fighting{}==0 } {
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:0};
-		#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}>20) } {
+		#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}>$druid_convert_at) } {
 			queueAdd any convert;
 		};
 		#else {
 			#if { ("$bot[role]"=="leader") && ($timesincelastkill>$timer[waitkill]) } {
-				#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<=20) } {
+				#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<=$druid_convert_at) } {
 					queueAdd any convert;
 				};
 				#else {
