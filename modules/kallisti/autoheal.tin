@@ -72,7 +72,10 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
     };
 }
 
-#alias pheal {queueAdd heal phea %1}
+#alias pheal {
+    #if { ("$MSDP_CLASS" == "Prophet") || ("$MSDP_CLASS" == "Templar") } {queueAdd heal phea %1};
+    #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {queueAdd heal hea %1};
+}
 
 #alias {autoheal} {
     #nop %0;
