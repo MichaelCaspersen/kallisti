@@ -421,7 +421,7 @@ init bot[rescue2] preferences off;
 		}; 
 		#else {
 			#nop DETERMINE WHICH SPELL TO USE;
-			#if { $MSDP_OPPONENT_NUMBER > 2 } {damage $bot[damage][multiple]} {damage $bot[damage][single]};
+			#nop #if { $MSDP_OPPONENT_NUMBER > 2 } {damage $bot[damage][multiple]} {damage $bot[damage][single]};
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
 				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
 					#if { @pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25 } {
