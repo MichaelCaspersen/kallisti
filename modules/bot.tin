@@ -170,6 +170,8 @@ init bot[rescue2] preferences off;
 		botrole damage;
 		#var bot[cast] 1;
 		#var bot[damage] {kick};
+		#var bot[damage][single] {kick};
+		#var bot[damage][multiple] {kick};
 
 		#var toggle[focus] on;
 		#var toggle[warpaint] on;
@@ -385,7 +387,7 @@ init bot[rescue2] preferences off;
 						#if { $bot[poke] } {
 							#var bot[nextAction] {queueAdd nco poke_target};
 						};#else  {
-							#var bot[nextAction] {queueAdd nco $bot[damage][single] @findtarget{}};
+							#var bot[nextAction] {queueAdd nco attackTarget @findtarget{}};
 						};
 					};
 					#else {
@@ -420,8 +422,6 @@ init bot[rescue2] preferences off;
 			#var bot[nextAction] {queueAdd priority recall};
 		}; 
 		#else {
-			#nop DETERMINE WHICH SPELL TO USE;
-			#nop #if { $MSDP_OPPONENT_NUMBER > 2 } {damage $bot[damage][multiple]} {damage $bot[damage][single]};
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
 				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
 					#if { @pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25 } {
@@ -429,25 +429,29 @@ init bot[rescue2] preferences off;
 						#var bot[nextAction] {queueAdd heal drain};
 					}; #else {
 						#var bot[nextActionDebug] {$bot[nextActionDebug], target too low, nuke };
-						#var bot[nextAction] {queueAdd combat $bot[damage]};
+						#var bot[nextAction] {queueAdd combat attackTarget};
 					}
 				}; #else {
-					#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[damage]};
-					#var bot[nextAction] {queueAdd combat $bot[damage]};
+					#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
+					#var bot[nextAction] {queueAdd combat attackTarget};
 				};
 			};
 			#elseif { ("$bot[role]" == "healer") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
 				#nop Don't do damage, mana too low;
 			};
 			#else {
-				#var bot[nextActionDebug] {$bot[nextActionDebug], use $bot[damage]};
-				#var bot[nextAction] {queueAdd combat $bot[damage]};
+				#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
+				#var bot[nextAction] {queueAdd combat attackTarget};
 			}
 		};
 	};
 	#math actionDelay {@mpoch{} - $spellLock};
 	generate_bot_info;
 	#if {@is_alias{tellu_bot_info}} {tellu_bot_info};
+}
+
+#alias attackTarget {
+	#show <131>Attack target called: <%1>;
 }
 
 
@@ -920,7 +924,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {You join the fight with %1.} {
 	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
-		queueAdd combat $bot[damage][single];
+		queueAdd combat attackTarget;
 	};
 	#if { "$bot[role]"=="tank" } {
 		#if $bot[rescue] {breakout;queueAdd priority rescue %1};
@@ -950,7 +954,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {You're already fighting - help yourself first!} {
 	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
-		queueAdd combat $bot[damage][single];
+		queueAdd combat attackTarget;
 	}
 }
 
@@ -1084,7 +1088,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		}
 	};
 	#if { "$MSDP_CLASS"=="Prophet" } {
-		#if {$MSDP_THIRST<10 && $MSDP_MANA<$MSDP_MANA_MAX*0.8} {gt mp};
+		#nop if {$MSDP_THIRST<10 && $MSDP_MANA<$MSDP_MANA_MAX*0.8} {gt mp};
 	};
 	#if {$profession[gather][auto]} { do_gather %0 };
 	#if {@gotFollowers{}>0} { get gold all.corpse };
@@ -1396,18 +1400,18 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A strange boulderman stands here.} {settarget 999 @mob_count{"%1"} boulderman 30 61 1}
 
 #action {A dangerous looking skeleton warrior screams for blood!} {settarget 999 @mob_count{"%1"} skeleton 30 61 2}
-#action {A disgusting zombie shambles by, hungering for mana.} {settarget 999 @mob_count{"%1"} zombie 30 61 1;$bot[damage] zombie}
+#action {A disgusting zombie shambles by, hungering for mana.} {settarget 999 @mob_count{"%1"} zombie 30 61 1;$bot[damage][single] zombie}
 #action {A guardian of the four looms over you.} {settarget 999 @mob_count{"%1"} guardian 30 61 3}
 
 
 #action {Sabrael is hovering here.} {settarget 999 @mob_count{"%1"} Sabrael 30 61 1}
 #action {Melkyal of The Four is here, staring at you.} {settarget 999 @mob_count{"%1"} Melkyal 30 61 1}
 #action {Barbelo of The Four is here, glaring at you.} {settarget 999 @mob_count{"%1"} Barbelo 30 61 1}
-#action {Empyrean is here hiding in the shadows. } {settarget Empyrean 999 @mob_count{"%1"} 30 61 1;$bot[damage] Empyrean}
+#action {Empyrean is here hiding in the shadows. } {settarget Empyrean 999 @mob_count{"%1"} 30 61 1;$bot[damage][single] Empyrean}
 
 
 
-#action {You need to ADVANCE to reach a fire elemental with close ranged attacks.} {queueAdd combat {$bot[damage] fire}}
+#action {You need to ADVANCE to reach a fire elemental with close ranged attacks.} {queueAdd combat {$bot[damage][single] fire}}
 
 #NOP ################ ARCHIPELAGO
 
