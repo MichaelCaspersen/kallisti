@@ -450,9 +450,7 @@ init bot[rescue2] preferences off;
 	#if {@is_alias{tellu_bot_info}} {tellu_bot_info};
 }
 
-#alias attackTarget {
-	#show <131>Attack target called: <%1>;
-}
+#alias attackTarget {#if { $MSDP_OPPONENT_NUMBER>1} {#show <131>Multiple Opponents ($MSDP_OPPONENT_NUMBER): <%1> $bot[damage][multiple];$bot[damage][multiple]} {#show <131>Single target: <%1> $bot[damage][single];$bot[damage][single]}}
 
 
 #alias zone_automatic_restart {
@@ -543,7 +541,7 @@ event_register {variable bot[nextAction]} {right} {generate_bot_info};
 event_register {variable master[active]} {right} {generate_bot_info};
 #alias generate_bot_info {
 	#if $bot[running] {
-		#format bot_info[1] {<B538d87><388><188>%s} {Bot:$bot[role], $bot[damage]  Mov: $bot[move]  Cast: $bot[cast]};
+		#format bot_info[1] {<B538d87><388><188>%s} {Bot:$bot[role] Mov: $bot[move] Cast: $bot[cast] $bot[damage]};
 		#format bot_info[2] {<B538d87><388><188>%s} {Action:[$bot[nextAction]]};
 		#format bot_info[3] {<B538d87><388><188>%s} {Target: [@findtarget{}]   SpellLock:$actionDelay};
 		#if $zone[active] {
