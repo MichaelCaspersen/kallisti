@@ -184,7 +184,8 @@ init bot[rescue2] preferences off;
 		#var bot[damage][multiple] {zeal};
 
 		#var toggle[focus] on;
-		#var toggle[warpaint] on;
+		#var toggle[prayer] on;
+		#var toggle[focus] on;
 		#var toggle[warcry] on;
 	};
 
