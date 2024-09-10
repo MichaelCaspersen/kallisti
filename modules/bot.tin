@@ -71,6 +71,8 @@ Commands:\n
 #var bot[markcommand] {marks};
 #var bot[pokecommand] pokes;
 #var bot[damage] {};
+#var bot[damage][single] {};
+#var bot[damage][multiple] {};
 #var bot[nextAction] {};
 #var bot[rescue] 0;
 #var bot[mount][name] {};
@@ -130,6 +132,8 @@ init bot[rescue2] preferences off;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Necromancer" } {
 		#var bot[damage] darkfire;
+		#var bot[damage][single] darkfire;
+		#var bot[damage][multiple] dfog;
 		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
 		#var bot[spellSustain] drain;
 
@@ -146,7 +150,9 @@ init bot[rescue2] preferences off;
 	#NOP Class Specific: Prophet								;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Prophet" } {
-		#var bot[damage] harm;
+		#var bot[damage] lbolt;
+		#var bot[damage][single] lbolt;
+		#var bot[damage][multiple] icestorm;
 		#var bot[spellCorpse] #nop;
 		#var bot[spellSustain] heal;
 
@@ -177,6 +183,8 @@ init bot[rescue2] preferences off;
 		botrole stabber;
 		#var bot[cast] 1;
 		#var bot[damage] {backstab};
+		#var bot[damage][single] {backstab};
+		#var bot[damage][multiple] {backstab};
 		#var bot[hide] {hide};
 	};
 
@@ -191,6 +199,8 @@ init bot[rescue2] preferences off;
 		#var bot[poke] 0;
 		#var bot[join] 0;
 		#var bot[damage] {tornado};
+		#var bot[damage][single] {tornado};
+		#var bot[damage][multiple] {sunray};
 		#var druid_convert_at 50;
 
 		#var autobark on;
@@ -208,6 +218,8 @@ init bot[rescue2] preferences off;
 		#case {"Krall"} {
 			botrole tank;
 			#var bot[damage] kill;
+			#var bot[damage][single] kill;
+			#var bot[damage][multiple] kill;
 			#var bot[spellSustain] wio;
 			botcast 1;
 			botpoke 0;
@@ -222,6 +234,8 @@ init bot[rescue2] preferences off;
 			group all;
 			botrole leader;
 			#var bot[damage] {};
+			#var bot[damage][single] {};
+			#var bot[damage][multiple] {};
 			#var bot[spellSustain] heal;
 			botcast 1;
 			botpoke 1;
@@ -234,6 +248,8 @@ init bot[rescue2] preferences off;
 		#case {"Shaita"} {
 			botrole damage;
 			#var bot[damage] backstab;
+			#var bot[damage][single] backstab;
+			#var bot[damage][multiple] backstab;
 			#var delay[stabber] 0.6;
 			botcast 1;
 			botpoke 0;
@@ -369,7 +385,7 @@ init bot[rescue2] preferences off;
 						#if { $bot[poke] } {
 							#var bot[nextAction] {queueAdd nco poke_target};
 						};#else  {
-							#var bot[nextAction] {queueAdd nco $bot[damage] @findtarget{}};
+							#var bot[nextAction] {queueAdd nco $bot[damage][single] @findtarget{}};
 						};
 					};
 					#else {
@@ -402,7 +418,10 @@ init bot[rescue2] preferences off;
 		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$recall_below_hit } {
 			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
 			#var bot[nextAction] {queueAdd priority recall};
-		}; #else {
+		}; 
+		#else {
+			#nop DETERMINE WHICH SPELL TO USE
+			#if { $MSDP_OPPONENT_NUMBER > 2 } {damage $bot[damage][multiple]} {damage $bot[damage][single]};
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
 				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
 					#if { @pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25 } {
@@ -870,10 +889,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {%0 $bot[markcommand]: %1} {
 	#switch {"$bot[role]"} {
 		#case {"tank"} {
-			#show <121>>INITIATE COMBAT - role:tank;$bot[damage] %1;
+			#show <121>>INITIATE COMBAT - role:tank;$bot[damage][single] %1;
 		};
 		#case {"stabber"} {
-			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage] %1}} {$delay[stabber]} 
+			#show <121>>INITIATE COMBAT - role:stabber;#delay botstab {queueAdd any {$bot[damage][single] %1}} {$delay[stabber]} 
 		};
 	};
 }
@@ -882,7 +901,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#switch {"$bot[role]"} {
 		#case {"leader"} {
 			#if { $bot[join] } {
-				#show <121>>DELAYED START - role:leader;#delay initiatecombat {queueAdd any {$bot[damage] %1}} {2};
+				#show <121>>DELAYED START - role:leader;#delay initiatecombat {queueAdd any {$bot[damage][single] %1}} {2};
 			}
 		};
 		#case {"healer"} {
@@ -894,14 +913,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#nop show <121>>INITIATE COMBAT - role:tank;#nop queueAdd any {$bot[damage] %1};
 		};
 		#case {"damage"} {
-			#show <121>>DELAYED START - role:damage;#delay initiatecombat {queueAdd any {$bot[damage] %1}} {2};
+			#show <121>>DELAYED START - role:damage;#delay initiatecombat {queueAdd any {$bot[damage][single] %1}} {2};
 		};
 	}
 }
 
 #action {You join the fight with %1.} {
 	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
-		queueAdd combat $bot[damage];
+		queueAdd combat $bot[damage][single];
 	};
 	#if { "$bot[role]"=="tank" } {
 		#if $bot[rescue] {breakout;queueAdd priority rescue %1};
@@ -931,7 +950,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {You're already fighting - help yourself first!} {
 	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
-		queueAdd combat $bot[damage];
+		queueAdd combat $bot[damage][single];
 	}
 }
 
@@ -994,7 +1013,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Necro/Demoniac specific
 #var auto[candrain] 1
 #action {%1 does not have enough energy left to drain.} {#var auto[candrain] 0}
-#action {You can only drain the living.} {#var auto[candrain] 0;queueAdd priority $bot[damage] @findtarget{}}
+#action {You can only drain the living.} {#var auto[candrain] 0;queueAdd priority $bot[damage][single] @findtarget{}}
 
 
 #action {%1 looks really sick, and shivers uncomfortably.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {nco cure %1}}
