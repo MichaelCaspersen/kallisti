@@ -420,7 +420,7 @@ init bot[rescue2] preferences off;
 			#var bot[nextAction] {queueAdd priority recall};
 		}; 
 		#else {
-			#nop DETERMINE WHICH SPELL TO USE
+			#nop DETERMINE WHICH SPELL TO USE;
 			#if { $MSDP_OPPONENT_NUMBER > 2 } {damage $bot[damage][multiple]} {damage $bot[damage][single]};
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
 				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
