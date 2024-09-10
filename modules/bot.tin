@@ -32,7 +32,7 @@
 #var bot-help {
 Commands:\n
 \tCurrent role: $bot[role]   Available roles: leader/tank/stabber/damage/healer/OFF\n
-\tdamage <spell> , current $bot[damage]\n
+\tdamage <spell> , current $bot[damage][single]\n
 \n
 \tToggle automatic casting/moving:  botcast: $bot[cast]  botmove: $bot[move]\n
 \n
@@ -70,7 +70,6 @@ Commands:\n
 #var bot[poke] 0;
 #var bot[markcommand] {marks};
 #var bot[pokecommand] pokes;
-#var bot[damage] {};
 #var bot[damage][single] {};
 #var bot[damage][multiple] {};
 #var bot[nextAction] {};
@@ -131,7 +130,6 @@ init bot[rescue2] preferences off;
 	#NOP Class Specific: Necromancer							;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Necromancer" } {
-		#var bot[damage] darkfire;
 		#var bot[damage][single] darkfire;
 		#var bot[damage][multiple] dfog;
 		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
@@ -150,7 +148,6 @@ init bot[rescue2] preferences off;
 	#NOP Class Specific: Prophet								;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Prophet" } {
-		#var bot[damage] lbolt;
 		#var bot[damage][single] lbolt;
 		#var bot[damage][multiple] icestorm;
 		#var bot[spellCorpse] #nop;
@@ -169,9 +166,22 @@ init bot[rescue2] preferences off;
 	#if { "$MSDP_CLASS" == "Barbarian" } {
 		botrole damage;
 		#var bot[cast] 1;
-		#var bot[damage] {kick};
 		#var bot[damage][single] {kick};
 		#var bot[damage][multiple] {kick};
+
+		#var toggle[focus] on;
+		#var toggle[warpaint] on;
+		#var toggle[warcry] on;
+	};
+
+	#NOP #######################################################;
+	#NOP Class Specific: Paladin								;
+	#NOP #######################################################;
+	#if { "$MSDP_CLASS" == "Paladin" } {
+		botrole damage;
+		#var bot[cast] 1;
+		#var bot[damage][single] {smite};
+		#var bot[damage][multiple] {zeal};
 
 		#var toggle[focus] on;
 		#var toggle[warpaint] on;
@@ -184,7 +194,6 @@ init bot[rescue2] preferences off;
 	#if { ("$MSDP_CLASS" == "Assassin") && ("$MSDP_CHARACTER_NAME" != "Shaita") } {
 		botrole stabber;
 		#var bot[cast] 1;
-		#var bot[damage] {backstab};
 		#var bot[damage][single] {backstab};
 		#var bot[damage][multiple] {backstab};
 		#var bot[hide] {hide};
@@ -200,7 +209,6 @@ init bot[rescue2] preferences off;
 		#var bot[cast] 1;
 		#var bot[poke] 0;
 		#var bot[join] 0;
-		#var bot[damage] {tornado};
 		#var bot[damage][single] {tornado};
 		#var bot[damage][multiple] {sunray};
 		#var druid_convert_at 50;
@@ -219,7 +227,6 @@ init bot[rescue2] preferences off;
 	#switch {"$MSDP_CHARACTER_NAME"} {
 		#case {"Krall"} {
 			botrole tank;
-			#var bot[damage] kill;
 			#var bot[damage][single] kill;
 			#var bot[damage][multiple] kill;
 			#var bot[spellSustain] wio;
@@ -235,7 +242,6 @@ init bot[rescue2] preferences off;
 		#case {"Malai"} {
 			group all;
 			botrole leader;
-			#var bot[damage] {};
 			#var bot[damage][single] {};
 			#var bot[damage][multiple] {};
 			#var bot[spellSustain] heal;
@@ -249,7 +255,6 @@ init bot[rescue2] preferences off;
 		 };
 		#case {"Shaita"} {
 			botrole damage;
-			#var bot[damage] backstab;
 			#var bot[damage][single] backstab;
 			#var bot[damage][multiple] backstab;
 			#var delay[stabber] 0.6;
@@ -450,7 +455,17 @@ init bot[rescue2] preferences off;
 	#if {@is_alias{tellu_bot_info}} {tellu_bot_info};
 }
 
-#alias attackTarget {#if { $MSDP_OPPONENT_NUMBER>1} {#show <131>Multiple Opponents ($MSDP_OPPONENT_NUMBER): <%1> $bot[damage][multiple];$bot[damage][multiple]} {#show <131>Single target: <%1> $bot[damage][single];$bot[damage][single]}}
+#alias attackTarget {
+	#if { $MSDP_OPPONENT_NUMBER>1} 
+	{
+		show_debug {<131>Multiple Opponents ($MSDP_OPPONENT_NUMBER): <%1> $bot[damage][multiple]};
+		$bot[damage][multiple]
+	} 
+	{
+		show_debug {<131>Single target: <%1> $bot[damage][single]};
+		$bot[damage][single]
+	}
+}
 
 
 #alias zone_automatic_restart {
@@ -876,7 +891,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Combat
 #NOP #######################################################
 
-#alias damage {#if {"%1"!=""} {#var bot[damage] %1} {#var bot[damage] {}};generate_bot_info;#show <131>New damage ability: [%1]}
+#alias damage {#if {"%1"!=""} {#var bot[damage][single] %1} {#var bot[damage][single] {}};generate_bot_info;#show <131>New damage ability: [%1]}
 #alias healing {#if {"%1"!=""} {#var bot[healing] %1} {#var bot[healing] {}};generate_bot_info;#show <131>New healing ability: [%1]}
 
 #alias poke_target {
@@ -912,7 +927,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			}
 		};
 		#case {"tank"} {
-			#nop show <121>>INITIATE COMBAT - role:tank;#nop queueAdd any {$bot[damage] %1};
+			#nop show <121>>INITIATE COMBAT - role:tank;#nop queueAdd any {$bot[damage][single] %1};
 		};
 		#case {"damage"} {
 			#show <121>>DELAYED START - role:damage;#delay initiatecombat {queueAdd any {$bot[damage][single] %1}} {2};
