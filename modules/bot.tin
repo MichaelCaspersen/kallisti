@@ -95,7 +95,7 @@ init bot[rescue2] preferences off;
 #var weapon_pri {};
 #var weapon_sec {};
 
-#var stock[recall] 1;
+#var stock[recall] 0;
 #var stock[purple] 1;
 
 #var timer[waitkill] 2;
