@@ -83,7 +83,7 @@ init bot[poke2] preferences off;
 init bot[rescue2] preferences off;
 
 #var healpct_damage_allowed 85;
-#var recall_below_hit 20;
+#var recall_below_hit 40;
 
 #var master[active] 1;
 
@@ -1050,10 +1050,21 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #NOP #######################################################
-#NOP General
+#NOP Wilderness
 #NOP #######################################################
 
+#action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
+#gag {There doesn't seem to be a gold in the corpse of }
+
+#variable autotooth 1;
+#var toothcontainer backpack;
+#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
+
+
+#NOP #######################################################
+#NOP General
+#NOP #######################################################
 
 #action {You hop on {a|an|the} %1's back.} {#var bot[mount][name] %1}
 

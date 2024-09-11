@@ -347,11 +347,11 @@ Clan: FTB (Sorter of Bins)
             show_debug {<131>Zone being reset, new zone: %%2};
             #unaction {You follow%%%2.}
         };
-        badweather
+        #nop badweather
     }
 }  
 
-#alias badweather {#nop badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
+#alias badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}
 
 #action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}}
 #action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}}
