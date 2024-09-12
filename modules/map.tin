@@ -43,12 +43,16 @@
 #nop -- Variables
 #nop -- ---------------------------------------------------------------
 
-#map create 100000;
+#map create 1000000;
 #map flag nofollow;
 #map flag vtmap on;
 #map flag static;
 #map flag AsciiGraphics on;
-#map read $db/msdp.map
+#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
+	#map read $db/wilderness.map
+};#else {
+	#map read $db/msdp.map
+}
 
 #map terrain {City} {<f2232ff>▒} DENSE WIDE
 #map terrain {City Bridge Path} {<Feeeeee>▒} DENSE
