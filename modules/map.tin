@@ -83,6 +83,7 @@
     #elseif {"%1" == "Peak"} {#var result <BDDDDDD>};
     #elseif {"%1" == "Air"} {#var result <BFFFFFF>};
     #elseif {"%1" == "City"} {#var result <Bf7fcb9>};
+    #elseif {"%1" == "Water"} {#var result <Ba6bddb>};
     #elseif {"%1" == "Shallow Water"} {#var result <Ba6bddb>};
     #elseif {"%1" == "Deep Water"} {#var result <B2b8cbe>};
     #elseif {"%1" == "Underwater"} {#var result <B3182bd>};
