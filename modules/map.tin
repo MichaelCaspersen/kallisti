@@ -285,4 +285,11 @@
     #var {MAP[dirty]}{0};
 };
 
+#alias {savewilder}
+{
+    #show {<020>Saving current map...};
+    #map write {$db/wilderness.map};
+    #var {MAP[dirty]}{0};
+};
+
 #nop -- vim: syntax=tt
