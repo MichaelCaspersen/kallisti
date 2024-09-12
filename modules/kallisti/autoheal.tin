@@ -92,7 +92,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
         #if {$MSDP_GROUP[$_tmp][health] < $healpct } {
             #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
                 #nop TODO - this should be the chosen heal/fheal/layhands method;
-                queueAdd heal {pheal $MSDP_GROUP[$_tmp][name]};
+                queueAdd heal {phea $MSDP_GROUP[$_tmp][name]};
             }
         };
         #if {$MSDP_GROUP[$_tmp][stamina] < $refreshpct } {
