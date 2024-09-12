@@ -50,16 +50,50 @@
 #map flag AsciiGraphics on;
 #map read $db/msdp.map
 
-#map terrain {Forest} {<228>^} DENSE FADEOUT
-#map terrain {Swamp} {<228>⟑} DENSE WIDE
-#map terrain {Field} {<128>·} DENSE WIDE
-#map terrain {Desert} {<cca>·} DENSE NARROW
-#map terrain {Inside} {<f707880>▒} DENSE WIDE
-#map terrain {Mountains} {<f666666>▲} DENSE WIDE
+#map terrain {City} {<f2232ff>▒} DENSE WIDE
+#map terrain {City Bridge Path} {<Feeeeee>▒} DENSE
+#map terrain {City Field} {<F39c57e>▒} DENSE FADEOUT
+#map terrain {City Path} {<Feeeeee>▒} DENSE FADEOUT
 #map terrain {Deep Water} {<f2232ff>▒} DENSE WIDE
+#map terrain {Desert} {<cca>·} DENSE NARROW
+#map terrain {Field} {<128>·} DENSE WIDE
+#map terrain {Field Pasture} {<F39c57e>▒} DENSE FADEOUT
+#map terrain {Field Path} {<Fde9f3c>▒} DENSE FADEOUT
+#map terrain {Forest} {<228>^} DENSE FADEOUT
+#map terrain {Forest Path} {<Fde9f3c>▒} DENSE NARROW FADEOUT
+#map terrain {Hills} {<f999999>▲} DENSE NARROW
+#map terrain {Hills Path} {<Fde8f2c>▒} DENSE FADEOUT
+#map terrain {Inside} {<f707880>▒} DENSE WIDE
+#map terrain {Inside City} {<Fc4c369>▒} DENSE FADEOUT
+#map terrain {Inside City Path} {<Feeeeee>▒} DENSE FADEOUT
+#map terrain {Inside Stairs} {<F959441>▒} DENSE FADEOUT
+#map terrain {Mountains} {<f666666>▲} DENSE WIDE
+#map terrain {Path} {<Fde9f3c>▒} DENSE FADEOUT
+#map terrain {Swamp} {<228>⟑} DENSE WIDE
+#map terrain {Underground} {<f666666>v} DENSE FADEOUT
 #map terrain {Water} {<f2284ff>▒} DENSE WIDE
 
-
+#function getRoomColor {
+    #if {"%1" == "Field"} {#var result <Bedf8b1>};
+    #elseif {"%1" == "Desert"} {#var result <Bfeb24c>};
+    #elseif {"%1" == "Forest"} {#var result <Ba1d99b>};
+    #elseif {"%1" == "Trail"} {#var result <Bbdbdbd>};
+    #elseif {"%1" == "Hills"} {#var result <B8d8d8d>};
+    #elseif {"%1" == "Mountain"} {#var result <B636363>};
+    #elseif {"%1" == "Peak"} {#var result <BDDDDDD>};
+    #elseif {"%1" == "Air"} {#var result <BFFFFFF>};
+    #elseif {"%1" == "City"} {#var result <Bf7fcb9>};
+    #elseif {"%1" == "Shallow Water"} {#var result <Ba6bddb>};
+    #elseif {"%1" == "Deep Water"} {#var result <B2b8cbe>};
+    #elseif {"%1" == "Underwater"} {#var result <B3182bd>};
+    #elseif {"%1" == "Beach"} {#var result <Bffeda0>};
+    #elseif {"%1" == "Jungle"} {#var result <B31a354>};
+    #elseif {"%1" == "Snow"} {#var result <BEEEEEE>};
+    #elseif {"%1" == "Swamp"} {#var result <Bbcbddc>};
+    #elseif {"%1" == "Bridge"} {#var result <B756bb1>};
+    #elseif {"%1" == "Inside"} {#var result <Bf7fcb9>};
+    #else {#var result %1};
+}
 
 
 #list mapZoneBlacklist create {Unknown};
@@ -76,7 +110,7 @@
 	#map set roomarea $MSDP_AREA_NAME;
 	#map set roomname $MSDP_ROOM_NAME;
 	#map set roomterrain @strip_ansi{$MSDP_ROOM_TERRAIN};
-	#map set roomcolor <178>;
+	#map set roomcolor @getRoomColor{@strip_ansi{$MSDP_ROOM_TERRAIN}};
 
 	#if {@mapZoneBlacklist{$MSDP_AREA_NAME}} {#return};
 
