@@ -74,11 +74,11 @@
 #map terrain {Water} {<f2284ff>▒} DENSE WIDE
 
 #function getRoomColor {
-    #if {"%1" == "Field"} {#var result <Bedf8b1>};
-    #elseif {"%1" == "Field Bridge"} {#var result <Bedf8b1>};
-    #elseif {"%1" == "Field Beach"} {#var result <Bedf8b1>};
+    #if {"%1" == "Field"} {#var result <B31a354><FFFFFFF>};
+    #elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
+    #elseif {"%1" == "Field Beach"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Desert"} {#var result <Bfeb24c>};
-    #elseif {"%1" == "Forest"} {#var result <Ba1d99b>};
+    #elseif {"%1" == "Forest"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Trail"} {#var result <Bbdbdbd>};
     #elseif {"%1" == "Hills"} {#var result <B8d8d8d>};
     #elseif {"%1" == "Mountain"} {#var result <B636363>};
