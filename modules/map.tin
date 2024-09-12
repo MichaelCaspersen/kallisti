@@ -76,6 +76,7 @@
 #function getRoomColor {
     #if {"%1" == "Field"} {#var result <Bedf8b1>};
     #elseif {"%1" == "Field Bridge"} {#var result <Bedf8b1>};
+    #elseif {"%1" == "Field Beach"} {#var result <Bedf8b1>};
     #elseif {"%1" == "Desert"} {#var result <Bfeb24c>};
     #elseif {"%1" == "Forest"} {#var result <Ba1d99b>};
     #elseif {"%1" == "Trail"} {#var result <Bbdbdbd>};
