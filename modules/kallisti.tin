@@ -100,6 +100,7 @@
 
 #nop -- Let's populate two tiles as samples as they're commonly asked for;
 event_register {variable MSDP_ROOM_VNUM} {right} {generate_area_info {%0} {%1} {%2}};
+event_register {variable MSDP_ROOM_WEATHER} {right} {generate_area_info {%0} {%1} {%2}};
 event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}};
 
 #alias generate_group_info {
