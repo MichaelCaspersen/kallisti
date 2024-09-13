@@ -1051,13 +1051,17 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #HIGHLIGHT {Nothing seems to happen.  The weather is as bad as it can get!} {red};
 #alias badweather {
 	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {
-		#show <131>CURRENT WEATHER: $MSDP_ROOM_WEATHER;
+		show_debug {CURRENT WEATHER: $MSDP_ROOM_WEATHER};
 		#SWITCH { "$MSDP_ROOM_WEATHER" } {
 			#CASE { "clear" } {nco controlweather worse};
 			#CASE { "cloudy" } {nco controlweather worse};
 			#CASE { "raining" } {nco controlweather worse};
-			#CASE { "storming" } {#nop nco controlweather worse};
-			#CASE { "maelstrom" } {#nop As bad as it gets};
+			#CASE { "storming" } {
+				#nop nco controlweather worse
+				};
+			#CASE { "maelstrom" } {
+				#nop As bad as it gets
+				};
 			#DEFAULT {#nop}
 		};
 	}
@@ -1071,6 +1075,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
+#gag {You can't get any {tooth} from the corpse of }
 
 #variable autotooth 1;
 #var toothcontainer backpack;
