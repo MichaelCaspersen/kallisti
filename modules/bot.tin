@@ -84,7 +84,7 @@ init bot[poke2] preferences off;
 init bot[rescue2] preferences off;
 
 #var healpct_damage_allowed 85;
-#var recall_below_hit 40;
+#var recall_below_hit 50;
 
 #var master[active] 1;
 
@@ -1023,8 +1023,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 
-#action {There doesn't seem to be a recall in %1.} {#if $stock[recall] {home;with 27010;recall;2s2wn;#10 buy recall;put all.recall $container};recall};
-#action {There doesn't seem to be a purple in %1.} {#if $stock[purple] {recall;2s3wn;#10 buy purple;put all.purple $container};recall};
+#action {There doesn't seem to be a recall in %1.} {#if $stock[recall] {home;with 27010;recall;2s2wn;#10 buy recall;put all.recall $container;res2e2n}};
+#action {There doesn't seem to be a purple in %1.} {#if $stock[purple] {recall;2s3wn;#10 buy purple;put all.purple $container;s3e2n}};
 
 #action {%1 makes an impressive fighting move.} {get $weapon_pri;wield $weapon_pri}
 #action {{A|An|The} %1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri}
@@ -1075,7 +1075,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
-#gag {You can't get any {tooth} from the corpse of }
+#gag {You can't get any {tooths} from the corpse of }
 
 #variable autotooth 1;
 #var toothcontainer backpack;
