@@ -1046,6 +1046,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
 #action {You heave as your ship tosses about madly in the torrential rain and lightning.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
 #action {You sail along happily.} {#if { $bot[controlweather] } { badweather }}
+#action {The lightning has gone, but it is still raining.} {#if { $bot[controlweather] } { badweather }}
+
 #action {The sky darkens.} {badweather}
 #HIGHLIGHT {The sky darkens.} {red};
 #HIGHLIGHT {Nothing seems to happen.  The weather is as bad as it can get!} {red};
@@ -1076,12 +1078,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
 #gag {You can't get any {tooths} from the corpse of }
+#gag {You don't seem to have any {tooths}.}
 
 #variable autotooth 1;
 #var toothcontainer backpack;
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
 
-
+#high {Penitence, the staff of Ziphnex shines brightly.} {yellow reverse}
+#high {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {yellow reverse}
 
 #NOP #######################################################
 #NOP General
