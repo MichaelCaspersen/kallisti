@@ -1082,6 +1082,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #variable autotooth 1;
 #var toothcontainer backpack;
+#alias lootgold {get gold all.corpse}
 #alias loottooth {get all.tooth;put all.tooth $toothcontainer}
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {loottooth}}
 
@@ -1142,7 +1143,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#nop if {$MSDP_THIRST<10 && $MSDP_MANA<$MSDP_MANA_MAX*0.8} {gt mp};
 	};
 	#if {$profession[gather][auto]} { do_gather %0 };
-	#if {@gotFollowers{}>0} { get gold all.corpse };
+	#if {@gotFollowers{}>0} { nco lootgold };
 	#if {"$bot[hide]"!==""} { $bot[hide] };
 	#if { $bot[examine] } { exa corpse };
 	#if { $bot[controlweather] } { badweather };
