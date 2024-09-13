@@ -1077,8 +1077,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
+#gag {There aren't any {tooths} here you can take.}
 #gag {You can't get any {tooths} from the corpse of }
 #gag {You don't seem to have any {tooths}.}
+
 
 #variable autotooth 1;
 #var toothcontainer backpack;
