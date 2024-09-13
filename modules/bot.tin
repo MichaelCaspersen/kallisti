@@ -1085,8 +1085,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #variable autotooth 1;
 #var toothcontainer backpack;
 #alias lootgold {get gold all.corpse}
-#alias loottooth {get all.tooth;put all.tooth $toothcontainer}
-#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {loottooth}}
+#alias loottooth {get tooth all.corpse;put all.tooth $toothcontainer}
+#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
 
 #high {Penitence, the staff of Ziphnex shines brightly.} {yellow reverse}
 #high {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {yellow reverse}
