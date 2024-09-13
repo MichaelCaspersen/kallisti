@@ -76,6 +76,7 @@ Commands:\n
 #var bot[rescue] 0;
 #var bot[mount][name] {};
 #var bot[examine] 1;
+#var bot[controlweather] 0;
 
 init bot[role2] preferences damage;
 init bot[cast2] preferences on;
@@ -152,6 +153,7 @@ init bot[rescue2] preferences off;
 		#var bot[damage][multiple] icestorm;
 		#var bot[spellCorpse] #nop;
 		#var bot[spellSustain] heal;
+		#var bot[controlweather] 1;
 
 		#var autobless on;
 		#var autodarmor on;
@@ -1061,6 +1063,19 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var toothcontainer backpack;
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
 
+#alias badweather {
+	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {
+		#SWITCH { "$MSDP_ROOM_WEATHER" } {
+			#CASE { "clear" } {nco controlweather worse};
+			#CASE { "cloudy" } {nco controlweather worse};
+			#CASE { "raining" } {nco controlweather worse};
+			#CASE { "storming" } {nco controlweather worse};
+			#CASE { "maelstrom" } {#nop As bad as it gets};
+			#DEFAULT {commands}
+		};
+	}
+} {5}
+
 
 #NOP #######################################################
 #NOP General
@@ -1119,6 +1134,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {@gotFollowers{}>0} { get gold all.corpse };
 	#if {"$bot[hide]"!==""} { $bot[hide] };
 	#if { $bot[examine] } { exa corpse };
+	#if { $bot[controlweather] } { badweather };
+	#if { $autotooth } { get all.tooth all.corpse };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
@@ -1531,4 +1548,4 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #nop var zone[proflist] {{"The thri-kreen scout"};{"The thri-kreen hunter"};{"The experienced looking thri-kreen"};{"The thri-kreen guard"};{"XXXXX"};{"XXXXXXX"};{"XXXXXXX"}};
 
-#alias badweather {#delay badweather {#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {nco controlweather worse}} {5}}
+
