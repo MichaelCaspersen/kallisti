@@ -1082,7 +1082,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #variable autotooth 1;
 #var toothcontainer backpack;
-#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
+#alias loottooth {get all.tooth;put all.tooth $toothcontainer}
+#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {loottooth}}
 
 #high {Penitence, the staff of Ziphnex shines brightly.} {yellow reverse}
 #high {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {yellow reverse}
@@ -1145,7 +1146,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {"$bot[hide]"!==""} { $bot[hide] };
 	#if { $bot[examine] } { exa corpse };
 	#if { $bot[controlweather] } { badweather };
-	#if { $autotooth } { get all.tooth all.corpse;put all.tooth $toothcontainer };
+	#if { $autotooth } { nco loottooth };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
