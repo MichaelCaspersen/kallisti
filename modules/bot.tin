@@ -1051,13 +1051,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #HIGHLIGHT {Nothing seems to happen.  The weather is as bad as it can get!} {red};
 #alias badweather {
 	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {
+		#show <131>CURRENT WEATHER: $MSDP_ROOM_WEATHER;
 		#SWITCH { "$MSDP_ROOM_WEATHER" } {
 			#CASE { "clear" } {nco controlweather worse};
 			#CASE { "cloudy" } {nco controlweather worse};
 			#CASE { "raining" } {nco controlweather worse};
 			#CASE { "storming" } {nco controlweather worse};
 			#CASE { "maelstrom" } {#nop As bad as it gets};
-			#DEFAULT {commands}
+			#DEFAULT {#nop}
 		};
 	}
 } {5}
