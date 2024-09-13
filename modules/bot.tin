@@ -1045,10 +1045,22 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
 #action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
 #action {You heave as your ship tosses about madly in the torrential rain and lightning.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
-#action {You sail along happily.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
+#action {You sail along happily.} {#if { $bot[controlweather] } { badweather }}
 #action {The sky darkens.} {nco controlweather worse}
 #HIGHLIGHT {The sky darkens.} {red};
 #HIGHLIGHT {Nothing seems to happen.  The weather is as bad as it can get!} {red};
+#alias badweather {
+	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {
+		#SWITCH { "$MSDP_ROOM_WEATHER" } {
+			#CASE { "clear" } {nco controlweather worse};
+			#CASE { "cloudy" } {nco controlweather worse};
+			#CASE { "raining" } {nco controlweather worse};
+			#CASE { "storming" } {nco controlweather worse};
+			#CASE { "maelstrom" } {#nop As bad as it gets};
+			#DEFAULT {commands}
+		};
+	}
+} {5}
 
 
 #NOP #######################################################
@@ -1063,18 +1075,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var toothcontainer backpack;
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
 
-#alias badweather {
-	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {
-		#SWITCH { "$MSDP_ROOM_WEATHER" } {
-			#CASE { "clear" } {nco controlweather worse};
-			#CASE { "cloudy" } {nco controlweather worse};
-			#CASE { "raining" } {nco controlweather worse};
-			#CASE { "storming" } {nco controlweather worse};
-			#CASE { "maelstrom" } {#nop As bad as it gets};
-			#DEFAULT {commands}
-		};
-	}
-} {5}
 
 
 #NOP #######################################################
@@ -1135,7 +1135,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {"$bot[hide]"!==""} { $bot[hide] };
 	#if { $bot[examine] } { exa corpse };
 	#if { $bot[controlweather] } { badweather };
-	#if { $autotooth } { get all.tooth all.corpse };
+	#if { $autotooth } { get all.tooth all.corpse;put all.tooth $toothcontainer };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
