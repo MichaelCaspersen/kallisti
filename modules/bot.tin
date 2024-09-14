@@ -465,7 +465,7 @@ init bot[rescue2] preferences off;
 		$bot[damage][multiple]
 	} 
 	{
-		#if {"%1"==""} {
+		#if {"%1"!=""} {
 			show_debug {<131>Single target: <%1> $bot[damage][single]};
 			$bot[damage][single] %1;
 		}; #else {
