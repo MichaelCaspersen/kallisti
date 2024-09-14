@@ -465,8 +465,13 @@ init bot[rescue2] preferences off;
 		$bot[damage][multiple]
 	} 
 	{
-		show_debug {<131>Single target: <%1> $bot[damage][single]};
-		$bot[damage][single]
+		#if {"%1"==""} {
+			show_debug {<131>Single target: <%1> $bot[damage][single]};
+			$bot[damage][single] %1;
+		}; #else {
+			show_debug {<131>Single target: <%1> $bot[damage][single]};
+			$bot[damage][single]
+		}
 	}
 }
 
@@ -1082,8 +1087,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #gag {You don't seem to have any {tooths}.}
 
 
+#var getoutnow 0;
+#action {Gummton Church Narthex } {#var getoutnow 0}
 #action {^< $MSDP_CHARACTER_NAME |} {#var tankingmobs 0}
-#action {{<-|><} %1 [   %2%h %3%s %4]} { #show <131>I'm tanking $tankingmobs mobs;#math #var tankingmobs {$tankingmobs+1};#if {$tankingmobs>2} {#show <131>GET OUT TANKING TOO MANY} }
+#action {{<-|><} %1 [   %2%h %3%s %4]} { #math tankingmobs {$tankingmobs+1};#show <131>I'm tanking $tankingmobs mobs;#if { ($tankingmobs>3) && ($getoutnow==0) } {#var getoutnow 1;#show <131>GET OUT!! Tanking $tankingmobs mobs;breakout;queueAdd prio {rec reca}}}
 
 #nop the "->" before a name shows who you are targetting 
 #nop and "<-" shows who is targetting you. 
