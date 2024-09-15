@@ -1161,7 +1161,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {@gotFollowers{}>0} { nco lootgold };
 	#if {"$bot[hide]"!==""} { $bot[hide] };
 	#if { $bot[examine] } { exa corpse };
-	#if { $bot[controlweather] } { badweather };
+	#nop if { $bot[controlweather] } { cweather };
 	#if { $autotooth } { nco loottooth };
 }
 
