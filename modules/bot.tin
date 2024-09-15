@@ -1048,27 +1048,24 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #NOP Druid/Prophet specific
 #action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
-#action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
-#action {You heave as your ship tosses about madly in the torrential rain and lightning.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cast 'control weather' better}}
-#action {You sail along happily.} {#if { $bot[controlweather] } { badweather }}
-#action {The lightning has gone, but it is still raining.} {#if { $bot[controlweather] } { badweather }}
+#action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
+#action {You heave as your ship tosses about madly in the} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
+#action {You sail along happily.} { cweather better }
+#action {Things look a little better.} {cweather better}
 
-#action {The sky darkens.} {badweather}
+#action {The sky darkens.} {cweather worse}
 #HIGHLIGHT {The sky darkens.} {red};
 #HIGHLIGHT {Nothing seems to happen.  The weather is as bad as it can get!} {red};
-#alias badweather {
-	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") && ("$MSDP_AREA_NAME"=="The Wilderness") } {
+
+#alias cweather {
+	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {
 		show_debug {CURRENT WEATHER: $MSDP_ROOM_WEATHER};
 		#SWITCH { "$MSDP_ROOM_WEATHER" } {
-			#CASE { "clear" } {nco controlweather worse};
-			#CASE { "cloudy" } {nco controlweather worse};
-			#CASE { "raining" } {nco controlweather worse};
-			#CASE { "storming" } {
-				#nop nco controlweather worse
-				};
-			#CASE { "maelstrom" } {
-				#nop As bad as it gets
-				};
+			#CASE { "clear" } {nco controlweather %1};
+			#CASE { "cloudy" } {nco controlweather %1};
+			#CASE { "raining" } {nco controlweather %1};
+			#CASE { "storming" } {nco controlweather %1};
+			#CASE { "maelstrom" } {nco controlweather %1};
 			#DEFAULT {#nop}
 		};
 	}
