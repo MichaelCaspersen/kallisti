@@ -448,6 +448,9 @@ init bot[rescue2] preferences off;
 			#elseif { ("$bot[role]" == "healer") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
 				#nop Don't do damage, mana too low;
 			};
+			#elseif { ("$MSDP_CHARACTER_NAME" == "Crom") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
+				#nop Don't do damage, mana too low;
+			};
 			#else {
 				#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
 				#var bot[nextAction] {queueAdd combat attackTarget};
@@ -1079,6 +1082,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
+#action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#delay 0.6 {fheal kroll;holygate crom}}}
+
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
 #gag {There aren't any {tooths} here you can take.}
 #gag {You can't get any {tooths} from the corpse of }
