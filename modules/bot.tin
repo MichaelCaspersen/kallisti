@@ -77,6 +77,7 @@ Commands:\n
 #var bot[mount][name] {};
 #var bot[examine] 1;
 #var bot[controlweather] 0;
+#var bot[weatherdir] {worse}; #nop better/worse
 
 init bot[role2] preferences damage;
 init bot[cast2] preferences on;
@@ -153,7 +154,7 @@ init bot[rescue2] preferences off;
 		#var bot[damage][multiple] icestorm;
 		#var bot[spellCorpse] #nop;
 		#var bot[spellSustain] heal;
-		#var bot[controlweather] 1;
+		#var bot[controlweather] 0;
 
 		#var autobless on;
 		#var autodarmor on;
@@ -1161,7 +1162,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {@gotFollowers{}>0} { nco lootgold };
 	#if {"$bot[hide]"!==""} { $bot[hide] };
 	#if { $bot[examine] } { exa corpse };
-	#nop if { $bot[controlweather] } { cweather };
+	#if { $bot[controlweather] } { cweather $bot[weatherdir] };
 	#if { $autotooth } { nco loottooth };
 }
 
