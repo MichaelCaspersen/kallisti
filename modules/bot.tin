@@ -1017,15 +1017,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias recall {perform_recall}
 #alias rr {perform_recall}
 
-#alias perform_recall {
-	show_debug {TRYING TO RECALL - Position: $MSDP_POSITION};
-	#if {"$MSDP_POSITION"=="Fighting" } {
-		breakout;
-		rec reca;
-	}; #else {
-		#if {"$MSDP_ACCOUNT_NAME"=="Valhalla"} {rec reca} {recal;}
-	}
-}
+
+#ALIAS {recall}{#IF {$MSDP_OPPONENT_NUMBER > 0}{get rec all;rec rec}{#send recall}}
 
 #action {You recite a scroll of recall which dissolves.} {
 	get recall all;
