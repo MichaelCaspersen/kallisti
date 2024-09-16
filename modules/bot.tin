@@ -998,34 +998,31 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {You wimp out and attempt to flee!} {
 	#if $zone[active] {zone_end};
-	perform_recall;
+	queueAdd priority recall;
 }
 
 #action {You flee head over heels.} {
 	#if $zone[active] {zone_end};
-	perform_recall;
+	queueAdd priority recall;
 }
 
 #action {You can't concentrate on anything but killing!} {
-	perform_recall;
+	queueAdd priority recall;
 }
 
 #action {%1 issues a rally call to join the group at The Temple Of Midgaard.} {
-	perform_recall;
+	queueAdd priority recall;
 }
 
-#alias recall {perform_recall}
-#alias rr {perform_recall}
 
-
-#ALIAS {recall}{#IF {$MSDP_OPPONENT_NUMBER > 0}{get rec all;rec rec}{#send recall}}
+#ALIAS {recall}{#IF {$MSDP_OPPONENT_NUMBER > 0}{queueAdd priority rec rec;queueAdd priority get rec all;queueAdd priority rec rec}}{#send recal}}
 
 #action {You recite a scroll of recall which dissolves.} {
-	get recall all;
+	get reca all;
 }
 
 
-#action {There doesn't seem to be a recall in %1.} {#if $stock[recall] {home;with 27010;recall;2s2wn;#10 buy recall;put all.recall $container;res2e2n}};
+#action {There doesn't seem to be a recall in %1.} {#if $stock[recall] {home;with 27010;recall;2s2wn;#10 buy recall;put all.reca $container;res2e2n}};
 #action {There doesn't seem to be a purple in %1.} {#if $stock[purple] {recall;2s3wn;#10 buy purple;put all.purple $container;s3e2n}};
 
 #action {%1 makes an impressive fighting move.} {get $weapon_pri;wield $weapon_pri}
@@ -1073,7 +1070,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Wilderness
 #NOP #######################################################
 
-#action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;recall}} {2}
+#action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#delay 0.6 {fheal kroll;holygate crom}}}
 
@@ -1086,7 +1083,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var getoutnow 0;
 #action {Gummton Church Narthex } {#var getoutnow 0}
 #action {^< $MSDP_CHARACTER_NAME |} {#var tankingmobs 0}
-#action {{<-|><} %1 [   %2%h %3%s %4]} { #math tankingmobs {$tankingmobs+1};#show <131>I'm tanking $tankingmobs mobs;#if { ($tankingmobs>3) && ($getoutnow==0) } {#var getoutnow 1;#show <131>GET OUT!! Tanking $tankingmobs mobs;breakout;queueAdd priority {rec reca}}}
+#action {{<-|><} %1 [   %2%h %3%s %4]} { #math tankingmobs {$tankingmobs+1};#show <131>I'm tanking $tankingmobs mobs;#if { ($tankingmobs>3) && ($getoutnow==0) } {#var getoutnow 1;#show <131>GET OUT!! Tanking $tankingmobs mobs;queueAdd priority {recal}}}
 
 #nop the "->" before a name shows who you are targetting 
 #nop and "<-" shows who is targetting you. 
