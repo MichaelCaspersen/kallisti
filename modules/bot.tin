@@ -1079,7 +1079,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #gag {You can't get any {tooths} from the corpse of }
 #gag {You don't seem to have any {tooths}.}
 
-
 #var getoutnow 0;
 #action {Gummton Church Narthex } {#var getoutnow 0}
 #action {^< $MSDP_CHARACTER_NAME |} {#var tankingmobs 0}
@@ -1089,16 +1088,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop and "<-" shows who is targetting you. 
 #nop "><" indicates that you are targetting one another.
 
-
-
 #variable autotooth 1;
 #var toothcontainer backpack;
 #alias lootgold {get gold all.corpse}
 #alias loottooth {get tooth all.corpse;put all.tooth $toothcontainer}
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
 
-#high {Penitence, the staff of Ziphnex shines brightly.} {yellow reverse}
-#high {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {yellow reverse}
+#HIGHLIGHT {Penitence, the staff of Ziphnex shines brightly.} {lime reverse}
+#HIGHLIGHT {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {lime reverse}
+#HIGHLIGHT {You use a weeping angel to focus your spell.} {yellow reverse};
 
 #NOP #######################################################
 #NOP General
