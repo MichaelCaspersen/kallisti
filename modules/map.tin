@@ -118,7 +118,9 @@
 	#map set roomname $MSDP_ROOM_NAME;
 	#map set roomterrain @strip_ansi{$MSDP_ROOM_TERRAIN};
 	#map set roomcolor <178>;#nop @getRoomColor{@strip_ansi{$MSDP_ROOM_TERRAIN}};
-
+	#if { "$MSDP_AREA_NAME"=="The Wilderness"} {
+		#map set roomdesc {$wilder[x], $wilder[y]}
+	};
 	#if {@mapZoneBlacklist{$MSDP_AREA_NAME}} {#return};
 
 	#foreach {north;south;east;west;up;down} {EXIT} {
@@ -149,6 +151,8 @@
 	};
 
 }
+
+#ACTION {$MSDP_ROOM_NAME (%2, %3)} {#showme <131>Coords: %2, %3   - Name $MSDP_ROOM_NAME;#var wilder[x] %2;#var wilder[y] %3}
 
 #alias createExit {
 	#map get {roomexits} {EXIT_LIST};
