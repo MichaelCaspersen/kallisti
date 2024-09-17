@@ -149,7 +149,14 @@
 
 }
 
-#ACTION {$MSDP_ROOM_NAME (%2, %3)} {#showme <131>Coords: %2, %3   - Name $MSDP_ROOM_NAME;#var wilder[x] %2;#var wilder[y] %3}
+#ACTION {$MSDP_ROOM_NAME (%2, %3)} {
+	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
+		show_debug {<131>Coords: %2, %3   - Name $MSDP_ROOM_NAME};
+		#var wilder[x] %2;
+		#var wilder[y] %3;
+		#map set roomdesc {$wilder[x], $wilder[y]}
+	}
+}
 
 #alias createExit {
 	#map get {roomexits} {EXIT_LIST};
@@ -182,7 +189,6 @@
 		#show <131>ENTER ROOM OLD:$old_vnum NEW:$MSDP_ROOM_VNUM;
 		createExit;
 		#var old_vnum $MSDP_ROOM_VNUM;
-		#map set roomdesc {$wilder[x], $wilder[y]}
 	}
 }
 
