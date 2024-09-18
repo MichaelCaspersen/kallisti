@@ -17,7 +17,7 @@
 	}
 }
 
-init healpct preferences 80
+init healpct preferences 60
 init refreshpct preferences 45
 init refreshManaThreshold preferences 90
 init toggle[cure] preferences off
