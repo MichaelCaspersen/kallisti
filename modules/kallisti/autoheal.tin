@@ -36,6 +36,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 #var healpct_heal 80;
 #var healpct_powerheal 50;
 #var healpct_fullheal 20;
+#var trigger_groupheal 3;
 
 #function pickHealMethod {
     #var need_healing 0;
@@ -93,7 +94,15 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
             #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
                 #nop TODO - this should be the chosen heal/fheal/layhands method;
                 #if { ("$MSDP_CLASS" == "Prophet") || ("$MSDP_CLASS" == "Templar") } {queueAdd heal {phea $MSDP_GROUP[$_tmp][name]}};
-                #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {queueAdd heal {heal $MSDP_GROUP[$_tmp][name]}};
+                #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {
+                    #if {&{_queue[heal][]}>=$trigger_groupheal} {
+                        #show <131>Group heal triggered;
+                        #list {_queue[heal]} clear;
+                        queueAdd heal {heal group};
+                    };#else {
+                        queueAdd heal {heal $MSDP_GROUP[$_tmp][name]};
+                    }
+                };
             }
         };
         #if {$MSDP_GROUP[$_tmp][stamina] < $refreshpct } {
