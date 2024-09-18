@@ -77,6 +77,9 @@
 #map terrain {Underground} {<f666666>v} DENSE FADEOUT
 #map terrain {Water} {<f2284ff>▒} DENSE WIDE
 
+
+
+
 #function getRoomColor {
     #if {"%1" == "Field"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};

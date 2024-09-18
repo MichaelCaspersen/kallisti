@@ -1015,7 +1015,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 
-#ALIAS {recall}{#IF {$MSDP_OPPONENT_NUMBER > 0}{queueAdd priority rec rec;queueAdd priority get rec all;queueAdd priority rec rec}}{#send recal}}
+#ALIAS {recall}{
+	#IF {$MSDP_OPPONENT_NUMBER > 0}{
+		queueAdd priority rec rec;
+		queueAdd priority get rec all;
+		queueAdd priority rec rec
+	}{#send recal} 
+}
 
 #action {You recite a scroll of recall which dissolves.} {
 	get reca all;
