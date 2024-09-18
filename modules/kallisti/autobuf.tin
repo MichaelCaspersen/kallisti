@@ -162,7 +162,9 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             nco ranged
     };
 
-    #regex {$MSDP_PROMPT} {h} {#nop} {hide};
+    #if {"$toggle[hide]" == "on"} {
+        #regex {$MSDP_PROMPT} {h} {#nop} {hide};
+    };
 
     #if {@hasAffect{haste} < 1} {
         #switch {"$MSDP_CLASS"} {
