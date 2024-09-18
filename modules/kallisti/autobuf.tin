@@ -46,6 +46,7 @@ init focusStat preferences str;
 init toggle[focus] preferences off;
 init toggle[bushido] preferences off;
 init toggle[haste] preferences off;
+init toggle[hide] preferences off;
 init toggle[ceyes] preferences off;
 init toggle[truesee] preferences off;
 init toggle[vivify] preferences off;
@@ -160,6 +161,8 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {$MSDP_RANGED == 0 && "$toggle[ranged]" == "on"} {
             nco ranged
     };
+
+    #regex {$MSDP_PROMPT} {h} {#nop} {hide};
 
     #if {@hasAffect{haste} < 1} {
         #switch {"$MSDP_CLASS"} {
@@ -505,6 +508,12 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
 #alias doBushido {
     #if {"$toggle[bushido]" == "on"} {
         nco bushido
+    }
+}
+
+#alias doHide {
+    #if {"$toggle[hide]" == "on"} {
+        nco hide
     }
 }
 
