@@ -84,7 +84,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
             queueAdd heal {pheal}
         };
         #if {@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} < $refreshpct} {
-            queueAdd heal {refresh}
+            queueAdd any {refresh}
         };
     };
     #foreach *MSDP_GROUP[%*] {_tmp} {
