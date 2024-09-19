@@ -1067,6 +1067,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 } {5}
 
+#NOP Assassin specific
+#action {%1 doesn't have a normal hamstring.} {ba}
+
 
 #NOP #######################################################
 #NOP Wilderness
@@ -1077,6 +1080,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#delay 0.6 {fheal kroll;holygate crom}}}
 
 #ACTION {%1 heals himself with a simple thought.} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#show <131>CONVERT - Pheal %1;queueAdd priority pheal %1}} {2}
+
+
 
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
 #gag {There aren't any {tooths} here you can take.}
