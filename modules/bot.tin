@@ -1081,10 +1081,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#delay 0.6 {fheal kroll;holygate crom}}}
 #action {Gary issues the order: hamstring%1} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>Gary;queueAdd priority hamstring %1}} {2}
 
-#ACTION {%1 heals %1 with a simple thought.} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#show <131>CONVERT - Pheal %1;queueAdd priority pheal %1}} {2}
-
-
-
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
 #gag {There aren't any {tooths} here you can take.}
 #gag {You can't get any {tooths} from the corpse of }
