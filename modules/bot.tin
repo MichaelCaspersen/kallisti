@@ -453,15 +453,15 @@ init bot[rescue2] preferences off;
 	#if { $MSDP_OPPONENT_NUMBER>1} 
 	{
 		show_debug {<131>Multiple Opponents ($MSDP_OPPONENT_NUMBER): <%1> $bot[damage][multiple]};
-		$bot[damage][multiple]
+		queueAdd combat $bot[damage][multiple]
 	} 
 	{
 		#if {"%1"!=""} {
 			show_debug {<131>Single target: <%1> $bot[damage][single]};
-			$bot[damage][single] %1;
+			queueAdd combat $bot[damage][single] %1;
 		}; #else {
 			show_debug {<131>Single target: <%1> $bot[damage][single]};
-			$bot[damage][single]
+			queueAdd combat $bot[damage][single]
 		}
 	}
 }
