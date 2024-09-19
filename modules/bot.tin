@@ -453,7 +453,12 @@ init bot[rescue2] preferences off;
 	#if { $MSDP_OPPONENT_NUMBER>1} 
 	{
 		show_debug {<131>Multiple Opponents ($MSDP_OPPONENT_NUMBER): <%1> $bot[damage][multiple]};
-		queueAdd combat $bot[damage][multiple]
+		#switch {"$MSDP_CLASS"} {
+			#case {"Wizard"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostbite} {damage zap} };
+			#case {"Paladin"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>$healpct_damage_allowed} {#var bot[damage][multiple] icestorm} {#var bot[damage][multiple] zeal} };
+			#default {#nop};
+		};
+		queueAdd combat $bot[damage][multiple];
 	} 
 	{
 		#if {"%1"!=""} {
@@ -1083,15 +1088,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {^< $MSDP_CHARACTER_NAME |} {#var tankingmobs 0}
 #action {{<-|><} %1 [   %2%h %3%s %4]} { #math tankingmobs {$tankingmobs+1};#show <131>I'm tanking $tankingmobs mobs;#if { ($tankingmobs>3) && ($getoutnow==0) } {#var getoutnow 1;#show <131>GET OUT!! Tanking $tankingmobs mobs;queueAdd priority {recal}}}
 
-#alias decidedamage {
-    #switch {"$MSDP_CLASS"} {
-        #case {"Wizard"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostbite} {damage zap} };
-        #case {"Paladin"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>$healpct_damage_allowed} {#var bot[damage][multiple] icestorm} {#var bot[damage][multiple] zeal} };
-        #default {#nop};
-    }
-}
-
-
 #nop the "->" before a name shows who you are targetting 
 #nop and "<-" shows who is targetting you. 
 #nop "><" indicates that you are targetting one another.
@@ -1104,6 +1100,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #HIGHLIGHT {Penitence, the staff of Ziphnex shines brightly.} {lime reverse}
 #HIGHLIGHT {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {lime reverse}
+#HIGHLIGHT {Sword of the spirit pulses with white hot energy, filling your party with joy!} {lime reverse}
 #HIGHLIGHT {You use a weeping angel to focus your spell.} {yellow reverse};
 #HIGHLIGHT {You use the bear fetish to focus your spell.} {yellow reverse};
 
@@ -1166,7 +1163,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if { $bot[examine] } { exa corpse };
 	#if { $bot[controlweather] } { cweather $bot[weatherdir] };
 	#if { $autotooth } { nco loottooth };
-	decidedamage;
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
