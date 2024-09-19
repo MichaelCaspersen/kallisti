@@ -136,8 +136,8 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
 #alias generate_area_info {
     syslog right debug generate new area info - %1|%2|%3;
 	#if {@is_alias{room_event}} {room_event}; #nop in bot;
-	#if {"$MSDP_AREA_NAME"=="Wilderness"} {
-    	#var area_info {${MSDP_AREA_NAME} - $MSDP_ROOM_VNUM  ($wilder[x], $wilder[y]) - $MSDP_ROOM_WEATHER\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
+	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
+    	#var area_info {${MSDP_AREA_NAME}-$MSDP_ROOM_VNUM ($wilder[x], $wilder[y])-$MSDP_ROOM_WEATHER\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
 	};#else {
 	    #var area_info {${MSDP_AREA_NAME} - $MSDP_ROOM_VNUM - $MSDP_ROOM_WEATHER\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
 	};
