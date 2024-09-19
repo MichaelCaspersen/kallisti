@@ -197,8 +197,8 @@ init bot[rescue2] preferences off;
 	#if { ("$MSDP_CLASS" == "Assassin") && ("$MSDP_CHARACTER_NAME" != "Shaita") } {
 		botrole stabber;
 		#var bot[cast] 1;
-		#var bot[damage][single] {backstab};
-		#var bot[damage][multiple] {backstab};
+		#var bot[damage][single] {hamstring};
+		#var bot[damage][multiple] {hamstring};
 	};
 
 	#NOP #######################################################;
@@ -1101,8 +1101,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #HIGHLIGHT {Penitence, the staff of Ziphnex shines brightly.} {lime reverse}
 #HIGHLIGHT {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {lime reverse}
 #HIGHLIGHT {Sword of the spirit pulses with white hot energy, filling your party with joy!} {lime reverse}
-#HIGHLIGHT {You use a weeping angel to focus your spell.} {yellow reverse};
-#HIGHLIGHT {You use the bear fetish to focus your spell.} {yellow reverse};
+#HIGHLIGHT {You use %1 to focus your spell.} {yellow reverse};
+
 
 
 #NOP #######################################################
