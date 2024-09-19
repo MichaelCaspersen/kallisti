@@ -163,7 +163,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     };
 
     #if {"$toggle[hide]" == "on"} {
-        #regex {$MSDP_PROMPT} {h} {#nop} {hide};
+        #regex {$MSDP_PROMPT} {h} {#nop} {nco hide};
     };
 
     #if {@hasAffect{haste} < 1} {
