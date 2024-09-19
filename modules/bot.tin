@@ -1057,11 +1057,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {
 		show_debug {CURRENT WEATHER: $MSDP_ROOM_WEATHER};
 		#SWITCH { "$MSDP_ROOM_WEATHER" } {
-			#CASE { "clear" } {nco controlweather %1};
+			#CASE { "clear" } {#if {"$bot[weatherdir]"=="worse"} {nco controlweather %1}};
 			#CASE { "cloudy" } {nco controlweather %1};
 			#CASE { "raining" } {nco controlweather %1};
 			#CASE { "storming" } {nco controlweather %1};
-			#CASE { "maelstrom" } {nco controlweather %1};
+			#CASE { "maelstrom" } {#if {"$bot[weatherdir]"=="better"} {nco controlweather %1}};
 			#DEFAULT {#nop}
 		};
 	}
@@ -1069,7 +1069,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #NOP Assassin specific
 #action {%1 doesn't have a normal hamstring.} {ba}
-
+#action {You must wait for %1 to stand up first.} {ba}
 
 #NOP #######################################################
 #NOP Wilderness
@@ -1078,9 +1078,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#show <131>GARY;%1} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#delay 0.6 {fheal kroll;holygate crom}}}
-#action {Gary issues the order: hamstring%1} {#show <131>Gary;queueAdd priority hamstring %1} {2}
+#action {Gary issues the order: hamstring%1} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>Gary;queueAdd priority hamstring %1}} {2}
 
-#ACTION {%1 heals himself with a simple thought.} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#show <131>CONVERT - Pheal %1;queueAdd priority pheal %1}} {2}
+#ACTION {%1 heals %1 with a simple thought.} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#show <131>CONVERT - Pheal %1;queueAdd priority pheal %1}} {2}
 
 
 
