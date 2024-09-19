@@ -438,9 +438,6 @@ init bot[rescue2] preferences off;
 			#elseif { ("$bot[role]" == "healer") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
 				#nop Don't do damage, mana too low;
 			};
-			#elseif { ("$MSDP_CHARACTER_NAME" == "Crom") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
-				#nop Don't do damage, mana too low;
-			};
 			#else {
 				#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
 				#var bot[nextAction] {queueAdd combat attackTarget};
