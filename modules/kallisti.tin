@@ -140,7 +140,7 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
     	#var area_info {${MSDP_AREA_NAME} - $MSDP_ROOM_VNUM  ($wilder[x], $wilder[y]) - $MSDP_ROOM_WEATHER\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
 	};#else {
 	    #var area_info {${MSDP_AREA_NAME} - $MSDP_ROOM_VNUM - $MSDP_ROOM_WEATHER\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
-	}
+	};
     #if {@is_alias{display_right_tiles}} {display_right_tiles};
     #if {@is_alias{display_map_tiles}} {display_map_tiles};
 }
