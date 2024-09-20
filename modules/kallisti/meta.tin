@@ -286,7 +286,7 @@ init metaHero preferences 0
         levelreq 100;
         #delay 10 autometa
     };
-    #switch {$MSDP_CHARACTER_NAME} {
+    #switch {"$MSDP_CHARACTER_NAME"} {
         #case {"Kroll"} {
             #action {Your mana reserve expands with new power.} {buy mana};
             #delay 10 {#show <131>BUY MANA;buy mana}
