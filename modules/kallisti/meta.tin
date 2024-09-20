@@ -215,7 +215,12 @@ init metaHero preferences 0
 }
 
 #act {^The meta-sage tells you 'You don't have enough gold.} {#var autometa off;dep all;dress 1}
-#act {^The meta-sage tells you 'You don't have enough experience.} {#var autometa off;dep all;dress 1}
+#act {^The meta-sage tells you 'You don't have enough experience.} {
+    #var autometa off;
+    dep all;
+    dress 1;
+    #unaction {Your mana reserve expands with new power.}
+}
 #act {^The meta-sage tells you 'Go level instead!'} {#var autometa off;dep all;dress 1}
 
 
@@ -278,9 +283,23 @@ init metaHero preferences 0
         with 10000000
     };
     rem all;
-    #math lvlreq {$MSDP_LEVEL+3};
-    levelreq $lvlreq;
-    autometa
+    #if {$MSDP_LEVEL<100} {
+        levelreq 100;
+        autometa
+    };
+    #switch {$MSDP_CHARACTER_NAME} {
+        #case {"Kroll"} {
+            #action {Your mana reserve expands with new power.} {buy mana};
+            buy mana
+        };
+        #case {"Crom"} {
+            buy hit
+        };
+        #case {"Kaicha"} {
+            #var TARGET_HEROS 45000;
+            autometa
+        };
+    }
 }
 
 #ACTION {^The meta-sage tells you 'You don't have enough experience.} {
