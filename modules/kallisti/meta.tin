@@ -259,7 +259,6 @@ init metaHero preferences 0
     }
 }
 
-
 #alias goGain {
     setguildpath;
     recall;
@@ -298,9 +297,8 @@ init metaHero preferences 0
             #delay 10 {#show <131>BUY HITS;buy hit}
         };
         #case {"Kaicha"} {
-            #var TARGET_HEROS 40000;
             list;
-            #delay 20 {#show <131>AUTOMETA;autometa}
+            #delay 20 {#show <131>AUTOMETA;#var TARGET_HEROS 40000;autometa}
         };
     }
 }
@@ -325,6 +323,7 @@ init metaHero preferences 0
     }
 }
 
+#action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
 #action {^The meta-sage tells you 'You don't have enough gold.} {#var autometa off;dep all;dress 1;16e2n;doMetaOrGain}
 #action {^The meta-sage tells you 'You don't have enough experience.} {
     #var autometa off;
