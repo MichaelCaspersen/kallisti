@@ -313,7 +313,7 @@ init metaHero preferences 0
         #case {"The Wilderness"} {
             home;with 100000;egress;3s2es;book gumm;
             #action {Land is in sight!} {
-                #delay 5 {#unaction {Land is in sight!};gt yeshunt}
+                #delay 10 {#unaction {Land is in sight!};gt yeshunt}
             };
             #action {You wash up on shore...} {
                 #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt};
