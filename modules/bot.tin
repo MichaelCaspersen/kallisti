@@ -456,6 +456,7 @@ init bot[rescue2] preferences off;
 		#switch {"$MSDP_CLASS"} {
 			#case {"Wizard"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostbite} {damage zap} };
 			#case {"Paladin"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>$healpct_damage_allowed} {#var bot[damage][multiple] icestorm} {#var bot[damage][multiple] zeal} };
+			#case {"Druid"} {#if {$MSDP_OPPONENT_NUMBER<4} {#var bot[damage][multiple] chain } {#var bot[damage][multiple] sunray} };
 			#default {#nop};
 		};
 		queueAdd combat $bot[damage][multiple];
