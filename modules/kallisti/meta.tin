@@ -289,10 +289,10 @@ init metaHero preferences 0
     #switch {$MSDP_CHARACTER_NAME} {
         #case {"Kroll"} {
             #action {Your mana reserve expands with new power.} {buy mana};
-            buy mana
+            #delay 10 buy mana
         };
         #case {"Crom"} {
-            buy hit
+            #delay 10 buy hit
         };
         #case {"Kaicha"} {
             #var TARGET_HEROS 45000;
