@@ -148,7 +148,7 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
 #function weatherIcon {
 	#SWITCH { "$MSDP_ROOM_WEATHER" } {
 		#CASE { "clear" } {#var result <Fff0>🔆};
-		#CASE { "cloudy" } {#var result <Ffff>⛅};
+		#CASE { "cloudy" } {#var result <Fffa>⛅};
 		#CASE { "raining" } {#var result <Ffff>🌧️};
 		#CASE { "storming" } {#var result <F1af>🌩️};
 		#CASE { "maelstrom" } {#var result <F16f>⛈️};
