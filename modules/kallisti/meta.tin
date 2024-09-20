@@ -260,7 +260,7 @@ init metaHero preferences 0
     recall;
     home;
     with $goldlevel[$MSDP_LEVEL];
-    recall;
+    egress;
     $guildpath;
     gain;
     #delay 5 doMetaOrGain
@@ -293,12 +293,16 @@ init metaHero preferences 0
     recall;
     home;
     dep all;
-    recall;
+    egress;
     #switch {"$return_zone"} {
         #case {"The Wilderness"} {
             home;with 100000;egress;3s2es;book gumm;
             #action {Land is in sight!} {
                 #delay 5 {#unaction {Land is in sight!};gt yeshunt}
+            };
+            #action {You wash up on shore...} {
+                #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt};
+                #else {returntostart;}
             }
         };
         #case {"Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
