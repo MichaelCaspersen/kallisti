@@ -271,7 +271,8 @@ init metaHero preferences 0
 }
 
 #alias doMeta {
-    recall;
+    home;
+    egress;
     2s14w;
     enter tree;
     open door;
@@ -303,11 +304,7 @@ init metaHero preferences 0
 }
 
 #alias {returntostart} {
-    #if {"$MSDP_AREA_NAME"=="Midgaard City"} {
-        home
-    } {
-        recall
-    }
+    home;
     dep all;
     egress;
     #switch {"$return_zone"} {
