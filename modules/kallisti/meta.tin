@@ -219,7 +219,7 @@ init metaHero preferences 0
 
 
 
-#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {nco return_and_meta}
+#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
 
 #alias return_and_meta {
     #var return_zone $MSDP_AREA_NAME;
@@ -313,7 +313,7 @@ init metaHero preferences 0
         #case {"The Wilderness"} {
             home;with 100000;egress;3s2es;book gumm;
             #action {Land is in sight!} {
-                #delay 10 {#unaction {Land is in sight!};gt yeshunt}
+                #delay 10 {#unaction {Land is in sight!};#var needmeta 0;gt yeshunt}
             };
             #action {You wash up on shore...} {
                 #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt};
