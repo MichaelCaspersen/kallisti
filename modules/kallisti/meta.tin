@@ -218,9 +218,13 @@ init metaHero preferences 0
 #act {^The meta-sage tells you 'You don't have enough experience.} {
     #var autometa off;
     dep all;
-    dress 1;
-    #unaction {Your mana reserve expands with new power.}
+    wear all;
+    #unaction {Your mana reserve expands with new power.};
+    #unaction {Your heart pounds as your body grows more resilient.};
+    #unaction {Your heart races with fresh energy reserves.};
+    16e2n;
 }
+
 #act {^The meta-sage tells you 'Go level instead!'} {#var autometa off;dep all;dress 1}
 
 
@@ -308,12 +312,6 @@ init metaHero preferences 0
     }
 }
 
-#ACTION {^The meta-sage tells you 'You don't have enough experience.} {
-    #var autometa off;
-    dep all;
-    wear all;
-    returntostart
-}
 #alias {returntostart} {
     recall;
     home;
