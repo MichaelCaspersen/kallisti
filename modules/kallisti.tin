@@ -147,11 +147,11 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
 
 #function weatherIcon {
 	#SWITCH { "$MSDP_ROOM_WEATHER" } {
-		#CASE { "clear" } {#var result 🔆};
-		#CASE { "cloudy" } {#var result ⛅};
-		#CASE { "raining" } {#var result 🌧️};
-		#CASE { "storming" } {#var result 🌩️};
-		#CASE { "maelstrom" } {#var result ⛈️};
+		#CASE { "clear" } {#var result <Fff0>🔆};
+		#CASE { "cloudy" } {#var result <Ffff>⛅};
+		#CASE { "raining" } {#var result <Ffff>🌧️};
+		#CASE { "storming" } {#var result <F1af>🌩️};
+		#CASE { "maelstrom" } {#var result <F16f>⛈️};
 		#DEFAULT {#nop}
 	};
 }
