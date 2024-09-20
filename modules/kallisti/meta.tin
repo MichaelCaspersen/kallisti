@@ -214,19 +214,12 @@ init metaHero preferences 0
     }
 }
 
-#act {^The meta-sage tells you 'You don't have enough gold.} {#var autometa off;dep all;dress 1;16e2n;doMetaOrGain}
-#act {^The meta-sage tells you 'You don't have enough experience.} {
-    #var autometa off;
-    dep all;
-    wear all;
-    #unaction {Your mana reserve expands with new power.};
-    #unaction {Your heart pounds as your body grows more resilient.};
-    #unaction {Your heart races with fresh energy reserves.};
-    16e2n;
-}
-#act {^The meta-sage tells you 'Go level instead!'} {#var autometa off;dep all;dress 1}
 
-#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {return_and_meta}
+
+
+
+
+#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {nco return_and_meta}
 
 #alias return_and_meta {
     #var return_zone $MSDP_AREA_NAME;
@@ -331,6 +324,19 @@ init metaHero preferences 0
         #case {"Profession"} {recall;visit house;e;tan hide};
     }
 }
+
+#action {^The meta-sage tells you 'You don't have enough gold.} {#var autometa off;dep all;dress 1;16e2n;doMetaOrGain}
+#action {^The meta-sage tells you 'You don't have enough experience.} {
+    #var autometa off;
+    dep all;
+    wear all;
+    #unaction {Your mana reserve expands with new power.};
+    #unaction {Your heart pounds as your body grows more resilient.};
+    #unaction {Your heart races with fresh energy reserves.};
+    16e2n;
+}
+#action {^The meta-sage tells you 'Go level instead!'} {#var autometa off;dep all;dress 1}
+
 
 #alias checkNobPoints {
     #if { $MSDP_HERO_POINTS_TNL < 0} { goGain } { doMeta }
