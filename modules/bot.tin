@@ -224,6 +224,10 @@ init bot[rescue2] preferences off;
 		group all;
 	};
 	#NOP #######################################################;
+	#NOP GENERAL COMMANDS:										;
+	#NOP #######################################################;
+	update_weapons;
+	#NOP #######################################################;
 	#NOP PARAGON Specific:										;
 	#NOP #######################################################;
 	#switch {"$MSDP_CHARACTER_NAME"} {
@@ -1025,6 +1029,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {There doesn't seem to be a recall in %1.} {#if $stock[recall] {home;with 27010;recall;2s2wn;#10 buy recall;put all.reca $container;res2e2n}};
 #action {There doesn't seem to be a purple in %1.} {#if $stock[purple] {recall;2s3wn;#10 buy purple;put all.purple $container;s3e2n}};
+
+#alias update_weapons {
+	#if {"$MSDP_WIELD"==""} {
+		#show <131>WARNING NO WEAPON EQUIPPED;
+	} {	#var weapon_pri {$MSDP_WIELD} };
+	#if {"$MSDP_WIELD"==""} {
+		#show <131>WARNING NO WEAPON/ITEM HELD;
+	} {	#var weapon_sec {$MSDP_HOLD} };
+}
 
 #action {%1 makes an impressive fighting move.} {get $weapon_pri;wield $weapon_pri}
 #action {{A|An|The} %1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri}
