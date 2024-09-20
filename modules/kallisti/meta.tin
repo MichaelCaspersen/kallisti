@@ -214,7 +214,7 @@ init metaHero preferences 0
     }
 }
 
-#act {^The meta-sage tells you 'You don't have enough gold.} {#var autometa off;dep all;dress 1}
+#act {^The meta-sage tells you 'You don't have enough gold.} {#var autometa off;dep all;dress 1;16e2n;doMetaOrGain}
 #act {^The meta-sage tells you 'You don't have enough experience.} {
     #var autometa off;
     dep all;
@@ -224,11 +224,7 @@ init metaHero preferences 0
     #unaction {Your heart races with fresh energy reserves.};
     16e2n;
 }
-
 #act {^The meta-sage tells you 'Go level instead!'} {#var autometa off;dep all;dress 1}
-
-
-
 
 #ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {return_and_meta}
 
