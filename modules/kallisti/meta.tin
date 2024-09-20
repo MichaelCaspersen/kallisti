@@ -230,7 +230,7 @@ init metaHero preferences 0
     };
     #if {"$MSDP_AREA_NAME"=="The Wilderness"} {
         gt nohunt;
-        nco recall;
+        recall;
         n2w;
         book cargo;
         recall;
