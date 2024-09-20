@@ -197,8 +197,8 @@ init bot[rescue2] preferences off;
 	#if { ("$MSDP_CLASS" == "Assassin") && ("$MSDP_CHARACTER_NAME" != "Shaita") } {
 		botrole stabber;
 		#var bot[cast] 1;
-		#var bot[damage][single] {hamstring};
-		#var bot[damage][multiple] {hamstring};
+		#var bot[damage][single] {backstab};
+		#var bot[damage][multiple] {backstab};
 	};
 
 	#NOP #######################################################;
