@@ -235,11 +235,17 @@ init metaHero preferences 0
     };
     #if {"$MSDP_AREA_NAME"=="The Wilderness"} {
         gt nohunt;
-        recall;
-        n2w;
-        book cargo;
-        recall;
-        doMetaOrGain;
+        #action {You find yourself back in Midgaard City.} {
+            #unaction {You find yourself back in Midgaard City.};
+            doMetaOrGain
+        };
+        #action {You find yourself back in Gummton Outpost.} {
+            #unaction {You find yourself back in Gummton Outpost.};
+            n2w;
+            book cargo;
+            recall
+        };
+        recall
     } {
         doMetaOrGain;
     }
