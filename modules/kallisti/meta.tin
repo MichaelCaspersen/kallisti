@@ -334,6 +334,7 @@ init metaHero preferences 0
     #unaction {Your heart pounds as your body grows more resilient.};
     #unaction {Your heart races with fresh energy reserves.};
     16e2n;
+    returntostart
 }
 #action {^The meta-sage tells you 'Go level instead!'} {#var autometa off;dep all;dress 1}
 
