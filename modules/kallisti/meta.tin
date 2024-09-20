@@ -313,8 +313,11 @@ init metaHero preferences 0
 }
 
 #alias {returntostart} {
-    recall;
-    home;
+    #if {"$MSDP_AREA_NAME"=="Midgaard City"} {
+        home
+    } {
+        recall
+    }
     dep all;
     egress;
     #switch {"$return_zone"} {
