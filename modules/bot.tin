@@ -1106,6 +1106,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop and "<-" shows who is targetting you. 
 #nop "><" indicates that you are targetting one another.
 
+
+#action {You spin and slice %1 in the back of the legs making it fall.} {: makes sure %1 can't flee}
+
 #variable autotooth 1;
 #var toothcontainer backpack;
 #alias lootgold {get gold all.corpse}
