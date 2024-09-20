@@ -296,8 +296,8 @@ init metaHero preferences 0
             #delay 10 {#show <131>BUY HITS;buy hit}
         };
         #case {"Kaicha"} {
-            #var TARGET_HEROS 45000;
-            #delay 10 {#show <131>AUTOMETA;autometa}
+            #var TARGET_HEROS 40000;
+            #delay 20 {#show <131>AUTOMETA;autometa}
         };
     }
 }
