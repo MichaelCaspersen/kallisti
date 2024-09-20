@@ -292,6 +292,7 @@ init metaHero preferences 0
             #delay 10 {#show <131>BUY MANA;buy mana}
         };
         #case {"Crom"} {
+            #action {Your heart pounds as your body grows more resilient.} {buy hit};
             #delay 10 {#show <131>BUY HITS;buy hit}
         };
         #case {"Kaicha"} {
