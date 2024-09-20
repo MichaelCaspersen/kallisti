@@ -240,6 +240,7 @@ init metaHero preferences 0
         };
         recall
     } {
+        recall;
         doMetaOrGain;
     }
 }
