@@ -284,7 +284,7 @@ init metaHero preferences 0
     rem all;
     #if {$MSDP_LEVEL<100} {
         levelreq 100;
-        autometa
+        #delay 10 autometa
     };
     #switch {$MSDP_CHARACTER_NAME} {
         #case {"Kroll"} {
@@ -296,7 +296,7 @@ init metaHero preferences 0
         };
         #case {"Kaicha"} {
             #var TARGET_HEROS 45000;
-            autometa
+            #delay 10 autometa
         };
     }
 }
