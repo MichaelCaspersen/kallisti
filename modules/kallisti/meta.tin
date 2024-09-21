@@ -298,7 +298,7 @@ init metaHero preferences 0
         };
         #case {"Kaicha"} {
             list;
-            #delay 20 {#show <131>AUTOMETA;#var TARGET_HEROS 40000;autometa}
+            #delay 15 {#show <131>AUTOMETA;#var TARGET_HEROS 40000;autometa}
         };
     }
 }
