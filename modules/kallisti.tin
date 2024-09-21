@@ -150,12 +150,13 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
 		#CASE { "clear" } {#var result <Fff0>🔆};
 		#CASE { "cloudy" } {#var result <Fffa>⛅};
 		#CASE { "raining" } {#var result <Ffff>🌧️};
-		#CASE { "snowing" } {#var result <Ffff>❄️};
+		#CASE { "snowing" } {#var result <Ffff>☃️};
 		#CASE { "storming" } {#var result <F1af>🌩️};
 		#CASE { "maelstrom" } {#var result <F16f>⛈️};
 		#DEFAULT {#nop}
 	};
 }
+
 
 event_register {variable MSDP_CHARACTER_NAME} {left} {update_player_info %1};
 event_register {variable MSDP_LEVEL}  {left} {update_player_info %1};
