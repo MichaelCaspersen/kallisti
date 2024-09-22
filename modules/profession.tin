@@ -264,10 +264,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		};
 		#CASE {"bonecraft"} {
 			#var profession[str_mat] {bone};
-			#var profession[str_pickup] {get all.bone};
+			#var profession[str_pickup] {get all.bone robe};
 			#var profession[str_action] {bonecraft bone};	
 			#var profession[str_sack] {sac bone};
-			#var profession[refine_location] {3s2w;open gate;2s;open door;s2u4es};
+			#var profession[refine_location] {visit houseofanasasi;e};
 		};
 		#CASE {"phyl"} {
 			#var profession[str_mat] {bone};
@@ -304,16 +304,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP Crafting - Daggers, Symbols
 #NOP #######################################################
 
-#action {You craft {a|an} %1 {dagger|symbol} made from {a|an} %3 {bone}.} { exa %2 }
+#action {You craft {a|an} %1 {dagger|symbol} made from {a |an |}%3 {bone}.} { exa %2 }
 
-#action {#NEED TO MOVE TO EQU_DB.TIN Damage Dice: %1d%2 (%3)} {	
-	#if { $profession[refining][auto] } {
-		#if { (%3>20) } { 
-			put dagger backpack;
-			$profession[str_action]
-		};#else { sac dagger }
-	}
-}
+#nop action {Damage Dice: %1d%2 (%3)} {#if { $profession[refining][auto] } {#if { (%3>20) } {drop  dagger;$profession[str_action]};#else { sac dagger }}}
 #action {You sacrifice the {dagger|symbol} to the gods.} {#if $profession[refining][auto] {$profession[str_action]}}
 
 #action {  +%1 UnholySymbol} {	
@@ -345,7 +338,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	}
 }
 
-#action {You fail to {improve it|craft anything useful}.} {#if $profession[refining][auto] $profession[str_action]}
+#action {You {fail|failed} to {improve it|craft anything useful}.} {#if $profession[refining][auto] $profession[str_action]}
 #action {Oops, you cracked it a little.} {#if $profession[refining][auto] $profession[str_action]}
 #action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {$profession[str_action]} {3}}}
 #action {The some %0 {hide|bone} from %1 isn't high enough quality to {tan|carve}.} {#if $profession[refining][auto] {$profession[str_sack];$profession[str_action]}}
@@ -403,10 +396,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #alias pickup_mats {
 	#if { $profession[refining][auto] } {
 		visit $profession[mat_location];
-		e;
+		2w;
 		$profession[str_pickup];
 		countmats;
-		recall;
+		egress;
 		$profession[refine_location];
 		$profession[str_action];
 	}
