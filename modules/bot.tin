@@ -468,8 +468,8 @@ init bot[rescue2] preferences off;
 	} 
 	{
 		#if {"%1"!=""} {
-			show_debug {<131>Single target: <%1> $bot[damage][single]};
-			queueAdd combat $bot[damage][single] %1;
+			show_debug {<131>Single target: $bot[damage][single] <%1>};
+			queueAdd combat {$bot[damage][single] %1};
 		}; #else {
 			show_debug {<131>Single target: <%1> $bot[damage][single]};
 			#if { ("$MSDP_OPPONENT_NAME"=="a wandering paladin") && ("$MSDP_CLASS"=="Paladin") } { queueAdd combat bash };
