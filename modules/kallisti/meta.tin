@@ -337,9 +337,12 @@ init metaHero preferences 0
 }
 #action {^The meta-sage tells you 'Go level instead!'} {#var autometa off;dep all;dress 1}
 
+#var forcemeta 0;
 
 #alias checkNobPoints {
-    #if { $MSDP_HERO_POINTS_TNL < 0} { goGain } { doMeta }
+    #if { $MSDP_HERO_POINTS_TNL < 0} 
+    { #if {$forcemeta} {doMeta} {goGain} } 
+    { doMeta }
 }
 
 #alias setguildpath {
