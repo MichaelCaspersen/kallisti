@@ -30,7 +30,45 @@ Tulip is using:
 <floating>     the ocean's current
 
 
-    You see nothing special about him.
+
+
+Barbarian 90
+Kelemvor is using:
+<light>        the gem of wrath (infinite magenta light)
+<head>         a horned minotaur helm
+<neck>         the collar of Cerberus (magic) (hums)
+<neck>         a billowing white cape (magic) (glows)
+<neck>         a Tellurian-scarab amulet (magic) (glows) (hums)
+<face>         a blood-stained Shadowla bandana (anti-evil) (magic)
+<eyes>         a pair of frogskin spectacles (magic)
+<earring>      a dragon tooth ear-ring (magic)
+<earring>      a dragon tooth ear-ring (magic)
+<body>         black dragon skin armor (magic)
+<back>         a fallen angel's wing (magic)
+<about body>   a kimono (insured)
+<badge>        the Evermore medal of honor (glows)
+<arms>         band of the master (magic)
+<wrist>        a set of barbed dragon skin bracers (insured) (glows)
+<wrist>        a set of barbed dragon skin bracers (insured) (glows)
+<hands>        a pair of Zarka's finest gloves (insured)
+<finger>       a studded ring (magic)
+<finger>       a titanium ring (glows)
+<finger>       a pitch black ring
+<wielded>      the razor-edged blade of Ravlop (insured) (anti-evil) (magic) (glows) (hums)
+<held>         a wakizashi (insured) (anti-evil) (glows)
+<shield>       a spiked buckler
+<waist>        a dragon's belt [socketed: a razor vine leaf] (magic)
+<legs>         a pair of barbed dragon skin leggings (magic)
+<ankles>       glowing coral anklets (magic) (glows)
+<left foot>    a Zarkan sandal (magic) (glows)
+<right foot>   a Zarkan sandal (magic) (glows)
+<surrounding>  the soul of a dead warrior
+<floating>     the dragon orb (infinite light) (magic) (glows)
+<quickdraw>    sword of the spirit (insured) (anti-evil) (glows)
+    
+
+
+You see nothing special about him.
 ...he exudes an evil dark aura. { Unholy level: Minimal }
 ...he is slightly translucent. { Wraith level: Minimal }
 
@@ -68,7 +106,7 @@ Jondaiv is using:
 <surrounding>  the aura of lost souls (hums)
 <floating>     a Shadowlian root (glows)
 
-    Elrabin is using:
+Elrabin is using:
 <light>        a planar compass (infinite light) (magic) (glows) (hums)
 <head>         a helm of spell casting [socketed: a drop of living metal] (magic)
 <neck>         a pristinely frigid ornament 'Sigil of The North' (magic)
@@ -127,50 +165,50 @@ Javan
 <floating>     a droplet of rain (magic) (glows)
 
 
-    You see nothing special about him.
-    ...he exudes an evil dark aura.
-    ...he is slightly translucent.
-    ...he is surrounded by black flames.
-    NECRO
-    Gary is using:
-    <light>        Yorick's skull [socketed: a giant's sinew] (infinite bright cyan light) (hums)
-    <head>         the crown of champions [socketed: a chaos seed] (insured) (glows)
-    <neck>         a pristinely frigid ornament 'Sigil of The North'
-    <neck>         a pristinely frigid ornament 'Sigil of The North'
-    <neck>         a pristinely frigid ornament 'Sigil of The North'
-    <face>         the titanic mask of Gemini [socketed: a giant's sinew] (glows)
-    <eyes>         a monocle of blue desoy
-    <earring>      a bleeding stone earring (hums)
-    <earring>      a bleeding stone earring (hums)
-    <body>         the skeleton armor [socketed: a chaos seed] (insured) (invis)
-    <back>         a tattoo of a red dragon (glows)
-    <about body>   the Protective Force of Gary (insured)
-    <badge>        a protective clan badge
-    <left arm>     a shadow-infused sleeve of energy (insured)
-    <right arm>    a shadow-infused sleeve of energy (insured)
-    <wrist>        the bracelet of Melkor (insured)
-    <wrist>        the bracelet of Melkor (insured) (invis)
-    <hands>        the gloves of the Hermit
-    <finger>       a band of shadow (hums)
-    <finger>       a sapphire ring (insured)
-    <finger>       a sapphire ring (insured)
-    <finger>       the ring of precision (glows)
-    <shield>       the Volition of Gary (insured)
-    <other shield> the Will of Gary (insured)
-    <waist>        a belt with a silver demon's head buckle [socketed: a giant's sinew]
-    <right leg>    a tattoo of serpents (insured) (glows)
-    <left leg>     a tattoo of serpents (insured) (glows)
-    <ankles>       a diamond-cast flameclasp
-    <feet>         a pair of plane-shifting shoes (insured)
-    <surrounding>  a mage mystical aura of the seasons (insured) (glows)
-    <floating>     a radiant yellow stone <fuses: 2>
-    
-        Chief's Living Quarters                                     |    N
-        Inside Underground                                          |   -+-
-                                                                    |    S
-        An absolutely exquisite longsword lies here. (5)
-        A pretty dagger has been discarded here. (3)
-        A wooden mallet is lying here. (10)
+You see nothing special about him.
+...he exudes an evil dark aura.
+...he is slightly translucent.
+...he is surrounded by black flames.
+NECRO
+Gary is using:
+<light>        Yorick's skull [socketed: a giant's sinew] (infinite bright cyan light) (hums)
+<head>         the crown of champions [socketed: a chaos seed] (insured) (glows)
+<neck>         a pristinely frigid ornament 'Sigil of The North'
+<neck>         a pristinely frigid ornament 'Sigil of The North'
+<neck>         a pristinely frigid ornament 'Sigil of The North'
+<face>         the titanic mask of Gemini [socketed: a giant's sinew] (glows)
+<eyes>         a monocle of blue desoy
+<earring>      a bleeding stone earring (hums)
+<earring>      a bleeding stone earring (hums)
+<body>         the skeleton armor [socketed: a chaos seed] (insured) (invis)
+<back>         a tattoo of a red dragon (glows)
+<about body>   the Protective Force of Gary (insured)
+<badge>        a protective clan badge
+<left arm>     a shadow-infused sleeve of energy (insured)
+<right arm>    a shadow-infused sleeve of energy (insured)
+<wrist>        the bracelet of Melkor (insured)
+<wrist>        the bracelet of Melkor (insured) (invis)
+<hands>        the gloves of the Hermit
+<finger>       a band of shadow (hums)
+<finger>       a sapphire ring (insured)
+<finger>       a sapphire ring (insured)
+<finger>       the ring of precision (glows)
+<shield>       the Volition of Gary (insured)
+<other shield> the Will of Gary (insured)
+<waist>        a belt with a silver demon's head buckle [socketed: a giant's sinew]
+<right leg>    a tattoo of serpents (insured) (glows)
+<left leg>     a tattoo of serpents (insured) (glows)
+<ankles>       a diamond-cast flameclasp
+<feet>         a pair of plane-shifting shoes (insured)
+<surrounding>  a mage mystical aura of the seasons (insured) (glows)
+<floating>     a radiant yellow stone <fuses: 2>
+
+Chief's Living Quarters                                     |    N
+Inside Underground                                          |   -+-
+                                                            |    S
+An absolutely exquisite longsword lies here. (5)
+A pretty dagger has been discarded here. (3)
+A wooden mallet is lying here. (10)
         A battered wooden mask is lying here.
         A battered shield is lying here. (damaged) (5)
         Rampage the werewolf is here, riding a phoenix. [ sanc blades ]

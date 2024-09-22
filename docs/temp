@@ -1,8 +1,13 @@
+
+
+
+Prophet Gear
+<feet>      the healing wraps of the Der'Kar family (magic)
+<body>		quilted jacket of stalman's defiance, from waves of war'
+
+
+
 LEVEL LOGIC
-
-
-
-
 
 #tab doMetaOrGain
 #action {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {doMetaOrGain}
