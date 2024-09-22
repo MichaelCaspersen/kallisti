@@ -1173,7 +1173,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			};	
 		}
 	};
-	#if { ($MSDP_EXPERIENCE>4000000000) && ($needmeta==0) } {#var needmeta 1;nco return_and_meta};
+	#if { ($MSDP_EXPERIENCE>3800000000) && ($needmeta==0) } {#var needmeta 1;nco return_and_meta};
 	#if { "$MSDP_CLASS"=="Prophet" } {
 		#nop if {$MSDP_THIRST<10 && $MSDP_MANA<$MSDP_MANA_MAX*0.8} {gt mp};
 	};
