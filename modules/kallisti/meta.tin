@@ -311,7 +311,7 @@ init metaHero preferences 0
         #case {"The Wilderness"} {
             home;with 100000;egress;3s2es;book gumm;
             #action {Land is in sight!} {
-                #delay 10 {#unaction {Land is in sight!};#var needmeta 0;gt yeshunt}
+                #delay 10 {#unaction {Land is in sight!};gt yeshunt}
             };
             #action {You wash up on shore...} {
                 #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt};
@@ -320,7 +320,8 @@ init metaHero preferences 0
         };
         #case {"Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
         #case {"Profession"} {recall;visit house;e;tan hide};
-    }
+    };
+    #var needmeta 0
 }
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
