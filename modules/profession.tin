@@ -74,6 +74,16 @@ Commands:\n
 			#var profession[refine_location] {visit houseofanasasi;e};
 			#var profession[gather][all] 0
 		};
+		#CASE {"bonecraft"} {
+			#var profession[gather][type] %1;
+			#var profession[str_mat] {bone};
+			#var profession[str_corpse] {extract corpse};
+			#var profession[str_pickup] {get all.bone};
+			#var profession[str_action] {bonecraft bone};
+			#var profession[str_sack] {sac bone};
+			#var profession[refine_location] {visit houseofanasasi;e};
+			#var profession[gather][all] 0
+		};
 		#CASE {"all"} {
 			#var profession[gather][all] 1
 		};
@@ -307,14 +317,14 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {You craft {a|an} %1 {dagger|symbol} made from {a |an |}%3 {bone}.} { exa %2 }
 
 #nop action {Damage Dice: %1d%2 (%3)} {#if { $profession[refining][auto] } {#if { (%3>20) } {drop  dagger;$profession[str_action]};#else { sac dagger }}}
-#action {You sacrifice the {dagger|symbol} to the gods.} {#if $profession[refining][auto] {$profession[str_action]}}
+#action {You sacrifice the {dagger|symbol} to the gods.} {#if $profession[refining][auto] {nco $profession[str_action]}}
 
 #action {  +%1 UnholySymbol} {	
 	#if { $profession[refining][auto] } {
 		#if { (%1>65) } { 
 			drop symbol;
-			$profession[str_action]
-		};#else { sac symbol }
+			nco $profession[str_action]
+		};#else { nco sac symbol }
 	}
 }
 
@@ -324,25 +334,25 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		#switch {"%3"} {
 			#case {"flawless"} {
 				#if {"$profession[gather][type]"=="extract"} {donate $profession[str_mat] home;};
-				$profession[str_action]
+				nco $profession[str_action]
 			};
 			#case {"divine"} {
 				#if {"$profession[gather][type]"=="extract"} {donate $profession[str_mat] home;};
-				$profession[str_action]
+				nco $profession[str_action]
 			};
 			#default {
 				#if {"$profession[gather][type]"=="extract"} {donate $profession[str_mat] home;};
-				$profession[str_action]
+				nco $profession[str_action]
 			}
 		}
 	}
 }
 
-#action {You {fail|failed} to {improve it|craft anything useful}.} {#if $profession[refining][auto] $profession[str_action]}
-#action {Oops, you cracked it a little.} {#if $profession[refining][auto] $profession[str_action]}
-#action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {$profession[str_action]} {3}}}
-#action {The some %0 {hide|bone} from %1 isn't high enough quality to {tan|carve}.} {#if $profession[refining][auto] {$profession[str_sack];$profession[str_action]}}
-#action {You can't carve that.} {donate bone home;$profession[str_action]}
+#action {You {fail|failed} to {improve it|craft anything useful}.} {#if $profession[refining][auto] {nco $profession[str_action]}}
+#action {Oops, you cracked it a little.} {#if $profession[refining][auto] {nco $profession[str_action]}}
+#action {You are exhausted!} {#if $profession[refining][auto] {#delay waitforrefresh {nco $profession[str_action]} {3}}}
+#action {The some %0 {hide|bone} from %1 isn't high enough quality to {tan|carve}.} {#if $profession[refining][auto] {nco $profession[str_sack];nco $profession[str_action]}}
+#action {You can't carve that.} {donate bone home;nco $profession[str_action]}
 
 
 #action {You must also specify what material you want to use when {bonecrafting|making a holy symbol}.} {
@@ -401,7 +411,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		countmats;
 		egress;
 		$profession[refine_location];
-		$profession[str_action];
+		nco $profession[str_action];
 	}
 }
 
