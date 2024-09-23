@@ -362,8 +362,9 @@
 }
 
 #function getMaxRemortLevel {
+    #local class @getShortClassName{};
     #loop {1} {&MSDP_REMORT_LEVELS[]} {index} {
-        #if { ("$MSDP_REMORT_LEVELS[$index][class]" == "@getShortClassName{}") } {
+        #if { ("$MSDP_REMORT_LEVELS[$index][class]" == "$class") } {
                 #return $MSDP_REMORT_LEVELS[$index][level];
         }
     };
