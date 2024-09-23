@@ -221,6 +221,7 @@ init metaHero preferences 0
 
 #ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
 
+#tab return_and_meta;
 #alias return_and_meta {
     #var return_zone $MSDP_AREA_NAME;
     #if {$profession[refining][auto]} {
@@ -245,12 +246,12 @@ init metaHero preferences 0
     }
 }
 
-#tab doMetaOrGain
+#tab doMetaOrGain;
 #alias doMetaOrGain {
     #show <131>Check Meta or Gain;
     #if { $MSDP_EXPERIENCE_TNL <= 0 } {
         #if {$MSDP_LEVEL < @getMaxRemortLevel{}} { 
-            gogain 
+            goGain 
         } { 
             checkNobPoints 
         }
