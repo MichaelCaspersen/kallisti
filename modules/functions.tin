@@ -354,7 +354,7 @@
 
 #function getShortClassName {                                                                                 
     #loop {1} {&MSDP_GROUP[]} {index} {
-        #if { ("$MSDP_GROUP[$index][name]" == "MSDP_CHARACTER_NAME") } {
+        #if { ("$MSDP_GROUP[$index][name]" == "$MSDP_CHARACTER_NAME") } {
                 #return $MSDP_GROUP[$index][class];
         }
     };
