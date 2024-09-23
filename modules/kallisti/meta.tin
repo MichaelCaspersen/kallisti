@@ -262,7 +262,6 @@ init metaHero preferences 0
 
 #alias goGain {
     setguildpath;
-    recall;
     home;
     with $goldlevel[$MSDP_LEVEL];
     egress;
@@ -316,7 +315,7 @@ init metaHero preferences 0
             };
             #action {You wash up on shore...} {
                 #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt};
-                #else {returntostart;}
+                #else {recall;returntostart;}
             }
         };
         #case {"Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
