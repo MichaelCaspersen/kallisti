@@ -1116,7 +1116,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop and "<-" shows who is targetting you. 
 #nop "><" indicates that you are targetting one another.
 
-
+#action {A sabertooth tiger wanders around here looking for food.}{#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
 #action {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
 
 #variable autotooth 1;
