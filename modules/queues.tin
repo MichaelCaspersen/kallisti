@@ -228,7 +228,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"heal"} #var result 1000;
         #case {"pheal"} #var result 1000;
         #case {"convert"} #var result 11000;
-        #case {"attackTarget"} #var result 500;
+        #case {"attackTarget"} #var result 300;
         #case {"shapechange"} #var result 4000;
         #case {"fst"} #var result 3000;
         #case {"charge"} #var result 3000;
