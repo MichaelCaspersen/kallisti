@@ -226,6 +226,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
 #func spellDelay {
     #switch {"%1"} {
         #case {"heal"} #var result 1000;
+        #case {"pheal"} #var result 1000;
         #case {"convert"} #var result 11000;
         #case {"attackTarget"} #var result 500;
         #case {"shapechange"} #var result 4000;
