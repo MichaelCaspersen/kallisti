@@ -225,7 +225,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
 #nop -- Spell delays are in 1000ths of a second;
 #func spellDelay {
     #switch {"%1"} {
-        #case {"heal"} #var result 2000;
+        #case {"heal"} #var result 1000;
         #case {"convert"} #var result 11000;
         #case {"attackTarget"} #var result 500;
         #case {"shapechange"} #var result 4000;
