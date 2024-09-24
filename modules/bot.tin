@@ -1102,7 +1102,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #var getoutnow 0;
 #action {Gummton Church Narthex } {#var getoutnow 0}
-#var allowedToTank 2;
+#var allowedToTank 3;
 #action {^< $MSDP_CHARACTER_NAME |} {#var tankingmobs 0}
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
@@ -1122,6 +1122,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
 #ACTION {A smilodon is here, fighting } {queueAdd priority hamstring smilodon}
 #ACTION {You must wait for a smilodon to stand up first.} {queueAdd priority hamstring smilodon}
+#ACTION {A smilodon arrives.} {queueAdd priority hamstring smilodon} {4}
 
 #variable autotooth 1;
 #var toothcontainer backpack;
