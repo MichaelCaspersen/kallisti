@@ -1102,12 +1102,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #var getoutnow 0;
 #action {Gummton Church Narthex } {#var getoutnow 0}
-#var allowedToTank 3;
+#var allowedToTank 2;
 #action {^< $MSDP_CHARACTER_NAME |} {#var tankingmobs 0}
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
 	#show <131>I'm tanking $tankingmobs mobs;
-	#if { ($tankingmobs>$allowedToTank) && ($getoutnow==0) } {
+	#if { ($tankingmobs>=$allowedToTank) && ($getoutnow==0) } {
 		#var getoutnow 1;
 		#show <131>GET OUT!! Tanking $tankingmobs mobs;
 		queueAdd priority {recal}
