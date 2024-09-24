@@ -250,6 +250,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"skin"} #var result 4000;
         #case {"darkfire"} #var result 1000;
         #case {"lbolt"} #var result 1000;
+        #case {"chain"} #var result 1000;
         #case {"sunray"} #var result 1000;
         #case {"icestorm"} #var result 1000;
         #case {"animate"} #var result 4000;
