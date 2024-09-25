@@ -393,6 +393,11 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 			recall;
 			pickup_mats;
 		};
+		#if {"$profession[gather][type]"=="carving"} {
+			#var profession[refining][reset] 0;
+			drop all.bone;
+			pickup_mats;
+		};
 		#if {"$profession[gather][type]"=="skinning"} {
 			#if $profession[gather][selling] {
 				#var profession[refining][reset] 0;
