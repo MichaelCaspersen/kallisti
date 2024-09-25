@@ -328,7 +328,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	}
 }
 
-#action {You {tan|carve} some %1 {hide|bone} from %2 into some %3 {leather|bone} from %4.} {
+#action {You {tan|carve} %1 {hide|bone|tooth}%2into some %3 {leather|bone} from %4.} {
 	#if {$profession[refining][auto]} {
 		#show Material Quality:[<131>%3];
 		#switch {"%3"} {
