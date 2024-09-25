@@ -74,6 +74,16 @@ Commands:\n
 			#var profession[refine_location] {visit houseofanasasi;e};
 			#var profession[gather][all] 0
 		};
+		#CASE {"carving"} {
+			#var profession[gather][type] %1;
+			#var profession[str_mat] {tooth};
+			#var profession[str_corpse] {extract corpse};
+			#var profession[str_pickup] {get all.tooth};
+			#var profession[str_action] {carve tooth};
+			#var profession[str_sack] {sac tooth};
+			#var profession[refine_location] {visit houseofanasasi;e};
+			#var profession[gather][all] 0
+		};
 		#CASE {"bonecraft"} {
 			#var profession[gather][type] %1;
 			#var profession[str_mat] {bone};
