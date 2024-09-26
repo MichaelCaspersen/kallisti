@@ -103,6 +103,30 @@ event_register {variable MSDP_ROOM_VNUM} {right} {generate_area_info {%0} {%1} {
 event_register {variable MSDP_ROOM_WEATHER} {right} {generate_area_info {%0} {%1} {%2}};
 event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}};
 
+#alias generate_area_info {
+    syslog right debug generate new area info - %1|%2|%3;
+	#if {@is_alias{room_event}} {room_event}; #nop in bot;
+	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
+    	#var area_info {@weatherIcon{} <Ffff>${MSDP_AREA_NAME} ($wilder[x],$wilder[y]) $MSDP_ROOM_VNUM \nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
+	};#else {
+	    #var area_info {${MSDP_AREA_NAME} - $MSDP_ROOM_VNUM - $MSDP_ROOM_WEATHER\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE/$MSDP_PC_IN_ROOM};
+	};
+    #if {@is_alias{display_right_tiles}} {display_right_tiles};
+    #if {@is_alias{display_map_tiles}} {display_map_tiles};
+}
+
+#function weatherIcon {
+	#SWITCH { "$MSDP_ROOM_WEATHER" } {
+		#CASE { "clear" } {#var result <Fff0>🔆};
+		#CASE { "cloudy" } {#var result <Fffa>⛅};
+		#CASE { "raining" } {#var result <Ffff>🌧️};
+		#CASE { "snowing" } {#var result <Ffff>☃️};
+		#CASE { "storming" } {#var result <Ff88>🌩️};
+		#CASE { "maelstrom" } {#var result <Ff00>⛈️};
+		#DEFAULT {#nop}
+	};
+}
+
 #alias generate_group_info {
     syslog right debug generate new group info - %2;
     #if {(!&{MSDP_GROUP}) || (&MSDP_GROUP[] == 0)} {
@@ -133,29 +157,6 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
     #if {@is_alias{display_map_tiles}} {display_map_tiles};
 }
 
-#alias generate_area_info {
-    syslog right debug generate new area info - %1|%2|%3;
-	#if {@is_alias{room_event}} {room_event}; #nop in bot;
-	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
-    	#var area_info {@weatherIcon{} <Ffff>${MSDP_AREA_NAME} ($wilder[x],$wilder[y]) $MSDP_ROOM_VNUM \nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
-	};#else {
-	    #var area_info {${MSDP_AREA_NAME} - $MSDP_ROOM_VNUM - $MSDP_ROOM_WEATHER\nLevel: $MSDP_AREA_MINLEVEL - $MSDP_AREA_MAXLEVEL, In zone/room: $MSDP_PC_IN_ZONE / $MSDP_PC_IN_ROOM};
-	};
-    #if {@is_alias{display_right_tiles}} {display_right_tiles};
-    #if {@is_alias{display_map_tiles}} {display_map_tiles};
-}
-
-#function weatherIcon {
-	#SWITCH { "$MSDP_ROOM_WEATHER" } {
-		#CASE { "clear" } {#var result <Fff0>🔆};
-		#CASE { "cloudy" } {#var result <Fffa>⛅};
-		#CASE { "raining" } {#var result <Ffff>🌧️};
-		#CASE { "snowing" } {#var result <Ffff>☃️};
-		#CASE { "storming" } {#var result <Ff88>🌩️};
-		#CASE { "maelstrom" } {#var result <Ff00>⛈️};
-		#DEFAULT {#nop}
-	};
-}
 
 
 event_register {variable MSDP_CHARACTER_NAME} {left} {update_player_info %1};
@@ -194,18 +195,11 @@ event_register {variable MSDP_REMORTS_LAPS_TOTAL} {left} {update_player_info %1}
 	#nop %0 %1;
 	
 	#format player_info[1] {<B538d87><388><188>%s} {Character};
-	
-	#format player_info[2] {<088>%-13s %-10s[%-3d]} {$MSDP_CHARACTER_NAME}
-			{$MSDP_CLASS} 			{$MSDP_LEVEL};
-	
-	#format player_info[3] {%-15s %+5s [%+5d]} 
-			{$MSDP_RACE} { } {$MSDP_ALIGNMENT};
-
+	#format player_info[2] {<088>%-13s %-10s[%-3d]} {$MSDP_CHARACTER_NAME} {$MSDP_CLASS} {$MSDP_LEVEL};
+	#format player_info[3] {%-15s %+5s [%+5d]} {$MSDP_RACE} { } {$MSDP_ALIGNMENT};
 	#format player_info[4] { };
 	#format player_info[5] {<Fde935f>S:<Fd5d8d6>%-2s <Fde935f>I:<Fd5d8d6>%-2s <Fde935f>W:<Fd5d8d6>%-2s <Fde935f>D:<Fd5d8d6>%-2d <Fde935f>C:<Fd5d8d6>%-2d <Fde935f>L:<Fd5d8d6>%-2d}
-		{$MSDP_STR} {$MSDP_INT} {$MSDP_WIS} {$MSDP_DEX}
-		{$MSDP_CON} {$MSDP_LUK};
-
+		{$MSDP_STR} {$MSDP_INT} {$MSDP_WIS} {$MSDP_DEX} {$MSDP_CON} {$MSDP_LUK};
 	#format player_info[6] { };
 	#format player_info[7] {<Fde935f>Hero:<Fd5d8d6> %-5s   <Fde935f>TNL:<Fd5d8d6> %-6d} {$MSDP_HERO_POINTS} {$MSDP_HERO_POINTS_TNL};
 	#format player_info[8] {<Fde935f> Exp:<Fd5d8d6> %-6s  <Fde935f>TNL:<Fd5d8d6> %-6s} {@hNum{$MSDP_EXPERIENCE}} {@hNum{$MSDP_EXPERIENCE_TNL}};
@@ -215,19 +209,19 @@ event_register {variable MSDP_REMORTS_LAPS_TOTAL} {left} {update_player_info %1}
 	#format player_info[11] {};
 	#format player_info[12] {<B538d87><388><188>%s} {Affects};
 	#format player_info[13] {@get_affects_block{}};
-	#format player_info[14] {<B538d87><388><188>%s} {Mount};
+	#nop format player_info[14] {<B538d87><388><188>%s} {Mount};
 	#if {"$MSDP_MOUNT_NAME" != ""} {
-			#format player_info[15] {<088><Fde935f>Name: <Fd5d8d6>%s} {$MSDP_MOUNT_NAME};
-			#format player_info[16] {<088><Fde935f> HP: <Fd5d8d6>%-4d/%-4d <Fde935f>SP: <Fd5d8d6>%-4d/%-4d} {$MSDP_MOUNT_HEALTH} {$MSDP_MOUNT_HEALTH_MAX} {$MSDP_MOUNT_STAMINA} {$MSDP_MOUNT_STAMINA_MAX};
+			#nop format player_info[15] {<088><Fde935f>Name: <Fd5d8d6>%s} {$MSDP_MOUNT_NAME};
+			#nop format player_info[16] {<088><Fde935f> HP: <Fd5d8d6>%-4d/%-4d <Fde935f>SP: <Fd5d8d6>%-4d/%-4d} {$MSDP_MOUNT_HEALTH} {$MSDP_MOUNT_HEALTH_MAX} {$MSDP_MOUNT_STAMINA} {$MSDP_MOUNT_STAMINA_MAX};
 	} {
-		#var player_info[17] {<088>};
-		#var player_info[18] {<088>};
+		#nop var player_info[17] {<088>};
+		#nop var player_info[18] {<088>};
 	};
-	#format player_info[19] { };
-	#format player_info[20] {<B538d87><388><188>%s} {Remort Info};
-	#format player_info[21] {<088><Fde935f>Total:<Fd5d8d6> %-d      <Fde935f>In Class:<Fd5d8d6> %-d} {$MSDP_REMORT_LAPS_TOTAL} {$MSDP_REMORTS_LAPS_IN_CLASS};
+	#nop format player_info[19] { };
+	#nop format player_info[20] {<B538d87><388><188>%s} {Remort Info};
+	#nop format player_info[21] {<088><Fde935f>Total:<Fd5d8d6> %-d      <Fde935f>In Class:<Fd5d8d6> %-d} {$MSDP_REMORT_LAPS_TOTAL} {$MSDP_REMORTS_LAPS_IN_CLASS};
 
-	#format player_info[22] @bankmeter{XPBank (@hNum{@xpbanksize{}});30};
+	#format player_info[14] @bankmeter{XPBank (@hNum{@xpbanksize{}});30};
 
     #if {@is_alias{display_right_tiles}} {display_right_tiles}
 }
