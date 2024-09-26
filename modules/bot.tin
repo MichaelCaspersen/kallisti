@@ -487,23 +487,26 @@ init bot[rescue2] preferences off;
 #NOP #######################################################
 #NOP Analytics
 #NOP #######################################################
-#var stats[damage][zeal] 0;
-#var stats[damage][icestorm] 0;
-#var stats[damage][tornado] 0;
-#var stats[damage][sunray] 0;
-#var stats[damage][chain lightning] 0;
-#var stats[heal][heal] 0;
-#var stats[heal][total] 0;
+#tab stats_reset;
 #alias stats_reset {
 	#var stats {};
 	#var stats[damage][zeal] 0;
 	#var stats[damage][icestorm] 0;
+	#var stats[damage][lbolt] 0;
 	#var stats[damage][tornado] 0;
 	#var stats[damage][sunray] 0;
 	#var stats[damage][chain lightning] 0;
 	#var stats[heal][heal] 0;
+	#var stats[heal][pheal] 0;
 	#var stats[heal][total] 0;
 }
+
+#action {A golden glow pulses around %1 healing the open wounds. (%2 healed%3)} {
+	#var stats[heal][heal] @increment{$stats[heal][pheal]};
+	#math stats[heal][%1] {$stats[heal][%1]+%2};
+	#math stats[heal][total] {$stats[heal][total]+%2}
+}
+
 #action {You heal %1's wounds. (%2 healed%3)} {
 	#var stats[heal][heal] @increment{$stats[heal][heal]};
 	#math stats[heal][%1] {$stats[heal][%1]+%2};
@@ -512,6 +515,7 @@ init bot[rescue2] preferences off;
 
 #action {You must specify a victim name when casting. (e.g. cast '%1' <victim name>)} {#math stats[damage][%1] {$stats[damage][%1]-1}}
 
+stats_reset;
 
 #NOP #######################################################
 
