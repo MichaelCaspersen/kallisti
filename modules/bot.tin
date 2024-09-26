@@ -76,7 +76,7 @@ Commands:\n
 #var bot[mount][name] {};
 #var bot[examine] 1;
 #var bot[controlweather] 0;
-#var bot[weatherdir] {worse}; #nop better/worse
+#var bot[weatherdir] {better}; #nop better/worse
 
 init bot[role2] preferences damage;
 init bot[cast2] preferences on;
@@ -1064,6 +1064,21 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {The sky darkens.}  {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather $bot[weatherdir]}}
 #HIGHLIGHT {The sky darkens.} {red};
 #HIGHLIGHT {Nothing seems to happen.  The weather is as bad as it can get!} {red};
+#HIGHLIGHT {Nothing seems to happen.  The weather is as good as it gets!} {yellow}
+
+#tab autoweather;
+#alias autoweather {
+	#if {"%1"!=""} {
+		#var bot[controlweather] 1;
+		#var bot[weatherdir] %1;
+		#show <131>Auto weather ON: <%1>
+	}
+	{
+		#var bot[controlweather] 0;
+		#var bot[weatherdir] {};
+		#show <131>Auto weather OFF
+	}
+}
 
 #alias cweather {
 	#if { ("$MSDP_CLASS"=="Druid") || ("$MSDP_CLASS"=="Prophet") } {
