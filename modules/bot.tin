@@ -464,20 +464,20 @@ init bot[rescue2] preferences off;
 			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} { queueAdd combat hamstring } };
 			#default {#nop};
 		};
-		@increment{stats[damage][$bot[damage][multiple]]};
+		@increment{$stats[damage][$bot[damage][multiple]]};
 		queueAdd combat $bot[damage][multiple];
 	} 
 	{
 		#if {"%1"!=""} {
 			show_debug {<131>Single target: $bot[damage][single] <%1>};
-			@increment{stats[damage][$bot[damage][single]]};
+			@increment{$stats[damage][$bot[damage][single]]};
 			queueAdd any $bot[damage][single] %1;
 		}; #else {
 			show_debug {<131>Single target: <%1> $bot[damage][single]};
 			#if { ("$MSDP_OPPONENT_NAME"=="a wandering paladin") && ("$MSDP_CLASS"=="Paladin") } { queueAdd combat bash };
 			#elseif { ("$MSDP_OPPONENT_NAME"=="a smilodon") && ("$MSDP_CLASS"=="Assassin") } { queueAdd combat hamstring };
 			#else {
-				@increment{stats[damage][$bot[damage][single]]};
+				@increment{$stats[damage][$bot[damage][single]]};
 				queueAdd combat $bot[damage][single]
 			}
 		}
@@ -494,7 +494,12 @@ init bot[rescue2] preferences off;
 #var stats[damage][chain] 0;
 #var stats[heal][heal] 0;
 #var stats[heal][total] 0;
-#action {You heal %1's wounds. (%2 healed%3)} {@increment{stats[heal][heal]};#math stats[heal][total] {$stats[heal][total]+%2} }
+#action {You heal %1's wounds. (%2 healed%3)} {
+	@increment{$stats[heal][heal]};
+	#math stats[heal][%1] {$stats[heal][%1]+%2} 
+	#math stats[heal][total] {$stats[heal][total]+%2} 
+}
+
 #NOP #######################################################
 
 
