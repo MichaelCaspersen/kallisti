@@ -74,6 +74,16 @@ Commands:\n
 			#var profession[refine_location] {visit houseofanasasi;e};
 			#var profession[gather][all] 0
 		};
+		#CASE {"carving"} {
+			#var profession[gather][type] %1;
+			#var profession[str_mat] {tooth};
+			#var profession[str_corpse] {extract corpse};
+			#var profession[str_pickup] {get all.tooth};
+			#var profession[str_action] {carve tooth};
+			#var profession[str_sack] {sac tooth};
+			#var profession[refine_location] {visit houseofanasasi;e};
+			#var profession[gather][all] 0
+		};
 		#CASE {"bonecraft"} {
 			#var profession[gather][type] %1;
 			#var profession[str_mat] {bone};
@@ -328,7 +338,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	}
 }
 
-#action {You {tan|carve} some %1 {hide|bone} from %2 into some %3 {leather|bone} from %4.} {
+#action {You {tan|carve} %1 {hide|bone|tooth}%2into some %3 {leather|bone} from %4.} {
 	#if {$profession[refining][auto]} {
 		#show Material Quality:[<131>%3];
 		#switch {"%3"} {
@@ -382,6 +392,12 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 			#var profession[refining][reset] 0;
 			recall;
 			pickup_mats;
+		};
+		#if {"$profession[gather][type]"=="carving"} {
+			#var profession[refining][reset] 0;
+			3w;put all.bone robe;3e;
+			get all.tooth pack;
+			carve tooth;
 		};
 		#if {"$profession[gather][type]"=="skinning"} {
 			#if $profession[gather][selling] {

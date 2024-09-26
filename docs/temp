@@ -166,6 +166,14 @@ toggle ranged
 #action {The goblin king stands here staring at the paintings.%1} {settarget 999 @mob_count{"%1"} king 40 100 1}
 
 
+#alias CrystalCastle
+#action {A crystal sentry eyes you suspiciously.%1} {settarget 999 @mob_count{"%1"} sentry 40 100 1}
+#action {The crystal chef is too busy cooking up a feast to even notice you.%1} {settarget 999 @mob_count{"%1"} chef 40 100 1}
+#action {A crystal guard eyes you suspiciously.%1} {settarget 999 @mob_count{"%1"} guard 40 100 1}
+#action {The King's guest lounges here.%1} {settarget 999 @mob_count{"%1"} guest 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
 
 
 #action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}

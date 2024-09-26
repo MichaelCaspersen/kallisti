@@ -1100,14 +1100,22 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
 
 
-#var getoutnow 0;
-#action {Gummton Church Narthex } {#var getoutnow 0}
 #var allowedToTank 3;
+#var getoutnow 0;
+
+#action {Gummton Church Narthex } {
+	#if { ("$MSDP_CHARACTER_NAME"=="Kroll") && ($getoutnow) } {
+		queueAdd heal pheal kroll;
+		#delay 0.5 {holygate kaicha}
+	};
+	#var getoutnow 0
+}
+
 #action {^< $MSDP_CHARACTER_NAME |} {#var tankingmobs 0}
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
 	#show <131>I'm tanking $tankingmobs mobs;
-	#if { ($tankingmobs>$allowedToTank) && ($getoutnow==0) } {
+	#if { ($tankingmobs>=$allowedToTank) && ($getoutnow==0) } {
 		#var getoutnow 1;
 		#show <131>GET OUT!! Tanking $tankingmobs mobs;
 		queueAdd priority {recal}
@@ -1120,6 +1128,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {A sabertooth tiger wanders around here looking for food.}{#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
 #action {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
+#ACTION {A smilodon is here, fighting } {queueAdd priority hamstring smilodon}
+#ACTION {You must wait for a smilodon to stand up first.} {queueAdd priority hamstring smilodon}
+#ACTION {A smilodon arrives.} {queueAdd priority hamstring smilodon} {4}
 
 #variable autotooth 1;
 #var toothcontainer backpack;
@@ -1170,6 +1181,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias ftank {	reform follow%1 prima; }
 
+#var needmetaat 3800000000;
+
 #ACTION {%0 is dead!  R.I.P.} {
 	show_debug {<123>%0 is dead, what to do!!};
 	cleartarget;
@@ -1184,7 +1197,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			};	
 		}
 	};
-	#if { ($MSDP_EXPERIENCE>3800000000) && ($needmeta==0) } {#var needmeta 1;nco return_and_meta};
+	#if { ($MSDP_EXPERIENCE>$needmetaat) && ($needmeta==0) } {#var needmeta 1;nco return_and_meta};
 	#if { "$MSDP_CLASS"=="Prophet" } {
 		#nop if {$MSDP_THIRST<10 && $MSDP_MANA<$MSDP_MANA_MAX*0.8} {gt mp};
 	};

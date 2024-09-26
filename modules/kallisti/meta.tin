@@ -218,7 +218,7 @@ init metaHero preferences 0
 
 
 
-
+#var needmeta 0;
 #ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
 
 #tab return_and_meta;
