@@ -81,7 +81,7 @@ event_register {SESSION ACTIVATED} {layout} {layout_reset %1}
 	set_right_tile 2 <B85678f> group_info[%*] 10 tile;
 	set_right_tile 3 <B5f819d> queue_block 3 tile;
 	set_right_tile 4 <B5f819d> queue_block_spells[%*] 5 tile;
-	set_right_tile 31 <Fd5d8d6> player_info[%*] 24 tile;
+	set_right_tile 31 <Fd5d8d6> player_info[%*] 16 tile;
 }
 
 
