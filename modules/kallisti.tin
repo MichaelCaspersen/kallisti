@@ -207,8 +207,10 @@ event_register {variable MSDP_REMORTS_LAPS_TOTAL} {left} {update_player_info %1}
 
 	#format player_info[10] {<Fde935f>Est. Meta Sessions:<Fd5d8d6> %d} {@estimated_metas{}};
 	#format player_info[11] {};
-	#format player_info[12] {<B538d87><388><188>%s} {Affects};
-	#format player_info[13] {@get_affects_block{}};
+	#format player_info[12] @bankmeter{XPBank (@hNum{@xpbanksize{}});30};
+	#format player_info[13] {};
+	#format player_info[14] {<B538d87><388><188>%s} {Affects};
+	#format player_info[15] {@get_affects_block{}};
 	#nop format player_info[14] {<B538d87><388><188>%s} {Mount};
 	#if {"$MSDP_MOUNT_NAME" != ""} {
 			#nop format player_info[15] {<088><Fde935f>Name: <Fd5d8d6>%s} {$MSDP_MOUNT_NAME};
@@ -220,9 +222,6 @@ event_register {variable MSDP_REMORTS_LAPS_TOTAL} {left} {update_player_info %1}
 	#nop format player_info[19] { };
 	#nop format player_info[20] {<B538d87><388><188>%s} {Remort Info};
 	#nop format player_info[21] {<088><Fde935f>Total:<Fd5d8d6> %-d      <Fde935f>In Class:<Fd5d8d6> %-d} {$MSDP_REMORT_LAPS_TOTAL} {$MSDP_REMORTS_LAPS_IN_CLASS};
-
-	#format player_info[14] @bankmeter{XPBank (@hNum{@xpbanksize{}});30};
-
     #if {@is_alias{display_right_tiles}} {display_right_tiles}
 }
 
