@@ -1059,9 +1059,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
 #action {You heave as your ship tosses about madly in the} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
 #action {You sail along happily.} { cweather better }
-#action {Things look a little better.} {cweather better}
 
-#action {The sky darkens.} {cweather worse}
+#action {Things look a little better.}  {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather $bot[weatherdir]}}
+#action {The sky darkens.}  {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather $bot[weatherdir]}}
 #HIGHLIGHT {The sky darkens.} {red};
 #HIGHLIGHT {Nothing seems to happen.  The weather is as bad as it can get!} {red};
 
