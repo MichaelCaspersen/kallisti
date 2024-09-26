@@ -496,7 +496,6 @@ init bot[rescue2] preferences off;
 #var stats[heal][total] 0;
 #action {You heal %1's wounds. (%2 healed%3)} {
 	#var stats[heal][heal] @increment{$stats[heal][heal]};
-	$stats[heal][heal]
 	#math stats[heal][%1] {$stats[heal][%1]+%2} 
 	#math stats[heal][total] {$stats[heal][total]+%2} 
 }
