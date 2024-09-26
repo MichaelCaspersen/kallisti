@@ -464,22 +464,38 @@ init bot[rescue2] preferences off;
 			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} { queueAdd combat hamstring } };
 			#default {#nop};
 		};
+		@increment{stats[damage][$bot[damage][multiple]]};
 		queueAdd combat $bot[damage][multiple];
 	} 
 	{
 		#if {"%1"!=""} {
 			show_debug {<131>Single target: $bot[damage][single] <%1>};
+			@increment{stats[damage][$bot[damage][single]]};
 			queueAdd any $bot[damage][single] %1;
 		}; #else {
 			show_debug {<131>Single target: <%1> $bot[damage][single]};
 			#if { ("$MSDP_OPPONENT_NAME"=="a wandering paladin") && ("$MSDP_CLASS"=="Paladin") } { queueAdd combat bash };
 			#elseif { ("$MSDP_OPPONENT_NAME"=="a smilodon") && ("$MSDP_CLASS"=="Assassin") } { queueAdd combat hamstring };
 			#else {
+				@increment{stats[damage][$bot[damage][single]]};
 				queueAdd combat $bot[damage][single]
 			}
 		}
 	}
 }
+
+#NOP #######################################################
+#NOP Analytics
+#NOP #######################################################
+#var stats[damage][zeal] 0;
+#var stats[damage][icestorm] 0;
+#var stats[damage][tornado] 0;
+#var stats[damage][sunray] 0;
+#var stats[damage][chain] 0;
+#var stats[heal][heal] 0;
+#var stats[heal][total] 0;
+#action {You heal %1's wounds. (%2 healed%3)} {@increment{stats[heal][heal]};#math stats[heal][total] {$stats[heal][total]+%2} }
+#NOP #######################################################
 
 
 #alias zone_automatic_restart {
@@ -1056,6 +1072,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #NOP Druid/Prophet specific
 #action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
+
 #action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
 #action {You heave as your ship tosses about madly in the} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
 #action {You sail along happily.} { cweather better }
