@@ -182,7 +182,7 @@ init bot[rescue2] preferences off;
 	#if { "$MSDP_CLASS" == "Paladin" } {
 		botrole damage;
 		#var bot[cast] 1;
-		#var bot[damage][single] {smite};
+		#var bot[damage][single] {zeal};
 		#var bot[damage][multiple] {zeal};
 
 		#var toggle[focus] on;
@@ -476,7 +476,7 @@ init bot[rescue2] preferences off;
 			show_debug {<131>Single damage NO TARGET: $bot[damage][single]};
 			#switch {"$MSDP_OPPONENT_NAME"} {
 				#case {"a wandering paladin"} {
-					#if {"$MSDP_CLASS"=="Paladin"}  {#var bot[damage][single] bash} 
+					#if {"$MSDP_CLASS"=="Paladin"}  {#var bot[damage][single] zeal} 
 				};
 				#case {"a smilodon"} { 
 					#if {"$MSDP_CLASS"=="Assassin"}  {#var bot[damage][single] hamstring} 
