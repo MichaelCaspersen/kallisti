@@ -1164,7 +1164,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #gag {You can't get any {tooths} from the corpse of }
 #gag {You don't seem to have any {tooths}.}
 
-#action {Gary drops %1 tooth.} {#if {$autotooth} {nco get tooth}}
+#action {Gary drops %1 tooth.} {#if {$autotooth} {get all.tooth}} 
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
 
 
