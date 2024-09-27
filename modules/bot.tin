@@ -461,7 +461,7 @@ init bot[rescue2] preferences off;
 			#case {"Wizard"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostbite} {damage zap} };
 			#case {"Paladin"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>$healpct_damage_allowed} {#var bot[damage][multiple] icestorm} {#var bot[damage][multiple] zeal} };
 			#case {"Druid"} {#if {$MSDP_OPPONENT_NUMBER<4} {#var bot[damage][multiple] chain} {#var bot[damage][multiple] sunray} };
-			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} { queueAdd combat hamstring } };
+			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} {#var bot[damage][multiple] hamstring} };
 			#default {#nop};
 		};
 		#var stats[damage][$bot[damage][multiple]] @increment{$stats[damage][$bot[damage][multiple]]};
@@ -469,17 +469,22 @@ init bot[rescue2] preferences off;
 	} 
 	{
 		#if {"%1"!=""} {
-			show_debug {<131>Single target: $bot[damage][single] <%1>};
-			#var stats[damage][$bot[damage][multiple]] @increment{$stats[damage][$bot[damage][multiple]]};
-			queueAdd any $bot[damage][single] %1;
+			show_debug {<131>Single damage BOT CALL: $bot[damage][single] <%1>};
+			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]]};
+			queueAdd combat $bot[damage][single] %1;
 		}; #else {
-			show_debug {<131>Single target: <%1> $bot[damage][single]};
-			#if { ("$MSDP_OPPONENT_NAME"=="a wandering paladin") && ("$MSDP_CLASS"=="Paladin") } { queueAdd combat bash };
-			#elseif { ("$MSDP_OPPONENT_NAME"=="a smilodon") && ("$MSDP_CLASS"=="Assassin") } { queueAdd combat hamstring };
-			#else {
-				#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]]};
-				queueAdd combat $bot[damage][single]
-			}
+			show_debug {<131>Single damage NO TARGET: $bot[damage][single]};
+			#switch {"$MSDP_OPPONENT_NAME"} {
+				#case {"a wandering paladin"} {
+					#if {"$MSDP_CLASS"=="Paladin"}  {#var bot[damage][single] bash} 
+				};
+				#case {"a smilodon"} { 
+					#if {"$MSDP_CLASS"=="Paladin"}  {#var bot[damage][single] hamstring} 
+				};
+				#default {#nop};
+			};
+			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]]};
+			queueAdd combat $bot[damage][single]
 		}
 	}
 }
