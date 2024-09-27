@@ -1155,7 +1155,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Gary issues the order: hamstring%1} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>Gary;queueAdd priority hamstring %1}} {2}
 
 #alias rescue {show_debug {Rescue called: %1};queueAdd priority rescu %1}
-#action {Banzai! To the rescue...} {#math gary_delay {$MSDP_UPTIME-$gary_delay};#show <131> $gary_delay (s)}
+#action {Banzai! To the rescue...} {#math gary_delay {$MSDP_UPTIME-$gary_delay};#show <131>RESCUE: $gary_delay (s)} {3}
+#action {But nobody is fighting {him|her|it}?} {#math gary_delay {$MSDP_UPTIME-$gary_delay};#show <131>TIMED OUT RESCUE: $gary_delay (s)} {3}
+
 
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
 #gag {There aren't any {tooths} here you can take.}
