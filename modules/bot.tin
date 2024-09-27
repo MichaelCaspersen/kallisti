@@ -479,7 +479,7 @@ init bot[rescue2] preferences off;
 					#if {"$MSDP_CLASS"=="Paladin"}  {#var bot[damage][single] bash} 
 				};
 				#case {"a smilodon"} { 
-					#if {"$MSDP_CLASS"=="Paladin"}  {#var bot[damage][single] hamstring} 
+					#if {"$MSDP_CLASS"=="Assassin"}  {#var bot[damage][single] hamstring} 
 				};
 				#default {#nop};
 			};
@@ -1189,9 +1189,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {A sabertooth tiger wanders around here looking for food.}{#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
 #action {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
-#ACTION {A smilodon is here, fighting } {queueAdd priority hamstring smilodon}
-#ACTION {You must wait for a smilodon to stand up first.} {queueAdd priority hamstring smilodon}
-#ACTION {A smilodon arrives.} {queueAdd priority hamstring smilodon} {4}
+#ACTION {A smilodon is here, fighting } {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}}
+#ACTION {You must wait for a smilodon to stand up first.} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}}
+#ACTION {A smilodon arrives.} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} {4}
 #action {You need to wield a weapon to attempt to hamstring.} {wear all}
 
 #variable autotooth 1;
