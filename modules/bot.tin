@@ -1256,6 +1256,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	show_debug {<123>%0 is dead, what to do!!};
+	#if { $autotooth } { get toot all.corpse };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	#if { "$MSDP_CLASS"=="Necromancer"} {
@@ -1276,7 +1277,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {@gotFollowers{}>0} { nco lootgold };
 	#if { $bot[examine] } { exa corpse };
 	#if { $bot[controlweather] } { cweather $bot[weatherdir] };
-	#if { $autotooth } { nco loottooth };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
