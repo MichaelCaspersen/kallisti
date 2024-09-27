@@ -260,7 +260,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"poke_target"} #var result 2000;
         #case {"hellstream"} #var result 1000;
         #case {"tornado"} #var result 1200;
-        #case {"zeal"} #var result 1500;
+        #case {"zeal"} #var result 2000;
         #case {"poke_target"} #var result 3000;
         #case {"loottooth"} #var result 500;
         #case {"lootgold"} #var result 500;
