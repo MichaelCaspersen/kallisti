@@ -1158,7 +1158,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Banzai! To the rescue...} {#math gary_delay {$MSDP_UPTIME-$gary_delay};#show <131>RESCUE: $gary_delay (s)} {3}
 #action {But nobody is fighting {him|her|it}?} {#math gary_delay {$MSDP_UPTIME-$gary_delay};#show <131>TIMED OUT RESCUE: $gary_delay (s)} {3}
 
-
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
 #gag {There aren't any {tooths} here you can take.}
 #gag {You can't get any {tooths} from the corpse of }
@@ -1258,7 +1257,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	show_debug {<123>%0 is dead, what to do!!};
-	#if { $autotooth } { get toot all.corpse };
+	#if { $autotooth } { get tooth all.corpse };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	#if { "$MSDP_CLASS"=="Necromancer"} {
