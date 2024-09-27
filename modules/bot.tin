@@ -608,7 +608,7 @@ event_register {variable bot[nextAction]} {right} {generate_bot_info};
 event_register {variable master[active]} {right} {generate_bot_info};
 #alias generate_bot_info {
 	#if $bot[running] {
-		#format bot_info[1] {<B538d87><388><188>%s} {Bot:$bot[role] Mov: $bot[move] Cast: $bot[cast] DamAt: $healpct_damage_allowed%};
+		#format bot_info[1] {<B538d87><388><188>%s} {Bot:&09;$bot[role]&-- Mov: $bot[move] Cast: $bot[cast] DamAt: $healpct_damage_allowed%};
 		#format bot_info[2] {<B538d87><388><188>%s} {Action:[$bot[nextAction]]};
 		#format bot_info[3] {<B538d87><388><188>%s} {Target: [@findtarget{}]   SpellLock:$actionDelay};
 		#if $zone[active] {
@@ -1187,6 +1187,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #ACTION {A smilodon is here, fighting } {queueAdd priority hamstring smilodon}
 #ACTION {You must wait for a smilodon to stand up first.} {queueAdd priority hamstring smilodon}
 #ACTION {A smilodon arrives.} {queueAdd priority hamstring smilodon} {4}
+#action {You need to wield a weapon to attempt to hamstring.} {wear all}
 
 #variable autotooth 1;
 #var toothcontainer backpack;
@@ -1204,6 +1205,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP #######################################################
 #NOP General
 #NOP #######################################################
+
+#action {Congratulations!  %1 has paid %2 homage to you.  The reason was: Hope you hit legend soon :)} {reply %1 Thank you!!!}
 
 #action {You hop on {a|an|the} %1's back.} {#var bot[mount][name] %1}
 
