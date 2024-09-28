@@ -214,6 +214,8 @@ init bot[rescue2] preferences off;
 		#var bot[damage][single] {tornado};
 		#var bot[damage][multiple] {chain};
 		#var druid_convert_at 70;
+		#var nextallowedconvert 0;
+		#var mintimebetweenconvert 30;
 
 		#var autobark on;
 		#var autobless on;
@@ -381,7 +383,7 @@ init bot[rescue2] preferences off;
 	#var bot[nextAction] {};		
 	#var bot[nextActionDebug] {};
 	#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
-	#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$druid_convert_at) } {
+	#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$druid_convert_at) && ($nextallowedconvert<$MSDP_UPTIME) } {
 		queueAdd any convert;
 	};
 	#if { @is_group_fighting{}==0 } {
@@ -1101,7 +1103,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #NOP Druid/Prophet specific
-#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
+#action {You call upon the forces of nature to heal yourself.} {
+	#math nextallowedconvert {$MSDP_UPTIME + $mintimebetweenconvert};
+	#delay clearconvert {#list {_queue[any]} delete 1;
+	#list {_queue[combat]} clear} {10};
+	queueAdd heal heal $MSDP_CHARACTER_NAME
+}
 
 #action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
 #action {You heave as your ship tosses about madly in the} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
