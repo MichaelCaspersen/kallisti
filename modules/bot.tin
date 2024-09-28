@@ -422,6 +422,7 @@ init bot[rescue2] preferences off;
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
 		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$recall_below_hit } {
 			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
+			#show <131><TOO LOW ($recall_below_hit) - RECALL;
 			#var bot[nextAction] {queueAdd priority recall};
 		}; 
 		#else {
@@ -1196,7 +1197,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop "><" indicates that you are targetting one another.
 
 #action {A sabertooth tiger wanders around here looking for food.}{#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
-#action {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
+#unaction {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
 #ACTION {A smilodon is here, fighting } {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}}
 #ACTION {You must wait for a smilodon to stand up first.} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}}
 #ACTION {A smilodon arrives.} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} {4}
