@@ -237,7 +237,7 @@ init metaHero preferences 0
             #unaction {You find yourself back in Gummton Outpost.};
             n2w;
             book cargo;
-            recall
+            #delay 5 recall;
         };
         recall
     } {
