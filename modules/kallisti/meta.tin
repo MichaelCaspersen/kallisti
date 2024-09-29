@@ -330,7 +330,7 @@ init metaHero preferences 0
                 #delay 10 {#unaction {Land is in sight!};gt yeshunt}
             };
             #action {You wash up on shore...} {
-                #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt};
+                #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt;#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {holygate crom}};
                 #else {recall;returntostart;}
             }
         };
