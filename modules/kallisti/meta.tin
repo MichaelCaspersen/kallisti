@@ -263,14 +263,12 @@ init metaHero preferences 0
 #alias goGain {
     setguildpath;
     #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {
-        2ne;
-        with $goldlevel[$MSDP_LEVEL];
-        w2s;
+        visit house;
     } {
         home;
-        with $goldlevel[$MSDP_LEVEL];
-        egress;
     }
+    with $goldlevel[$MSDP_LEVEL];
+    egress;
     $guildpath;
     gain;
     #delay 5 doMetaOrGain
@@ -308,19 +306,23 @@ init metaHero preferences 0
 }
 
 #alias {returntostart} {
-    #if {"$MSDP_ACCOUNT_NAME"!="Kruoill"} {
+    #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {
+        visit house;
+    } {
         home;
-        dep all;
-        egress;
-    };
+    }
+    dep all;
+    egress;
     #switch {"$return_zone"} {
         #case {"The Wilderness"} {
             #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} { 
-                2ne;with 100000;w2s;
+                visit house;
             }
             {
-                home;with 100000;egress;
+                home;
             }
+            with 100000;
+            egress;
             3s2es;
             book gumm;;
             #action {Land is in sight!} {
