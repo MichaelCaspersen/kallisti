@@ -390,9 +390,9 @@ init bot[rescue2] preferences off;
 			#if { "@findtarget{}"!="" } {
 				#var bot[nextActionDebug] {$bot[nextActionDebug] Target:1};
 				#if { $bot[poke] } {
-					#var bot[nextAction] {queueAdd nco poke_target};
+					#var bot[nextAction] {nco poke_target};
 				};#else  {
-					#var bot[nextAction] {queueAdd nco attackTarget @findtarget{}};
+					#var bot[nextAction] {attackTarget @findtarget{}};
 				};
 			};
 			#else {
