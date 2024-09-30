@@ -245,18 +245,16 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 #var autopickuphides 0;
-#action {Some hide from %1 lies here.} {#if $autopickuphides {get hide}}
+#action {Some hide from %1 lies here.} {#if $autopickuphides {get all.hide}}
 
 #action {You get some %1 hide from %2.} {
 	#switch {"%1"} {
-		#case {"junk"} { $profession[str_sack] };
-		#case {"rough"} { $profession[str_sack] };
+		#case {"junk"} { sac hide };
+		#case {"rough"} { sac hide };
 		#default {
-			donate $profession[str_mat] home;
-			#math profession[gather][success] {$profession[gather][success]+1}
+			donate hide home;
 		};
 	};
-	generate_profession_info;
 }
 
 #NOP #######################################################
@@ -330,9 +328,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {You don't have access to the proper equipment here.} {#var profession[refining][auto] 0}
 
-
+#var needmeta 0;
 #action {There aren't any hides here you can take.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
-#action {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
+#action {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff};#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
 #action {The weight of your experience thrums a discordant note in your soul.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
 
 #NOP #######################################################
