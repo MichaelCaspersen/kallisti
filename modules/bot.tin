@@ -182,7 +182,7 @@ init bot[rescue2] preferences off;
 	#if { "$MSDP_CLASS" == "Paladin" } {
 		botrole damage;
 		#var bot[cast] 1;
-		#var bot[damage][single] {smite};
+		#var bot[damage][single] {zeal};
 		#var bot[damage][multiple] {zeal};
 
 		#var toggle[focus] on;
@@ -214,6 +214,8 @@ init bot[rescue2] preferences off;
 		#var bot[damage][single] {tornado};
 		#var bot[damage][multiple] {chain};
 		#var druid_convert_at 70;
+		#var nextallowedconvert 0;
+		#var mintimebetweenconvert 30;
 
 		#var autobark on;
 		#var autobless on;
@@ -381,7 +383,7 @@ init bot[rescue2] preferences off;
 	#var bot[nextAction] {};		
 	#var bot[nextActionDebug] {};
 	#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
-	#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$druid_convert_at) } {
+	#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$druid_convert_at) && ($nextallowedconvert<$MSDP_UPTIME) } {
 		queueAdd any convert;
 	};
 	#if { @is_group_fighting{}==0 } {
@@ -422,6 +424,7 @@ init bot[rescue2] preferences off;
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
 		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$recall_below_hit } {
 			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
+			#show <131><TOO LOW ($recall_below_hit) - RECALL;
 			#var bot[nextAction] {queueAdd priority recall};
 		}; 
 		#else {
@@ -476,7 +479,7 @@ init bot[rescue2] preferences off;
 			show_debug {<131>Single damage NO TARGET: $bot[damage][single]};
 			#switch {"$MSDP_OPPONENT_NAME"} {
 				#case {"a wandering paladin"} {
-					#if {"$MSDP_CLASS"=="Paladin"}  {#var bot[damage][single] bash} 
+					#if {"$MSDP_CLASS"=="Paladin"}  {#var bot[damage][single] zeal} 
 				};
 				#case {"a smilodon"} { 
 					#if {"$MSDP_CLASS"=="Assassin"}  {#var bot[damage][single] hamstring} 
@@ -613,7 +616,7 @@ event_register {variable bot[nextAction]} {right} {generate_bot_info};
 event_register {variable master[active]} {right} {generate_bot_info};
 #alias generate_bot_info {
 	#if $bot[running] {
-		#format bot_info[1] {<B538d87><388><188>%s} {Bot:&09;$bot[role]&-- Mov: $bot[move] Cast: $bot[cast] DamAt: $healpct_damage_allowed%};
+		#format bot_info[1] {<B538d87><388><188>%s} {Bot:<F0dd>$bot[role]´<Ffff>Mov: <Ff00>$bot[move]<Ffff> Cast: <Ff00>$bot[cast]<Ffff> DamAt: <Ff00>$healpct_damage_allowed<Ffff>%};
 		#format bot_info[2] {<B538d87><388><188>%s} {Action:[$bot[nextAction]]};
 		#format bot_info[3] {<B538d87><388><188>%s} {Target: [@findtarget{}]   SpellLock:$actionDelay};
 		#if $zone[active] {
@@ -1100,7 +1103,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #NOP Druid/Prophet specific
-#action {You call upon the forces of nature to heal yourself.} {#delay clearconvert {#list {_queue[any]} delete 1;#list {_queue[combat]} clear} {10};queueAdd heal heal $MSDP_CHARACTER_NAME}
+#action {You call upon the forces of nature to heal yourself.} {
+	#math nextallowedconvert {$MSDP_UPTIME + $mintimebetweenconvert};
+	#delay clearconvert {#list {_queue[any]} delete 1;
+	#list {_queue[combat]} clear} {10};
+	queueAdd heal heal $MSDP_CHARACTER_NAME
+}
 
 #action {You get seasick as your ship tosses about in the rough weather.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
 #action {You heave as your ship tosses about madly in the} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {cweather better}}
@@ -1158,13 +1166,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {Banzai! To the rescue...} {#math gary_delay {$MSDP_UPTIME-$gary_delay};#show <131>RESCUE: $gary_delay (s)} {3}
 #action {But nobody is fighting {him|her|it}?} {#math gary_delay {$MSDP_UPTIME-$gary_delay};#show <131>TIMED OUT RESCUE: $gary_delay (s)} {3}
 
-
 #gag {There doesn't seem to be a {gold|tooth} in the corpse of }
 #gag {There aren't any {tooths} here you can take.}
 #gag {You can't get any {tooths} from the corpse of }
 #gag {You don't seem to have any {tooths}.}
-#action {Gary drops %1 tooth.} {nco get tooth}
-#action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
+
 
 
 #var allowedToTank 3;
@@ -1178,7 +1184,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var getoutnow 0
 }
 
-#action {^< $MSDP_CHARACTER_NAME |} {#var tankingmobs 0}
+#nop hyper agressive at severely    action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if {$MSDP_OPPONENT_NUMBER>0} {#if { ("%2"=="a gigasaur") && (("%3"=="near") || ("%3"=="severely")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
+#action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if { ($MSDP_OPPONENT_NUMBER>0) && ($autotooth)} {#if { ("%2"=="a gigasaur") && (("%3"=="near")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
+#gag {You can't seem to find any corpses here.}
+
+
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
 	#show <131>I'm tanking $tankingmobs mobs;
@@ -1194,7 +1204,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop "><" indicates that you are targetting one another.
 
 #action {A sabertooth tiger wanders around here looking for food.}{#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
-#action {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
+#unaction {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
 #ACTION {A smilodon is here, fighting } {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}}
 #ACTION {You must wait for a smilodon to stand up first.} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}}
 #ACTION {A smilodon arrives.} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} {4}
@@ -1205,13 +1215,19 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias lootgold {get gold all.corpse}
 #alias loottooth {get tooth all.corpse;put all.tooth $toothcontainer}
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
+#action {Gary drops %1 tooth.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}} 
+#action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
+#action {You get a %1 tooth from the corpse of a %2.} {put all.tooth backpack}
+
+#highlight {You get a %1 tooth from the corpse of a %2.} {cyan reverse}
+#highlight {You extract some %2 bone from %3.} {cyan reverse}
 
 #HIGHLIGHT {Penitence, the staff of Ziphnex shines brightly.} {lime reverse}
 #HIGHLIGHT {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {lime reverse}
 #HIGHLIGHT {Sword of the spirit pulses with white hot energy, filling your party with joy!} {lime reverse}
 #HIGHLIGHT {You use %1 to focus your spell.} {yellow reverse};
 
-
+#nop ACTION {%0 is dead!  R.I.P.} {get all.tooth all.corpse;put all.tooth back;#if { ($MSDP_STAMINA>300) && ("%0"!="A massive harvester spider")} {nco extract corpse};#math stat[kill][%0] {$stat[kill][%0]+1};#var stat[kill]}
 
 #NOP #######################################################
 #NOP General
@@ -1255,6 +1271,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	show_debug {<123>%0 is dead, what to do!!};
+	#if { $autotooth } { get tooth all.corpse };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	#if { "$MSDP_CLASS"=="Necromancer"} {
@@ -1275,7 +1292,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {@gotFollowers{}>0} { nco lootgold };
 	#if { $bot[examine] } { exa corpse };
 	#if { $bot[controlweather] } { cweather $bot[weatherdir] };
-	#if { $autotooth } { nco loottooth };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}

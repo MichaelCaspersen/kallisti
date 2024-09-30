@@ -227,22 +227,31 @@ init metaHero preferences 0
     #if {$profession[refining][auto]} {
         #var return_zone Profession;
     };
-    #if {"$MSDP_AREA_NAME"=="The Wilderness"} {
-        gt nohunt;
-        #action {You find yourself back in Midgaard City.} {
-            #unaction {You find yourself back in Midgaard City.};
-            doMetaOrGain
-        };
-        #action {You find yourself back in Gummton Outpost.} {
-            #unaction {You find yourself back in Gummton Outpost.};
-            n2w;
-            book cargo;
+    #switch {"$MSDP_AREA_NAME"} {
+        #case {"The Wilderness"} {
+            gt nohunt;
+            #action {You find yourself back in Midgaard City.} {
+                #unaction {You find yourself back in Midgaard City.};
+                doMetaOrGain
+            };
+            #action {You find yourself back in Gummton Outpost.} {
+                #unaction {You find yourself back in Gummton Outpost.};
+                n2w;
+                book cargo;
+                #delay 5 recall;
+            };
             recall
         };
-        recall
-    } {
-        recall;
-        doMetaOrGain;
+        #case {"Gummton Outpost"} {
+            recall;
+            n2w;
+            book cargo;
+            #delay 5 recall;
+        };
+        #default {
+            recall;
+            doMetaOrGain;
+        }
     }
 }
 
@@ -262,17 +271,20 @@ init metaHero preferences 0
 
 #alias goGain {
     setguildpath;
-    home;
+    #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {
+        visit house;
+    } {
+        home;
+    }
     with $goldlevel[$MSDP_LEVEL];
     egress;
     $guildpath;
     gain;
+    $guildreturnpath;
     #delay 5 doMetaOrGain
 }
 
 #alias doMeta {
-    home;
-    egress;
     2s14w;
     enter tree;
     open door;
@@ -304,17 +316,30 @@ init metaHero preferences 0
 }
 
 #alias {returntostart} {
-    home;
+    #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {
+        visit house;
+    } {
+        home;
+    }
     dep all;
     egress;
     #switch {"$return_zone"} {
         #case {"The Wilderness"} {
-            home;with 100000;egress;3s2es;book gumm;
+            #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} { 
+                visit house;
+            }
+            {
+                home;
+            }
+            with 100000;
+            egress;
+            3s2es;
+            book gumm;;
             #action {Land is in sight!} {
                 #delay 10 {#unaction {Land is in sight!};gt yeshunt}
             };
             #action {You wash up on shore...} {
-                #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt};
+                #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt yeshunt;#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {holygate crom}};
                 #else {recall;returntostart;}
             }
         };
@@ -348,21 +373,21 @@ init metaHero preferences 0
 
 #alias setguildpath {
     #switch {"$MSDP_CLASS"} {
-        #case {"Barbarian"} {#var guildpath 2s2e3s};
-        #case {"Paladin"} {#var guildpath 2s2e2su};
-        #case {"Dreadlord"} {#var guildpath 2s2e2sd};
-        #case {"Ranger"} {#var guildpath 2s2e2se};
-        #case {"Valkyrie"} {#var guildpath 2s2e2sw};
-        #case {"Assassin"} {#var guildpath 3s3w3s};
-        #case {"Demoniac"} {#var guildpath 3s3w2sw};
-        #case {"Bard"} {#var guildpath 3s3w2se};
-        #case {"Templar"} {#var guildpath swne};
-        #case {"Druid"} {#var guildpath swn2w};
-        #case {"Prophet"} {#var guildpath sw2n};
-        #case {"Necromancer"} {#var guildpath 2s2w2sd};
-        #case {"Wizard"} {#var guildpath 2s2w2su};
-        #case {"Monk"} {#var guildpath 2s6e2su};
-        #case {"Samurai"} {#var guildpath 2s6e2se};
+        #case {"Barbarian"} {#var guildpath 2s2e3s;#var guildreturnpath 3n2w2n};
+        #case {"Paladin"} {#var guildpath 2s2e2su;#var guildreturnpath d2n2w2n};
+        #case {"Dreadlord"} {#var guildpath 2s2e2sd;#var guildreturnpath u2n2w2n};
+        #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
+        #case {"Valkyrie"} {#var guildpath 2s2e2sw;#var guildreturnpath e2n2w2n};
+        #case {"Assassin"} {#var guildpath 3s3w3s;#var guildreturnpath 3n3e3n};
+        #case {"Demoniac"} {#var guildpath 3s3w2sw;#var guildreturnpath e2n3e3n};
+        #case {"Bard"} {#var guildpath 3s3w2se;#var guildreturnpath w2n3e3n};
+        #case {"Templar"} {#var guildpath swne;#var guildreturnpath wsen};
+        #case {"Druid"} {#var guildpath swn2w;#var guildreturnpath 2esen};
+        #case {"Prophet"} {#var guildpath sw2n;#var guildreturnpath 2sen};
+        #case {"Necromancer"} {#var guildpath 2s2w2sd;#var guildreturnpath u2n2e2n};
+        #case {"Wizard"} {#var guildpath 2s2w2su;#var guildreturnpath s2n2e2n};
+        #case {"Monk"} {#var guildpath 2s6e2su;#var guildreturnpath d2n6w2n};
+        #case {"Samurai"} {#var guildpath 2s6e2se;#var guildreturnpath w2n6w2n};
     }
 }
 
