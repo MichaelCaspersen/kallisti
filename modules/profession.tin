@@ -244,6 +244,21 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
+#var autopickuphides 0;
+#action {Some hide from %1 lies here.} {#if $autopickuphides {get hide}}
+
+#action {You get some %1 hide from %2.} {
+	#switch {"%1"} {
+		#case {"junk"} { $profession[str_sack] };
+		#case {"rough"} { $profession[str_sack] };
+		#default {
+			donate $profession[str_mat] home;
+			#math profession[gather][success] {$profession[gather][success]+1}
+		};
+	};
+	generate_profession_info;
+}
+
 #NOP #######################################################
 #NOP Auto Profession 
 #NOP #######################################################
