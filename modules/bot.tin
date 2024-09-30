@@ -171,9 +171,9 @@ init bot[rescue2] preferences off;
 		#var bot[damage][single] {kick};
 		#var bot[damage][multiple] {kick};
 
-		#var toggle[focus] on;
-		#var toggle[warpaint] on;
-		#var toggle[warcry] on;
+		#nop var toggle[focus] on;
+		#nop var toggle[warpaint] on;
+		#nop var toggle[warcry] on;
 	};
 
 	#NOP #######################################################;
@@ -185,10 +185,10 @@ init bot[rescue2] preferences off;
 		#var bot[damage][single] {zeal};
 		#var bot[damage][multiple] {zeal};
 
-		#var toggle[focus] on;
-		#var toggle[prayer] on;
-		#var toggle[focus] on;
-		#var toggle[warcry] on;
+		#nop var toggle[focus] on;
+		#nop var toggle[prayer] on;
+		#nop var toggle[focus] on;
+		#nop var toggle[warcry] on;
 	};
 
 	#NOP #######################################################;
