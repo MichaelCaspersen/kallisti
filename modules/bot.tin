@@ -1156,6 +1156,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Wilderness
 #NOP #######################################################
 
+#action {Enter the realm } {#if {"$MSDP_AREA_NAME"=="The Wilderness"} {}}
+#nop You are dead!  Better luck next time...
+
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
@@ -1185,9 +1188,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #nop hyper agressive at severely    action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if {$MSDP_OPPONENT_NUMBER>0} {#if { ("%2"=="a gigasaur") && (("%3"=="near") || ("%3"=="severely")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
-#action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if { ($MSDP_OPPONENT_NUMBER>0) && ($autotooth)} {#if { ("%2"=="a gigasaur") && (("%3"=="near")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
+#action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if { ($MSDP_OPPONENT_NUMBER>0) && ($autotooth)} {#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
 #gag {You can't seem to find any corpses here.}
-
+#var aggressivetooth 0;
 
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
