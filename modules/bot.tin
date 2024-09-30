@@ -394,7 +394,7 @@ init bot[rescue2] preferences off;
 				#if { $bot[poke] } {
 					#var bot[nextAction] {nco poke_target};
 				};#else  {
-					#var bot[nextAction] {attackTarget @findtarget{}};
+					#var bot[nextAction] {$bot[damage][single] @findtarget{}};
 				};
 			};
 			#else {
