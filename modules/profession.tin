@@ -244,8 +244,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
-#var autopickuphides 0;
-#action {Some hide from %1 lies here.} {#if $autopickuphides {get all.hide}}
+#var autopickuphides 1;
+#action {Some hide from %1 lies here.} {#if $autopickuphides {get hide}}
 
 #action {You get some %1 hide from %2.} {
 	#switch {"%1"} {
@@ -255,6 +255,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 			donate hide home;
 		};
 	};
+	l
 }
 
 #NOP #######################################################
@@ -293,7 +294,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 			#var profession[str_pickup] {get all.bone};
 			#var profession[str_action] {carve bone};	
 			#var profession[str_sack] {sac bone};
-			#var profession[refine_location] {3s2w;open gate;2s;open door;s2u4es};
+			#var profession[refine_location] {visit houseofanasasi;e};
 		};
 		#CASE {"bonecraft"} {
 			#var profession[str_mat] {bone};
@@ -331,7 +332,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #var needmeta 0;
 #action {There aren't any hides here you can take.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
 #action {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff};#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
-#action {The weight of your experience thrums a discordant note in your soul.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
+#action {The weight of your experience thrums a discordant note in your soul.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff};#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
 
 #NOP #######################################################
 #NOP Crafting - Daggers, Symbols
@@ -339,7 +340,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {You craft {a|an} %1 {dagger|symbol} made from {a |an |}%3 {bone}.} { exa %2 }
 
-#nop action {Damage Dice: %1d%2 (%3)} {#if { $profession[refining][auto] } {#if { (%3>20) } {drop  dagger;$profession[str_action]};#else { sac dagger }}}
+#nop action {Damage Dice: %1d%2 (%3)} {#if { $profession[refining][auto] } {#if { (%3>20) } {drop dagger;$profession[str_action]};#else { sac dagger }}}
 #action {You sacrifice the {dagger|symbol} to the gods.} {#if $profession[refining][auto] {nco $profession[str_action]}}
 
 #action {  +%1 UnholySymbol} {	

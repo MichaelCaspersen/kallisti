@@ -1146,6 +1146,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#CASE { "clear" } {#if {"$bot[weatherdir]"=="worse"} {nco controlweather %1}};
 			#CASE { "cloudy" } {nco controlweather %1};
 			#CASE { "raining" } {nco controlweather %1};
+			#CASE { "hailing" } {nco controlweather %1};
 			#CASE { "snowing" } {nco controlweather %1};
 			#CASE { "storming" } {nco controlweather %1};
 			#CASE { "maelstrom" } {#if {"$bot[weatherdir]"=="better"} {nco controlweather %1}};

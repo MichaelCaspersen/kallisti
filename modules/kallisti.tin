@@ -120,6 +120,7 @@ event_register {variable MSDP_GROUP} {right} {generate_group_info {%0} {%1} {%2}
 		#CASE { "clear" } {#var result <Fff0>🔆};
 		#CASE { "cloudy" } {#var result <Fffa>⛅};
 		#CASE { "raining" } {#var result <Ffff>🌧️};
+		#CASE { "hailing" } {#var result <Ffff>🌧️};
 		#CASE { "snowing" } {#var result <Ffff>☃️};
 		#CASE { "storming" } {#var result <Ff88>🌩️};
 		#CASE { "maelstrom" } {#var result <Ff00>⛈️};
