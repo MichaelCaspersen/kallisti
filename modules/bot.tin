@@ -135,6 +135,7 @@ init bot[rescue2] preferences off;
 		#var bot[damage][multiple] dfog;
 		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
 		#var bot[spellSustain] drain;
+		#var allowedToTank 99;
 
 		#var autobloodlust on;
 		#var autocorpsevisage on;
@@ -170,6 +171,7 @@ init bot[rescue2] preferences off;
 		#var bot[cast] 1;
 		#var bot[damage][single] {kick};
 		#var bot[damage][multiple] {kick};
+		#var allowedToTank 99;
 
 		#nop var toggle[focus] on;
 		#nop var toggle[warpaint] on;
@@ -184,6 +186,7 @@ init bot[rescue2] preferences off;
 		#var bot[cast] 1;
 		#var bot[damage][single] {zeal};
 		#var bot[damage][multiple] {zeal};
+		#var allowedToTank 99;
 
 		#nop var toggle[focus] on;
 		#nop var toggle[prayer] on;
@@ -343,6 +346,7 @@ init bot[rescue2] preferences off;
 			#var bot[running] 1;
 			#var bot[role] leader;
 			#var bot[poke] 1;
+			#var allowedToTank 99;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
 		#case {"tank"} {
@@ -350,6 +354,7 @@ init bot[rescue2] preferences off;
 			#var bot[role] tank;
 			#var bot[join] 1;
 			#var bot[rescue] 1;
+			#var allowedToTank 99;
 			#tick {determinbotaction} {determine_bot_action} {0.1};
 		};
 		#case {"stabber"} {
