@@ -1156,12 +1156,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Wilderness
 #NOP #######################################################
 
+#action {Gary has lost his link.} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
+#action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
+
 #action {You are dead!  Better luck next time...} {#delay 5 {#show <131>DEAD RELOGGING;1;#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>DEAD IN WILDERNESS BUY CR;3n;with 5000000;buy cr;dep all}}}
 #action {GETTING CORPSE FROM CR} {get all corpse;wear all;get all corpse;wear all;get all corpse;wear all;put all.recall back;get all corpse;wear all}
-#action {A glowing white portal appears.} {enter portal;fol gary;#unaction {A glowing white portal appears.}}
+#action {A glowing white portal appears.} {#if $regroup {enter portal;fol gary;#unaction {A glowing white portal appears.}}}
+#var regroup 0;
 
 
-#action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {2}
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
 
