@@ -621,7 +621,7 @@ event_register {variable bot[nextAction]} {right} {generate_bot_info};
 event_register {variable master[active]} {right} {generate_bot_info};
 #alias generate_bot_info {
 	#if $bot[running] {
-		#format bot_info[1] {<B538d87><388><188>%s} {Bot:<F0dd>$bot[role]´<Ffff>Mov: <Ff00>$bot[move]<Ffff> Cast: <Ff00>$bot[cast]<Ffff> DamAt: <Ff00>$healpct_damage_allowed<Ffff>%};
+		#format bot_info[1] {<B538d87><388><188>%s} {Bot:<F0dd>$bot[role]<Ffff>Mov: <Ff00>$bot[move]<Ffff> Cast: <Ff00>$bot[cast]<Ffff> DamAt: <Ff00>$healpct_damage_allowed<Ffff>%};
 		#format bot_info[2] {<B538d87><388><188>%s} {Action:[$bot[nextAction]]};
 		#format bot_info[3] {<B538d87><388><188>%s} {Target: [@findtarget{}]   SpellLock:$actionDelay};
 		#if $zone[active] {
