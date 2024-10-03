@@ -35,7 +35,7 @@ Commands:\n
 #var profession[gather][all] 0
 #var profession[gather][success] 0
 #var profession[gather][total] 0
-#var profession[gather][receiver] {Kruoill} ;#nop Empty will donate to own house, or else to <value> house
+#var profession[gather][receiver] {Kr} ;#nop Empty will donate to own house, or else to <value> house
 #var profession[gather][selling] 0;
 
 #alias profon 	{
