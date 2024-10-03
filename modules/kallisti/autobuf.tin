@@ -291,7 +291,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
                     queueAdd nco {true}
                 };
                 #elseif { (@groupClassIsPresent{TEM} || @groupClassIsPresent{PRO} || @groupClassIsPresent{DRU}) && ( "$toggle[truesee]"=="on" )} {
-                    queueAdd nco {gt true}
+                    queueAdd nco {gt &08true&--}
                 }
             }
         };
@@ -312,7 +312,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #switch {"%1"} {
 			#case {"auto"} { nco doSmartSanct};
             #case {"spell"} { nco doSpellSanct};
-            #case {"gt"} {nco gt all sanct group};
+            #case {"gt"} {nco gt &08all sanct group&--};
             #case {"potion"} {
                 #if {@is_alias{potion}} {
                         queueAdd nco {potion sanctuary}
@@ -446,7 +446,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             }
         } {
             #if {@groupClassIsPresent{Prophet} || @groupClassIsPresent{Templar} || @groupClassIsPresent{Druid}} {
-                #if {&MSDP_GROUP[] > 1} {queueAdd nco gt all vigor group}
+                #if {&MSDP_GROUP[] > 1} {queueAdd nco gt &08all vigor group&--}
             }
         }
     }
@@ -635,7 +635,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             #case {"Templar"} {doSpellSanct};
             #default {
                 #if {@groupClassIsPresent{TEM} || @groupClassIsPresent{PRO}} {
-                    queueAdd nco {gt all sanct group}
+                    queueAdd nco {gt &08all sanct group&--}
                 } {
                     sanctPotion
                 };

@@ -1585,9 +1585,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #NOP ################## ROUTE BOT BA'ALOR;	
 #alias gobaalor {2s11w6s6wn}
-#action {You enter the rock.} {#if {"@group_leader"=="$MSDP_CHARACTER_NAME"} {	gt all enter rock}}
-#action {You enter a massive tree.} {#if {"@group_leader"=="$MSDP_CHARACTER_NAME"} {	gt all enter tree}}
-#action {You enter the steps.} {#if {"@group_leader"=="$MSDP_CHARACTER_NAME"} {	gt all enter tree}}
+#action {You enter the rock.} {#if {"@group_leader"=="$MSDP_CHARACTER_NAME"} {	gt &08all enter rock&--}}
+#action {You enter a massive tree.} {#if {"@group_leader"=="$MSDP_CHARACTER_NAME"} {	gt &08all enter tree&--}}
+#action {You enter the steps.} {#if {"@group_leader"=="$MSDP_CHARACTER_NAME"} {	gt &08all enter tree&--}}
 
 
 #action {Ba'Alor asks, 'Welcome to Baramon Ingrol travelers, are you friend or foe?'} {settarget 999 @mob_count{"%1"} Ba 1 63 1}
