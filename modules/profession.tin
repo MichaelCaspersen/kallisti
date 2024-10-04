@@ -243,7 +243,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
-#var autopickuphides 1;
+#var autopickuphides 0;
 #action {Some hide from %1 lies here.} {#if $autopickuphides {get hide}}
 
 #action {You get some %1 hide from %2.} {
