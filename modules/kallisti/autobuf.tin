@@ -515,7 +515,16 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
 
 #alias doHide {
     #if {"$toggle[hide]" == "on"} {
-        nco hide
+        #switch {"$MSDP_CLASS"} {
+            #case {"Assassin"} { nco hide };
+            #case {"Demoniac"} { nco hide };
+            #case {"Bard"} { nco hide };
+            #case {"Monastic"} { nco soul };
+            #case {"Monk"} { nco soul };
+            #case {"Samurai"} { nco soul };
+            #case {"Wizard"} { nco vanish };
+            #case {"Necromancer"} { nco shroud };
+        }
     }
 }
 
