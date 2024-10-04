@@ -35,7 +35,7 @@ Commands:\n
 #var profession[gather][all] 0
 #var profession[gather][success] 0
 #var profession[gather][total] 0
-#var profession[gather][receiver] {} ;#nop Empty will donate to own house, or else to <value> house
+#var profession[gather][receiver] {Kr} ;#nop Empty will donate to own house, or else to <value> house
 #var profession[gather][selling] 0;
 
 #alias profon 	{
@@ -218,7 +218,6 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#switch {"%1"} {
 		#case {"junk"} { $profession[str_sack] };
 		#case {"rough"} { $profession[str_sack] };
-		#case {"average"} {donate $profession[str_mat] home};
 		#default {
 			#if { "$profession[gather][receiver]"=="" } {
 				donate $profession[str_mat] home;
