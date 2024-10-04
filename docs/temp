@@ -150,6 +150,24 @@ toggle ranged
 #action {An urchin sits on the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} urchin 40 100 1}
 
 
+#action {A long thin fish speeds through the water.%1} {settarget 999 @mob_count{"%1"} needle 40 100 1}
+#action {A crab with long spindly legs skitters across the bottom.%1} {settarget 999 @mob_count{"%1"} crab 40 100 1}
+#action {A neon blue damselfish zips through the lagoon.%1} {settarget 999 @mob_count{"%1"} damselfish 40 100 1}
+#action {A blue ringed octopus shuffles along the bottom.%1} {settarget 999 @mob_count{"%1"} octopus 40 100 1}
+
+#action {A turtle hatchling struggles across the beach to the sea.%1} {settarget 999 @mob_count{"%1"} turtle 40 100 1}
+#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 40 100 1}
+
+
+#action {A flamboyant lionfish proudly swims here.%1} {settarget 999 @mob_count{"%1"} lion 40 100 1}
+#action {A stonefish blends in perfectly with the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} stonefish 40 100 1}
+#action {A venomous krait glides through the water.%1} {settarget 999 @mob_count{"%1"} krait 40 100 1}
+#action {A barracuda flashes through the water.%1} {settarget 999 @mob_count{"%1"} barracuda 40 100 1}
+#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 40 100 1}
+#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 40 100 1}
+
+
+
 #alias {gohalladar} {2s14e14ne3n4ed4e2n2e5nw5n3w2ne}
 #action {A lightly armored {woman|man}%2} {#if {"$MSDP_AREA_NAME"=="Halladar's Keep"} {settarget 999 @mob_count{"%2"} %1 40 100 1}}
 #action {An young archer stands watch%1} {#if {"$MSDP_AREA_NAME"=="Halladar's Keep"} {settarget 999 @mob_count{"%1"} archer 40 100 1}}
@@ -171,9 +189,8 @@ toggle ranged
 #action {The crystal chef is too busy cooking up a feast to even notice you.%1} {settarget 999 @mob_count{"%1"} chef 40 100 1}
 #action {A crystal guard eyes you suspiciously.%1} {settarget 999 @mob_count{"%1"} guard 40 100 1}
 #action {The King's guest lounges here.%1} {settarget 999 @mob_count{"%1"} guest 40 100 1}
-#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
-#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
-#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {A crystal monk stands silent before you.%1} {settarget 999 @mob_count{"%1"} monk 40 100 1}
+#action {The crystal bishop looks down upon you with an evil glare.%1} {settarget 999 @mob_count{"%1"} bishop 40 100 1}
 
 
 #action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
