@@ -420,7 +420,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 				sell leather;
 			}; #else {
 				drop all.leather;
-				get all.backpack;
+				get all.hide backpack;
 				pickup_mats;
 			}
 		};
