@@ -435,7 +435,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #alias pickup_mats {
 	#if { $profession[refining][auto] } {
 		visit $profession[mat_location];
-		2w;
+		e;
 		$profession[str_pickup];
 		countmats;
 		egress;
