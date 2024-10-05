@@ -1284,10 +1284,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var needmetaat 3800000000;
 
 #ACTION {%0 is dead!  R.I.P.} {
-	show_debug {<123>%0 is dead, what to do!!};
+	#if {$profession[gather][auto]} { do_gather %0 };
 	#if { $autotooth } { get tooth all.corpse;put all.tooth backpack };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
+	show_debug {<123>%0 is dead, what to do!!};
 	#if { "$MSDP_CLASS"=="Necromancer"} {
 		#var auto[candrain] 1;
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
@@ -1296,14 +1297,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<80) || (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) } {
 				queueAdd priority $bot[spellCorpse] corpse;
 			};	
-		}
+		};
+		#if {@gotFollowers{}>0} { nco lootgold };
 	};
 	#if { ($MSDP_EXPERIENCE>$needmetaat) && ($needmeta==0) } {#var needmeta 1;nco return_and_meta};
-	#if { "$MSDP_CLASS"=="Prophet" } {
-		#nop if {$MSDP_THIRST<10 && $MSDP_MANA<$MSDP_MANA_MAX*0.8} {gt mp};
-	};
-	#if {$profession[gather][auto]} { do_gather %0 };
-	#if {@gotFollowers{}>0} { nco lootgold };
 	#if { $bot[examine] } { exa corpse };
 	#if { $bot[controlweather] } { cweather $bot[weatherdir] };
 }
