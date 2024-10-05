@@ -1199,9 +1199,27 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #nop hyper agressive at severely    action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if {$MSDP_OPPONENT_NUMBER>0} {#if { ("%2"=="a gigasaur") && (("%3"=="near") || ("%3"=="severely")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
-#action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if { ($MSDP_OPPONENT_NUMBER>0) && ($autotooth)} {#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
+#action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {
+	#var tankingmobs 0;
+	#if { ($MSDP_OPPONENT_NUMBER>0) } {
+		#if { ($aggressiveprofession) } {
+			#show <131>AGRESSIVE PROFESSION;
+			#math spellLock { @mpoch{} + 3000 };
+			$profession[str_corpse];
+		};
+		#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
+			#show <131>AGRESSIVE LOOT;
+			#math spellLock { @mpoch{} + 3000 };
+			get all.tooth all.corpse;
+			put all.tooth back
+		};
+	}
+} {2}
+
 #gag {You can't seem to find any corpses here.}
+
 #var aggressivetooth 0;
+#var aggressiveprofession 0;
 
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
