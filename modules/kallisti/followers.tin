@@ -32,8 +32,9 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 
 #alias follower_command {
     #show <131>FOLLOWER COMMAND CALLED: <%1> <%2>;
+    #line strip {#show <131>FOLLOWER COMMAND CALLED: <%1> <%2>};
     #if {"%2" == "tnl"} {tnl};
-    #if {"%2" == "true"} {nco true %1};
+    #if {#line strip {"%2}" == "true"} {nco true %1};
     #if {"%2" == "heros"} {checkheros};
     #if {"$follower_mode" == "on"} {
 		#if { ("%1" == "@group_leader{}") || ("%1" == "@subgroup_leader{}")} {
