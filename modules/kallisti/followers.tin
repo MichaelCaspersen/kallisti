@@ -31,6 +31,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 #action {%1 signs 'all %2'} {follower_command {%1} {%2}}
 
 #alias follower_command {
+    #show <131>FOLLOWER COMMAND CALLED: <%1> <%2>;
     #if {"%2" == "tnl"} {tnl};
     #if {"%2" == "true"} {nco true %1};
     #if {"%2" == "heros"} {checkheros};

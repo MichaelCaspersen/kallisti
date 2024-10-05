@@ -1217,6 +1217,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 } {2}
 
 #gag {You can't seem to find any corpses here.}
+#gag {You must also specify what you want to skin.}
+#gag {It isn't quality enough to skin.}
+
+#highlight {%1 skins some hide from the corpse of %1.} {red reverse}
 
 #var aggressivetooth 0;
 #var aggressiveprofession 0;
