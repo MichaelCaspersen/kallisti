@@ -35,15 +35,14 @@ Commands:\n
 #var profession[gather][all] 0
 #var profession[gather][success] 0
 #var profession[gather][total] 0
-#IF { "$MSDP_ACCOUNT_NAME"=="Kruoill" } {
-	#var profession[gather][receiver] {} ;#nop Empty will donate to own house, or else to <value> house
-} {
-	#var profession[gather][receiver] {Kr} ;#nop Empty will donate to own house, or else to <value> house
-}
 #var profession[gather][selling] 0;
+#var profession[gather][receiver] {Kr}
 
 #alias profon 	{
 	#var profession[gather][auto] 1;
+	#IF { "$MSDP_ACCOUNT_NAME"=="Kruoill" } { 
+		#var profession[gather][receiver] {} 
+	};
 	generate_profession_info;
 	highlight_materials_on;
 	#show Will start gathering: %1;
