@@ -1,8 +1,7 @@
 QUESTS
 level 1:
 recall;3swn;buy south;sesd3s;quest;give south cleric
-c
-
+recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim
 
 level 5:
 recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne
