@@ -302,11 +302,13 @@ init metaHero preferences 0
     #switch {"$MSDP_CHARACTER_NAME"} {
         #case {"Kroll"} {
             #action {Your mana reserve expands with new power.} {buy mana};
+            #action {Your heart pounds as your body grows more resilient.} {buy hit};
             #delay 10 {#show <131>BUY MANA;buy mana}
         };
         #case {"Crom"} {
+            #action {Your mana reserve expands with new power.} {buy mana};
             #action {Your heart pounds as your body grows more resilient.} {buy hit};
-            #delay 10 {#show <131>BUY HITS;buy hit}
+            #delay 10 {#show <131>BUY MANA;buy mana}
         };
         #case {"Kaicha"} {
             list;
