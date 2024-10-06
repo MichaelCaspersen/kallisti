@@ -1170,6 +1170,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
 #var regroup 0;
 
+#ticker {autometaticker} {#if {"$MSDP_ROOM_VNUM"=="13200"} {autometa}} {100}
 
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
@@ -1216,11 +1217,20 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 } {2}
 
+#var predeathdelay 0.1;
+#action {%1's body turns solid when %2's frostbite freezes %3.} {#show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse]}
+#action {The dead body of %1 sizzles in the heat from an arcing lightning bolt sent by %2.} {#show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse]}
+#action {%1 collapses in a spray of blood as %2's meteor storm pulverizes %3 body.} {#show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse]}
+#action {%1 is stunned but will probably regain consciousness again.} {#show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse]}
+#action {%1's slice to the back of %2's legs drops %3... and %4 doesn't get back up.} {#show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse]}
+
+
 #gag {You can't seem to find any corpses here.}
 #gag {You must also specify what you want to skin.}
 #gag {It isn't quality enough to skin.}
 
 #highlight {%1 skins some hide from the corpse of %1.} {red reverse}
+#action {%1 skins some hide from the corpse of %1.} {l}
 
 #var aggressivetooth 0;
 #var aggressiveprofession 0;
