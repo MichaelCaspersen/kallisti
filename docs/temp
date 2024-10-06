@@ -209,7 +209,7 @@ Level 20-50+ - Tanning - Approx 1000-1100 hides needed ~ 1h30m - 1h45m
 Prac Tanning
 Equip tanning gear
 
-#var guildpath {3s3w3s}
+#var guildpath {3s3w2se}
 #var guildpath {2s2e3s}
 #var guildpath {3s3w3s}
 
@@ -233,10 +233,10 @@ Equip tanning gear
 
 
 
-#alias doallpracs {visit house;with 5000000;egress;$guildpath;doallpracs_barb}
+#alias doallpracs {visit house;with 5000000;egress;$guildpath;doallpracs_ranger}
 #alias doallpracs_barb {#10 prac edged;#5 prac parry;#5 prac focus;toggle focus;prac scare;#5 prac warcry;toggle warcry;#5 prac warpaint;toggle warpaint;#5 prac multi attack;#10 prac two handed;#5 prac deathstroke;damage deathstroke;home;dep all;recall}
 
-#alias doallpracs_ranger {#4 prac parry;#8 prac armor use;#9 prac edged weapons;#5 prac combination attacks;#3 prac camouflage;prac pass without trace;#10 prac ranged weapons;#5 prac critical hits;#5 prac bind wounds;#5 prac call mount;#5 prac evade;#3 prac hawk eyes;#5 prac deepdraw;#5 prac endurance;#2 prac scout;#10 prac dual wield;#3 prac lore;#5 prac impale;#7 prac two handed weapons;#5 prac commune;#5 prac multi attack;#5 prac focus;#5 prac snapshot;home;dep all;recall}
+#alias doallpracs_ranger {#4 prac parry;#8 prac armor use;#8 prac edged weapons;#10 prac ranged weapons;#5 prac critical hits;#5 prac bind wounds;#5 prac evade;#3 prac hawk eyes;#5 prac deepdraw;#2 prac scout;#10 prac dual wield;#3 prac lore;#5 prac multi attack;#5 prac focus;#5 prac snapshot;home;dep all}
 #alias doallpracs_ranger_profs {#10 prac skinning;#10 prac chirurgy;#5 prac ride}
 
 
