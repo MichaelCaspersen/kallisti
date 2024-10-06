@@ -213,13 +213,11 @@ Equip tanning gear
 #var guildpath {2s2e3s}
 #var guildpath {3s3w3s}
 
-#var guildpath {2s6e2se}
 
+#var guildpath {2s2e2se}; #nop RANGER
 #var tanningnotmaxed 1;
-
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<56) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
-
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
 
 #action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {visit house;with 45000;egress;4nwnnn}}
 
@@ -231,28 +229,27 @@ Equip tanning gear
 
 #alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.hide;tan hide}
 
+
+
+
+
 #alias doallpracs {visit house;with 5000000;egress;$guildpath;doallpracs_barb}
 #alias doallpracs_barb {#10 prac edged;#5 prac parry;#5 prac focus;toggle focus;prac scare;#5 prac warcry;toggle warcry;#5 prac warpaint;toggle warpaint;#5 prac multi attack;#10 prac two handed;#5 prac deathstroke;damage deathstroke;home;dep all;recall}
 
-level 50+ Tell group
+#alias doallpracs_ranger {#4 prac parry;#8 prac armor use;#9 prac edged weapons;#5 prac combination attacks;#3 prac camouflage;prac pass without trace;#10 prac ranged weapons;#5 prac critical hits;#5 prac bind wounds;#5 prac call mount;#5 prac evade;#3 prac hawk eyes;#5 prac deepdraw;#5 prac endurance;#2 prac scout;#10 prac dual wield;#3 prac lore;#5 prac impale;#7 prac two handed weapons;#5 prac commune;#5 prac multi attack;#5 prac focus;#5 prac snapshot;home;dep all;recall}
+#alias doallpracs_ranger_profs {#10 prac skinning;#10 prac chirurgy;#5 prac ride}
 
+
+level 50+ Tell group
 event_register {level gain} {checklevelaction} {checklevelaction};
 #alias checklevelaction {#show <131>We gained a level %2 now what?;recall;8sw2se29s9w2sswswswdses4e;enter portal};
 
-
-
 matoff
-
-
-
-
 before remort 
 buy all stats;
 prac toughness
 
-
-
 #foreach $_queue {id} {#if {"$id"!=""} {#show >$id<  >&{_queue[$id][]}<;#if {&{_queue[$id][]}} {#show <131>Children;#foreach &{_queue[$id]} {sid} {#show <142>$sid[0] }}}
 
-priority
-heal
+
+
