@@ -200,8 +200,8 @@ toggle ranged
 
 
 
-
-
+#NOP SELL ALL LEATHERS
+#10 {visit house;dep all;e;get all.leather;recall;2s3es;#34 sell lea}
 
 
 
@@ -229,6 +229,14 @@ Equip tanning gear
 
 #alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.hide;tan hide}
 
+
+
+
+
+#action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
+
+#alias remortcarve {profon carving;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.bone;carve bone}
 
 
 

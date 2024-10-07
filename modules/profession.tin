@@ -411,9 +411,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		};
 		#if {"$profession[gather][type]"=="carving"} {
 			#var profession[refining][reset] 0;
-			3w;put all.bone robe;3e;
-			get all.tooth pack;
-			carve tooth;
+			3w;put all.bone 2.holding;3e;
+			get all.bone;
+			carve bone;
 		};
 		#if {"$profession[gather][type]"=="skinning"} {
 			#if $profession[gather][selling] {
