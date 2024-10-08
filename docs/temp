@@ -211,7 +211,7 @@ Equip tanning gear
 
 #var guildpath {3s3w2se}
 #var guildpath {2s2e3s}
-#var guildpath {3s3w3s}
+#var guildpath {swne}
 
 
 #var guildpath {2s2e2se}; #nop RANGER
@@ -231,22 +231,33 @@ Equip tanning gear
 
 
 
-
-
-#action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
-
-#alias remortcarve {profon carving;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.bone;carve bone}
-
-
-
-
 #alias doallpracs {visit house;with 5000000;egress;$guildpath;doallpracs_ranger}
 #alias doallpracs_barb {#10 prac edged;#5 prac parry;#5 prac focus;toggle focus;prac scare;#5 prac warcry;toggle warcry;#5 prac warpaint;toggle warpaint;#5 prac multi attack;#10 prac two handed;#5 prac deathstroke;damage deathstroke;home;dep all;recall}
 
 #alias doallpracs_ranger {#4 prac parry;#8 prac armor use;#8 prac edged weapons;#10 prac ranged weapons;#5 prac critical hits;#5 prac bind wounds;#5 prac evade;#3 prac hawk eyes;#5 prac deepdraw;#2 prac scout;#10 prac dual wield;#3 prac lore;#5 prac multi attack;#5 prac focus;#5 prac snapshot;home;dep all}
 #alias doallpracs_ranger_profs {#10 prac skinning;#10 prac chirurgy;#5 prac ride}
 
+
+
+#action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) } {visit house;dep all;e;get bone;carve bone}}
+
+
+#action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) } {visit house;dep all;e;get bone;phylactery bone}}
+
+
+
+#alias remortcarve {profon carving;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.bone;carve bone}
+#ac {Oops, you cracked it a little.} {carve bone}
+#ac {You fail to improve it.} {carve bone}
+#ac {isn't high enough quality to carve.}{sac bone;get bone;carve bone}
+#ac {You can't carve that.}{give bone kaicha;get bone;carve bone}
+#ac {You carve some}{give bone kaicha;get bone;carve bone}
+
+
+
+#ac {You craft}
 
 level 50+ Tell group
 event_register {level gain} {checklevelaction} {checklevelaction};
