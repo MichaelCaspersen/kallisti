@@ -249,7 +249,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #var autopickuphides 0;
 #action {Some hide from %1 lies here.} {#if $autopickuphides {get hide}}
 
-#action {You get some %1 hide from %2.} {
+#action {You {get|palm} some %1 hide from %2.} {
 	#switch {"%1"} {
 		#case {"junk"} { sac hide };
 		#case {"rough"} { sac hide };
