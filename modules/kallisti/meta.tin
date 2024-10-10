@@ -316,7 +316,8 @@ init metaHero preferences 0
         };
         #case {"Loke"} {
             list;
-            #delay 15 {#show <131>AUTOMETA;#var TARGET_HEROS 40000;autometa}
+            #action {Your heart pounds as your body grows more resilient.} {buy hit};
+            #delay 10 {#show <131>BUY HIT;buy hit}
         };
     }
 }
