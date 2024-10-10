@@ -32,7 +32,7 @@ Commands:\n
 #nop Gathering an be: skinning, butcher, extract
 #var profession[gather][type] skinning
 #var profession[gather][auto] 1
-#var profession[gather][all] 0
+#var profession[gather][all] 1
 #var profession[gather][success] 0
 #var profession[gather][total] 0
 #var profession[gather][selling] 0;
