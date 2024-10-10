@@ -107,49 +107,29 @@ Commands:\n
 #alias {profreset} {#var profession[gather][success] 0;#var profession[gather][total] 0;generate_profession_info;}
 
 #alias highlight_materials_on {
-	#highlight {junk hide} {reverse underscore Pink};
-	#highlight {rough hide} {reverse underscore Pink};
-	#highlight {average hide} {reverse underscore Jade};
-	#highlight {good hide} {reverse underscore Jade};
-	#highlight {excellent hide} {reverse underscore Jade};
-	#highlight {superior hide} {reverse underscore Jade};
-	#highlight {pristine hide} {reverse underscore Jade};
-	#highlight {exquisite hide} {reverse underscore Jade};
-	#highlight {flawless hide} {reverse underscore Jade};
-	#highlight {divine hide} {reverse underscore Jade};
-	#highlight {junk bone} {reverse underscore Pink};
-	#highlight {rough bone} {reverse underscore Pink};
-	#highlight {average bone} {reverse underscore Jade};
-	#highlight {good bone} {reverse underscore Jade};
-	#highlight {excellent bone} {reverse underscore Jade};
-	#highlight {superior bone} {reverse underscore Jade};
-	#highlight {pristine bone} {reverse underscore Jade};
-	#highlight {exquisite bone} {reverse underscore Jade};
-	#highlight {flawless bone} {reverse underscore Jade};
-	#highlight {divine bone} {reverse underscore Jade};
+	#highlight {junk {hide|bone|meat}} {reverse underscore Pink};
+	#highlight {rough {hide|bone|meat}} {reverse underscore Pink};
+	#highlight {average {hide|bone|meat}} {reverse underscore Jade};
+	#highlight {good {hide|bone|meat}} {reverse underscore Jade};
+	#highlight {excellent {hide|bone|meat}} {reverse underscore Jade};
+	#highlight {superior {hide|bone|meat}} {reverse underscore Jade};
+	#highlight {pristine {hide|bone|meat}} {reverse underscore Jade};
+	#highlight {exquisite {hide|bone|meat}} {reverse underscore Jade};
+	#highlight {flawless {hide|bone|meat}} {reverse underscore Jade};
+	#highlight {divine {hide|bone|meat}} {reverse underscore Jade};
 }
 
 #alias highlight_materials_off {
-	#unhighlight {junk hide};
-	#unhighlight {rough hide};
-	#unhighlight {average hide};
-	#unhighlight {good hide};
-	#unhighlight {excellent hide};
-	#unhighlight {superior hide};
-	#unhighlight {pristine hide};
-	#unhighlight {exquisite hide};
-	#unhighlight {flawless hide};
-	#unhighlight {divine hide};
-	#unhighlight {junk bone};
-	#unhighlight {rough bone};
-	#unhighlight {average bone};
-	#unhighlight {good bone};
-	#unhighlight {excellent bone};
-	#unhighlight {superior bone};
-	#unhighlight {pristine bone};
-	#unhighlight {exquisite bone};
-	#unhighlight {flawless bone};
-	#unhighlight {divine bone};
+	#unhighlight {junk {hide|bone|meat}};
+	#unhighlight {rough {hide|bone|meat}};
+	#unhighlight {average {hide|bone|meat}};
+	#unhighlight {good {hide|bone|meat}};
+	#unhighlight {excellent {hide|bone|meat}};
+	#unhighlight {superior {hide|bone|meat}};
+	#unhighlight {pristine {hide|bone|meat}};
+	#unhighlight {exquisite {hide|bone|meat}};
+	#unhighlight {flawless {hide|bone|meat}};
+	#unhighlight {divine {hide|bone|meat}};
 }
 
 #nop Refining can be: tan, cook, carve
@@ -214,18 +194,18 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	}
 }
 
-#ACTION {You {skin|extract|butcher} some %1 {hide|bone|meat} from} {
-	show_debug $profession[str_mat] type:[<131>%1];
+#ACTION {You {skin|extract|butcher} some %2 {hide|bone|meat} from} {
+	show_debug {GATHERED <%1> <%2> <%3> <%4>};
 	#math profession[gather][total] {$profession[gather][total]+1};
-	#switch {"%1"} {
-		#case {"junk"} { $profession[str_sack] };
-		#case {"rough"} { $profession[str_sack] };
+	#switch {"%2"} {
+		#case {"junk"} { sack %3 };
+		#case {"rough"} { sack %3 };
 		#default {
 			#if { "$profession[gather][receiver]"=="" } {
-				donate $profession[str_mat] home;
+				donate %3 home;
 			};
 			#else {
-				give $profession[str_mat] $profession[gather][receiver];
+				give %3 $profession[gather][receiver];
 			};
 			#math profession[gather][success] {$profession[gather][success]+1}
 		}
@@ -233,7 +213,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
-#action {%1 gives you some %2 {hide|meat} from %4.} {
+#action {%1 gives you some %2 {hide|bone|meat} from %4.} {
 	show_debug {GAVE ME <%1> <%2> <%3> <%4>};
 	#switch {"%2"} {
 		#case {"junk"} { sack %3 };
@@ -258,7 +238,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 #var autopickuphides 0;
-#action {Some hide from %1 lies here.} {#if $autopickuphides {get hide}}
+#action {Some {hide|bone|meat} from %2 lies here.} {#if $autopickuphides {get %1}}
 
 
 #NOP #######################################################
