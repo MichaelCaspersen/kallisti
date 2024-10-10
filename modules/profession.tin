@@ -50,7 +50,7 @@ Commands:\n
 		#CASE {"skinning"} {
 			#var profession[gather][type] skinning;
 			#var profession[str_mat] {hide};
-			#var profession[str_corpse] {skin corpse};
+			#var profession[str_corpse] {skin};
 			#var profession[str_pickup] {get all.hide};
 			#var profession[str_action] {tan hide};
 			#var profession[str_sack] {sac hide};
@@ -60,7 +60,7 @@ Commands:\n
 		#CASE {"butcher"} {
 			#var profession[gather][type] %1;
 			#var profession[str_mat] {meat};
-			#var profession[str_corpse] {butcher corpse};
+			#var profession[str_corpse] {butcher};
 			#var profession[str_pickup] {get all.meat};
 			#var profession[str_action] {cook meat};
 			#var profession[str_sack] {sac meat};
@@ -70,7 +70,7 @@ Commands:\n
 		#CASE {"extract"} {
 			#var profession[gather][type] %1;
 			#var profession[str_mat] {bone};
-			#var profession[str_corpse] {extract corpse};
+			#var profession[str_corpse] {extract};
 			#var profession[str_pickup] {get all.bone};
 			#var profession[str_action] {bonecraft bone};
 			#var profession[str_sack] {sac bone};
@@ -80,7 +80,7 @@ Commands:\n
 		#CASE {"carving"} {
 			#var profession[gather][type] %1;
 			#var profession[str_mat] {tooth};
-			#var profession[str_corpse] {extract corpse};
+			#var profession[str_corpse] {extract};
 			#var profession[str_pickup] {get all.tooth};
 			#var profession[str_action] {carve tooth};
 			#var profession[str_sack] {sac tooth};
@@ -90,7 +90,7 @@ Commands:\n
 		#CASE {"bonecraft"} {
 			#var profession[gather][type] %1;
 			#var profession[str_mat] {bone};
-			#var profession[str_corpse] {extract corpse};
+			#var profession[str_corpse] {extract};
 			#var profession[str_pickup] {get all.bone};
 			#var profession[str_action] {bonecraft bone};
 			#var profession[str_sack] {sac bone};
@@ -181,14 +181,20 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP Professions - Gathering;
 #NOP #######################################################
 
+#alias profroom {highlight_materials_on;#var clearingroom 1;#var room_corpse_id 0;$profession[str_corpse] corpse;}
+#action {It isn't quality enough to butcher.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};butcher $room_corpse_id.corpse;}}
+#action {You butcher it but you make a mess of it.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};butcher $room_corpse_id.corpse;}}
+#action {You must also specify what you want to butcher.} {#var clearingroom 0}
+
+
 #alias {do_gather} {
 	show_debug {<121><<< $profession[gather][type] ? >>%0<<   , in list: &zone[proflist]["%0"] >>>};
 	#if { $profession[gather][auto] } {
 		#if { $profession[gather][all] } {
-			queueAdd any { $profession[str_corpse]};
+			queueAdd any { $profession[str_corpse] corpse};
 		};#else {
 			#if { &zone[proflist]["%0"]>0 } {
-				queueAdd any { $profession[str_corpse] };
+				queueAdd any { $profession[str_corpse] corpse };
 			}
 		}
 	}
@@ -211,6 +217,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		}
 	};
 	generate_profession_info;
+	#if {$clearingroom==1} {
+		#math room_corpse_id {$room_corpse_id+1};
+		butcher $room_corpse_id.corpse;
+	}
 }
 
 #action {%1 gives you some %2 {hide|bone|meat} from %4.} {
