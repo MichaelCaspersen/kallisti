@@ -48,7 +48,7 @@
 
 #function {display_progress}
 {
-    #LOCAL args[perc] {%1};
+    #LOCAL args[perc] {%1}; 
     #LOCAL args[display] {%2};
     #LOCAL args[length] {%3};
     #LOCAL args[color] {%4};

@@ -250,6 +250,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {Some hide from %1 lies here.} {#if $autopickuphides {get hide}}
 
 #action {You {get|palm} some %1 hide from %2.} {
+	#show <131>GET/PALM HIDE;
 	#switch {"%1"} {
 		#case {"junk"} { sac hide };
 		#case {"rough"} { sac hide };
@@ -258,7 +259,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		};
 	};
 	l
-}
+} {2}
 
 #NOP #######################################################
 #NOP Auto Profession 
