@@ -47,6 +47,7 @@ init toggle[focus] preferences off;
 init toggle[bushido] preferences off;
 init toggle[haste] preferences off;
 init toggle[hide] preferences off;
+init toggle[camouflage] preferences off;
 init toggle[ceyes] preferences off;
 init toggle[truesee] preferences off;
 init toggle[vivify] preferences off;
@@ -196,6 +197,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{fireshield} < 2} {doFireshield};
     #if {@hasAffect{iceshield} < 2} {doIceshield};
     #if {@hasAffect{blur} < 2} {doBlur};
+    #if {@hasAffect{camouflage} < 2} {doCamouflage};
     #if {@hasAffect{magic shield} < 2} {doMagicshield};
     #if {@hasAffect{unholy aura} < 2} {doUnholyAura};
     #if {@hasAffect{divine armor} < 2} {doDivineArmor};
@@ -206,6 +208,9 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{true seeing} < 2} {doTruesee};
     #if {@hasAffect{protection from death} < 2} {doProtectionDeath};
     #if {@hasAffect{protection from evil} < 2} {doProtectionEvil};
+
+    
+
 
     #nop TODO looping MSDP_AFFECTS isn't good enough, we need to do expired ones as well;
     #nop We also don't want events on negative ones;
@@ -507,6 +512,15 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     }
 }
 
+#alias doCamouflage {
+    #if {"$toggle[camouflage]" == "on"} {
+        nco camouflage
+    }
+}
+
+
+
+
 #alias doBushido {
     #if {"$toggle[bushido]" == "on"} {
         nco bushido
@@ -522,11 +536,6 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             #case {"Monastic"} { nco soulcloak };
             #case {"Monk"} { nco soulcloak };
             #case {"Samurai"} { nco soulcloak };
-            #case {"Ranger"} {
-                #if { ("$MSDP_ROOM_TERRAIN"!="Inside") && ("$MSDP_ROOM_TERRAIN"!="City") } {
-                     nco camouflage 
-                }
-            };
             #case {"Wizard"} { nco vanish };
             #case {"Necromancer"} { nco shroud };
         }
