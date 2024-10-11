@@ -428,9 +428,14 @@ init bot[rescue2] preferences off;
 	#else {
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
 		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$recall_below_hit } {
-			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
-			#show <131><TOO LOW ($recall_below_hit) - RECALL;
-			#var bot[nextAction] {queueAdd priority recall};
+			#if { ("$MSDP_CLASS"=="Druid") && ($MSDP_OPPONENT_NUMBER<1) } {
+				#show <131>Combat convert keep calm;
+			}; 
+			#else {
+				#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
+				#show <131><TOO LOW ($recall_below_hit) - RECALL;
+				#var bot[nextAction] {queueAdd priority recall};
+			}
 		}; 
 		#else {
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
