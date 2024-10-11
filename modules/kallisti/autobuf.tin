@@ -292,10 +292,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             #case {"Druid"} {nco true};
             #case {"Templar"} {nco true};
             #default {
-                #if {"$remort[TRUE]" == "1"} {
-                    nco true;
-                };
-                #elseif { (@groupClassIsPresent{TEM} || @groupClassIsPresent{PRO} || @groupClassIsPresent{DRU}) && ( "$toggle[truesee]"=="on" )} {
+                #if { ( @groupClassIsPresent{TEM} || @groupClassIsPresent{PRO} || @groupClassIsPresent{DRU}) && ( "$toggle[truesee]"=="on" )} {
                     queueAdd nco {gt &08true&--}
                 }
             }
