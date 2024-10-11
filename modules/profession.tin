@@ -206,8 +206,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	show_debug {<157>GATHERED <%1> <%2> <%3> <%4>};
 	#math profession[gather][total] {$profession[gather][total]+1};
 	#switch {"%2"} {
-		#case {"junk"} { sack %3 };
-		#case {"rough"} { sack %3 };
+		#case {"junk"} { sac %3 };
+		#case {"rough"} { sac %3 };
 		#default {
 			#if { "$profession[gather][receiver]"=="" } {
 				donate %3 home;
@@ -228,8 +228,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {%1 gives you some %2 {hide|bone|meat} from %4.} {
 	show_debug {<157>GAVE ME <%1> <%2> <%3> <%4>};
 	#switch {"%2"} {
-		#case {"junk"} { sack %3 };
-		#case {"rough"} { sack %3 };
+		#case {"junk"} { sac %3 };
+		#case {"rough"} { sac %3 };
 		#default {
 			donate %3 home;
 			#math profession[gather][success] {$profession[gather][success]+1}
