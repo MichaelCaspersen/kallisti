@@ -47,6 +47,7 @@ init toggle[focus] preferences off;
 init toggle[bushido] preferences off;
 init toggle[haste] preferences off;
 init toggle[hide] preferences off;
+init toggle[shroud] preferences off;
 init toggle[camouflage] preferences off;
 init toggle[ceyes] preferences off;
 init toggle[truesee] preferences off;
@@ -165,6 +166,10 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
 
     #if {"$toggle[hide]" == "on"} {
         #regex {$MSDP_PROMPT} {h} {#nop} {doHide};
+    };
+
+    #if {"$toggle[shroud]" == "on"} {
+        #regex {$MSDP_PROMPT} {I} {#nop} {doShroud};
     };
 
     #if {@hasAffect{haste} < 1} {
@@ -534,8 +539,13 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             #case {"Monk"} { nco soulcloak };
             #case {"Samurai"} { nco soulcloak };
             #case {"Wizard"} { nco vanish };
-            #case {"Necromancer"} { nco shroud };
         }
+    }
+}
+
+#alias doShroud {
+    #if {"$toggle[shroud]" == "on"} {
+        nco shroud ;
     }
 }
 
