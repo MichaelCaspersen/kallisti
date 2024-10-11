@@ -47,6 +47,7 @@ init toggle[focus] preferences off;
 init toggle[bushido] preferences off;
 init toggle[haste] preferences off;
 init toggle[hide] preferences off;
+init toggle[shroud] preferences off;
 init toggle[camouflage] preferences off;
 init toggle[ceyes] preferences off;
 init toggle[truesee] preferences off;
@@ -167,6 +168,10 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
         #regex {$MSDP_PROMPT} {h} {#nop} {doHide};
     };
 
+    #if {"$toggle[shroud]" == "on"} {
+        #regex {$MSDP_PROMPT} {I} {#nop} {doShroud};
+    };
+
     #if {@hasAffect{haste} < 1} {
         #switch {"$MSDP_CLASS"} {
             #case {"Wizard"} {doHasteSpell};
@@ -189,6 +194,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{vivify} < 1} {doVivify};
     #if {@hasAffect{warpaint} < 1} {doWarpaint};    
     #if {@hasAffect{prayer} < 1} {doPrayer};    
+    #if {@hasAffect{camouflage} < 1} {doCamouflage};
     
     #if {@autobuf_check{focus} && @hasAffect{focus} < 1} {doFocus};
     #if {@autobuf_check{"spirit of bushido"} && @hasAffect{spirit of bushido} < 1} {doBushido};
@@ -197,7 +203,6 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{fireshield} < 2} {doFireshield};
     #if {@hasAffect{iceshield} < 2} {doIceshield};
     #if {@hasAffect{blur} < 2} {doBlur};
-    #if {@hasAffect{camouflage} < 2} {doCamouflage};
     #if {@hasAffect{magic shield} < 2} {doMagicshield};
     #if {@hasAffect{unholy aura} < 2} {doUnholyAura};
     #if {@hasAffect{divine armor} < 2} {doDivineArmor};
@@ -292,10 +297,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             #case {"Druid"} {nco true};
             #case {"Templar"} {nco true};
             #default {
-                #if {"$remort[TRUE]" == "1"} {
-                    nco true;
-                };
-                #elseif { (@groupClassIsPresent{TEM} || @groupClassIsPresent{PRO} || @groupClassIsPresent{DRU}) && ( "$toggle[truesee]"=="on" )} {
+                #if { ( @groupClassIsPresent{TEM} || @groupClassIsPresent{PRO} || @groupClassIsPresent{DRU}) && ( "$toggle[truesee]"=="on" )} {
                     queueAdd nco {gt &08true&--}
                 }
             }
@@ -537,8 +539,13 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             #case {"Monk"} { nco soulcloak };
             #case {"Samurai"} { nco soulcloak };
             #case {"Wizard"} { nco vanish };
-            #case {"Necromancer"} { nco shroud };
         }
+    }
+}
+
+#alias doShroud {
+    #if {"$toggle[shroud]" == "on"} {
+        nco shroud ;
     }
 }
 

@@ -1448,7 +1448,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#show <131>[$item_left_id/$max_id] Found: [%2];
 		lore 1
 	}
-}
+} {8}
+
 #action {You think back to stories from your childhood and legends of old...} {
 	#if {$auto[id]} {
 		#delay 0.2 {

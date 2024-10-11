@@ -31,7 +31,7 @@ Commands:\n
 
 #nop Gathering an be: skinning, butcher, extract
 #var profession[gather][type] skinning
-#var profession[gather][auto] 1
+#var profession[gather][auto] 0
 #var profession[gather][all] 1
 #var profession[gather][success] 0
 #var profession[gather][total] 0
@@ -181,7 +181,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP Professions - Gathering;
 #NOP #######################################################
 
-#alias profroom {highlight_materials_on;#var clearingroom 1;#var room_corpse_id 0;$profession[str_corpse] corpse;}
+#alias profroom {highlight_materials_on;#var clearingroom 1;#var room_corpse_id 0;$profession[str_corpse] corpse}
 #action {It isn't quality enough to butcher.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};butcher $room_corpse_id.corpse;}}
 #action {You butcher it but you make a mess of it.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};butcher $room_corpse_id.corpse;}}
 #action {You can't butcher a corpse from %1.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};butcher $room_corpse_id.corpse;}}
@@ -190,7 +190,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 
 #alias {do_gather} {
-	show_debug {<121><<< $profession[gather][type] ? >>%0<<   , in list: &zone[proflist]["%0"] >>>};
+	show_debug {<157><<< $profession[gather][type] ? >>%0<<   , in list: &zone[proflist]["%0"] >>>};
 	#if { $profession[gather][auto] } {
 		#if { $profession[gather][all] } {
 			queueAdd any { $profession[str_corpse] corpse};
@@ -203,11 +203,11 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 #ACTION {You {skin|extract|butcher} some %2 {hide|bone|meat} from} {
-	show_debug {GATHERED <%1> <%2> <%3> <%4>};
+	show_debug {<157>GATHERED <%1> <%2> <%3> <%4>};
 	#math profession[gather][total] {$profession[gather][total]+1};
 	#switch {"%2"} {
-		#case {"junk"} { sack %3 };
-		#case {"rough"} { sack %3 };
+		#case {"junk"} { sac %3 };
+		#case {"rough"} { sac %3 };
 		#default {
 			#if { "$profession[gather][receiver]"=="" } {
 				donate %3 home;
@@ -226,10 +226,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 #action {%1 gives you some %2 {hide|bone|meat} from %4.} {
-	show_debug {GAVE ME <%1> <%2> <%3> <%4>};
+	show_debug {<157>GAVE ME <%1> <%2> <%3> <%4>};
 	#switch {"%2"} {
-		#case {"junk"} { sack %3 };
-		#case {"rough"} { sack %3 };
+		#case {"junk"} { sac %3 };
+		#case {"rough"} { sac %3 };
 		#default {
 			donate %3 home;
 			#math profession[gather][success] {$profession[gather][success]+1}
@@ -239,7 +239,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 #action {You {get|palm} some %2 {hide|meat} from %4.} {
-	show_debug {GET/PALM HIDE <%1> <%2> <%3> <%4>};
+	show_debug {<157>GET/PALM HIDE <%1> <%2> <%3> <%4>};
 	#switch {"%2"} {
 		#case {"junk"} { sac %3 };
 		#case {"rough"} { sac %3 };

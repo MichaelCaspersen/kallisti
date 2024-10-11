@@ -347,7 +347,7 @@ init metaHero preferences 0
             };
             #action {You wash up on shore...} {
                 #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt &08yeshunt&--;#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {true;holygate crom}};
-                #else {recall;returntostart;}
+                #else {recall;stand;returntostart;}
             }
         };
         #case {"Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
