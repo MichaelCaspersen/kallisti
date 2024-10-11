@@ -189,6 +189,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{vivify} < 1} {doVivify};
     #if {@hasAffect{warpaint} < 1} {doWarpaint};    
     #if {@hasAffect{prayer} < 1} {doPrayer};    
+    #if {@hasAffect{camouflage} < 1} {doCamouflage};
     
     #if {@autobuf_check{focus} && @hasAffect{focus} < 1} {doFocus};
     #if {@autobuf_check{"spirit of bushido"} && @hasAffect{spirit of bushido} < 1} {doBushido};
@@ -197,7 +198,6 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     #if {@hasAffect{fireshield} < 2} {doFireshield};
     #if {@hasAffect{iceshield} < 2} {doIceshield};
     #if {@hasAffect{blur} < 2} {doBlur};
-    #if {@hasAffect{camouflage} < 2} {doCamouflage};
     #if {@hasAffect{magic shield} < 2} {doMagicshield};
     #if {@hasAffect{unholy aura} < 2} {doUnholyAura};
     #if {@hasAffect{divine armor} < 2} {doDivineArmor};
