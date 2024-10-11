@@ -282,7 +282,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 			#var profession[str_pickup] {get all.meat};
 			#var profession[str_action] {cook meat};	
 			#var profession[str_sack] {sac meat};
-			#var profession[refine_location] {visit houseofanasasi;e};
+			#var profession[refine_location] {3s2w;open gate;s;open door;2s2ues};
 		};
 		#CASE {"extract"} {
 			#var profession[str_mat] {bone};
@@ -328,6 +328,27 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {There aren't any hides here you can take.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
 #action {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff};#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
 #action {The weight of your experience thrums a discordant note in your soul.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff};#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
+
+
+#NOP #######################################################
+#NOP Crafting - Cooking
+#NOP #######################################################
+#action {You {roast|grill|cook|smoke} some %1 meat from %2.} {$profession[str_action]}
+#action {The smell coming from the recipe makes you gag.} {$profession[str_action]}
+#action {Was that salt or sugar?} {$profession[str_action]}
+#action {The some %1 {meat|fish} from %3 isn't high enough quality to %4.} {$profession[str_sack];$profession[str_action]}
+
+#action {You must also specify what you want to {roast|smoke|cook|grill}.} {
+	recall;
+	visit valhalla;e;drop all.stew;
+	drop all.roast;
+	drop all.jerky;
+	drop all.steak;
+	visit house;e;get all.meat;
+	recall;
+	$profession[refine_location];
+	$profession[str_action]
+}
 
 #NOP #######################################################
 #NOP Crafting - Daggers, Symbols
