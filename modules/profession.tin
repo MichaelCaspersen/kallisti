@@ -221,7 +221,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 	#if {$clearingroom==1} {
 		#math room_corpse_id {$room_corpse_id+1};
-		butcher $room_corpse_id.corpse;
+		$profession[str_corpse] $room_corpse_id.corpse;
 	}
 }
 
