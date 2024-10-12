@@ -182,10 +182,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 
 #alias profroom {highlight_materials_on;#var clearingroom 1;#var room_corpse_id 0;$profession[str_corpse] corpse}
-#action {It isn't quality enough to {skin|butcher}.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
-#action {You {skin|butcher} it but you make a mess of it.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
-#action {You can't {skin|butcher} a corpse from %1.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
-#action {You must also specify what you want to {skin|butcher}.} {#var clearingroom 0}
+#action {It isn't quality enough to {skin|extract|butcher} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
+#action {You {skin|extract|butcher} it but you make a mess of it.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
+#action {You can't {skin|extract|butcher} a corpse from %1.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
+#action {You must also specify what you want to {skin|extract|butcher}.} {#var clearingroom 0}
 
 
 
