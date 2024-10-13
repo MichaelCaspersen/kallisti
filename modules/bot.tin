@@ -1273,6 +1273,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #highlight {You get a %1 tooth from the corpse of a %2.} {cyan reverse}
 #highlight {You extract some %2 bone from %3.} {cyan reverse}
 
+#HIGHLIGHT {A spiteful spear erupts poisonous liquid.} {white reverse}
 #HIGHLIGHT {Penitence, the staff of Ziphnex shines brightly.} {lime reverse}
 #HIGHLIGHT {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {lime reverse}
 #HIGHLIGHT {Sword of the spirit pulses with white hot energy, filling your party with joy!} {lime reverse}
