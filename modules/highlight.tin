@@ -39,8 +39,8 @@
 #highlight {makes a strange sound as you place something in its back!}                  {<fca>}
 #highlight {^You hop on %1 back.}                                                       {<FDDF604>}
 
-#highlight {[}                          {<FE2E2E2>}
-#highlight {]}                          {<FE2E2E2>}
+#nop highlight {[}                          {<FE2E2E2>}
+#nop #highlight {]}                          {<FE2E2E2>}
 
 #highlight {in room,}                   {<fca>}
 #highlight {%S%}                        {<afc>}

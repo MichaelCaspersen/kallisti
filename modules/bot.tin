@@ -1264,8 +1264,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #variable autotooth 1;
 #var toothcontainer backpack;
 #alias lootgold {get gold all.corpse}
-#alias loottooth {get tooth all.corpse;put all.tooth $toothcontainer}
-#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
+#alias loottooth {nco get tooth all.corpse;nco put all.tooth $toothcontainer}
+#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth;nco put all.tooth $toothcontainer}}
 #action {Gary drops %1 tooth.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}} 
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
 #action {You get a %1 tooth from the corpse of a %2.} {put all.tooth backpack}
@@ -1339,8 +1339,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
 	#if { ($MSDP_EXPERIENCE>$needmetaat) && ($needmeta==0) } {#var needmeta 1;nco return_and_meta};
-	#if { $bot[examine] } { exa corpse };
-	#if { $bot[controlweather] } { cweather $bot[weatherdir] };
+	#if { $bot[examine] } { nco exa corpse };
+	#if { $bot[controlweather] } { nco cweather $bot[weatherdir] };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
