@@ -1206,7 +1206,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { ($aggressiveprofession) && ("%3"=="near") } {
 			#show <131>AGRESSIVE PROFESSION;
 			#math spellLock { @mpoch{} + 3000 };
-			$profession[str_corpse];
+			$profession[str_corpse] corpse;
 		};
 		#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
 			#show <131>AGRESSIVE LOOT;
