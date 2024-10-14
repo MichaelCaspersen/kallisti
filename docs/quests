@@ -101,10 +101,12 @@ kill bink;
 recall;2s11w7n2w5s2e
 
 #nop Swampy Ops - 5 QPTS
-2s11w7n2w4n;kill gate;7nws;
+2s11w7n2w4n;kill gate;
+7nws;
 quest;
-ne3n4w2n2e2n;14n;16n;e;e;d;w;d;
+ne3n4w2n2e2n;11n;e;e;d;w;d;
 kill leader;
+recall;
 2s11w7n2w4n;kill gate;7nws;
 
 
