@@ -357,8 +357,9 @@ init metaHero preferences 0
 }
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
-#action {^The meta-sage tells you 'You don't have enough gold.} {#var autometa off;dep all;dress 1;16e2n;doMetaOrGain}
+#action {^The meta-sage tells you 'You don't have enough gold.} {list;#var autometa off;dep all;dress 1;16e2n;doMetaOrGain}
 #action {^The meta-sage tells you 'You don't have enough experience.} {
+    list;
     #var autometa off;
     dep all;
     wear all;
@@ -368,7 +369,7 @@ init metaHero preferences 0
     16e2n;
     returntostart
 }
-#action {^The meta-sage tells you 'Go level instead!'} {#var autometa off;dep all;dress 1}
+#action {^The meta-sage tells you 'Go level instead!'} {list;#var autometa off;dep all;dress 1}
 
 #var forcemeta 0;
 

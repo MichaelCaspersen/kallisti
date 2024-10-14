@@ -250,7 +250,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 #var autopickuphides 0;
-#action {Some {hide|bone|meat} from %2 lies here.} {#if $autopickuphides {get %1}}
+#action {Some {hide|bone|meat} from %2 lies here.} {#if {($autopickuphides) && ("$MSDP_AREA_NAME"=="The Wilderness")} {get %1}}
 
 
 #NOP #######################################################
