@@ -208,7 +208,7 @@ init bot[rescue2] preferences off;
 	#NOP Class Specific: Druid									;
 	#NOP #######################################################;
 	#if { ("$MSDP_CLASS" == "Druid") && ("$MSDP_CHARACTER_NAME" != "Malai") } {
-		botrole leader;
+		botrole damage;
 		#var bot[move] 0;
 		#var bot[autozone] 1;
 		#var bot[cast] 1;
@@ -225,8 +225,8 @@ init bot[rescue2] preferences off;
 		#var autoffire on;
 		#var autovigor on;
 
-		profon skinning;
-		group all;
+#nop		profon skinning;
+#nop 		group all;
 	};
 	#NOP #######################################################;
 	#NOP GENERAL COMMANDS:										;
