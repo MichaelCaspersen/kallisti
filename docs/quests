@@ -18,7 +18,7 @@ recall;13se;quest;recall;2s8w2sw2ses;enter mushroom;neu;kill queen;get wand corp
 
 WRONG HOLE - Madam Zickwa
 
-#alias togglespam {toggl GroupHits;toggl GroupMisses;toggl HitsToGroup;toggl MissesToGroup;toggl TargetMisses;toggl BriefCombat;toggl melee;toggl brief}
+#alias togglespam {togge autoass;toggl GroupHits;toggl GroupMisses;toggl HitsToGroup;toggl MissesToGroup;toggl TargetMisses;toggl BriefCombat;toggl melee;toggl brief}
 
 
 ####################################################################
@@ -38,3 +38,150 @@ recall;2swn;#5 buy danish;s2wn;#5 buy purple;recall;quaff purple
 ## New Champ
 ####################################################################
 leather shop - 14162 (Lower Blackthonre)
+
+
+
+
+#nop Boiler Room Trouble - 3 QPTS
+recall;2s4e6s2w;open gate;2sw;open door;4w;open door w;w;
+kill secretary;#bop small grey key;
+unlock door s;open door s;s;
+quest;
+recall;2s4e6s2w;open gate;2sw;open door;2w;open door s;s;
+kill jack;#nop T-shaped key;
+n2en;open door w;wd3w;unlock hatch;open hatch;drop t;
+en2s;open lid;crawl;2sws;stand;
+kill guard;
+sen;
+kill guard;#nop HUGE copper key;
+sen;
+kill guard;
+sw;unlock copper;open copper;s;
+kill witch;#nop HUGE bronze key;
+unlock bronze;open bronze;s;
+kill witch;#nop HUGE silver key;
+unlock silver;open silver;s;
+kill witch;#nop HUGE gold key;
+unlock gold;open gold;
+2s;
+kill maiden;#nop Return;
+recall;2s4e6s2w;open gate;2sw;open door;4w;open door w;w;unlock door s;open door s;s;
+kill principal;#nop bronze card, full of holes;
+unlock rack s;open rack;s;get all
+
+
+
+#nop Kill the Black Lamia, - 2 QPTS MAX LEVEL 64
+recall;3s2e2s25w;5n;hunt hind;
+quest;
+2s21e6s2e3sw;
+kill lamia;
+recall;3s2e2s25w;9n;hunt hind;
+
+
+
+#nop Dumb-A-Door - 20 QPTS - 
+recall;2s11w7n5wnu;se5nw;open door n;n;
+quest;
+get key desk;#nop ornate key of oak
+s;unlock gate;open gate;drop oak;3s4w;open door n;n;3u;
+kill scientist;#nop get long nail
+get nail;2d;unlock door d;open door d;d;open passage w;w;
+kill all;#nop gilded key
+w;unlock door s;open door s;2s;2w;2;2e;s;2w;s;open runed;w;
+kill necro;
+recall;2s11w7n5wnu;se5nw;open door n;n;
+
+
+#nop Bring me Binky - 10 QPTS
+recall;2s11w7n2w5s2e;
+quest;
+recall;2s14wn2wn5w2n4ws3wn;6n;open port;n;open oak n;n;open grand;n;open grand;2neuw;open door n;n;
+kill bink;
+recall;2s11w7n2w5s2e
+
+#nop Swampy Ops - 5 QPTS
+2s11w7n2w4n;kill gate;7nws;
+quest;
+ne3n4w2n2e2n;14n;16n;e;e;d;w;d;
+kill leader;
+2s11w7n2w4n;kill gate;7nws;
+
+
+#nop Death from Above - 5 QPTS - MAX LEVEL 90
+recall;2s14wn2wn5w2n4ws3wn;6n;open port;n;open oak n;n;open grand;n;open grand;2neu2w;
+kill guard;#nop large brass key
+unlock door w;open door w;w;open door w;w;
+quest;
+recall;2s14wn2wn5w2n2ws;2s2u;
+kill skybird;
+recall;2s14wn2wn5w2n4ws3wn;6n;open port;n;open oak n;n;open grand;n;open grand;2neu2w;
+
+#nop Nine Lives
+recall;8sw2se21sw;open gate;3w2s7w3nwn12w;
+
+
+#nop Gamblers Conceit - 10 QPTS
+2s14e8n2w;
+quest;
+recall;2s7e23n10en3e2n2wne;es2eseu;
+u;open gate s;ses2e;
+kill gate;#nop keep key;
+unlock gate;open gate;drop keep;
+4e;open throne;e;unlock door e;open door e;#nop runed key , on elite minotaur
+2e;s;
+kill mahn;#nop NO MAGIC ROOM
+2s14e8n2w;
+
+
+
+#nop SPQR: Operation Shark BriefCombat - 10 QPTS
+recall;2s21e6sw;2w2un;unlock gold;open gold;w;
+quest;
+recall;2s21e6s3e4s;#nop explore, the shark wanders, rare spawn if quest is about to expire, wait and get quest again before kill;
+kill shark;
+recall;2s21e6sw;2w2un;unlock gold;open gold;w;
+
+
+#nop Preemptive Strike - 10 QPTS
+2s11w7n2w4n;kill gate;12nw;
+quest;
+recall;2s7e32n3en;3e2ne2ne2n2enwn14n;kill orc;n;
+kill overlord;
+2s11w7n2w4n;kill gate;12nw;
+
+
+#nop Ph'nglui mgl... - 15 QPTS
+recall;2s14e25n2en6e4n;
+quest;
+recall;8sw2se28s5e3s2e;un4wn4e3n;open gate;open wooden;nu;open iron;e;open door s;s;open door e;
+kill incarnation;#loads of mobs in there
+recall;2s14e25n2en6e4n;
+
+
+
+
+#nop Destroy the Machice - 2 QPTS
+recall;8sw2se21sw;open gate;wnw;
+quest;
+
+
+
+#nop Old Debts - 15 QPTS - MAX LEVEL 90
+recall;8sw2se21sw;open gate;3w2s7w3nwn7w;open oak;5w;#nop Find Rodgrim
+quest;
+recall;2s14wn2wn5w2n2ws2s;open down;d;#nop go to bottom and kill leader, then return for reward
+
+
+
+#nop Best served cold - 20 QPTS - 
+Filthy Grubby Inn
+Shrkannen - top of Draconian tower
+
+
+#nop Just a mop of her hair - 20 QPTS
+recall;2s14e14ne3n4en3e6ne5n;
+n2wswn;open door e;e;3nw4nde4s;open door s;2s;
+kill shakespear;#nop a key of tragedy;
+unlock grate;open grate;
+d;#search for her, nasty mages

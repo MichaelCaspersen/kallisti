@@ -428,9 +428,14 @@ init bot[rescue2] preferences off;
 	#else {
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
 		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$recall_below_hit } {
-			#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
-			#show <131><TOO LOW ($recall_below_hit) - RECALL;
-			#var bot[nextAction] {queueAdd priority recall};
+			#if { ("$MSDP_CLASS"=="Druid") && ($MSDP_OPPONENT_NUMBER<1) } {
+				#show <131>Combat convert keep calm;
+			}; 
+			#else {
+				#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
+				#show <131><TOO LOW ($recall_below_hit) - RECALL;
+				#var bot[nextAction] {queueAdd priority recall};
+			}
 		}; 
 		#else {
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
@@ -563,13 +568,14 @@ stats_reset;
 #alias . {#if { $MSDP_ROOM_VNUM != $zone[startroom] } {#show <131>Wrong start room, please move to: $zone[startroom];#map run $zone[startroom]};#else {,;l;botmove 1}}
 
 #action {%1 utters the words 'qaizzfh waia'} {
-	#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {#show <131>CONVERT - Pheal %1;queueAdd priority pheal %1};
+	#if {("$MSDP_CHARACTER_NAME"=="Kroll")} {#show <131>CONVERT - Pheal %1;queueAdd priority pheal %1};
+	#if {("$MSDP_CHARACTER_NAME"=="Crom") && ($autolayhandsonconvert)} {#show <131>CONVERT - Pheal %1;queueAdd priority layhand %1};
 	#if { (@playerIsPresent{%1}) && ("$MSDP_CHARACTER_NAME"!="%1") && ($bot[autozone])} { #nop check if its a group member, only delay if you didnt cast the spell;
 		#show Waiting for 10 sec;
 		#math spellLock { @max{$spellLock;@mpoch{}} + 10000}
 	};
 }
-
+#var autolayhandsonconvert 0;
 
 #NOP #######################################################
 #NOP Group actions
@@ -1170,7 +1176,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
 #var regroup 0;
 
-#action {The Shop Inside the Tree} {#delay {#if {"$MSDP_ROOM_VNUM"=="13200"} {#var TARGET_HEROS 40000;autometa;l}} {60}} {1}
+#action {The Shop Inside the Tree} {#delay {60} {#if {"$MSDP_ROOM_VNUM"=="13200"} {#var TARGET_HEROS 40000;autometa;l}}} {1}
 
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
@@ -1267,6 +1273,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #highlight {You get a %1 tooth from the corpse of a %2.} {cyan reverse}
 #highlight {You extract some %2 bone from %3.} {cyan reverse}
 
+#HIGHLIGHT {A spiteful spear erupts poisonous liquid.} {white reverse}
 #HIGHLIGHT {Penitence, the staff of Ziphnex shines brightly.} {lime reverse}
 #HIGHLIGHT {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {lime reverse}
 #HIGHLIGHT {Sword of the spirit pulses with white hot energy, filling your party with joy!} {lime reverse}
