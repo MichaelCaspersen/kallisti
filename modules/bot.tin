@@ -1323,7 +1323,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	#if {$profession[gather][auto]} { do_gather %0 };
-	#if { $autotooth } { get tooth all.corpse;put all.tooth backpack };
+	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth backpack };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	show_debug {<123>%0 is dead, what to do!!};
