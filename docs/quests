@@ -18,7 +18,7 @@ recall;13se;quest;recall;2s8w2sw2ses;enter mushroom;neu;kill queen;get wand corp
 
 WRONG HOLE - Madam Zickwa
 
-#alias togglespam {togge autoass;toggl GroupHits;toggl GroupMisses;toggl HitsToGroup;toggl MissesToGroup;toggl TargetMisses;toggl BriefCombat;toggl melee;toggl brief}
+prompt exp;togge autoass;toggl GroupHits;toggl GroupMisses;toggl HitsToGroup;toggl MissesToGroup;toggl TargetMisses;toggl BriefCombat;toggl melee;toggl brief
 
 
 ####################################################################
