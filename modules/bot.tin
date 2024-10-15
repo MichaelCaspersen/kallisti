@@ -208,7 +208,7 @@ init bot[rescue2] preferences off;
 	#NOP Class Specific: Druid									;
 	#NOP #######################################################;
 	#if { ("$MSDP_CLASS" == "Druid") && ("$MSDP_CHARACTER_NAME" != "Malai") } {
-		botrole leader;
+		botrole damage;
 		#var bot[move] 0;
 		#var bot[autozone] 1;
 		#var bot[cast] 1;
@@ -225,8 +225,8 @@ init bot[rescue2] preferences off;
 		#var autoffire on;
 		#var autovigor on;
 
-		profon skinning;
-		group all;
+#nop		profon skinning;
+#nop 		group all;
 	};
 	#NOP #######################################################;
 	#NOP GENERAL COMMANDS:										;
@@ -1171,7 +1171,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {^Gary has lost his link.} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
 
-#action {You are dead!  Better luck next time...} {#delay 5 {#show <131>DEAD RELOGGING;1;#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>DEAD IN WILDERNESS BUY CR;3n;with 500000;buy cr;dep all}}}
+#action {You are dead!  Better luck next time...} {#delay 5 {#show <131>DEAD RELOGGING;1;#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>DEAD IN WILDERNESS BUY CR;3n;with 5000000;buy cr;dep all}}}
 #action {Lezalas gives you the corpse of $MSDP_CHARACTER_NAME.} {get all corpse;wear all;get all corpse;wear all;get all corpse;wear all;put all.recall back;get all corpse;wear all;#var regroup 1;#delay 120 {tell gary portal me}}
 #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
 #var regroup 0;
@@ -1264,8 +1264,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #variable autotooth 1;
 #var toothcontainer backpack;
 #alias lootgold {get gold all.corpse}
-#alias loottooth {get tooth all.corpse;put all.tooth $toothcontainer}
-#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}}
+#alias loottooth {nco get tooth all.corpse;nco put all.tooth $toothcontainer}
+#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth;nco put all.tooth $toothcontainer}}
 #action {Gary drops %1 tooth.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}} 
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
 #action {You get a %1 tooth from the corpse of a %2.} {put all.tooth backpack}
@@ -1323,7 +1323,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	#if {$profession[gather][auto]} { do_gather %0 };
-	#if { $autotooth } { get tooth all.corpse;put all.tooth backpack };
+	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth backpack };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	show_debug {<123>%0 is dead, what to do!!};
@@ -1339,8 +1339,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
 	#if { ($MSDP_EXPERIENCE>$needmetaat) && ($needmeta==0) } {#var needmeta 1;nco return_and_meta};
-	#if { $bot[examine] } { exa corpse };
-	#if { $bot[controlweather] } { cweather $bot[weatherdir] };
+	#if { $bot[examine] } { nco exa corpse };
+	#if { $bot[controlweather] } { nco cweather $bot[weatherdir] };
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}

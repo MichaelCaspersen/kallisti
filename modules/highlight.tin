@@ -1,0 +1,170 @@
+#nop
+#class {highlight} {kill}
+#class {highlight} {open}
+
+#highlight {A ghoul hunched over and chewing on something.}                             {orange}
+#highlight {^<   wielding   >       [ nothing ]}                                        {reverse pink}
+#highlight {^<   wielding   >   %1}                                                     {cyan} {5}
+#highlight {^<wielded> %1}                                                              {cyan} {5}
+#highlight {^A large python as dark as coal.}                                           {magenta}
+#highlight {^A shambling jackal.}                                                       {cyan}
+#highlight {^The force around your body fades.}                                         {reverse yellow}
+#highlight {^The twinkle in your eyes disappears.}                                      {reverse yellow}
+#highlight {^The white aura around your body fades.}                                    {reverse yellow}
+#highlight {^There were %1 coins.}                                                      {reverse silver}
+#highlight {^You feel slow.}                                                            {reverse yellow}
+#highlight {^You feel weaker.}                                                          {reverse yellow}
+#highlight {^You feel yourself exposed.}                                                {reverse yellow}
+#highlight {^You see the lifeform of the kender.}                                       {pink}
+#highlight {^Though short, you realize that this small kender has a certain quickness.} {pink}
+#highlight {but nearly cuts his own finger!}                                            {yellow}
+#highlight {desoy}                                                                      {reverse yellow}
+#highlight {resulting in a gush of blood!}                                              {green}
+#highlight {who falls silently to the ground, dead.}                                    {red}
+#highlight {^Alas, you cannot go %1...}                                                 {<130>}
+#highlight {^%1 out of %2 of your spell affects were just dispelled!}                   {pink}
+#highlight {You can't summon enough magical energy to cast 'animal friendship.'}        {<174>}
+#highlight {You can't summon enough magical energy to cast 'heal.'}                     {<172>}
+#highlight {^On a scale from 1 (fasting) to 10 (fat belly), you are at a %1.}           {<130>}
+#highlight {^Thirst-wise, you're a %1.}                                                 {<130>}
+#highlight {^You skin some %1 hide from %2.}                                            {<fca>}
+#highlight {^You skin it but you make a mess of it.}                                    {<fca>}
+#highlight {^You sacrifice the hide to the gods.}                                       {<afc>}
+#highlight {^Your personal donation fairy whisks away %1 to your manor.}                {<cfa>}
+#highlight {^Your Heartseeker quivers as it dives into the back of %1!}                 {<FDDF604>}
+#highlight {^-->  +1 new room explored <--}                                             {<fac>}
+#highlight {^-->  +1 new mob defeated <--}                                              {<fac>}
+#highlight {^%1 falls to the ground silently as you place something in %2 back.}        {<002>}
+#nop #highlight {^%1 makes a strange sound as you place something in %2 back!}               {<002>};
+#highlight {makes a strange sound as you place something in its back!}                  {<fca>}
+#highlight {^You hop on %1 back.}                                                       {<FDDF604>}
+
+#nop highlight {[}                          {<FE2E2E2>}
+#nop #highlight {]}                          {<FE2E2E2>}
+
+#highlight {in room,}                   {<fca>}
+#highlight {%S%}                        {<afc>}
+#highlight {full}                       {<fca>}
+#highlight {inventory,}                 {<fca>}
+#highlight { %dd%d }                    {<139>}
+
+#highlight {+%+1..3d}                   {<F80FC7F>}
+#highlight {-%+1..3d}                   {<FEB43BB>}
+
+#highlight {Awareness}                  {underscore orange}
+#highlight {Strength}                   {<FFF0000>}
+#highlight {Intelligence}               {<FBCBF73>}
+#highlight {Control undead}             {<FDAB068>}
+#highlight {Mortify}                    {<FE1C99F>}
+#highlight {HolySymbol}                 {yellow}
+#highlight {UnholySymbol}               {<010>}
+#highlight {Flaming_Weapon}             {<FB32F01>}
+#highlight {Divine_Weapon}              {<120>}
+#highlight {Wisdom}                     {<fca>}
+#highlight {Dexterity}                  {<afc>}
+#highlight {Constitution}               {<acf>}
+#highlight {Luck}                       {<caf>}
+#highlight {Assassinate}                {underscore <F16AA05>}
+#highlight {Backstab}                   {underscore yellow}
+#highlight {Shapechange}                {underscore blue}
+#highlight {Rank in Backstab}           {<fac>}
+#highlight {AttackSpeed}                {<F1BFF00>}
+#highlight {PrimeRequisite}             {<FB885EA>}
+#highlight {Charm person}               {<cfa>}
+#highlight {Rank in Charm person}       {<cfa>}
+#highlight {Gathering}                  {<cfa>}
+#highlight {Blacksmithing}              {<F37EFCA>}
+#highlight {Rank in Blacksmithing}      {<F37EFCA>}
+#highlight {Rage}                       {<FB95E99>}
+#highlight {Rank in Rage}               {<FB95E99>}
+#highlight {Heal}                       {<FFFC301>}
+#highlight {Rank in Heal}               {<FFFC301>}
+#highlight {Trip}                       {<FC0CA5A>}
+#highlight {Rank in Trip}               {<FC0CA5A>}
+#highlight {Barge}                      {<F9D768F>}
+#highlight {Haggle}                     {<F008FD9>}
+#highlight {Rank in Barge}              {<F9D768F>}
+#highlight {Two handed weapons}         {<F69C1AF>}
+#highlight {Rank in Two handed weapons} {<F69C1AF>}
+#highlight {Rank in Gathering}          {<cfa>}
+#highlight {Consecrate}                 {<cfa>}
+#highlight {Rank in Consecrate}         {<cfa>}
+#highlight {Tailoring}                  {<cfa>}
+#highlight {Rank in Tailoring}          {<cfa>}
+#highlight {Meditate}                   {<cfa>}
+#highlight {Rank in Meditate}           {<cfa>}
+#highlight {Brewing}                    {<cfa>}
+#highlight {Skinning}                   {<cfa>}
+#highlight {Tanning}                    {<cfa>}
+#highlight {Rank in Brewing}            {<cfa>}
+#highlight {Invisibility}               {<170>}
+#highlight {(invis)}                    {<170>}
+  
+#highlight {Ranged weapons}             {<cfa>}
+#highlight {Rank in Ranged weapons}     {<cfa>}
+#highlight {Rank in CriticalHit}        {<F46A4F1>}
+#highlight {CriticalHit}                {<F46A4F1>}
+#highlight {Critical hits}              {<F46A4F1>}
+#highlight {Rank in Blunt weapons}      {<cfa>}
+#highlight {Rank in Armor use}          {<cfa>}
+#highlight {Dodge}                      {<cfa>}
+#highlight {Rank in Dodge}              {<cfa>}
+#highlight {Rank in Charge}             {<cfa>}
+#highlight {Charge}                     {<cfa>}
+#highlight {Blunt weapons}              {<cfa>}
+#highlight {Armor use}                  {<cfa>}
+#highlight {Shield use}                 {<cfa>}
+#highlight {Edged weapons}              {<cfa>}
+
+ 
+#highlight {Save_Physical}              {<caf>}
+#highlight {Save_Reflex}                {<caf>}
+#highlight {Save_Mental}                {<caf>}
+    
+#highlight {HitPoints}                  {<FFC0467>}
+#highlight {Mana}                       {<F98B7E6>}
+#highlight {Stamina}                    {yellow}
+#highlight {Hitpoints_and_Mana}         {<F85AA6E>}
+   
+#highlight {HitpointRegen}              {<FE9AE85>}
+#highlight {ManaRegen}                  {<FD09F7E>}
+#highlight {StaminaRegen}               {<FDEBAA0>}
+   
+#highlight {Shield use}                 {<fac>}
+#highlight {L:%+1..2d}                  {<fca>}
+#highlight {Potion}                     {<fca>}
+#highlight {Damroll}                    {<caf>}
+#highlight {Hitroll_and_Damroll}        {azure}
+#highlight {Hitroll}                    {<FAF5BFF>}
+#nop #highlight {Armor %1 Ac:}            {<fac>};
+#highlight {Weapon %+1..2dd%+1..2d}     {<060>}
+ 
+#highlight {ResistDivine}               {<FDDF604>}
+#highlight {Wt:%+1..3d}                 {<F7BA2DD>}
+#highlight {Ac:%+1..3d}                 {<FD0A3FC>}
+#highlight {ResistCold}                 {<F65A2FF>}
+#highlight {Can_Fly}                    {<FC741F4>}
+#highlight {DamageReduce}               {<F73FE1D>}
+#highlight {Skill_Fail}                 {<F65FC53>}
+#nop #highlight {Armor}                      {<FEB43BB>};
+#highlight {Kick}                       {<F94FF88>}
+
+#highlight {Detect_Invis}               {<FF6FEB4>}
+#highlight {Sense_Hidden_Life}          {<FFBFDE7>}
+#highlight {Sense_Object}               {<FF6FCB6>}
+#highlight {Infravision}                {<FE99ED4>}
+#highlight {See_Hidden_Life}            {<FBCF7B5>}
+#highlight {Sense_Undead}               {<F74767C>}
+
+
+#highlight {^Assimilation...  You feel more unholy.} {<003>}
+#highlight {^Assimilation...  You feel more unholy.  You gain %1 hitpoints.} {<003>}
+#highlight {^Assimilation...  You feel more unholy.  You gain %1 stamina.} {<003>}
+#highlight {^Assimilation...  You gain %1 hitpoints.} {<003>}
+#highlight {^Assimilation...  You gain %1 stamina.} {<003>}
+
+#highlight {The strain of {using your|wielding this} %1 grows too great.} {<131>}
+#highlight {^You send %1 to the ground with a powerful gust of wind!} {<F0FF>}
+#highlight {^You join the fight with %1.} {<F1C8AE5>}
+
+#class {highlight} {close}

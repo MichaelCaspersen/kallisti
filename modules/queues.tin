@@ -151,7 +151,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[priority] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>Prio: %s} {$id};
+                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>($MSDP_QUEUE) Prio: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -161,7 +161,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[heal] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>Heal: %s} {$id};
+                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>($MSDP_QUEUE) Heal: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -171,7 +171,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[any] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>Any: %s} {$id};
+                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>($MSDP_QUEUE) Any: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -181,7 +181,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[combat] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>Combat: %s} {$id};
+                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>($MSDP_QUEUE) Combat: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -191,7 +191,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[nco] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>NCO: %s} {$id};
+                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>($MSDP_QUEUE) NCO: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -201,7 +201,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #foreach $_queue[move] {id} {
             #if {$id>0} {#nop} 
             {
-                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>Move: %s} {$id};
+                #format queue_block_spells[$spell_idx] {<B5f819d><388><188>($MSDP_QUEUE) Move: %s} {$id};
                 #math spell_idx {$spell_idx+1};
             }
         }
@@ -250,8 +250,8 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"skin"} #var result 4000;
         #case {"darkfire"} #var result 1000;
         #case {"lbolt"} #var result 1000;
-        #case {"chain"} #var result 1200;
-        #case {"sunray"} #var result 1000;
+        #case {"chain"} #var result 1400;
+        #case {"sunray"} #var result 1400;
         #case {"icestorm"} #var result 1000;
         #case {"animate"} #var result 4000;
         #case {"drain"} #var result 1000;
@@ -259,7 +259,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"creeping"} #var result 2000;
         #case {"poke_target"} #var result 2000;
         #case {"hellstream"} #var result 1000;
-        #case {"tornado"} #var result 1200;
+        #case {"tornado"} #var result 1400;
         #case {"zeal"} #var result 2000;
         #case {"poke_target"} #var result 3000;
         #case {"loottooth"} #var result 500;
