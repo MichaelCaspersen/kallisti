@@ -1172,11 +1172,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
 
 #action {You are dead!  Better luck next time...} {#delay 5 {#show <131>DEAD RELOGGING;1;#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>DEAD IN WILDERNESS BUY CR;3n;with 5000000;buy cr;dep all}}}
-#action {Lezalas gives you the corpse of $MSDP_CHARACTER_NAME.} {get all corpse;wear all;get all corpse;wear all;get all corpse;wear all;put all.recall back;get all corpse;wear all;#var regroup 1;#delay 120 {tell gary portal me}}
+#action {Lezalas gives you the corpse of $MSDP_CHARACTER_NAME.} {dep all;get all corpse;wear all;get all corpse;wear all;get all corpse;wear all;put all.recall back;get all corpse;wear all;#var regroup 1;#delay 60 {tell gary portal me}}
 #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
 #var regroup 0;
 
-#action {The Shop Inside the Tree} {#delay {60} {#if {"$MSDP_ROOM_VNUM"=="13200"} {#var TARGET_HEROS 40000;autometa;l}}} {1}
+#action {The Shop Inside the Tree} {#delay {40} {#if {"$MSDP_ROOM_VNUM"=="13200"} {#var TARGET_HEROS 40000;autometa;l}}} {1}
+
+
+#action {End of Frontier Pier at Gummton Outpost} {#if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && ("$MSDP_CLASS"=="Ranger") && ($MSDP_LEVEL<90) } {profon skinning;#var autopickuphides 1;#var autotooth 1;#var toothcontainer hole;botrole damage;#ticker {cleanroom} {profroom} {10}}}
 
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
@@ -1205,7 +1208,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var getoutnow 0
 }
 
-#nop hyper agressive at severely    action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if {$MSDP_OPPONENT_NUMBER>0} {#if { ("%2"=="a gigasaur") && (("%3"=="near") || ("%3"=="severely")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
+#nop hyper agressive at severely    action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if {$MSDP_OPPONENT_NUMBER>0} {#if { ("%2"=="a gigasaur") && (("%3"=="near") || ("%3"=="severely")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth $toothcontainer}}} {2}
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {
 	#var tankingmobs 0;
 	#if { ($MSDP_OPPONENT_NUMBER>0) } {
@@ -1218,7 +1221,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#show <131>AGRESSIVE LOOT;
 			#math spellLock { @mpoch{} + 3000 };
 			get all.tooth all.corpse;
-			put all.tooth back
+			put all.tooth $toothcontainer
 		};
 	}
 } {2}
@@ -1268,7 +1271,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth;nco put all.tooth $toothcontainer}}
 #action {Gary drops %1 tooth.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}} 
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
-#action {You get a %1 tooth from the corpse of a %2.} {put all.tooth backpack}
+#action {You get a %1 tooth from the corpse of a %2.} {put all.tooth $toothcontainer}
 
 #highlight {You get a %1 tooth from the corpse of a %2.} {cyan reverse}
 #highlight {You extract some %2 bone from %3.} {cyan reverse}
@@ -1323,7 +1326,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	#if {$profession[gather][auto]} { do_gather %0 };
-	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth backpack };
+	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth $toothcontainer };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	show_debug {<123>%0 is dead, what to do!!};

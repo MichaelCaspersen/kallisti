@@ -1,3 +1,8 @@
+
+
+prompt exp;togge autoass;toggl GroupHits;toggl GroupMisses;toggl HitsToGroup;toggl MissesToGroup;toggl TargetMisses;toggl BriefCombat;toggl melee;toggl brief
+
+
 QUESTS
 level 1:
 recall;3swn;buy south;sesd3s;quest;give south cleric
@@ -7,14 +12,18 @@ level 5:
 recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne
 
 OLD MAJOR
-recall;2s6en;quest;open gate n;2n;open door n;ne;kill major;w3s
+recall;2s6en;quest;open gate n;2n;open door n;ne;
+kill major;
+w3s
 
 VISIT JANIE
 recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;recall;2s6en;open gate n;n;open door w;w
 
 
 FAERIE QUEEN
-recall;13se;quest;recall;2s8w2sw2ses;enter mushroom;neu;kill queen;get wand corpse;recall;13se;give wand erwin
+recall;13se;quest;recall;2s8w2sw2ses;enter mushroom;neu;
+kill queen;
+get wand corpse;recall;13se;give wand erwin
 
 WRONG HOLE - Madam Zickwa
 
