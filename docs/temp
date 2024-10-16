@@ -234,8 +234,35 @@ Equip tanning gear
 #alias doallpracs {visit house;with 5000000;egress;$guildpath;doallpracs_ranger}
 #alias doallpracs_barb {#10 prac edged;#5 prac parry;#5 prac focus;toggle focus;prac scare;#5 prac warcry;toggle warcry;#5 prac warpaint;toggle warpaint;#5 prac multi attack;#10 prac two handed;#5 prac deathstroke;damage deathstroke;home;dep all;recall}
 
-#alias doallpracs_ranger {#4 prac parry;#8 prac armor use;#8 prac edged weapons;#10 prac ranged weapons;#5 prac critical hits;#5 prac bind wounds;#5 prac evade;#3 prac hawk eyes;#5 prac deepdraw;#2 prac scout;#10 prac dual wield;#3 prac lore;#5 prac multi attack;#5 prac focus;#5 prac snapshot;home;dep all}
-#alias doallpracs_ranger_profs {#10 prac skinning;#10 prac chirurgy;#5 prac ride}
+RANGER SKILLS
+#4 prac parry
+#8 prac armor use
+#10 prac edged weapons
+#10 prac ranged weapons
+#4 prac rescue
+#5 prac critical hits
+#5 prac multi attack
+#5 prac bind wounds
+#5 prac evade
+#3 prac hawk eyes
+#5 prac deepdraw
+#2 prac scout
+#3 prac camouflage
+prac pass without
+#5 prac endurance
+#10 prac dual wield
+#3 prac lore
+#5 prac multi attack
+#5 prac focus
+#5 prac snapshot
+
+toggle camouflage
+
+#10 prac skinning
+
+
+#10 prac chirurgy
+#5 prac ride
 
 
 
