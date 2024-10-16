@@ -1172,11 +1172,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
 
 #action {You are dead!  Better luck next time...} {#delay 5 {#show <131>DEAD RELOGGING;1;#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>DEAD IN WILDERNESS BUY CR;3n;with 5000000;buy cr;dep all}}}
-#action {Lezalas gives you the corpse of $MSDP_CHARACTER_NAME.} {dep all;get all corpse;wear all;get all corpse;wear all;get all corpse;wear all;put all.recall back;get all corpse;wear all;#var regroup 1;#delay 120 {tell gary portal me}}
+#action {Lezalas gives you the corpse of $MSDP_CHARACTER_NAME.} {dep all;get all corpse;wear all;get all corpse;wear all;get all corpse;wear all;put all.recall back;get all corpse;wear all;#var regroup 1;#delay 60 {tell gary portal me}}
 #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
 #var regroup 0;
 
-#action {The Shop Inside the Tree} {#delay {30} {#if {"$MSDP_ROOM_VNUM"=="13200"} {#var TARGET_HEROS 40000;autometa;l}}} {1}
+#action {The Shop Inside the Tree} {#delay {40} {#if {"$MSDP_ROOM_VNUM"=="13200"} {#var TARGET_HEROS 40000;autometa;l}}} {1}
 
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
