@@ -260,7 +260,11 @@ init metaHero preferences 0
     #show <131>Check Meta or Gain;
     #if { $MSDP_EXPERIENCE_TNL <= 0 } {
         #if {$MSDP_LEVEL < @getMaxRemortLevel{}} { 
-            goGain 
+            #if {"$MSDP_CHARACTER_NAME"=="Krual"} {
+                doMeta;
+            };#else {
+                goGain 
+            }
         } { 
             checkNobPoints 
         }
