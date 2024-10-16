@@ -1205,7 +1205,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var getoutnow 0
 }
 
-#nop hyper agressive at severely    action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if {$MSDP_OPPONENT_NUMBER>0} {#if { ("%2"=="a gigasaur") && (("%3"=="near") || ("%3"=="severely")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth back}}} {2}
+#nop hyper agressive at severely    action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if {$MSDP_OPPONENT_NUMBER>0} {#if { ("%2"=="a gigasaur") && (("%3"=="near") || ("%3"=="severely")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth $toothcontainer}}} {2}
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {
 	#var tankingmobs 0;
 	#if { ($MSDP_OPPONENT_NUMBER>0) } {
@@ -1218,7 +1218,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#show <131>AGRESSIVE LOOT;
 			#math spellLock { @mpoch{} + 3000 };
 			get all.tooth all.corpse;
-			put all.tooth back
+			put all.tooth $toothcontainer
 		};
 	}
 } {2}
@@ -1268,7 +1268,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth;nco put all.tooth $toothcontainer}}
 #action {Gary drops %1 tooth.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}} 
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
-#action {You get a %1 tooth from the corpse of a %2.} {put all.tooth backpack}
+#action {You get a %1 tooth from the corpse of a %2.} {put all.tooth $toothcontainer}
 
 #highlight {You get a %1 tooth from the corpse of a %2.} {cyan reverse}
 #highlight {You extract some %2 bone from %3.} {cyan reverse}
@@ -1323,7 +1323,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	#if {$profession[gather][auto]} { do_gather %0 };
-	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth backpack };
+	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth $toothcontainer };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	show_debug {<123>%0 is dead, what to do!!};
