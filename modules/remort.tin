@@ -46,7 +46,7 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #alias initialize_remort {
     #if {$MSDP_LEVEL<20} {
-        #var bot[damage][single] kill;bot_init;botrole leader;botpoke 0;group all;setguildpath;layout right
+        #var bot[damage][single] kill;#var autotooth 0;bot_init;botrole leader;botpoke 0;group all;setguildpath;layout right
     }
 }
 
@@ -76,15 +76,15 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #CASE {10} { 
             setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;wear elven;recall;#delay 3 {gt liminal start}}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {$guildpath;spec ranger;gain;gain;gain;gain;gain;wear elven;recall;#delay 3 {gt liminal start}}}} 
         };
         #CASE {15} { 
             setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#if {%%1==4} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;recall;#delay 3 {gt liminal start}}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;gain;gain;}}} 
         };
         #CASE {20} { 
             #if  {"$booster"=="Kaicha"} {};
-            #if  {"$booster"=="Liminal"} { gt liminal stop;recall;$guildpath;spec ranger;visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningnotmaxed 1;5nwn}
+            #if  {"$booster"=="Liminal"} { visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningnotmaxed 1;5nwn}
         };
         #CASE {29} { prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan };
         #CASE {50} { matoff;visit eremitage;u;rem all;put all chest };
