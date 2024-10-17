@@ -48,7 +48,7 @@ init comms-session comms;
 
 
 #alias {update_chat} {
-	#format {timestamp} {%t} {%A %T}
+	#format {timestamp} {%t} {%A %T};
 	#var _msg %2;
 	#replace {_msg} {{} {\{};
 	#replace {_msg} {}} {\}};
@@ -64,7 +64,7 @@ init comms-session comms;
 }
 
 #alias {send_to_comms_session} {
-	#format {timestamp} {%t} {%A %T}
+	#format {timestamp} {%t} {%A %T};
 	#info sessions save;
 	#if {&info[SESSIONS][${comms-session}]} {
 		#${comms-session} #showme <$timestamp> %0
