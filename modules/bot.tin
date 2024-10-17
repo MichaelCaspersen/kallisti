@@ -733,6 +733,26 @@ event_register {variable master[active]} {right} {generate_bot_info};
 		#var zone[path_current] 1;
 	};
 	#switch {"$MSDP_AREA_NAME"} {
+		#case {"Towers of Training"} {
+			#var zone[name] {Towers of Training};
+			#var zone[minlevel] 1;
+			#var zone[maxlevel] 8;
+			#var zone[startroom] 5200;
+			#var zone[path_total] 1;
+			#var zone[path] {n;n;n;w;n;w;n;n;s;e;s;e;e;n;n;e;e;e;w;s};
+			#var zone[proflist] {};
+			#var zone[allowAOE] 0;
+		};
+		#case {"Faerie Realms"} {
+			#var zone[name] {Faerie Realms};
+			#var zone[minlevel] 1;
+			#var zone[maxlevel] 10;
+			#var zone[startroom] 7500;
+			#var zone[path_total] 1;
+			#var zone[path] {n;w;w;w;s;e;e;e;s;w;w;w;s;e;e;e;s;w;w;w;n;n;n;e;e;e;w;s;w;w;s;s;w;s;e;s;e;n;e;s;s;w;e;e;e;e;n;w;n;e};
+			#var zone[proflist] {};
+			#var zone[allowAOE] 0;
+		};
 		#case {"Thalos City"} {
 			#var zone[name] {Thalos};
 			#var zone[minlevel] 40;

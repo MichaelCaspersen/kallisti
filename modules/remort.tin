@@ -42,12 +42,25 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 #alias handle_remort_level {
-    #show <131>HANDLE REMORT LEVEL: $MSDP_LEVEL;
-    send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1 - $MSDP_LEVEL;
-    #SWITCH {$MSDP_LEVEL} {
-        #CASE {2} { #var bot[damage][single] kill;bot_init;botrole leader;botpoke 0;group all;recall;#delay 3 {#show <131>Move to training tower;4sd3s5enu}};
+    #show <131>HANDLE REMORT LEVEL: %2;
+    send_to_comms_session New level, $MSDP_CHARACTER_NAME - %2;
+    #SWITCH {%2} {
+        #CASE {2} { 
+            #var bot[damage][single] kill;
+            bot_init;
+            botrole leader;
+            botpoke 0;
+            group all;
+            recall;
+            #delay 3 {#show <131>Move to training tower;4sd3s5enu;,;.}
+        };
         #CASE {5} { remort_quest_5 };
-        #CASE {8} { toggle ranged;tell kaicha recall;recall;fol kaicha;#delay 5 {gt exptime start} };
+        #CASE {7} { recall;2s3wn;buy purple;quaff purple;recall;2s8w2sw2ses;enter mushroom;,;.}
+        #CASE {8} { 
+            toggle ranged;
+            #if  {"$booster"=="Kaicha"} { tell kaicha recall;recall;fol kaicha;#delay 5 {gt exptime start} };
+            #if  {"$booster"=="Liminal"} {recall;2s3ws;buy yellow;quaff yellow;recall;tell liminal hi;fol liminal;#delay 3 {gt liminal start}};
+        };
         #CASE {20} { gt exptime end };
         #CASE {29} { prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan };
         #DEFAULT {
@@ -85,6 +98,14 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {The cleric healer tells you, 'Great job!  While by no means exact, the maps will help you find your way more easily.'} {remort_quest_1a}
 #alias remort_quest_1a {recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim;sac map}
 
+#alias remort_quest_5 {recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne;#delay 3 remort_quest_5a}
+#alias remort_quest_5a {recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;#delay 3 remort_quest_5b}
+#alias remort_quest_5b {recall;2s6en;open gate n;n;open door w;w;;#delay 3 remort_quest_5c}
+#alias remort_quest_5c {recall;2s6en;quest;open gate n;2n;open door n;ne;kill major}
+#action {Old Major is dead!  R.I.P.} {w;open gate s;2s;open gate s;s} {1}
+#action {The manor keeper tells you, 'In his death he will fertilize the ground. '} {#delay 3 {sac hat;recall;#show <131>Proceed to Madam Zickva;3s2e2nw}}
+
+
 #action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
 #action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1}
 #action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%1"} necromancer 1 6 1}
@@ -93,15 +114,16 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 1 6 1}
 #action {A young man aspiring to be an antipaladin is here, visiting the tower.%1} {settarget 999 @mob_count{"%1"} antipaladin 1 6 1}
 
-
-
-
-#alias remort_quest_5 {recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne;#delay 3 remort_quest_5a}
-#alias remort_quest_5a {recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;#delay 3 remort_quest_5b}
-#alias remort_quest_5b {recall;2s6en;open gate n;n;open door w;w;;#delay 3 remort_quest_5c}
-#alias remort_quest_5c {recall;2s6en;quest;open gate n;2n;open door n;ne;kill major}
-#action {Old Major is dead!  R.I.P.} {w;open gate s;2s;open gate s;s} {1}
-#action {The manor keeper tells you, 'In his death he will fertilize the ground. '} {#delay 3 {sac hat;recall;#show <131>Proceed to Madam Zickva;3s2e2nw}}
+#action {An ochre sprite flies around in circles.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+#action {A green sprite stands here, waving his half-foot sword.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+#action {A grey sprite looks at you menacingly, its sickly wings keeping it aloft.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+#action {A white sprite is flitting about.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+#action {An umber sprite leans against a tree.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+#action {An ashen sprite flits about.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+#action {A forest sprite stands, laughing at you.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+#action {A small green leprechaun watches over his pot of gold.%1} {settarget 999 @mob_count{"%1"} leprechaun 1 10 1}
+#action {A dark tree stands, roots out of the ground.%1} {settarget 999 @mob_count{"%1"} tree 1 10 1}
+#action {A satyr stomps its hoofs and looks ready to tussle.%1} {settarget 999 @mob_count{"%1"} satyr 1 10 1}
 
 
 
