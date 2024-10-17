@@ -43,7 +43,7 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #alias initialize_remort {
     #if {$MSDP_LEVEL<20} {
-        #var bot[damage][single] kill;bot_init;botrole leader;botpoke 0;group all;
+        #var bot[damage][single] kill;bot_init;botrole leader;botpoke 0;group all;layout right
     }
 }
 
@@ -65,7 +65,7 @@ event_register {level gain} {remort} {handle_remort_level};
             ;2s8w2sw2ses;enter mushroom
         }
         #CASE {8} { 
-            #if  {"$booster"=="Kaicha"} {toggle ranged;tell kaicha recall;recall;fol kaicha;#delay 5 {gt exptime start} };
+            #if  {"$booster"=="Kaicha"} {};
             #if  {"$booster"=="Liminal"} {
                 toggle ranged;
                 recall;visit eremitage;u;get elven chest;get yellow chest;quaff yellow;recall;
@@ -76,9 +76,12 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #CASE {10} { 
             setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#if {%1==5} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;wear elven;recall}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#if {%1==5} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;wear elven;recall;#delay 3 {gt liminal start}}}} 
         };
-        #CASE {20} { gt exptime end };
+        #CASE {20} { 
+            #if  {"$booster"=="Kaicha"} {};
+            #if  {"$booster"=="Liminal"} { gt liminal stop;visit house;fol $MSDP_CHARACTER_NAME;with 150000;recall;5nwn;prac tanning}
+        };
         #CASE {29} { prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan };
         #DEFAULT {
             #if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto])} {
