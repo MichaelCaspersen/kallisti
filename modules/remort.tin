@@ -40,6 +40,8 @@ event_register {level gain} {remort} {handle_remort_level};
     toggl BriefCombat;
     toggl melee;
     toggl brief;
+    sac long;
+    sac breastplate;
     visit eremitage;u;get all chest;wear all;get all chest;wear all;put all chest;
     remort_quest_1
 }
