@@ -737,7 +737,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[name] {Towers of Training};
 			#var zone[minlevel] 1;
 			#var zone[maxlevel] 8;
-			#var zone[startroom] 5200;
+			#var zone[startroom] 14064;
 			#var zone[path_total] 1;
 			#var zone[path] {n;w;w;w;s;e;e;e;s;w;w;w;s;e;e;e;s;w;w;w;n;n;n;e;e;e};
 			#var zone[proflist] {};
