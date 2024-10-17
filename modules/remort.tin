@@ -1,0 +1,75 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var remort-description {LoK remort to 60}
+#var remort-help {coming soon}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias remort-register {
+	#if {@isloaded{events}} {
+		register_module remort
+	} {
+		#showme ERROR: events not loaded;
+		fail_module remort
+	}
+}
+
+#alias remort-unregister {
+	event_remove_handler remort;
+}
+
+event_register {level gain} {remort} {handle_remort_level};
+
+#alias handle_remort_level {
+    #show <131>HANDLE REMORT LEVEL;
+    send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1
+}
+
+
+#var tanningnotmaxed 1;
+
+setguildpath; #nop returns #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
+
+#action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
+
+
+#action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
+#action {Wasat%1s Workshop} {#if $tanningnotmaxed {prac tanning}}
+#action {You practice tanning for a while...} {#if $tanningnotmaxed {prac tanning}}
+#action {Wasat says, 'At rank 10, you know all that I can teach you in tanning.'} {#var tanningnotmaxed 0;remorttan}
+#action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan}
+#action {You do not have enough proficiency points left to learn what I can teach you.} {remorttan}
+
+#alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.hide;tan hide}
+
+
+#nop RANGER SKILLS
+#nop #4 prac parry
+#nop #8 prac armor use
+#nop #10 prac edged weapons
+#nop #10 prac ranged weapons
+#nop #4 prac rescue
+#nop #5 prac critical hits
+#nop #5 prac multi attack
+#nop #5 prac bind wounds
+#nop #5 prac evade
+#nop #3 prac hawk eyes
+#nop #5 prac deepdraw
+#nop #2 prac scout
+#nop #3 prac camouflage
+#nop prac pass without
+#nop #5 prac endurance
+#nop #10 prac dual wield
+#nop #3 prac lore
+#nop #5 prac multi attack
+#nop #5 prac focus
+#nop #5 prac snapshot
+#nop toggle camouflage
+#nop #10 prac skinning
+
+#nop -- vim: syntax=tt
