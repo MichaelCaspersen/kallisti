@@ -24,18 +24,49 @@
 
 event_register {level gain} {remort} {handle_remort_level};
 
-#alias handle_remort_level {
-    #show <131>HANDLE REMORT LEVEL;
-    send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1
+#alias start_bloodline {
+    setguildpath; #nop returns #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
+    #var tanningnotmaxed 1;
+    prompt exp;
+    toggl autoass;
+    toggl GroupHits;
+    toggl GroupMisses;
+    toggl HitsToGroup;
+    toggl MissesToGroup;
+    toggl TargetMisses;
+    toggl BriefCombat;
+    toggl melee;
+    toggl brief;
+    visit eremitage;u;get all chest;wear all;get all chest;wear all;
+    remort_quest_1
 }
 
+#alias handle_remort_level {
+    #show <131>HANDLE REMORT LEVEL %1;
+    send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1
+    #SWITCH {$MSDP_LEVEL} {
+        #CASE {2} { #var bot[damage][single] kill;bot_init;botrole leader;recall;4sd3s5wnu };
+        #CASE {5} { remort_quest_5 };
+        #CASE {8} { toggle ranged;tell kaicha recall;recall;fol kaicha;#delay 5 {gt exptime start} };
+        #CASE {20} { gt exptime end };
+        #CASE {29} { prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan };
+        #DEFAULT {
+            #if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto])} {
+                remorttan;
+            }
+        }
+    };
+}
 
-#var tanningnotmaxed 1;
+#action {* * * You now have enough experience to gain a level! * * *} {#if {($MSDP_LEVEL>20)} {breakout;gogain}}
 
-setguildpath; #nop returns #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
-
-#action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
+#alias gogain {
+    egre;home;
+    #math nextlevel {$MSDP_LEVEL+1};
+    #if { ($nextlevel==50) } { with 200000 } { with $goldlevel[$nextlevel] };
+    egre;$guildpath;
+    gain
+}
 
 
 #action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
@@ -45,31 +76,86 @@ setguildpath; #nop returns #case {"Ranger"} {#var guildpath 2s2e2se;#var guildre
 #action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan}
 #action {You do not have enough proficiency points left to learn what I can teach you.} {remorttan}
 
-#alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.hide;tan hide}
+#alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;dep all;e;get all.hide;tan hide}
 
 
-#nop RANGER SKILLS
-#nop #4 prac parry
-#nop #8 prac armor use
-#nop #10 prac edged weapons
-#nop #10 prac ranged weapons
-#nop #4 prac rescue
-#nop #5 prac critical hits
-#nop #5 prac multi attack
-#nop #5 prac bind wounds
-#nop #5 prac evade
-#nop #3 prac hawk eyes
-#nop #5 prac deepdraw
-#nop #2 prac scout
-#nop #3 prac camouflage
-#nop prac pass without
-#nop #5 prac endurance
-#nop #10 prac dual wield
-#nop #3 prac lore
-#nop #5 prac multi attack
-#nop #5 prac focus
-#nop #5 prac snapshot
-#nop toggle camouflage
-#nop #10 prac skinning
+
+#nop LEVEL 1-8
+#alias remort_quest_1 {recall;3swn;buy south;sesd3s;quest;give south cleric;remort_quest_1a}
+#alias remort_quest_1a {recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim}
+
+#action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
+#action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1}
+#action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%1"} necromancer 2 4 1}
+#action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%1"} hag 2 4 1}
+#action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%1"} assa 2 4 1}
+#action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 2 4 1}
+
+
+#alias remort_quest_5 {recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne;remort_quest_5a}
+#alias remort_quest_5a {recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;recall;2s6en;open gate n;n;open door w;w;remort_quest_5b}
+#alias remort_quest_5b {recall;2s6en;quest;open gate n;2n;open door n;ne;kill major;#delay {10} {w3s}}
+
+
+
+#alias prac_fighter {
+    recall;2s2e2s;#5 prac multi;
+    #5 prac multi attack;
+    #4 prac parry;
+    #8 prac armor use;
+    #10 prac edged weapons;
+    #10 prac ranged weapons;
+    #4 prac rescue;
+    #5 prac critical hits;
+    #5 prac endurance;
+    #3 prac lore;
+    #5 prac multi attack
+}
+
+
+#alias prac_ranger {
+    #3 prac camouflage;
+    prac pass without;
+    #5 prac bind wounds;
+    #5 prac snapshot;
+    #5 prac evade;
+    #10 prac dual wield;
+    #3 prac hawk eyes;
+    #5 prac deepdraw;
+    #2 prac scout;
+    #5 prac focus;
+    toggle camouflage
+}
+
+#alias prac_profession {
+    #10 prac skinning
+}
+
+
+
+
+#action {End of Frontier Pier at Gummton Outpost} {#if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && ("$MSDP_CLASS"=="Ranger") && ($MSDP_LEVEL<90) } {initialize_wilderness}}
+
+#alias initialize_wilderness {
+    profon skinning;
+    #var autopickuphides 1;
+    #var autotooth 1;
+    #var toothcontainer hole;
+    botrole damage;
+    #ticker clearroom profroom 10;
+}
+
+
+
+
+
+
+#action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
+#action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1}
+#action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%1"} necromancer 2 4 1}
+#action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%1"} hag 2 4 1}
+#action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%1"} assa 2 4 1}
+#action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 2 4 1}
+
 
 #nop -- vim: syntax=tt
