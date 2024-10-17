@@ -90,6 +90,7 @@ event_register {level gain} {remort} {handle_remort_level};
             #if  {"$booster"=="Liminal"} { gt liminal stop;recall;$guildpath;spec ranger;visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningnotmaxed 1;5nwn}
         };
         #CASE {29} { prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan };
+        #CASE {50} { matoff;visit eremitage;u;rem all;put all chest };
         #DEFAULT {
             #if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto])} {
                 remorttan;
@@ -137,31 +138,32 @@ event_register {level gain} {remort} {handle_remort_level};
 
 
 #alias prac_fighter {
-    recall;2s2e2s;#5 prac multi;
-    #5 prac multi attack;
+    recall;2s2e2s;
+    #3 prac critical hits;
     #4 prac parry;
+    #4 prac multi attack;
     #8 prac armor use;
-    #10 prac edged weapons;
-    #10 prac ranged weapons;
+    #9 prac edged weapons;
+    #6 prac ranged weapons;
     #4 prac rescue;
-    #5 prac critical hits;
-    #5 prac endurance;
     #3 prac lore;
-    #5 prac multi attack
 }
 
 
 #alias prac_ranger {
     #3 prac camouflage;
     prac pass without;
+    #4 prac ranged weapons;
+    #10 prac dual wield;
+    #2 prac critical hits;
     #5 prac bind wounds;
     #5 prac snapshot;
     #5 prac evade;
-    #10 prac dual wield;
     #3 prac hawk eyes;
     #5 prac deepdraw;
     #2 prac scout;
-    #5 prac focus;
+    prac multi attack;
+    #4 prac focus;
     toggle camouflage
 }
 
