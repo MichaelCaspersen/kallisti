@@ -88,15 +88,15 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #CASE {10} { 
             setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;spec ranger;wear elven;recall;#delay 3 {gt liminal start}}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;spec ranger;wear elven;recall;#delay 3 {gt liminal start;setguildpath}}}} 
         };
         #CASE {15} { 
             setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==4} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==4} {gt liminal stop;#delay 10 {setguildpath;$guildpath;gain;gain;gain;gain}}} 
         };
         #CASE {19} { 
             setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;gain}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {setguildpath;$guildpath;gain;gain;gain;gain;gain;gain}}} 
         };
         #CASE {24} { 
             #if  {"$booster"=="Kaicha"} {};
