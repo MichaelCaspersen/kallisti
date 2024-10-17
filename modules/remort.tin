@@ -52,6 +52,11 @@ event_register {level gain} {remort} {handle_remort_level};
     }
 }
 
+#alias end_remort_tanning {
+    visit eremitage;with 100000;u;rem all;put all chest;recall;3s2es;book gumm
+    #var remort_equipped 0;
+}
+
 #alias handle_remort_level {
     #show <131>HANDLE REMORT LEVEL: %2;
     send_to_comms_session New level, $MSDP_CHARACTER_NAME - %2;
@@ -113,8 +118,9 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {Wasat%1s Workshop} {#if $tanningnotmaxed {prac tanning}}
 #action {You practice tanning for a while...} {#if $tanningnotmaxed {prac tanning}}
 #action {Wasat says, 'At rank 10, you know all that I can teach you in tanning.'} {#var tanningnotmaxed 0;remorttan}
-#action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan}
+#action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan;#delay 30 {w;with 45000;recall;5nwn}}
 #action {You do not have enough proficiency points left to learn what I can teach you.} {remorttan}
+#action {Wasat says, 'Come back later!  Hours are 1:00 - 24:00'} {#delay 10 l}
 
 #alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;dep all;e;get all.hide;tan hide}
 
@@ -182,9 +188,14 @@ event_register {level gain} {remort} {handle_remort_level};
     #var toothcontainer hole;
     botrole damage;
     #ticker clearroom profroom 10;
+    #if {$remort_equipped==0} {#var remort_equipped 1;home;get all remort;wear all}
 }
 
-
+#alias join_gary_group {
+    #var regroup 1;
+    #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
+    tell gary portal me;
+}
 
 
 
