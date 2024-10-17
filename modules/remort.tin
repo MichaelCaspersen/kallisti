@@ -55,7 +55,13 @@ event_register {level gain} {remort} {handle_remort_level};
             #delay 3 {#show <131>Move to training tower;4sd3s5enu;,;.}
         };
         #CASE {5} { remort_quest_5 };
-        #CASE {7} { recall;2s3wn;buy purple;quaff purple;recall;#action {You enter a ring of mushrooms.} {#unaction {You enter a ring of mushrooms.};#action {You can't do that in this peaceful place.} {#path w;#unaction {You can't do that in this peaceful place.};n;,;.};2s8w2sw2ses;enter mushroom}
+        #CASE {7} { 
+            recall;
+            2s3wn;buy purple;quaff purple;recall;
+            #action {You can't do that in this peaceful place.} {#unaction {You can't do that in this peaceful place.};#path w};
+            #action {You enter a ring of mushrooms.} {#unaction {You enter a ring of mushrooms.};n;,;.}
+            ;2s8w2sw2ses;enter mushroom
+        }
         #CASE {8} { 
             toggle ranged;
             #if  {"$booster"=="Kaicha"} { tell kaicha recall;recall;fol kaicha;#delay 5 {gt exptime start} };
