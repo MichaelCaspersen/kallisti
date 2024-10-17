@@ -753,7 +753,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[proflist] {};
 			#var zone[allowAOE] 0;
 		};
-		#case {"FMadam Zickva's"} {
+		#case {"Madam Zickva's"} {
 			#var zone[name] {Madam Zickva's};
 			#var zone[minlevel] 1;
 			#var zone[maxlevel] 10;

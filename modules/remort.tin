@@ -133,6 +133,7 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {The cleric healer tells you, 'Great job!  While by no means exact, the maps will help you find your way more easily.'} {remort_quest_1a}
 #alias remort_quest_1a {recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim;sac map}
 
+#action {You are now on the quest: Wrong hole: Solo Target, Half dressed guy} {quest end;#delay 30 {remort_quest_5}}
 #alias remort_quest_5 {recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne;#delay 3 remort_quest_5a}
 #alias remort_quest_5a {recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;#delay 3 remort_quest_5b}
 #alias remort_quest_5b {recall;2s6en;open gate n;n;open door w;w;;#delay 3 remort_quest_5c}
