@@ -24,6 +24,9 @@
 
 event_register {level gain} {remort} {handle_remort_level};
 
+#var booster Liminal
+#var tanningnotmaxed 0
+
 #alias start_bloodline {
     setguildpath; #nop returns #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
     #var tanningnotmaxed 1;
@@ -84,7 +87,7 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #CASE {20} { 
             #if  {"$booster"=="Kaicha"} {};
-            #if  {"$booster"=="Liminal"} { gt liminal stop;visit house;fol $MSDP_CHARACTER_NAME;with 150000;recall;5nwn;prac tanning}
+            #if  {"$booster"=="Liminal"} { gt liminal stop;recall;$guildpath;spec ranger;visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningnotmaxed 1;5nwn}
         };
         #CASE {29} { prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan };
         #DEFAULT {
@@ -96,6 +99,7 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 #action {* * * You now have enough experience to gain a level! * * *} {#if {($MSDP_LEVEL>20)} {breakout;gogain}}
+#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {$guildpath;gain;gain;gain;gain;remorttan}
 
 #alias gogain {
     egre;home;
