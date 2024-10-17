@@ -757,7 +757,7 @@ event_register {variable master[active]} {right} {generate_bot_info};
 			#var zone[name] {Madam Zickva's};
 			#var zone[minlevel] 1;
 			#var zone[maxlevel] 10;
-			#var zone[startroom] 7500;
+			#var zone[startroom] 21100;
 			#var zone[path_total] 1;
 			#var zone[path] {e;e;e};
 			#var zone[proflist] {};
