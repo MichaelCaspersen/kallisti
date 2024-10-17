@@ -46,11 +46,7 @@ event_register {level gain} {remort} {handle_remort_level};
     send_to_comms_session New level, $MSDP_CHARACTER_NAME - %2;
     #SWITCH {%2} {
         #CASE {2} { 
-            #var bot[damage][single] kill;
-            bot_init;
-            botrole leader;
-            botpoke 0;
-            group all;
+            #var bot[damage][single] kill;bot_init;botrole leader;botpoke 0;group all;
             recall;
             #delay 3 {#show <131>Move to training tower;4sd3s5enu;,;.}
         };
