@@ -48,7 +48,7 @@ init comms-session comms;
 
 
 #alias {update_chat} {
-	#format {timestamp} {%t} {%A %T};
+	#format {timestamp} {%t} {%T};
 	#var _msg %2;
 	#replace {_msg} {{} {\{};
 	#replace {_msg} {}} {\}};
