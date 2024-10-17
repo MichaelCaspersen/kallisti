@@ -92,9 +92,13 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #CASE {15} { 
             setguildpath;
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==4} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain}}} 
+        };
+        #CASE {19} { 
+            setguildpath;
             #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;gain}}} 
         };
-        #CASE {20} { 
+        #CASE {24} { 
             #if  {"$booster"=="Kaicha"} {};
             #if  {"$booster"=="Liminal"} { visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningnotmaxed 0;5nwn}
         };
