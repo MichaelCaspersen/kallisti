@@ -48,6 +48,7 @@ init comms-session comms;
 
 
 #alias {update_chat} {
+	#format {timestamp} {%t} {%A %T}
 	#var _msg %2;
 	#replace {_msg} {{} {\{};
 	#replace {_msg} {}} {\}};
@@ -55,7 +56,7 @@ init comms-session comms;
 	#if {&chat[log][] >= $chat[rows]} {
 		#list chat[log] del 1
 	};
-	#list chat[log] ins -1 {$_msg};
+	#list chat[log] ins -1 {$timestamp $_msg};
 	#if {@isloaded{layout}} {
 		layout_comms_update
 	};
@@ -63,9 +64,10 @@ init comms-session comms;
 }
 
 #alias {send_to_comms_session} {
+	#format {timestamp} {%t} {%A %T}
 	#info sessions save;
 	#if {&info[SESSIONS][${comms-session}]} {
-		#${comms-session} #showme %0
+		#${comms-session} #showme <$timestamp> %0
 	}
 }
 

@@ -217,9 +217,9 @@ Equip tanning gear
 #var guildpath {2s2e2se}; #nop RANGER
 #var tanningnotmaxed 1;
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;send_to_comms_session New level, $MSDP_CHARACTER_NAME - $MSDP_LEVEL;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
 
-#action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {visit house;with 45000;egress;4nwnnn}}
+#action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
 
 #action {Wasat%1s Workshop} {#if $tanningnotmaxed {prac tanning}}
 #action {You practice tanning for a while...} {#if $tanningnotmaxed {prac tanning}}
