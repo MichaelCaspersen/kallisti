@@ -96,9 +96,12 @@ event_register {level gain} {remort} {handle_remort_level};
 
 
 
-#alias remort_quest_5 {recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne;remort_quest_5a}
-#alias remort_quest_5a {recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;recall;2s6en;open gate n;n;open door w;w;remort_quest_5b}
-#alias remort_quest_5b {recall;2s6en;quest;open gate n;2n;open door n;ne;kill major;#delay {10} {w3s}}
+#alias remort_quest_5 {recall;3s2e2ne;quest;recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne;#delay 3 remort_quest_5a}
+#alias remort_quest_5a {recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;#delay 3 remort_quest_5b}
+#alias remort_quest_5b {recall;2s6en;open gate n;n;open door w;w;;#delay 3 remort_quest_5c}
+#alias remort_quest_5c {recall;2s6en;quest;open gate n;2n;open door n;ne;kill major}
+#action {Old Major is dead!  R.I.P.} {w;open gate s;2s;open gate s;s} {1}
+#action {The manor keeper tells you, 'In his death he will fertilize the ground. '} {#delay 3 {sac hat;recall;#show <131>Proceed to Madam Zickva;3s2e2nw}}
 
 
 
@@ -160,6 +163,12 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%1"} hag 1 6 1}
 #action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%1"} assa 1 6 1}
 #action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 1 6 1}
+
+#action {A female guest is here half passed out in her chair.%1} {settarget 999 @mob_count{"%1"} guest 5 9 1}
+#action {A male guest is here half passed out in his chair.%1} {settarget 999 @mob_count{"%1"} guest 5 9 1}
+#nop action {A lady is here flirting with the guys.%1} {settarget 999 @mob_count{"%1"} flirt 6 9 2}
+#nop action {A guy is here flirting with the gals.%1} {settarget 999 @mob_count{"%1"} flirt 6 9 2}
+
 
 
 #nop -- vim: syntax=tt
