@@ -78,7 +78,7 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #CASE {10} { 
             setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {$guildpath;spec ranger;gain;gain;gain;gain;gain;wear elven;recall;#delay 3 {gt liminal start}}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;spec ranger;wear elven;recall;#delay 3 {gt liminal start}}}} 
         };
         #CASE {15} { 
             setguildpath;
