@@ -43,7 +43,7 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #alias handle_remort_level {
     #show <131>HANDLE REMORT LEVEL %1;
-    send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1
+    send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1;
     #SWITCH {$MSDP_LEVEL} {
         #CASE {2} { #var bot[damage][single] kill;bot_init;botrole leader;recall;4sd3s5wnu };
         #CASE {5} { remort_quest_5 };
@@ -81,8 +81,9 @@ event_register {level gain} {remort} {handle_remort_level};
 
 
 #nop LEVEL 1-8
-#alias remort_quest_1 {recall;3swn;buy south;sesd3s;quest;give south cleric;remort_quest_1a}
-#alias remort_quest_1a {recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim}
+#alias remort_quest_1 {recall;3swn;buy south;sesd3s;quest;give south cleric}
+#action {The cleric healer tells you, 'Great job!  While by no means exact, the maps will help you find your way more easily.'} {remort_quest_1a}
+#alias remort_quest_1a {recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim;sac map}
 
 #action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
 #action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1}
