@@ -59,9 +59,8 @@ event_register {level gain} {remort} {handle_remort_level};
             ;2s8w2sw2ses;enter mushroom
         }
         #CASE {8} { 
-            toggle ranged;
-            #if  {"$booster"=="Kaicha"} { tell kaicha recall;recall;fol kaicha;#delay 5 {gt exptime start} };
-            #if  {"$booster"=="Liminal"} {recall;2s3ws;buy yellow;quaff yellow;recall;tell liminal hi;fol liminal;#delay 3 {gt liminal start}};
+            #if  {"$booster"=="Kaicha"} {toggle ranged;tell kaicha recall;recall;fol kaicha;#delay 5 {gt exptime start} };
+            #if  {"$booster"=="Liminal"} {toggle ranged;recall;2s3ws;buy yellow;quaff yellow;recall;tell liminal hi;fol liminal;#delay 3 {gt liminal start}};
         };
         #CASE {20} { gt exptime end };
         #CASE {29} { prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan };
