@@ -1198,7 +1198,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Wilderness
 #NOP #######################################################
 
-#action {^Gary has lost his link.} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
+#action {^%1 has lost his link.} {#if { ("%1"=="Gary") && ("$MSDP_CLASS" == "Prophet")} {mir group;queueAdd priority recall};send_to_comms_session <170>Lost link: %1} {1}
+#action {^%1 has reconnected.}  {send_to_comms_session <170>Reconnect: %1}
+
+
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
 
 #action {You are dead!  Better luck next time...} {#delay 5 {#show <131>DEAD RELOGGING;1;#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>DEAD IN WILDERNESS BUY CR;3n;with 5000000;buy cr;dep all}}}
