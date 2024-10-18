@@ -107,16 +107,19 @@ Commands:\n
 #alias {profreset} {#var profession[gather][success] 0;#var profession[gather][total] 0;generate_profession_info;}
 
 #alias highlight_materials_on {
-	#highlight {junk {hide|bone|meat}} {reverse underscore Pink};
-	#highlight {rough {hide|bone|meat}} {reverse underscore Pink};
-	#highlight {average {hide|bone|meat}} {reverse underscore Jade};
-	#highlight {good {hide|bone|meat}} {reverse underscore Jade};
-	#highlight {excellent {hide|bone|meat}} {reverse underscore Jade};
-	#highlight {superior {hide|bone|meat}} {reverse underscore Jade};
-	#highlight {pristine {hide|bone|meat}} {reverse underscore Jade};
-	#highlight {exquisite {hide|bone|meat}} {reverse underscore Jade};
-	#highlight {flawless {hide|bone|meat}} {reverse underscore Jade};
-	#highlight {divine {hide|bone|meat}} {reverse underscore Jade};
+	#highlight {^You skin some %1 hide from %2.}                                            {<fca>}
+	#highlight {^You skin it but you make a mess of it.}                                    {<fca>}
+	#highlight {^You sacrifice the hide to the gods.}                                       {<fca>}
+	#highlight {junk {hide|bone|meat}} {underscore Pink};
+	#highlight {rough {hide|bone|meat}} {underscore Pink};
+	#highlight {average {hide|bone|meat}} {underscore Jade};
+	#highlight {good {hide|bone|meat}} {underscore Jade};
+	#highlight {excellent {hide|bone|meat}} {underscore Jade};
+	#highlight {superior {hide|bone|meat}} {underscore Jade};
+	#highlight {pristine {hide|bone|meat}} {underscore Jade};
+	#highlight {exquisite {hide|bone|meat}} {underscore Jade};
+	#highlight {flawless {hide|bone|meat}} {underscore Jade};
+	#highlight {divine {hide|bone|meat}} {underscore Jade};
 }
 
 #alias highlight_materials_off {
@@ -181,7 +184,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP Professions - Gathering;
 #NOP #######################################################
 
-#alias profroom {highlight_materials_on;#var clearingroom 1;#var room_corpse_id 0;$profession[str_corpse] corpse}
+#alias profroom {#var clearingroom 1;#var room_corpse_id 0;$profession[str_corpse] corpse}
 #action {It isn't quality enough to {skin|extract|butcher}} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
 #action {You {skin|extract|butcher} it but you make a mess of it.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
 #action {You can't {skin|extract|butcher} a corpse from %1.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}

@@ -1264,7 +1264,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #gag {You must also specify what you want to skin.}
 #gag {It isn't quality enough to skin.}
 
-#highlight {%1 skins some hide from the corpse of %1.} {red reverse}
+#highlight {%1 skins some hide from the corpse of %1.} {red}
 #action {%1 skins some hide from the corpse of %1.} {l}
 
 #var aggressivetooth 0;
@@ -1300,14 +1300,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
 #action {You get a %1 tooth from the corpse of a %2.} {put all.tooth $toothcontainer}
 
-#highlight {You get a %1 tooth from the corpse of a %2.} {cyan reverse}
-#highlight {You extract some %2 bone from %3.} {cyan reverse}
+#highlight {You get a %1 tooth from the corpse of a %2.} {cyan}
+#highlight {You extract some %2 bone from %3.} {cyan}
 
-#HIGHLIGHT {A spiteful spear erupts poisonous liquid.} {white reverse}
-#HIGHLIGHT {Penitence, the staff of Ziphnex shines brightly.} {lime reverse}
-#HIGHLIGHT {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {lime reverse}
-#HIGHLIGHT {Sword of the spirit pulses with white hot energy, filling your party with joy!} {lime reverse}
-#HIGHLIGHT {You use %1 to focus your spell.} {yellow reverse};
+#HIGHLIGHT {A spiteful spear erupts poisonous liquid.} {white}
+#HIGHLIGHT {Penitence, the staff of Ziphnex shines brightly.} {lime}
+#HIGHLIGHT {^%1 raises up sword of the spirit, releasing white hot energy into the room.} {lime}
+#HIGHLIGHT {Sword of the spirit pulses with white hot energy, filling your party with joy!} {lime}
+#HIGHLIGHT {You use %1 to focus your spell.} {yellow};
 
 #nop ACTION {%0 is dead!  R.I.P.} {get all.tooth all.corpse;put all.tooth back;#if { ($MSDP_STAMINA>300) && ("%0"!="A massive harvester spider")} {nco extract corpse};#math stat[kill][%0] {$stat[kill][%0]+1};#var stat[kill]}
 
