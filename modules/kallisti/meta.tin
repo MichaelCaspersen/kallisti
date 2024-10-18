@@ -260,11 +260,7 @@ init metaHero preferences 0
     #show <131>Check Meta or Gain;
     #if { $MSDP_EXPERIENCE_TNL <= 0 } {
         #if {$MSDP_LEVEL < @getMaxRemortLevel{}} { 
-            #if {"$MSDP_CHARACTER_NAME"=="Krual"} {
-                doMeta;
-            };#else {
-                goGain 
-            }
+            goGain; #nop REMORTS DONT NEED TO REMETA LEVELS
         } { 
             checkNobPoints 
         }
@@ -274,7 +270,6 @@ init metaHero preferences 0
 }
 
 #alias goGain {
-    setguildpath;
     #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {
         visit house;
     } {
@@ -282,7 +277,7 @@ init metaHero preferences 0
     }
     with $goldlevel[$MSDP_LEVEL];
     egress;
-    $guildpath;
+    goguild;
     gain;
     $guildreturnpath;
     #delay 5 doMetaOrGain
@@ -355,7 +350,7 @@ init metaHero preferences 0
             }
         };
         #case {"Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
-        #case {"Profession"} {recall;visit house;e;tan hide};
+        #case {"Profession"} {recall;remorttan};
     };
     #var needmeta 0
 }

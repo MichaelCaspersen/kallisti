@@ -120,8 +120,9 @@ event_register {level gain} {remort} {handle_remort_level};
     };
 }
 
-#action {* * * You now have enough experience to gain a level! * * *} {#if {($MSDP_LEVEL>20)} {breakout;gogain}}
-#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {goguild;gain;gain;gain;gain;remorttan}
+#var needmeta 0;
+#action {* * * You now have enough experience to gain a level! * * *} {#if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {breakout;gogain}}
+#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {goguild;gain;gain;gain;gain;remorttan}}
 
 #alias gogain {
     egre;home;
