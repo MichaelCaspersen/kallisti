@@ -29,7 +29,7 @@
 #highlight {^Thirst-wise, you're a %1.}                                                 {<130>}
 #highlight {^You skin some %1 hide from %2.}                                            {<fca>}
 #highlight {^You skin it but you make a mess of it.}                                    {<fca>}
-#highlight {^You sacrifice the hide to the gods.}                                       {<fca>}
+#highlight {^You sacrifice the hide to the gods.}                                       {<afc>}
 #highlight {^Your personal donation fairy whisks away %1 to your manor.}                {<cfa>}
 #highlight {^Your Heartseeker quivers as it dives into the back of %1!}                 {<FDDF604>}
 #highlight {^-->  +1 new room explored <--}                                             {<fac>}
