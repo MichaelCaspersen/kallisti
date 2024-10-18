@@ -26,6 +26,7 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #var booster Liminal
 #var tanningnotmaxed 0
+#var spec_class ranger
 
 #alias start_bloodline {
     setguildpath; #nop returns #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
@@ -56,8 +57,8 @@ event_register {level gain} {remort} {handle_remort_level};
     visit eremitage;with 100000;u;rem all;put all chest;
     #var remort_equipped 0;
     recall;
-    2s2e2s;prac_fighter;
-    e;prac_ranger;
+    2s2e2s;prac_base_class;
+    e;prac_$spec_class;
     #var skinningnotmaxed 1;
     recall;5nwn;
 }
@@ -69,12 +70,12 @@ event_register {level gain} {remort} {handle_remort_level};
         #CASE {2} { 
             initialize_remort;
             recall;
-            #delay 3 {#show <131>Move to training tower;recall;2s3wn;buy purple;quaff purple;recall;4sd3s5enu;#action {The Entrance to the Halls of Evil} {#unaction {The Entrance to the Halls of Evil};#delay 3 {,;.}}}
+            #delay 3 {#show <131>Move to training tower;recall;2s3wn;buy purple;quaff purple;recall;4sd3s5enu;#action {The Entrance to the Halls of Evil} {#unaction {The Entrance to the Halls of Evil};prepare_towers_of_training;#delay 3 {,;.}}}
         };
         #CASE {5} { zone_end;recall;2s3wn;buy purple;quaff purple;recall;remort_quest_5 };
         #CASE {7} { 
             recall;2s3wn;buy purple;quaff purple;recall;
-            #action {You enter a ring of mushrooms.} {#unaction {You enter a ring of mushrooms.};n;cleartarget;,;.};
+            #action {You enter a ring of mushrooms.} {#unaction {You enter a ring of mushrooms.};n;prepare_faerie_realm;cleartarget;,;.};
             #show <131>Move to Farie Realm;2s8w2sw2ses;enter mushroom
         };
         #CASE {8} { 
@@ -87,23 +88,30 @@ event_register {level gain} {remort} {handle_remort_level};
             };
         };
         #CASE {10} { 
-            setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {$guildpath;gain;gain;gain;gain;gain;spec ranger;wear elven;recall;#delay 3 {gt liminal start;setguildpath}}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {goguild;gain;gain;gain;gain;gain;spec $spec_class;wear elven;recall;#delay 3 {gt liminal start}}}} 
         };
         #CASE {15} { 
-            setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==4} {gt liminal stop;#delay 10 {setguildpath;$guildpath;gain;gain;gain;gain}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==4} {gt liminal stop;#delay 10 {goguild;gain;gain;gain;gain}}} 
         };
         #CASE {19} { 
-            setguildpath;
-            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {setguildpath;$guildpath;gain;gain;gain;gain;gain;gain}}} 
+            #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {goguild;gain;gain;gain;gain;gain;gain}}} 
         };
         #CASE {24} { 
             #if  {"$booster"=="Kaicha"} {};
             #if  {"$booster"=="Liminal"} { visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningnotmaxed 0;5nwn}
         };
-        #CASE {29} { prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan };
+        #CASE {29} { 
+            #if  {"$MSDP_CLASS"=="Ranger"} {recall;prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan} 
+        };
+        #CASE {44} { 
+            #if  {"$MSDP_CLASS"=="Barbarian"} {prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan} 
+        };
         #CASE {50} { matoff;visit eremitage;u;rem all;put all chest };
+        #CASE {58} { 
+            #show <131>TIME TO META STATS;
+            #if  {"$MSDP_CLASS"=="Barbarian"} { #show <131>TIME TO PRAC TOUGHNESS};
+
+        };
         #DEFAULT {
             #if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto])} {
                 remorttan;
@@ -113,13 +121,13 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 #action {* * * You now have enough experience to gain a level! * * *} {#if {($MSDP_LEVEL>20)} {breakout;gogain}}
-#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {$guildpath;gain;gain;gain;gain;remorttan}
+#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {goguild;gain;gain;gain;gain;remorttan}
 
 #alias gogain {
     egre;home;
     #math nextlevel {$MSDP_LEVEL+1};
     #if { ($nextlevel==50) } { with 200000 } { with $goldlevel[$nextlevel] };
-    egre;$guildpath;
+    egre;goguild;
     gain
 }
 
@@ -149,12 +157,12 @@ event_register {level gain} {remort} {handle_remort_level};
 #alias remort_quest_5c {recall;2s6en;quest;open gate n;2n;open door n;ne;kill major}
 #action {Old Major is dead!  R.I.P.} {w;open gate s;2s;open gate s;s} {1}
 #action {The manor keeper tells you, 'In his death he will fertilize the ground. '} {
-    #delay 3 {sac hat;recall;#show <131>Proceed to Madam Zickva;#action {The Front Porch} {#unaction {The Front Porch};#delay 3 {,;.}};3s2e2nw}
+    #delay 3 {sac hat;#show <131>Proceed to Madam Zickva;#action {The Front Porch} {#unaction {The Front Porch};prepare_madam_zickva;#delay 3 {,;.}};recall;3s2e2nw}
 }
 
 
 
-#alias prac_fighter {
+#alias prac_base_class {
     recall;2s2e2s;
     #3 prac critical hits;
     #4 prac parry;
@@ -181,17 +189,32 @@ event_register {level gain} {remort} {handle_remort_level};
     #2 prac scout;
     prac multi attack;
     #4 prac focus;
+    #var focusStat dex;
+    toggle focus;
     toggle camouflage
 }
 
-#alias prac_profession {
-    #10 prac skinning
+#alias prac_barbarian {
+    prac edged;
+    #5 prac parry;
+    #5 prac focus;
+    toggle focus;
+    prac scare;
+    #5 prac warcry;
+    toggle warcry;
+    #5 prac warpaint;
+    toggle warpaint;
+    prac multi attack;
+    #10 prac two handed;
+    #5 prac deathstroke;
+    #var bot[damage][single] deathstroke;
 }
 
 
 
 
-#action {End of Frontier Pier at Gummton Outpost} {#if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && ("$MSDP_CLASS"=="Ranger") && ($MSDP_LEVEL<90) } {initialize_wilderness}}
+
+#action {End of Frontier Pier at Gummton Outpost} {#if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<61) } {initialize_wilderness}}
 
 #alias initialize_wilderness {
     profon skinning;
@@ -212,27 +235,34 @@ event_register {level gain} {remort} {handle_remort_level};
 
 
 
-#action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
-#action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1}
-#action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%1"} necromancer 1 6 1}
-#action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%1"} hag 1 6 1}
-#action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%1"} assa 1 6 1}
-#action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 1 6 1}
-#action {A young man aspiring to be an antipaladin is here, visiting the tower.%1} {settarget 999 @mob_count{"%1"} antipaladin 1 6 2}
+#alias prepare_towers_of_training {
+    #action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
+    #action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1}
+    #action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%1"} necromancer 1 6 1}
+    #action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%1"} hag 1 6 1}
+    #action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%1"} assa 1 6 1}
+    #action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 1 6 1}
+    #action {A young man aspiring to be an antipaladin is here, visiting the tower.%1} {settarget 999 @mob_count{"%1"} antipaladin 1 6 2}
+}
 
-#action {A female guest is here half passed out in her chair.%1} {settarget 999 @mob_count{"%1"} guest 5 9 1}
-#action {A male guest is here half passed out in his chair.%1} {settarget 999 @mob_count{"%1"} guest 5 9 1}
+#alias prepare_madam_zickva {
+    #action {A female guest is here half passed out in her chair.%1} {settarget 999 @mob_count{"%1"} guest 5 9 1}
+    #action {A male guest is here half passed out in his chair.%1} {settarget 999 @mob_count{"%1"} guest 5 9 1}
+    #action {A lady is here flirting with the guys.%1} {settarget 999 @mob_count{"%1"} flirt 6 7 2}
+    #action {A guy is here flirting with the gals.%1} {settarget 999 @mob_count{"%1"} flirt 6 7 2}
+}
 
-#action {An ochre sprite flies around in circles.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
-#action {A green sprite stands here, waving his half-foot sword.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
-#action {A grey sprite looks at you menacingly, its sickly wings keeping it aloft.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
-#action {A white sprite is flitting about.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
-#action {An umber sprite leans against a tree.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
-#action {An ashen sprite flits about.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
-#action {A forest sprite stands, laughing at you.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
-#action {A small green leprechaun watches over his pot of gold.%1} {settarget 999 @mob_count{"%1"} leprechaun 1 10 1}
-#action {A dark tree stands, roots out of the ground.%1} {settarget 999 @mob_count{"%1"} tree 1 10 1}
-#action {A satyr stomps its hoofs and looks ready to tussle.%1} {settarget 999 @mob_count{"%1"} satyr 1 10 1}
-
+#alias prepare_faerie_realm {
+    #action {An ochre sprite flies around in circles.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+    #action {A green sprite stands here, waving his half-foot sword.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+    #action {A grey sprite looks at you menacingly, its sickly wings keeping it aloft.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+    #action {A white sprite is flitting about.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+    #action {An umber sprite leans against a tree.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+    #action {An ashen sprite flits about.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+    #action {A forest sprite stands, laughing at you.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1}
+    #action {A small green leprechaun watches over his pot of gold.%1} {settarget 999 @mob_count{"%1"} leprechaun 1 10 1}
+    #action {A dark tree stands, roots out of the ground.%1} {settarget 999 @mob_count{"%1"} tree 1 10 1}
+    #action {A satyr stomps its hoofs and looks ready to tussle.%1} {settarget 999 @mob_count{"%1"} satyr 1 10 1}
+}
 
 #nop -- vim: syntax=tt

@@ -408,4 +408,9 @@ init metaHero preferences 0
     }
 }
 
+#alias goguild {
+    setguildpath;
+    $guildpath;
+}
+
 #nop -- vim: syntax=tt

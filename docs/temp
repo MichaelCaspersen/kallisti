@@ -96,31 +96,6 @@ LEVEL LOGIC
 
 
 
-Level 1-8 ~ 5min
-prompt exp
-toggle brief
-
-
-
-
-
-#action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1}
-#action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1}
-
-#action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%1"} necromancer 2 4 1}
-#action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%1"} hag 2 4 1}
-#action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%1"} assa 2 4 1}
-#action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 2 4 1}
-
-
-#action {A female guest is here half passed out in her chair.%1} {settarget 999 @mob_count{"%1"} guest 5 6 1}
-#action {A male guest is here half passed out in his chair.%1} {settarget 999 @mob_count{"%1"} guest 5 6 1}
-#action {A lady is here flirting with the guys.%1} {settarget 999 @mob_count{"%1"} flirt 6 7 1}
-#action {A guy is here flirting with the gals.%1} {settarget 999 @mob_count{"%1"} flirt 6 7 1}
-
-#action {A man is here, enjoying the carnival.%1} {settarget 999 @mob_count{"%1"} patron 6 8 1}
-#action {A gypsy man is dancing wildly to the music.%1} {settarget 999 @mob_count{"%1"} gypsy 6 8 1}
-#action {A gypsy woman is dancing wildly to the music.%1} {settarget 999 @mob_count{"%1"} gypsy 6 8 1}
 
 
 level 8 - call for help ~ 10 min
