@@ -1091,8 +1091,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {You flee head over heels.} {
-	#if $zone[active] {zone_end};
-	queueAdd priority recall;
+#nop	#if $zone[active] {zone_end};
+#nop 	queueAdd priority recall;
 }
 
 #action {You can't concentrate on anything but killing!} {
