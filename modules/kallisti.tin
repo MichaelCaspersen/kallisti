@@ -194,7 +194,7 @@ event_register {variable MSDP_REMORTS_LAPS_TOTAL} {left} {update_player_info %1}
 
 #alias {update_player_info} {
 	#nop %0 %1;
-	
+	#math xp_of_bank { (100*$MSDP_EXPERIENCE)/@xpbanksize{}};
 	#format player_info[1] {<B538d87><388><188>%s} {Character};
 	#format player_info[2] {<088>%-13s %-10s[%-3d]} {$MSDP_CHARACTER_NAME} {$MSDP_CLASS} {$MSDP_LEVEL};
 	#format player_info[3] {%-15s %+5s [%+5d]} {$MSDP_RACE} { } {$MSDP_ALIGNMENT};
@@ -203,7 +203,7 @@ event_register {variable MSDP_REMORTS_LAPS_TOTAL} {left} {update_player_info %1}
 		{$MSDP_STR} {$MSDP_INT} {$MSDP_WIS} {$MSDP_DEX} {$MSDP_CON} {$MSDP_LUK};
 	#format player_info[6] { };
 	#format player_info[7] {<Fde935f>Hero:<Fd5d8d6> %-5s   <Fde935f>TNL:<Fd5d8d6> %-6d} {$MSDP_HERO_POINTS} {$MSDP_HERO_POINTS_TNL};
-	#format player_info[8] {<Fde935f> Exp:<Fd5d8d6> %-6s  <Fde935f>TNL:<Fd5d8d6> %-6s} {@hNum{$MSDP_EXPERIENCE}} {@hNum{$MSDP_EXPERIENCE_TNL}};
+	#format player_info[8] {<Fde935f> Exp:<Fd5d8d6> %-6s  <Fde935f>TNL:<Fd5d8d6> %-6s %-2s<Fde935f>%%} {@hNum{$MSDP_EXPERIENCE}} {@hNum{$MSDP_EXPERIENCE_TNL}} {$xp_of_bank};
 	#format player_info[9] {<Fde935f>Gold:<Fd5d8d6> %-6s <Fed935f>Bank:<Fd5d8d6> %-6s} {@hNum{$MSDP_GOLD}} {@hNum{$MSDP_BANK_GOLD}};
 
 	#format player_info[10] {<Fde935f>Est. Meta Sessions:<Fd5d8d6> %d} {@estimated_metas{}};
