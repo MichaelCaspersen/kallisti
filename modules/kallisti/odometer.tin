@@ -141,7 +141,8 @@ event_register {mob kill} {odometer} {odometer_kills};
 
 
 #action {^--+  Congratulations, you are now level %d!} {
-	event_raise {level gain} {%1}
+	event_raise {level gain} {%1};
+	send_to_comms_session <170>New level, $MSDP_CHARACTER_NAME - %1;
 }
 
 set_right_tile 20 <F5f819d> xp_block 3 tile;
