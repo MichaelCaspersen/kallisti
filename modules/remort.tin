@@ -257,7 +257,11 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #alias {gogummton} {visit house;dep all;with 100000;egre;3s2es;book gumm}
 
-#action {End of Frontier Pier at Gummton Outpost} {#if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<61) } {initialize_wilderness}}
+#action {End of Frontier Pier at Gummton Outpost} {
+    #if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<61) } {
+        initialize_wilderness
+    }
+}
 
 #alias initialize_wilderness {
     #var time_bloodline_wilderness $MSDP_UPTIME;
@@ -266,13 +270,14 @@ event_register {level gain} {remort} {handle_remort_level};
     #unvar temptime_wilder;
     profon skinning;
     #var autopickuphides 1;
-    #var autotooth 1;
-    #var toothcontainer hole;
+    #var autotooth 0;
+    #var toothcontainer backpack;
+    bot_init;
     botrole damage;
     #ticker clearroom profroom 10;
     #if {$remort_equipped==0} {
         #var remort_equipped 1;
-        home;get all remort;wear all;get all remort;wear all;put all remort;
+        home;get all remort;wear all;get all case;wear all;put all case;
         recall;
         #show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group
     }
@@ -286,11 +291,14 @@ event_register {level gain} {remort} {handle_remort_level};
             enter portal;
             fol gary;
             #unaction {A glowing white portal appears.};
+        };
+        #action {You now follow Gary.} {
+            #unaction {You now follow Gary.};
             #var time_bloodline_grouped $MSDP_UPTIME;
             #math temptime_group {$time_bloodline_grouped - $time_bloodline_start};
             send_to_comms_session <170>Phase: Initiant Group $MSDP_CHARACTER_NAME (@return_min_sec{$temptime_group}) since start;
             #unvar temptime_group;
-        }
+        } {1}
     };
     tell gary portal me;
 }
