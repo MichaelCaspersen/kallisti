@@ -25,8 +25,8 @@
 event_register {level gain} {remort} {handle_remort_level};
 
 #var booster {};
-#var tanningmaxed 1
-#var spec_class ranger
+#var tanningmaxed 1;
+#var spec_class ranger;
 
 #tab start_bloodline;
 #alias start_bloodline {
@@ -49,6 +49,7 @@ event_register {level gain} {remort} {handle_remort_level};
         toggl brief;
         sac long;
         sac breastplate;
+        goguild;prac armor;
         visit eremitage;u;get all chest;wear all;get all chest;wear all;put all chest;
         remort_quest_1
     }
