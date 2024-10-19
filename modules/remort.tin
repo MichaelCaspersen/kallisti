@@ -277,6 +277,7 @@ event_register {level gain} {remort} {handle_remort_level};
             #var time_bloodline_grouped $MSDP_UPTIME;
             #math temptime_group {$time_bloodline_grouped - $time_bloodline_start};
             send_to_comms_session <170>Phase: Initiant Group $MSDP_CHARACTER_NAME (@return_min_sec{$temptime_group}) since start;
+            #unvar temptime_group;
         }
     };
     tell gary portal me;
