@@ -142,9 +142,9 @@ event_register {mob kill} {odometer} {odometer_kills};
 #var previous_level_time 0;
 #action {^--+  Congratulations, you are now level %d!} {
 	event_raise {level gain} {%1};
-	#math time_since_last_level {$previous_level_time - $MSDP_UPTIME};
+	#math time_since_last_level {$MSDP_UPTIME - $previous_level_time};
 	#var previous_level_time $MSDP_UPTIME;
-	send_to_comms_session <170>New level, $MSDP_CHARACTER_NAME - %1 - @return_min_sec{$time_since_last_level};
+	send_to_comms_session <170>New level, $MSDP_CHARACTER_NAME - %1 (@return_min_sec{$time_since_last_level});
 }
 
 set_right_tile 20 <F5f819d> xp_block 3 tile;
