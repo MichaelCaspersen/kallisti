@@ -69,7 +69,7 @@ event_register {level gain} {remort} {handle_remort_level};
     visit eremitage;dep all;with 1000000;u;rem all;put all chest;
     #var remort_equipped 0;
     recall;
-    2s2e2s;prac_base_class;
+    setguildpath;$basepath;prac_base_class;
     goguild;prac_$spec_class;
     #var skinningmaxed 0;
     recall;5nwn;

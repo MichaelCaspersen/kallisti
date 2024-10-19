@@ -380,26 +380,26 @@ init metaHero preferences 0
 
 #alias setguildpath {
     #switch {"$MSDP_CLASS"} {
-        #case {"Fighter"} {#var guildpath 2s2e2s;#var guildreturnpath 2n2w2n};
-        #case {"Rogue"} {#var guildpath 3s3w2s;#var guildreturnpath 2n3e3n};
-        #case {"Priest"} {#var guildpath swn;#var guildreturnpath sen};
-        #case {"Mage"} {#var guildpath 2s2w2s;#var guildreturnpath 2n2e2n};
-        #case {"Monastic"} {#var guildpath 2s6e2s;#var guildreturnpath 2n6w2n};
-        #case {"Barbarian"} {#var guildpath 2s2e3s;#var guildreturnpath 3n2w2n};
-        #case {"Paladin"} {#var guildpath 2s2e2su;#var guildreturnpath d2n2w2n};
-        #case {"Dreadlord"} {#var guildpath 2s2e2sd;#var guildreturnpath u2n2w2n};
-        #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
-        #case {"Valkyrie"} {#var guildpath 2s2e2sw;#var guildreturnpath e2n2w2n};
-        #case {"Assassin"} {#var guildpath 3s3w3s;#var guildreturnpath 3n3e3n};
-        #case {"Demoniac"} {#var guildpath 3s3w2sw;#var guildreturnpath e2n3e3n};
-        #case {"Bard"} {#var guildpath 3s3w2se;#var guildreturnpath w2n3e3n};
-        #case {"Templar"} {#var guildpath swne;#var guildreturnpath wsen};
-        #case {"Druid"} {#var guildpath swn2w;#var guildreturnpath 2esen};
-        #case {"Prophet"} {#var guildpath sw2n;#var guildreturnpath 2sen};
-        #case {"Necromancer"} {#var guildpath 2s2w2sd;#var guildreturnpath u2n2e2n};
-        #case {"Wizard"} {#var guildpath 2s2w2su;#var guildreturnpath s2n2e2n};
-        #case {"Monk"} {#var guildpath 2s6e2su;#var guildreturnpath d2n6w2n};
-        #case {"Samurai"} {#var guildpath 2s6e2se;#var guildreturnpath w2n6w2n};
+        #case {"Fighter"} {#var guildpath 2s2e2s;#var guildreturnpath 2n2w2n;#var basepath 2s2e2s};
+        #case {"Rogue"} {#var guildpath 3s3w2s;#var guildreturnpath 2n3e3n;#var basepath 3s3w2s};
+        #case {"Priest"} {#var guildpath swn;#var guildreturnpath sen;#var basepath swn};
+        #case {"Mage"} {#var guildpath 2s2w2s;#var guildreturnpath 2n2e2n;#var basepath 2s2w2s};
+        #case {"Monastic"} {#var guildpath 2s6e2s;#var guildreturnpath 2n6w2n;#var basepath 2s6e2s};
+        #case {"Barbarian"} {#var guildpath 2s2e3s;#var guildreturnpath 3n2w2n;#var basepath 2s2e2s};
+        #case {"Paladin"} {#var guildpath 2s2e2su;#var guildreturnpath d2n2w2n;#var basepath 2s2e2s};
+        #case {"Dreadlord"} {#var guildpath 2s2e2sd;#var guildreturnpath u2n2w2n;#var basepath 2s2e2s};
+        #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n;#var basepath 2s2e2s};
+        #case {"Valkyrie"} {#var guildpath 2s2e2sw;#var guildreturnpath e2n2w2n;#var basepath 2s2e2s};
+        #case {"Assassin"} {#var guildpath 3s3w3s;#var guildreturnpath 3n3e3n;#var basepath 3s3w2s};
+        #case {"Demoniac"} {#var guildpath 3s3w2sw;#var guildreturnpath e2n3e3n;#var basepath 3s3w2s};
+        #case {"Bard"} {#var guildpath 3s3w2se;#var guildreturnpath w2n3e3n;#var basepath 3s3w2s};
+        #case {"Templar"} {#var guildpath swne;#var guildreturnpath wsen;#var basepath swn};
+        #case {"Druid"} {#var guildpath swn2w;#var guildreturnpath 2esen;#var basepath swn};
+        #case {"Prophet"} {#var guildpath sw2n;#var guildreturnpath 2sen;#var basepath swn};
+        #case {"Necromancer"} {#var guildpath 2s2w2sd;#var guildreturnpath u2n2e2n;#var basepath 2s2w2s};
+        #case {"Wizard"} {#var guildpath 2s2w2su;#var guildreturnpath s2n2e2n;#var basepath 2s2w2s};
+        #case {"Monk"} {#var guildpath 2s6e2su;#var guildreturnpath d2n6w2n;#var basepath 2s6e2s};
+        #case {"Samurai"} {#var guildpath 2s6e2se;#var guildreturnpath w2n6w2n;#var basepath 2s6e2s};
     }
 }
 
