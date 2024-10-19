@@ -158,6 +158,11 @@ event_register {level gain} {remort} {handle_remort_level};
     };
 }
 
+
+#action {Ancestor %1 gains %2 hitpoints, %3 mana, and %4 stamina for gaining 50 levels.} {
+    send_to_comms_session <170>Ancestor %1 gains: %2 hitpoints, %3 mana, and %4 stamina;
+}
+
 #var needmeta 0;
 #action {* * * You now have enough experience to gain a level! * * *} {#if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {breakout;gogain}}
 #ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {goguild;gain;gain;gain;gain;remorttan}}
