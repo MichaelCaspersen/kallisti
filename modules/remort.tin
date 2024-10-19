@@ -103,8 +103,8 @@ event_register {level gain} {remort} {handle_remort_level};
             #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {goguild;gain;gain;gain;gain;gain;gain}}} 
         };
         #CASE {24} { 
-            #if  {("$booster"=="Kaicha") && ($profession[refining][auto])} {};
-            #if  {("$booster"=="Liminal") && ($profession[refining][auto])} { visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningmaxed 0;5nwn}
+            #if  {("$booster"=="Kaicha") && ($profession[refining][auto])} { visit house;dep all;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn };
+            #if  {("$booster"=="Liminal") && ($profession[refining][auto])} { visit house;dep all;fol $MSDP_CHARACTER_NAME;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn }
         };
         #CASE {29} { 
             #if  {"$MSDP_CLASS"=="Ranger"} {recall;prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan} 
@@ -120,8 +120,8 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #DEFAULT {
             #show <131>NO LEVEL %2 ACTION DEFINED;
-            #if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto])} {
-                #nop remorttan;
+            #if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) && ("$booster"=="")} {
+                remorttan;
             }
         }
     };
