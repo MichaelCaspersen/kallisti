@@ -210,7 +210,7 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {You practice tanning for a while...} {#if ($tanningmaxed==0) {prac tanning}}
 #action {You practice skinning for a while...} {#if ($skinningmaxed==0) {prac skinning}}
 #action {Wasat says, 'At rank 10, you know all that I can teach you in tanning.'} {#var tanningmaxed 1;remorttan}
-#action {Wasat says, 'At rank 10, you know all that I can teach you in skinning.'} {#var skinningmaxed 1;#show <131>TIME TO MOVE TO GUMMTON - Next step: gogummton;#var first_time_wilderness 1}
+#action {Wasat says, 'At rank 10, you know all that I can teach you in skinning.'} {#var skinningmaxed 1;#show <131>TIME TO MOVE TO GUMMTON - Next step: gogummton}
 #action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan;#delay 30 {w;with 45000;recall;5nwn}}
 #action {You do not have enough proficiency points left to learn what I can teach you.} {#if {$tanningmaxed==0} {remorttan};#if {$skinningmaxed==0} {#show <131>NOT ENOUGH PROFESSION POINTS, WE NEED TO REGRESS TANNING}}
 #action {Wasat says, 'Come back later!  Hours are 1:00 - 24:00'} {#delay 10 l}
@@ -290,17 +290,23 @@ event_register {level gain} {remort} {handle_remort_level};
 #alias {gogummton} {visit house;dep all;with 100000;egre;3s2es;book gumm}
 
 #action {End of Frontier Pier at Gummton Outpost} {
-    #if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<61) && ($first_time_wilderness)} {
+    #if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<61)} {
         initialize_wilderness
     }
 }
 
 #alias initialize_wilderness {
-    #var first_time_wilderness 0;
-    #var time_bloodline_wilderness $MSDP_UPTIME;
-    #math temptime_wilder {$time_bloodline_wilderness - $time_bloodline_start};
-    send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_wilderness}) since start;
-    #unvar temptime_wilder;
+    #if {$remort_equipped==0} { #nop First time we enter wilderness;
+        #var time_bloodline_wilderness $MSDP_UPTIME;
+        #math temptime_wilder {$time_bloodline_wilderness - $time_bloodline_start};
+        send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_wilderness}) since start;
+        #unvar temptime_wilder;
+        home;get all remort;wear all;get all case;wear all;put all case;get backpack case;
+        #var remort_equipped 1;
+        recall;
+        #show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group;
+        join_gary_group
+    };
     profon skinning;
     #var autopickuphides 1;
     #var autotooth 0;
@@ -308,12 +314,6 @@ event_register {level gain} {remort} {handle_remort_level};
     bot_init;
     botrole damage;
     #ticker clearroom profroom 10;
-    #if {$remort_equipped==0} {
-        #var remort_equipped 1;
-        home;get all remort;wear all;get all case;wear all;put all case;
-        recall;
-        #show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group
-    }
 }
 
 #alias join_gary_group {
