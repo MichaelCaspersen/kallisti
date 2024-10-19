@@ -60,6 +60,7 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 #alias end_remort_newbie {
+    visit house;e;drop all.leather;drop all.hide;
     visit eremitage;with 5000000;u;rem all;put all chest;
     #var remort_equipped 0;
     recall;
