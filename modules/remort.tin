@@ -65,7 +65,7 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #alias end_remort_newbie {
     visit house;e;drop all.leather;drop all.hide;
-    visit eremitage;with 5000000;u;rem all;put all chest;
+    visit eremitage;with 1000000;u;rem all;put all chest;
     #var remort_equipped 0;
     recall;
     2s2e2s;prac_base_class;
@@ -137,7 +137,7 @@ event_register {level gain} {remort} {handle_remort_level};
             #var time_bloodline_50 $MSDP_UPTIME;
             #math temptime_50 {$time_bloodline_50 - $time_bloodline_start};
             #math temptime_tanning {$time_bloodline_50 - $time_bloodline_handover};
-            send_to_comms_session <170>Phase: Lvl50 $MSDP_CHARACTER_NAME (@return_min_sec{$time_bloodline_50}) Tanning Phase:(return_min_sec{$temptime_tanning}) since start;
+            send_to_comms_session <170>Phase: Lvl50 $MSDP_CHARACTER_NAME (@return_min_sec{$time_bloodline_50}) Tanning Phase:(@return_min_sec{$temptime_tanning}) since start;
             #unvar temptime_50;#unvar temptime_tanning;
         };
         #CASE {58} { 
