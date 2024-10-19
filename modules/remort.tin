@@ -88,8 +88,8 @@ event_register {level gain} {remort} {handle_remort_level};
             #show <131>Move to Farie Realm;2s8w2sw2ses;enter mushroom
         };
         #CASE {8} { 
-            #if  {"$booster"=="Kaicha"} {};
-            #if  {"$booster"=="Liminal"} {
+            #if {"$booster"=="Kaicha"} {};
+            #if {"$booster"=="Liminal"} {
                 #var {toggle[ranged]} {on};
                 #action {You quaff a yellow potion of see invisible which dissolves.} {#unaction {You quaff a yellow potion of see invisible which dissolves.};recall;tell liminal hi;fol liminal;#delay 3 {gt liminal start}};
                 #action {You feel very Zzzzzzzzz...} {gt liminal stop;wake;stand;recall;gt liminal start};
@@ -106,14 +106,17 @@ event_register {level gain} {remort} {handle_remort_level};
             #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {goguild;gain;gain;gain;gain;gain;gain}}} 
         };
         #CASE {24} { 
-            #if  {("$booster"=="Kaicha") && ($profession[refining][auto])} { visit house;dep all;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn };
-            #if  {("$booster"=="Liminal") && ($profession[refining][auto])} { visit house;dep all;fol $MSDP_CHARACTER_NAME;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn }
+            #if {("$booster"=="Kaicha") && ($profession[refining][auto])} { visit house;dep all;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn };
+            #if {("$booster"=="Liminal") && ($profession[refining][auto])} { visit house;dep all;fol $MSDP_CHARACTER_NAME;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn };
+            #if {("$booster"=="") && ($profession[refining][auto])} { remorttan };
         };
         #CASE {29} { 
-            #if  {"$MSDP_CLASS"=="Ranger"} {recall;prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan} 
+            #if {"$MSDP_CLASS"=="Ranger"} {recall;prac endurance;prac endurance;prac endurance;prac endurance;prac endurance};
+            #if {$profession[refining][auto]} { remorttan };
         };
         #CASE {44} { 
-            #if  {"$MSDP_CLASS"=="Barbarian"} {prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan} 
+            #if {"$MSDP_CLASS"=="Barbarian"} {prac endurance;prac endurance;prac endurance;prac endurance;prac endurance};
+            #if {$profession[refining][auto]} { remorttan };
         };
         #CASE {50} { #show <131>LEVEL 50 ACCOMPLISHED, NEXT STEP: end_remort_newbie };
         #CASE {58} { 
