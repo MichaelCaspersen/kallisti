@@ -339,33 +339,33 @@ event_register {level gain} {remort} {handle_remort_level};
 
 
 #alias prepare_towers_of_training {
-    #action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%1"} sword 1 1 1};
-    #action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%1"} goblin 1 1 1};
-    #action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%1"} necromancer 1 6 1};
-    #action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%1"} hag 1 6 1};
-    #action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%1"} assa 1 6 1};
-    #action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%1"} princess 1 6 1};
-    #action {A young man aspiring to be an antipaladin is here, visiting the tower.%1} {settarget 999 @mob_count{"%1"} antipaladin 1 6 2};
+    #action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%%1"} sword 1 1 1};
+    #action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%%1"} goblin 1 1 1};
+    #action {A man dressed in robes of the blackest night tries to animate a corpse.%1} {settarget 999 @mob_count{"%%1"} necromancer 1 6 1};
+    #action {A decrepit old hag cackles wickedly as she prepares something gruesome.%1} {settarget 999 @mob_count{"%%1"} hag 1 6 1};
+    #action {A man stands back in the shadows, observing the others in silence.%1} {settarget 999 @mob_count{"%%1"} assa 1 6 1};
+    #action {A princess from the drow underworld stares at you coldly.%1} {settarget 999 @mob_count{"%%1"} princess 1 6 1};
+    #action {A young man aspiring to be an antipaladin is here, visiting the tower.%1} {settarget 999 @mob_count{"%%1"} antipaladin 1 6 2};
 }
 
 #alias prepare_madam_zickva {
-    #action {A female guest is here half passed out in her chair.%1} {settarget 999 @mob_count{"%1"} guest 5 9 1};
-    #action {A male guest is here half passed out in his chair.%1} {settarget 999 @mob_count{"%1"} guest 5 9 1};
-    #action {A lady is here flirting with the guys.%1} {settarget 999 @mob_count{"%1"} flirt 6 7 2};
-    #action {A guy is here flirting with the gals.%1} {settarget 999 @mob_count{"%1"} flirt 6 7 2};
+    #action {A female guest is here half passed out in her chair.%1} {settarget 999 @mob_count{"%%1"} guest 5 9 1};
+    #action {A male guest is here half passed out in his chair.%1} {settarget 999 @mob_count{"%%1"} guest 5 9 1};
+    #action {A lady is here flirting with the guys.%1} {settarget 999 @mob_count{"%%1"} flirt 6 7 2};
+    #action {A guy is here flirting with the gals.%1} {settarget 999 @mob_count{"%%1"} flirt 6 7 2};
 }
 
 #alias prepare_faerie_realm {
-    #action {An ochre sprite flies around in circles.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1};
-    #action {A green sprite stands here, waving his half-foot sword.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1};
-    #action {A grey sprite looks at you menacingly, its sickly wings keeping it aloft.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1};
-    #action {A white sprite is flitting about.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1};
-    #action {An umber sprite leans against a tree.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1};
-    #action {An ashen sprite flits about.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1};
-    #action {A forest sprite stands, laughing at you.%1} {settarget 999 @mob_count{"%1"} sprite 1 10 1};
-    #action {A small green leprechaun watches over his pot of gold.%1} {settarget 999 @mob_count{"%1"} leprechaun 1 10 1};
-    #action {A dark tree stands, roots out of the ground.%1} {settarget 999 @mob_count{"%1"} tree 1 10 1};
-    #action {A satyr stomps its hoofs and looks ready to tussle.%1} {settarget 999 @mob_count{"%1"} satyr 1 10 1};
+    #action {An ochre sprite flies around in circles.%1} {settarget 999 @mob_count{"%%1"} sprite 1 10 1};
+    #action {A green sprite stands here, waving his half-foot sword.%1} {settarget 999 @mob_count{"%%1"} sprite 1 10 1};
+    #action {A grey sprite looks at you menacingly, its sickly wings keeping it aloft.%1} {settarget 999 @mob_count{"%%1"} sprite 1 10 1};
+    #action {A white sprite is flitting about.%1} {settarget 999 @mob_count{"%%1"} sprite 1 10 1};
+    #action {An umber sprite leans against a tree.%1} {settarget 999 @mob_count{"%%1"} sprite 1 10 1};
+    #action {An ashen sprite flits about.%1} {settarget 999 @mob_count{"%%1"} sprite 1 10 1};
+    #action {A forest sprite stands, laughing at you.%1} {settarget 999 @mob_count{"%%1"} sprite 1 10 1};
+    #action {A small green leprechaun watches over his pot of gold.%1} {settarget 999 @mob_count{"%%1"} leprechaun 1 10 1};
+    #action {A dark tree stands, roots out of the ground.%1} {settarget 999 @mob_count{"%%1"} tree 1 10 1};
+    #action {A satyr stomps its hoofs and looks ready to tussle.%1} {settarget 999 @mob_count{"%%1"} satyr 1 10 1};
 }
 
 #nop -- vim: syntax=tt

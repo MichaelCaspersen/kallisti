@@ -107,7 +107,7 @@ Commands:\n
 #alias {profreset} {#var profession[gather][success] 0;#var profession[gather][total] 0;generate_profession_info;}
 
 #alias highlight_materials_on {
-	#highlight {^You skin some %1 hide from %2.}                                            {<fca>};
+	#highlight {^You skin some %%1 hide from %%2.}                                          {<fca>};
 	#highlight {^You skin it but you make a mess of it.}                                    {<fca>};
 	#highlight {^You sacrifice the hide to the gods.}                                       {<fca>};
 	#highlight {junk {hide|bone|meat}} {underscore Pink};
