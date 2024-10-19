@@ -60,7 +60,7 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 #alias end_remort_newbie {
-    visit eremitage;with 100000;u;rem all;put all chest;
+    visit eremitage;with 5000000;u;rem all;put all chest;
     #var remort_equipped 0;
     recall;
     2s2e2s;prac_base_class;
@@ -145,7 +145,7 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {You now have %1 proficiency points available.} {#if ($tanningmaxed==0) {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
 #action {Wasat%1s Workshop} {#if ($tanningmaxed==0) {prac tanning};#if { ($skinningmaxed==0) && ($MSDP_LEVEL>49) } {prac skinning}}
 #action {You practice tanning for a while...} {#if ($tanningmaxed==0) {prac tanning}}
-#action {You practice skinning for a while...} {#if ($tanningmaxed==0) {prac skinning}}
+#action {You practice skinning for a while...} {#if ($skinningmaxed==0) {prac skinning}}
 #action {Wasat says, 'At rank 10, you know all that I can teach you in tanning.'} {#var tanningmaxed 1;remorttan}
 #action {Wasat says, 'At rank 10, you know all that I can teach you in skinning.'} {#var skinningmaxed 1;#show <131>TIME TO MOVE TO GUMMTON}
 #action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan;#delay 30 {w;with 45000;recall;5nwn}}
