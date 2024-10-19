@@ -165,7 +165,13 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #var needmeta 0;
 #action {* * * You now have enough experience to gain a level! * * *} {#if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {breakout;gogain}}
-#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {goguild;gain;gain;gain;gain;remorttan}}
+#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {
+    #if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {
+        goguild;gain;gain;gain;gain;remorttan
+    };#else {
+        #if {"$MSDP_AREA_NAME"=="The Wilderness"} {return_and_meta;}
+    }
+}
 
 #alias gogain {
     egre;home;
