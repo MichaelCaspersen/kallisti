@@ -65,7 +65,7 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #alias end_remort_newbie {
     visit house;e;drop all.leather;drop all.hide;
-    visit eremitage;with 1000000;u;rem all;put all chest;
+    visit eremitage;dep all;with 1000000;u;rem all;put all chest;
     #var remort_equipped 0;
     recall;
     2s2e2s;prac_base_class;
@@ -179,7 +179,7 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {You practice tanning for a while...} {#if ($tanningmaxed==0) {prac tanning}}
 #action {You practice skinning for a while...} {#if ($skinningmaxed==0) {prac skinning}}
 #action {Wasat says, 'At rank 10, you know all that I can teach you in tanning.'} {#var tanningmaxed 1;remorttan}
-#action {Wasat says, 'At rank 10, you know all that I can teach you in skinning.'} {#var skinningmaxed 1;#show <131>TIME TO MOVE TO GUMMTON}
+#action {Wasat says, 'At rank 10, you know all that I can teach you in skinning.'} {#var skinningmaxed 1;#show <131>TIME TO MOVE TO GUMMTON - Next step: gogummton}
 #action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan;#delay 30 {w;with 45000;recall;5nwn}}
 #action {You do not have enough proficiency points left to learn what I can teach you.} {#if {$tanningmaxed==0} {remorttan};#if {$skinningmaxed==0} {#show <131>NOT ENOUGH PROFESSION POINTS, WE NEED TO REGRESS TANNING}}
 #action {Wasat says, 'Come back later!  Hours are 1:00 - 24:00'} {#delay 10 l}
@@ -255,7 +255,7 @@ event_register {level gain} {remort} {handle_remort_level};
     recall;
 }
 
-#alias {gogummton} {visit house;with 100000;egre;3s2es;book gumm}
+#alias {gogummton} {visit house;dep all;with 100000;egre;3s2es;book gumm}
 
 #action {End of Frontier Pier at Gummton Outpost} {#if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<61) } {initialize_wilderness}}
 

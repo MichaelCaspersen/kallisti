@@ -515,7 +515,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
 }
 
 #alias doCamouflage {
-    #if {"$toggle[camouflage]" == "on"} {
+    #if {("$toggle[camouflage]" == "on") && ("$MSDP_ROOM_TERRAIN"!="Inside City")} {
         nco camouflage
     }
 }
