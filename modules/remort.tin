@@ -24,27 +24,33 @@
 
 event_register {level gain} {remort} {handle_remort_level};
 
-#var booster Liminal
 #var tanningmaxed 1
 #var spec_class ranger
 
+#tab start_bloodline;
 #alias start_bloodline {
-    setguildpath; #nop returns #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
-    #var tanningmaxed 1;
-    prompt exp;
-    toggl autoass;
-    toggl GroupHits;
-    toggl GroupMisses;
-    toggl HitsToGroup;
-    toggl MissesToGroup;
-    toggl TargetMisses;
-    toggl BriefCombat;
-    toggl melee;
-    toggl brief;
-    sac long;
-    sac breastplate;
-    visit eremitage;u;get all chest;wear all;get all chest;wear all;put all chest;
-    remort_quest_1
+    #if {"%1"==""} {
+        #show <131>You need to provide booster: Liminal/Kaicha
+    };
+    #else {
+        #var booster %1;
+        setguildpath; #nop returns #case {"Ranger"} {#var guildpath 2s2e2se;#var guildreturnpath w2n2w2n};
+        #var tanningmaxed 1;
+        prompt exp;
+        toggl autoass;
+        toggl GroupHits;
+        toggl GroupMisses;
+        toggl HitsToGroup;
+        toggl MissesToGroup;
+        toggl TargetMisses;
+        toggl BriefCombat;
+        toggl melee;
+        toggl brief;
+        sac long;
+        sac breastplate;
+        visit eremitage;u;get all chest;wear all;get all chest;wear all;put all chest;
+        remort_quest_1
+    }
 }
 
 #alias initialize_remort {
@@ -113,8 +119,9 @@ event_register {level gain} {remort} {handle_remort_level};
 
         };
         #DEFAULT {
+            #show <131>NO LEVEL %2 ACTION DEFINED;
             #if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto])} {
-                remorttan;
+                #nop remorttan;
             }
         }
     };
