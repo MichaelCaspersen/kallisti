@@ -97,8 +97,8 @@ event_register {level gain} {remort} {handle_remort_level};
             #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {goguild;gain;gain;gain;gain;gain;gain}}} 
         };
         #CASE {24} { 
-            #if  {"$booster"=="Kaicha"} {};
-            #if  {"$booster"=="Liminal"} { visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningnotmaxed 0;5nwn}
+            #if  {("$booster"=="Kaicha") && ($profession[refining][auto])} {};
+            #if  {("$booster"=="Liminal") && ($profession[refining][auto])} { visit house;dep all;fol $MSDP_CHARACTER_NAME;with 150000;recall;#var tanningnotmaxed 0;5nwn}
         };
         #CASE {29} { 
             #if  {"$MSDP_CLASS"=="Ranger"} {recall;prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan} 
@@ -121,8 +121,8 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 #var needmeta 0;
-#action {* * * You now have enough experience to gain a level! * * *} {#if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {breakout;gogain}}
-#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if { (20<$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {goguild;gain;gain;gain;gain;remorttan}}
+#action {* * * You now have enough experience to gain a level! * * *} {#if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {breakout;gogain}}
+#ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {#if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {goguild;gain;gain;gain;gain;remorttan}}
 
 #alias gogain {
     egre;home;
