@@ -71,7 +71,7 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #alias handle_remort_level {
     #show <131>HANDLE REMORT LEVEL: %2;
-    send_to_comms_session <170>New level, $MSDP_CHARACTER_NAME - %2;
+    #nop send_to_comms_session <170>New level, $MSDP_CHARACTER_NAME - %2;
     #SWITCH {%2} {
         #CASE {2} { 
             initialize_remort;
