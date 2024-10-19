@@ -112,11 +112,14 @@ event_register {level gain} {remort} {handle_remort_level};
         #CASE {44} { 
             #if  {"$MSDP_CLASS"=="Barbarian"} {prac endurance;prac endurance;prac endurance;prac endurance;prac endurance;remorttan} 
         };
-        #CASE {50} { matoff;visit eremitage;u;rem all;put all chest };
+        #CASE {50} { #show <131>LEVEL 50 ACCOMPLISHED, NEXT STEP: end_remort_newbie };
         #CASE {58} { 
             #show <131>TIME TO META STATS;
             #if  {"$MSDP_CLASS"=="Barbarian"} { #show <131>TIME TO PRAC TOUGHNESS};
 
+        };
+        #CASE {60} { 
+            #show <131>END OF JOURNEY, NEXT STEP: create bloodlines;
         };
         #DEFAULT {
             #show <131>NO LEVEL %2 ACTION DEFINED;
@@ -142,7 +145,7 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {You now have %1 proficiency points available.} {#if ($tanningmaxed==0) {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
 #action {Wasat%1s Workshop} {#if ($tanningmaxed==0) {prac tanning};#if { ($skinningmaxed==0) && ($MSDP_LEVEL>49) } {prac skinning}}
 #action {You practice tanning for a while...} {#if ($tanningmaxed==0) {prac tanning}}
-#action {You practice skinning for a while...} {#if ($tanningmaxed==0) {prac tanning}}
+#action {You practice skinning for a while...} {#if ($tanningmaxed==0) {prac skinning}}
 #action {Wasat says, 'At rank 10, you know all that I can teach you in tanning.'} {#var tanningmaxed 1;remorttan}
 #action {Wasat says, 'At rank 10, you know all that I can teach you in skinning.'} {#var skinningmaxed 1;#show <131>TIME TO MOVE TO GUMMTON}
 #action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan;#delay 30 {w;with 45000;recall;5nwn}}
@@ -218,9 +221,7 @@ event_register {level gain} {remort} {handle_remort_level};
     #var bot[damage][single] deathstroke;
 }
 
-
-
-
+#alias {gogummton} {visit house;with 100000;egre;3s2es;book gumm}
 
 #action {End of Frontier Pier at Gummton Outpost} {#if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<61) } {initialize_wilderness}}
 
@@ -231,7 +232,7 @@ event_register {level gain} {remort} {handle_remort_level};
     #var toothcontainer hole;
     botrole damage;
     #ticker clearroom profroom 10;
-    #if {$remort_equipped==0} {#var remort_equipped 1;home;get all remort;wear all}
+    #if {$remort_equipped==0} {#var remort_equipped 1;home;get all remort;wear all;get all remort;wear all;put all remort;recall;#show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group}
 }
 
 #alias join_gary_group {
