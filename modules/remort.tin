@@ -27,9 +27,11 @@ event_register {level gain} {remort} {handle_remort_level};
 #var booster {};
 #var tanningmaxed 1;
 #var spec_class ranger;
+#var time_bloodline_start $MSDP_UPTIME;
 
 #tab start_bloodline;
 #alias start_bloodline {
+    #var time_bloodline_start $MSDP_UPTIME;
     #if {"%1"==""} {
         #show <131>You need to provide booster: Liminal/Kaicha
     };
@@ -107,8 +109,20 @@ event_register {level gain} {remort} {handle_remort_level};
             #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==7} {gt liminal stop;#delay 10 {goguild;gain;gain;gain;gain;gain;gain}}} 
         };
         #CASE {24} { 
-            #if {("$booster"=="Kaicha") && ($profession[refining][auto])} { visit house;dep all;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn };
-            #if {("$booster"=="Liminal") && ($profession[refining][auto])} { visit house;dep all;fol $MSDP_CHARACTER_NAME;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn };
+            #if {("$booster"=="Kaicha") && ($profession[refining][auto])} { 
+                #var time_bloodline_handover $MSDP_UPTIME;
+                #math temptime {$time_bloodline_handover - $time_bloodline_start};
+                send_to_comms_session <170>Phase: $booster - $MSDP_CHARACTER_NAME (@return_min_sec{$temptime}) since start;
+                #unvar temptime;
+                visit house;dep all;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn 
+            };
+            #if {("$booster"=="Liminal") && ($profession[refining][auto])} { 
+                #var time_bloodline_handover $MSDP_UPTIME;
+                #math temptime {$time_bloodline_handover - $time_bloodline_start};
+                send_to_comms_session <170>Phase: $booster - $MSDP_CHARACTER_NAME (@return_min_sec{$temptime}) since start;
+                #unvar temptime;
+                visit house;dep all;fol $MSDP_CHARACTER_NAME;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn 
+            };
             #if {("$booster"=="") && ($profession[refining][auto])} { remorttan };
         };
         #CASE {29} { 
@@ -119,7 +133,14 @@ event_register {level gain} {remort} {handle_remort_level};
             #if {"$MSDP_CLASS"=="Barbarian"} {prac endurance;prac endurance;prac endurance;prac endurance;prac endurance};
             #if {$profession[refining][auto]} { remorttan };
         };
-        #CASE {50} { #show <131>LEVEL 50 ACCOMPLISHED, NEXT STEP: end_remort_newbie };
+        #CASE {50} { 
+            #show <131>LEVEL 50 ACCOMPLISHED, NEXT STEP: end_remort_newbie;
+            #var time_bloodline_50 $MSDP_UPTIME;
+            #math temptime_50 {$time_bloodline_50 - $time_bloodline_start};
+            #math temptime_tanning {$time_bloodline_50 - $time_bloodline_handover};
+            send_to_comms_session <170>Phase: Lvl50 $MSDP_CHARACTER_NAME (@return_min_sec{$time_bloodline_50}) Tanning Phase:(return_min_sec{$temptime_tanning}) since start;
+            #unvar temptime_50;#unvar temptime_tanning;
+        };
         #CASE {58} { 
             #show <131>TIME TO META STATS;
             #if  {"$MSDP_CLASS"=="Barbarian"} { #show <131>TIME TO PRAC TOUGHNESS};
@@ -192,7 +213,6 @@ event_register {level gain} {remort} {handle_remort_level};
     #3 prac lore;
 }
 
-
 #alias prac_ranger {
     #3 prac camouflage;
     prac pass without;
@@ -233,6 +253,10 @@ event_register {level gain} {remort} {handle_remort_level};
 #action {End of Frontier Pier at Gummton Outpost} {#if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<61) } {initialize_wilderness}}
 
 #alias initialize_wilderness {
+    #var time_bloodline_wilderness $MSDP_UPTIME;
+    #math temptime_wilder {$time_bloodline_wilderness - $time_bloodline_start};
+    send_to_comms_session <170>Phase: Initiant Wilderness $MSDP_CHARACTER_NAME (@return_min_sec{$time_bloodline_wilderness}} since start;
+    #unvar temptime_wilder;
     profon skinning;
     #var autopickuphides 1;
     #var autotooth 1;
@@ -244,7 +268,17 @@ event_register {level gain} {remort} {handle_remort_level};
 
 #alias join_gary_group {
     #var regroup 1;
-    #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
+    #action {A glowing white portal appears.} {
+        #if $regroup {
+            #var regroup 0;
+            enter portal;
+            fol gary;
+            #unaction {A glowing white portal appears.};
+            #var time_bloodline_grouped $MSDP_UPTIME;
+            #math temptime_group {$time_bloodline_grouped - $time_bloodline_start};
+            send_to_comms_session <170>Phase: Initiant Group $MSDP_CHARACTER_NAME (@return_min_sec{$temptime_group}) since start;
+        }
+    };
     tell gary portal me;
 }
 
