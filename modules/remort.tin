@@ -142,9 +142,13 @@ event_register {level gain} {remort} {handle_remort_level};
             #unvar temptime_50;#unvar temptime_tanning;
         };
         #CASE {58} { 
+            #if  {"$MSDP_CLASS"=="Barbarian"} { 
+                #show <131>TIME TO PRAC TOUGHNESS;
+                prac toughness;prac toughness;prac toughness;prac toughness;prac toughness
+            };
             #show <131>TIME TO META STATS;
-            #if  {"$MSDP_CLASS"=="Barbarian"} { #show <131>TIME TO PRAC TOUGHNESS};
-
+            recall;
+            metastats
         };
         #CASE {60} { 
             #show <131>END OF JOURNEY, NEXT STEP: create bloodlines;
@@ -176,6 +180,21 @@ event_register {level gain} {remort} {handle_remort_level};
     };#else {
         #if {"$MSDP_AREA_NAME"=="The Wilderness"} {return_and_meta;}
     }
+}
+
+#alias {metastats} {
+    2s14w;enter tree;open door;w;
+    #if { ($MSDP_BANK_GOLD<100000000) } {
+        with all
+    } {
+        with 10000000
+    };
+    rem all;
+    #10 buy str;#10 buy int;#10 buy wis;#10 buy dex;#10 buy con;
+    dep all;
+    16e2n;
+    #ticker remind_to_relog {#show <131>NEED TO RELOG BEFORE STATS TAKE EFFEKT} 10;
+    doMetaOrGain
 }
 
 #alias gogain {
