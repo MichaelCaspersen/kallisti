@@ -24,6 +24,7 @@
 
 event_register {level gain} {remort} {handle_remort_level};
 
+#var booster {};
 #var tanningmaxed 1
 #var spec_class ranger
 
@@ -65,7 +66,8 @@ event_register {level gain} {remort} {handle_remort_level};
     #var remort_equipped 0;
     recall;
     2s2e2s;prac_base_class;
-    e;prac_$spec_class;
+    recall;
+    goguild;prac_$spec_class;
     #var skinningmaxed 0;
     recall;5nwn;
 }
