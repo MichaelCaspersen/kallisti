@@ -255,7 +255,7 @@ event_register {level gain} {remort} {handle_remort_level};
 #alias initialize_wilderness {
     #var time_bloodline_wilderness $MSDP_UPTIME;
     #math temptime_wilder {$time_bloodline_wilderness - $time_bloodline_start};
-    send_to_comms_session <170>Phase: Initiant Wilderness $MSDP_CHARACTER_NAME (@return_min_sec{$time_bloodline_wilderness}} since start;
+    send_to_comms_session <170>Phase: Initiant Wilderness $MSDP_CHARACTER_NAME (@return_min_sec{$time_bloodline_wilderness}) since start;
     #unvar temptime_wilder;
     profon skinning;
     #var autopickuphides 1;
@@ -263,7 +263,12 @@ event_register {level gain} {remort} {handle_remort_level};
     #var toothcontainer hole;
     botrole damage;
     #ticker clearroom profroom 10;
-    #if {$remort_equipped==0} {#var remort_equipped 1;home;get all remort;wear all;get all remort;wear all;put all remort;recall;#show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group}
+    #if {$remort_equipped==0} {
+        #var remort_equipped 1;
+        home;get all remort;wear all;get all remort;wear all;put all remort;
+        recall;
+        #show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group
+    }
 }
 
 #alias join_gary_group {
