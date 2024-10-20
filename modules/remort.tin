@@ -141,7 +141,7 @@ event_register {level gain} {remort} {handle_remort_level};
             send_to_comms_session <170>Phase: Lvl50 $MSDP_CHARACTER_NAME (@return_min_sec{$time_bloodline_50}) Tanning Phase:(@return_min_sec{$temptime_tanning}) since start;
             #unvar temptime_50;#unvar temptime_tanning;
         };
-        #CASE {58} { 
+        #CASE {57} { 
             #if  {"$MSDP_CLASS"=="Barbarian"} { 
                 #show <131>TIME TO PRAC TOUGHNESS;
                 prac toughness;prac toughness;prac toughness;prac toughness;prac toughness
