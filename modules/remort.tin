@@ -331,7 +331,11 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 #alias end_wilderness {
-    gt nohunt;recall;home;get all backpack;put all chest;rem all;put all chest;
+    #var time_bloodline_theend $MSDP_UPTIME;
+    #math time_bloodline_end {$time_bloodline_theend - $time_bloodline_start};
+    send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_end}) since start;
+    #unvar time_bloodline_end;
+    gt nohunt;recall;home;get all backpack;put all case;rem all;put all case;rem all;put all case
 }
 
 
