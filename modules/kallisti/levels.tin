@@ -272,7 +272,7 @@ Usage: levelreq <startlevel> <endlevel>}
 #var goldlevel[47] 0
 #var goldlevel[48] 0
 #var goldlevel[49] 0
-#var goldlevel[50] 0
+#var goldlevel[50] 200000
 #var goldlevel[51] 400000
 #var goldlevel[52] 428400
 #var goldlevel[53] 457600
