@@ -170,12 +170,20 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 #action {* * * You now have enough experience to gain a level! * * *} {
-    #if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {
+    #if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<=49) && ($profession[refining][auto]) } {
         breakout;gogain
     };
-    #if { ($MSDP_LEVEL>=51) && ($profession[refining][auto]) && ("$MSDP_AREA_NAME"!="The Wilderness")} {
+    #if { ($MSDP_LEVEL>=50) && ($profession[refining][auto]) && ("$MSDP_AREA_NAME"!="The Wilderness")} {
         breakout;doMetaOrGain
     }
+}
+
+#alias gogain {
+    egre;home;
+    #math nextlevel {$MSDP_LEVEL+1};
+    #if { ($nextlevel==50) } { with 200000 } { with $goldlevel[$nextlevel] };
+    egre;goguild;
+    gain
 }
 
 #alias {metastats} {
@@ -193,13 +201,6 @@ event_register {level gain} {remort} {handle_remort_level};
     doMetaOrGain
 }
 
-#alias gogain {
-    egre;home;
-    #math nextlevel {$MSDP_LEVEL+1};
-    #if { ($nextlevel==50) } { with 200000 } { with $goldlevel[$nextlevel] };
-    egre;goguild;
-    gain
-}
 
 #action {You now have %1 proficiency points available.} {#if ($tanningmaxed==0) {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
 

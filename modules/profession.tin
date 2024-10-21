@@ -468,6 +468,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {Some {hide|bone} from %2 lies here. (%3)} {#math total_mats {$total_mats+%3}}
 #action {A {leather} lies here. (%3)} {#math total_leather {%3}}
 #action {You pick up %1 {hides|bone}.} {#var profession[refining][reset] 1;#var total_mats_pickedup %1;#math total_mats_remaining {$total_mats-%1};#math mats_to_sell {$total_mats_pickedup-1};#math total_rounds_remaining {$total_mats_remaining/$total_mats_pickedup}}
+
+
 #action {You pick up %1 leathers.} {#var profession[refining][reset] 1;#var total_leather_pickedup %1;#math total_leather_remaining {$total_leather-%1};#math mats_to_sell {$total_leather_pickedup-1};#math total_rounds_remaining {$total_leather_remaining/$total_leather_pickedup}}
 
 
@@ -479,11 +481,15 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 #NOP Vendor actions 
 #NOP #######################################################
-#nop action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
-#action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]};sell leather}
+#tab sellleathers
+#alias sellleathers {visit house;dep all;e;get all.leather;recall;2s3es;#$total_leather_pickedup sell leather;visit house;dep all;say $total_leather_remaining leathers left, sold: $profession[refining][sold] haggled:$profession[refining][haggledgold] ($total_rounds_remaining) rounds}
+
+#action {There aren't any leathers here you can take.} {#var autosell 0}
+         
+#action {The tanner tells you, 'Are you sure you have that?'} {#if $autosell {sellleathers}}
+#action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]}}
 #action {You haggle to increase the price by %1 coins.} {#math profession[refining][haggledgold] {$profession[refining][haggledgold]+%1}}
+#nop action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
 #nop action {The tanner tells you, 'Please empty a leather backpack first.'} {visit houseofanasasi;dep all;#if {$profession[gather][selling] && $profession[refining][auto]} {e;get all.leather;egress;2s3es;sell leather};#else {pickup_mats}}
 #nop action {The tanner tells you, 'Are you sure you have that?'} {visit houseofanasasi;dep all;#if {$profession[gather][selling] && $profession[refining][auto]} {e;get all.leather;egress;2s3es;sell leather};#else {pickup_mats}}
 #nop action {There aren't any leathers here you can take.} {#var profession[gather][selling] 0}
-#tab sellleathers
-#alias sellleathers {visit house;dep all;e;get all.leather;recall;2s3es;#$mats_to_sell sell leather;visit house;dep all;say $total_leather_remaining leathers left, sold: $profession[refining][sold] haggled:$profession[refining][haggledgold] ($total_rounds_remaining) rounds}
