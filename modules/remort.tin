@@ -86,18 +86,20 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #CASE {5} { zone_end;recall;2s3wn;buy purple;quaff purple;recall;remort_quest_5 };
         #CASE {7} { 
-            recall;2s3wn;buy purple;quaff purple;recall;
-            #action {You enter a ring of mushrooms.} {#unaction {You enter a ring of mushrooms.};n;prepare_faerie_realm;cleartarget;,;.};
-            #show <131>Move to Farie Realm;2s8w2sw2ses;enter mushroom
-        };
-        #CASE {8} { 
-            #if {"$booster"=="Kaicha"} {};
+            #if {"$booster"=="Kaicha"} {
+                recall;2s3wn;buy purple;quaff purple;recall;
+                #action {You enter a ring of mushrooms.} {#unaction {You enter a ring of mushrooms.};n;prepare_faerie_realm;cleartarget;,;.};
+                #show <131>Move to Farie Realm;2s8w2sw2ses;enter mushroom
+            };
             #if {"$booster"=="Liminal"} {
                 #var {toggle[ranged]} {on};
                 #action {You quaff a yellow potion of see invisible which dissolves.} {#unaction {You quaff a yellow potion of see invisible which dissolves.};recall;tell liminal hi;fol liminal;#delay 3 {gt liminal start}};
                 #action {You feel very Zzzzzzzzz...} {gt liminal stop;wake;stand;recall;gt liminal start};
                 recall;visit eremitage;u;get elven chest;get yellow chest;quaff yellow
             };
+        };
+        #CASE {8} { 
+            #if {"$booster"=="Kaicha"} {#show <131>HOOK UP WITH KAICHA AND START RUN};
         };
         #CASE {10} { 
             #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %%1 levels;#if {%%1==5} {gt liminal stop;#delay 10 {goguild;prac armor;gain;gain;gain;gain;gain;spec $spec_class;wear elven;recall;#delay 3 {gt liminal start}}}} 
@@ -225,7 +227,14 @@ event_register {level gain} {remort} {handle_remort_level};
 #alias remort_quest_5c {recall;2s6en;quest;open gate n;2n;open door n;ne;kill major}
 #action {Old Major is dead!  R.I.P.} {w;open gate s;2s;open gate s;s} {1}
 #action {The manor keeper tells you, 'In his death he will fertilize the ground. '} {
-    #delay 3 {sac hat;#show <131>Proceed to Madam Zickva;#action {The Front Porch} {#unaction {The Front Porch};prepare_madam_zickva;#delay 3 {,;.}};recall;3s2e2nw}
+    #delay 3 {sac hat;#show <131>Proceed to Madam Zickva;
+    #action {The Front Porch} {
+        #unaction {The Front Porch};
+        prepare_madam_zickva;
+        #delay 3 {,;.}
+    };
+    recall;
+    3s2e2nw}
 }
 
 
