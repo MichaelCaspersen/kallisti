@@ -277,7 +277,7 @@ init metaHero preferences 0
         visit house;
     } {
         home;
-    }
+    };
     #if {$MSDP_LEVEL==50} {with 200000} {with $goldlevel[$MSDP_LEVEL]};
     egress;
     goguild;
