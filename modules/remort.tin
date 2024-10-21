@@ -334,7 +334,8 @@ event_register {level gain} {remort} {handle_remort_level};
     #math time_bloodline_end {$time_bloodline_theend - $time_bloodline_start};
     send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_end}) since start;
     #unvar time_bloodline_end;
-    gt nohunt;recall;home;get all backpack;put all case;rem all;put all case;rem all;put all case
+    gt nohunt;recall;home;get all backpack;put all case;get all hole;put all case;rem all;put all case;rem all;put all case;
+    #show <131>END OF JOURNEY, NEXT STEP: create bloodlines;
 }
 
 
