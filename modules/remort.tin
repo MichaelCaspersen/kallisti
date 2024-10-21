@@ -25,7 +25,7 @@
 event_register {level gain} {remort} {handle_remort_level};
 
 #var booster {};
-#var refreshed {Volva}
+#var refresher {Volva}
 #var tanningmaxed 1;
 #var spec_class barbarian;
 #var time_bloodline_start $MSDP_UPTIME;
