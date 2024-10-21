@@ -25,6 +25,7 @@
 event_register {level gain} {remort} {handle_remort_level};
 
 #var booster {};
+#var refreshed {Volva}
 #var tanningmaxed 1;
 #var spec_class barbarian;
 #var time_bloodline_start $MSDP_UPTIME;
@@ -120,7 +121,7 @@ event_register {level gain} {remort} {handle_remort_level};
                 #math temptime {$time_bloodline_handover - $time_bloodline_start};
                 send_to_comms_session <170>Phase: $booster - $MSDP_CHARACTER_NAME (@return_min_sec{$temptime}) since start;
                 #unvar temptime;
-                visit house;dep all;fol $MSDP_CHARACTER_NAME;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn 
+                visit house;dep all;e;fol $MSDP_CHARACTER_NAME;fol $refresher;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn 
             };
             #if {("$booster"=="") && ($profession[refining][auto])} { remorttan };
         };
