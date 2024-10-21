@@ -52,7 +52,6 @@ event_register {level gain} {remort} {handle_remort_level};
         setsummon group;
         sac long;
         sac breastplate;
-        goguild;prac armor;
         visit eremitage;u;get all chest;wear all;get all chest;wear all;put all chest;
         remort_quest_1
     }
@@ -84,7 +83,7 @@ event_register {level gain} {remort} {handle_remort_level};
             recall;
             #delay 3 {#show <131>Move to training tower;recall;2s3wn;buy purple;quaff purple;recall;4sd3s5enu;#action {The Entrance to the Halls of Evil} {#unaction {The Entrance to the Halls of Evil};prepare_towers_of_training;#delay 3 {,;.}}}
         };
-        #CASE {5} { zone_end;recall;2s3wn;buy purple;quaff purple;recall;remort_quest_5 };
+        #CASE {5} { prac armor;zone_end;recall;2s3wn;buy purple;quaff purple;recall;remort_quest_5 };
         #CASE {7} { 
             recall;2s3wn;buy purple;quaff purple;recall;
             #action {You enter a ring of mushrooms.} {#unaction {You enter a ring of mushrooms.};n;prepare_faerie_realm;cleartarget;,;.};
