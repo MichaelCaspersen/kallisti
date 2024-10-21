@@ -215,15 +215,11 @@ init metaHero preferences 0
 }
 
 
-
-
-
-#var needmeta 0;
 #ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {
     #if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {
         goguild;gain;gain;gain;gain;remorttan
     };#else {
-        #if {$needmeta==0} {#var needmeta 1;nco return_and_meta}
+        nco return_and_meta
     }
 }
 
@@ -359,7 +355,6 @@ init metaHero preferences 0
         #case {"Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
         #case {"Profession"} {recall;remorttan};
     };
-    #var needmeta 0
 }
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}

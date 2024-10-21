@@ -327,9 +327,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {You don't have access to the proper equipment here.} {#var profession[refining][auto] 0}
 
-#var needmeta 0;
 #action {There aren't any hides here you can take.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff}}
-#action {The weight of your experience thrums a discordant note in your soul.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff};#if {$needmeta==0} {#var needmeta 1;nco return_and_meta}}
+#action {The weight of your experience thrums a discordant note in your soul.} {#if {$profession[refining][auto]} {gt <<< Need to meta or level >>>;matoff};nco return_and_meta}
 
 
 #NOP #######################################################

@@ -1371,7 +1371,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
-	#if { ($MSDP_EXPERIENCE>$needmetaat) && ($needmeta==0) } {#var needmeta 1;nco return_and_meta};
+	#if { ($MSDP_EXPERIENCE>$needmetaat) } { nco return_and_meta };
 	#if { $bot[examine] } { nco exa corpse };
 	#if { $bot[controlweather] } { nco cweather $bot[weatherdir] };
 }
