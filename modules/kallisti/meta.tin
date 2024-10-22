@@ -304,6 +304,7 @@ init metaHero preferences 0
         with 10000000
     };
     rem all;
+    #var perform_meta 1;
     #if {$MSDP_LEVEL<100} {
         levelreq 100;
         #delay 10 autometa
@@ -385,30 +386,37 @@ init metaHero preferences 0
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
 #action {^The meta-sage tells you 'You don't have enough gold.} {
-    #if { ($MSDP_BANK_GOLD>10000000) } {
-        with 10000000;
-        autometa
-    };#else {
-        list;
-        #var autometa off;
-        dep all;
-        dress 1;
-        16e2n;
-        doMetaOrGain
+    #if {$perform_meta} {
+        #if { ($MSDP_BANK_GOLD>10000000) } {
+            with 10000000;
+            autometa
+        };#else {
+            #var perform_meta 0;
+            list;
+            #var autometa off;
+            dep all;
+            dress 1;
+            16e2n;
+            doMetaOrGain
+        }
     }
 }
 
 #action {^The meta-sage tells you 'You don't have enough experience.} {
-    list;
-    #var autometa off;
-    dep all;
-    wear all;
-    #unaction {Your mana reserve expands with new power.};
-    #unaction {Your heart pounds as your body grows more resilient.};
-    #unaction {Your heart races with fresh energy reserves.};
-    16e2n;
-    returntostart
+    #if {$perform_meta} {
+        #var perform_meta 0;
+        list;
+        #var autometa off;
+        dep all;
+        wear all;
+        #unaction {Your mana reserve expands with new power.};
+        #unaction {Your heart pounds as your body grows more resilient.};
+        #unaction {Your heart races with fresh energy reserves.};
+        16e2n;
+        returntostart
+    }
 }
+
 #action {^The meta-sage tells you 'Go level instead!'} {list;#var autometa off;dep all;dress 1}
 
 #var forcemeta 0;
