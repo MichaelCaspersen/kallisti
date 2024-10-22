@@ -324,6 +324,7 @@ event_register {level gain} {remort} {handle_remort_level};
     #var toothcontainer backpack;
     bot_init;
     botrole damage;
+    setsummon group;
     #ticker clearroom profroom 10;
 }
 

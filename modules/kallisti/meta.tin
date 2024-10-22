@@ -298,7 +298,7 @@ init metaHero preferences 0
     enter tree;
     open door;
     w;
-    #if { ($MSDP_BANK_GOLD<100000000) } {
+    #if { ($MSDP_BANK_GOLD<10000000) } {
         with all
     } {
         with 10000000
@@ -359,13 +359,45 @@ init metaHero preferences 0
                 #else {recall;stand;returntostart;}
             }
         };
+        #case {"Gummton Outpost"} {
+            #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} { 
+                visit house;
+            }
+            {
+                home;
+            }
+            with 100000;
+            egress;
+            3s2es;
+            book gumm;;
+            #action {Land is in sight!} {
+                #delay 10 {#unaction {Land is in sight!};gt &08yeshunt&--}
+            };
+            #action {You wash up on shore...} {
+                #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt &08yeshunt&--;#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {true;holygate crom}};
+                #else {recall;stand;returntostart;}
+            }
+        };
         #case {"Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
         #case {"Profession"} {recall;remorttan};
     };
 }
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
-#action {^The meta-sage tells you 'You don't have enough gold.} {list;#var autometa off;dep all;dress 1;16e2n;doMetaOrGain}
+#action {^The meta-sage tells you 'You don't have enough gold.} {
+    #if { ($MSDP_BANK_GOLD>10000000) } {
+        with 10000000;
+        autometa
+    };#else {
+        list;
+        #var autometa off;
+        dep all;
+        dress 1;
+        16e2n;
+        doMetaOrGain
+    }
+}
+
 #action {^The meta-sage tells you 'You don't have enough experience.} {
     list;
     #var autometa off;
