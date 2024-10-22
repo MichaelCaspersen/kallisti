@@ -335,7 +335,6 @@ init metaHero preferences 0
 #alias {returntostart} {
     #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} { visit house; } { home; };
     dep all;
-    egress;
     #if { ("$return_zone"=="The Wilderness") || ("$return_zone"=="Gummton Outpost") || ("$return_zone"=="Unknown") } {
         with 100000;
         egress;
@@ -349,8 +348,8 @@ init metaHero preferences 0
             #else {recall;stand;returntostart;}
         }
     };
-    #if {"$return_zone"=="Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
-    #if {"$return_zone"=="Profession"} {recall;remorttan};
+    #if {"$return_zone"=="Tellurian"} {egress;8sw2se29s9w2sswswswdses4e;enter portal};
+    #if {"$return_zone"=="Profession"} {egress;remorttan};
 };
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
