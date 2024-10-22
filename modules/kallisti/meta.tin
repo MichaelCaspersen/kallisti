@@ -352,6 +352,25 @@ init metaHero preferences 0
                 #else {recall;stand;returntostart;}
             }
         };
+        #case {"Gummton Outpost"} {
+            #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} { 
+                visit house;
+            }
+            {
+                home;
+            }
+            with 100000;
+            egress;
+            3s2es;
+            book gumm;;
+            #action {Land is in sight!} {
+                #delay 10 {#unaction {Land is in sight!};gt &08yeshunt&--}
+            };
+            #action {You wash up on shore...} {
+                #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt &08yeshunt&--;#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {true;holygate crom}};
+                #else {recall;stand;returntostart;}
+            }
+        };
         #case {"Tellurian"} {8sw2se29s9w2sswswswdses4e;enter portal};
         #case {"Profession"} {recall;remorttan};
     };
