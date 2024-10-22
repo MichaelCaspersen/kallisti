@@ -235,6 +235,7 @@ init metaHero preferences 0
             gt &08nohunt&--;
             #action {You find yourself back in Midgaard City.} {
                 #unaction {You find yourself back in Midgaard City.};
+                2s2en;repa all;ses;repa all;n3w2n;
                 doMetaOrGain
             };
             #action {You find yourself back in Gummton Outpost.} {
@@ -246,6 +247,12 @@ init metaHero preferences 0
             recall
         };
         #case {"Gummton Outpost"} {
+            gt &08nohunt&--;
+            #action {You find yourself back in Midgaard City.} {
+                #unaction {You find yourself back in Midgaard City.};
+                2s2en;repa all;ses;repa all;n3w2n;
+                doMetaOrGain
+            };
             recall;
             n2w;
             book cargo;
