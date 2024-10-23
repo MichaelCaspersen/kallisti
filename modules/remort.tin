@@ -244,19 +244,25 @@ event_register {level gain} {remort} {handle_remort_level};
 #alias remort_quest_5a {
     recall;
     2s6en;open gate n;n;open door w;w;
-    quest;
+    quest
+}
+#action {Mr. Jones tells you, 'Greetings!  There is a little girl in the Midgaard orphanage by the name of Janie.} {
     recall;
     2s4e7s2w;open door w;2wun;open door u;u;
     #delay 3 {
         recall;2s6en;open gate n;n;open door w;w;
-        #delay 3 remort_quest_5b
     }
+}
+#action {Mr. Jones tells you, 'Thank you so much for your kindness.} {
+    #delay 3 remort_quest_5b
 }
 
 #NOP QUEST: Kill Old Major
 #alias remort_quest_5b {
     recall;
-    2s6en;quest;open gate n;2n;open door n;ne;kill major
+    2s6en;quest;
+    open gate n;2n;open door n;ne;
+    kill major
 }
 #action {Old Major is dead!  R.I.P.} {w;open gate s;2s;open gate s;s} {1}
 #action {The manor keeper tells you, 'In his death he will fertilize the ground. '} {
