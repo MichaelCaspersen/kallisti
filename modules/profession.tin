@@ -487,11 +487,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #var autosell 1
 
 #tab sellleathers
-<<<<<<< HEAD
 #alias sellleathers {visit house;dep all;e;get all.leather;recall;2s3es;sell all;visit house;dep all;say $total_leather_remaining leathers left, sold: $profession[refining][sold] haggled:$profession[refining][haggledgold] ($total_rounds_remaining) rounds}
-=======
-#alias sellleathers {visit house;dep all;e;get all.leather;recall;2s3es;#29 sell leather;visit house;dep all;say $total_leather_remaining leathers left, sold: $profession[refining][sold] haggled:$profession[refining][haggledgold] ($total_rounds_remaining) rounds}
->>>>>>> 9a7152674ef5778fed3dc8dab24b6a9514bee01f
 
 #action {There aren't any leathers here you can take.} {#var autosell 0}
          
