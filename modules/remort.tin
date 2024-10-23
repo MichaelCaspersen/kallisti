@@ -142,7 +142,7 @@ event_register {level gain} {remort} {handle_remort_level};
             #var time_bloodline_50 $MSDP_UPTIME;
             #math temptime_50 {$time_bloodline_50 - $time_bloodline_start};
             #math temptime_tanning {$time_bloodline_50 - $time_bloodline_handover};
-            send_to_comms_session <170>Phase: Lvl50 $MSDP_CHARACTER_NAME (@return_min_sec{$time_bloodline_50}) Tanning Phase:(@return_min_sec{$temptime_tanning}) since start;
+            send_to_comms_session <170>Phase: Lvl50 $MSDP_CHARACTER_NAME (@return_min_sec{$temptime_50}) Tanning Phase:(@return_min_sec{$temptime_tanning}) since start;
             #unvar temptime_50;#unvar temptime_tanning;
         };
         #CASE {57} { 
@@ -226,7 +226,6 @@ event_register {level gain} {remort} {handle_remort_level};
 #alias remort_quest_1a {recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim;sac map}
 
 #action {You are now on the quest: Wrong hole: Solo Target, Half dressed guy} {quest end;#delay 5 {quest}}
-
 
 #NOP QUEST: Visit Melissa
 #alias remort_quest_5 {recall;3s2e2ne;quest}
