@@ -487,11 +487,15 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #var autosell 1
 
 #tab sellleathers
+<<<<<<< HEAD
 #alias sellleathers {visit house;dep all;e;get all.leather;recall;2s3es;sell all;visit house;dep all;say $total_leather_remaining leathers left, sold: $profession[refining][sold] haggled:$profession[refining][haggledgold] ($total_rounds_remaining) rounds}
+=======
+#alias sellleathers {visit house;dep all;e;get all.leather;recall;2s3es;#29 sell leather;visit house;dep all;say $total_leather_remaining leathers left, sold: $profession[refining][sold] haggled:$profession[refining][haggledgold] ($total_rounds_remaining) rounds}
+>>>>>>> 9a7152674ef5778fed3dc8dab24b6a9514bee01f
 
 #action {There aren't any leathers here you can take.} {#var autosell 0}
          
-#action {The tanner tells you, 'Are you sure you have that?'} {#if $autosell {sellleathers}}
+#action {The tanner tells you, 'Are you sure you have that?'} {#if $autosell {#delay 1 sellleathers}}
 #action {The tanner tells you, 'I'll give you %1 coins for that.'} {#variable profession[refining][sold] @increment{$profession[refining][sold]}}
 #action {You haggle to increase the price by %1 coins.} {#math profession[refining][haggledgold] {$profession[refining][haggledgold]+%1}}
 #nop action {The tanner tells you, 'It appears that %0 was previously donated and I don't buy donated items!'} {sac leather;sell leather}
