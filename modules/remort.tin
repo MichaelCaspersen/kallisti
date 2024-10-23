@@ -116,14 +116,16 @@ event_register {level gain} {remort} {handle_remort_level};
                 #math temptime {$time_bloodline_handover - $time_bloodline_start};
                 send_to_comms_session <170>Phase: $booster - $MSDP_CHARACTER_NAME (@return_min_sec{$temptime}) since start;
                 #unvar temptime;
-                visit house;dep all;#var booster {};with 150000;recall;#var tanningmaxed 0;5nwn 
+                visit house;dep all;#var booster {};with 150000;
+                #delay 5 {#var booster {};recall;#var tanningmaxed 0;5nwn};  
             };
             #if {("$booster"=="Liminal") && ($profession[refining][auto]==0)} { 
                 #var time_bloodline_handover $MSDP_UPTIME;
                 #math temptime {$time_bloodline_handover - $time_bloodline_start};
                 send_to_comms_session <170>Phase: $booster - $MSDP_CHARACTER_NAME (@return_min_sec{$temptime}) since start;
                 #unvar temptime;
-                visit house;dep all;with 150000;e;fol $MSDP_CHARACTER_NAME;fol $refresher;#var booster {};recall;#var tanningmaxed 0;5nwn 
+                visit house;dep all;with 150000;e;fol $MSDP_CHARACTER_NAME;fol $refresher;
+                #delay 5 {#var booster {};recall;#var tanningmaxed 0;5nwn}; 
             };
             #if {("$booster"=="") && ($profession[refining][auto])} { remorttan };
         };
@@ -224,26 +226,51 @@ event_register {level gain} {remort} {handle_remort_level};
 #alias remort_quest_1a {recall;2s4w12se;buy black;recall;10n7e2s2e;open flap;2n;quest;give black jorim;sac map}
 
 #action {You are now on the quest: Wrong hole: Solo Target, Half dressed guy} {quest end;#delay 5 {quest}}
-#alias remort_quest_5 {recall;3s2e2ne;quest}
-#action {The big bartender tells you, 'My wife recently passed away along with my unborn child.' } {recall;2s4e7s2w;open door;2w;open door west;ws;recall;3s2e2ne}
-#action {The big bartender tells you, 'Thank you so much take this for your troubles!'} {#delay 3 remort_quest_5a}
 
-#alias remort_quest_5a {recall;2s6en;open gate n;n;open door w;w;quest;recall;2s4e7s2w;open door w;2wun;open door u;u;#delay 3 remort_quest_5b}
-#alias remort_quest_5b {recall;2s6en;open gate n;n;open door w;w;;#delay 3 remort_quest_5c}
-#alias remort_quest_5c {recall;2s6en;quest;open gate n;2n;open door n;ne;kill major}
-#action {Old Major is dead!  R.I.P.} {w;open gate s;2s;open gate s;s} {1}
-#action {The manor keeper tells you, 'In his death he will fertilize the ground. '} {
-    #delay 3 {sac hat;#show <131>Proceed to Madam Zickva;
-    #action {The Front Porch} {
-        #unaction {The Front Porch};
-        prepare_madam_zickva;
-        #delay 3 {,;.}
-    };
+
+#NOP QUEST: Visit Melissa
+#alias remort_quest_5 {recall;3s2e2ne;quest}
+#action {You are now on the quest: Visit Melissa} {
     recall;
-    3s2e2nw}
+    2s4e7s2w;open door;2w;open door west;ws;
+    recall;
+    3s2e2ne
+}
+#action {The big bartender tells you, 'Thank you so much take this for your troubles!'} {
+    #delay 3 remort_quest_5a
 }
 
+#NOP QUEST: Visit Janie
+#alias remort_quest_5a {
+    recall;
+    2s6en;open gate n;n;open door w;w;
+    quest;
+    recall;
+    2s4e7s2w;open door w;2wun;open door u;u;
+    #delay 3 {
+        recall;2s6en;open gate n;n;open door w;w;
+        #delay 3 remort_quest_5b
+    }
+}
 
+#NOP QUEST: Kill Old Major
+#alias remort_quest_5b {
+    recall;
+    2s6en;quest;open gate n;2n;open door n;ne;kill major
+}
+#action {Old Major is dead!  R.I.P.} {w;open gate s;2s;open gate s;s} {1}
+#action {The manor keeper tells you, 'In his death he will fertilize the ground. '} {
+    #delay 3 {
+        sac hat;#show <131>Proceed to Madam Zickva;
+        #action {The Front Porch} {
+            #unaction {The Front Porch};
+            prepare_madam_zickva;
+            #delay 3 {,;.}
+        };
+        recall;
+        3s2e2nw
+    }
+}
 
 #alias prac_base_class {
     recall;2s2e2s;
@@ -312,7 +339,7 @@ event_register {level gain} {remort} {handle_remort_level};
         #math temptime_wilder {$time_bloodline_wilderness - $time_bloodline_start};
         send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_wilderness}) since start;
         #unvar temptime_wilder;
-        home;get all remort;wear all;get all case;wear all;put all case;get backpack case;
+        home;get all case;wear all;get all case;wear all;put all case;get backpack case;
         #var remort_equipped 1;
         recall;
         #show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group;
