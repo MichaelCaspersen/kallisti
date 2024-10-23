@@ -197,7 +197,7 @@ event_register {level gain} {remort} {handle_remort_level};
         with 10000000
     };
     rem all;
-    #10 buy str;#10 buy int;#10 buy wis;#10 buy dex;#5 buy maxcon;#15 buy con;
+    #10 buy str;#10 buy int;#10 buy wis;#10 buy dex;#3 buy maxcon;#15 buy con;
     dep all;
     16e2n;
     #ticker remind_to_relog {#show <131>NEED TO RELOG BEFORE STATS TAKE EFFEKT} 10;
