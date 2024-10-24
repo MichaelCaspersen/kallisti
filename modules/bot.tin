@@ -1262,7 +1262,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4 %5} {
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
 	#var tankingmobs 0;
-	#var cur_opponents 1
+	#var cur_opponents 1;
 	#if { ($aggressiveprofession) && ("%3"=="near") } {
 		#show <131>AGRESSIVE PROFESSION;
 		#math spellLock { @mpoch{} + 3000 };
