@@ -131,7 +131,7 @@ init bot[rescue2] preferences off;
 	#NOP Class Specific: Necromancer							;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Necromancer" } {
-		#var bot[damage][single] darkfire;
+		#var bot[damage][single] creeping;
 		#var bot[damage][multiple] dfog;
 		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
 		#var bot[spellSustain] drain;
