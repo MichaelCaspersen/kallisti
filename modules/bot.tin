@@ -1242,7 +1242,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 < Crom | 9264h 4651m 3658s | a wandering paladin:moderately hurt | fHVS >
 < Crom | 9264h 4703m 3603s | a wandering paladin:near death | Fighting: 4 | fHVS >
 
-#action {^< Crom | %1 | %2:%3 | %4: %5 | %6} {
+#action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
 	#var tankingmobs 0;
 	#var cur_opponents %5;
@@ -1259,7 +1259,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	};
 } {1}
 
-#action {^< Crom | %1 | %2:%3 | %4 %5} {
+#action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4 %5} {
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
 	#var tankingmobs 0;
 	#var cur_opponents 1
@@ -1276,7 +1276,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	};
 } {2}
 
-#action {^< Crom | %1 | %2} {
+#action {^< $MSDP_CHARACTER_NAME | %1 | %2} {
 	show_debug {<131>No Combat};
 	#var tankingmobs 0;
 	#var cur_opponents 0
