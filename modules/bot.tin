@@ -428,7 +428,7 @@ init bot[rescue2] preferences off;
 	#else {
 		#var bot[nextActionDebug] {$bot[nextActionDebug] Fight:1};
 		#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$recall_below_hit } {
-			#if { ("$MSDP_CLASS"=="Druid") && ($MSDP_OPPONENT_NUMBER<1) } {
+			#if { ("$MSDP_CLASS"=="Druid") && ($cur_opponents<1) } {
 				#show <131>Combat convert keep calm;
 			}; 
 			#else {
@@ -467,13 +467,13 @@ init bot[rescue2] preferences off;
 }
 
 #alias attackTarget {
-	#if { $MSDP_OPPONENT_NUMBER>1} 
+	#if { $cur_opponents>1 } 
 	{
-		show_debug {<131>Multiple Opponents ($MSDP_OPPONENT_NUMBER): <%1> $bot[damage][multiple]};
+		show_debug {<131>Multiple Opponents ($cur_opponents): <%1> $bot[damage][multiple]};
 		#switch {"$MSDP_CLASS"} {
 			#case {"Wizard"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostbite} {damage zap} };
 			#case {"Paladin"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>$healpct_damage_allowed} {#var bot[damage][multiple] icestorm} {#var bot[damage][multiple] zeal} };
-			#case {"Druid"} {#if {$MSDP_OPPONENT_NUMBER<4} {#var bot[damage][multiple] chain} {#var bot[damage][multiple] sunray} };
+			#case {"Druid"} {#if {$cur_opponents<4} {#var bot[damage][multiple] chain} {#var bot[damage][multiple] sunray} };
 			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} {#var bot[damage][multiple] hamstring} };
 			#default {#nop};
 		};
@@ -1105,7 +1105,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #ALIAS {recall}{
-	#IF { ($MSDP_OPPONENT_NUMBER > 0) || ("$MSDP_ACCOUNT_NAME"=="Valhalla") }{
+	#IF { ($cur_opponents > 0) || ("$MSDP_ACCOUNT_NAME"=="Valhalla") }{
 		queueAdd priority get rec all;
 		queueAdd priority rec rec
 	}{#send recal} 
@@ -1238,23 +1238,49 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var getoutnow 0
 }
 
-#nop hyper agressive at severely    action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {#var tankingmobs 0;#if {$MSDP_OPPONENT_NUMBER>0} {#if { ("%2"=="a gigasaur") && (("%3"=="near") || ("%3"=="severely")) } {#show <131>AGRESSIVE LOOT;#math spellLock { @mpoch{} + 3000};get all.tooth all.corpse;put all.tooth $toothcontainer}}} {2}
-#action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 %4} {
+
+< Crom | 9264h 4651m 3658s | a wandering paladin:moderately hurt | fHVS >
+< Crom | 9264h 4703m 3603s | a wandering paladin:near death | Fighting: 4 | fHVS >
+
+#action {^< Crom | %1 | %2:%3 | %4: %5 | %6} {
+	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
 	#var tankingmobs 0;
-	#if { ($MSDP_OPPONENT_NUMBER>0) } {
-		#if { ($aggressiveprofession) && ("%3"=="near") } {
-			#show <131>AGRESSIVE PROFESSION;
-			#math spellLock { @mpoch{} + 3000 };
-			$profession[str_corpse] corpse;
-		};
-		#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
-			#show <131>AGRESSIVE LOOT;
-			#math spellLock { @mpoch{} + 3000 };
-			get all.tooth all.corpse;
-			put all.tooth $toothcontainer
-		};
-	}
+	#var cur_opponents %5;
+	#if { ($aggressiveprofession) && ("%3"=="near") } {
+		#show <131>AGRESSIVE PROFESSION;
+		#math spellLock { @mpoch{} + 3000 };
+		$profession[str_corpse] corpse;
+	};
+	#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
+		#show <131>AGRESSIVE LOOT;
+		#math spellLock { @mpoch{} + 3000 };
+		get all.tooth all.corpse;
+		put all.tooth $toothcontainer
+	};
+} {1}
+
+#action {^< Crom | %1 | %2:%3 | %4 %5} {
+	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
+	#var tankingmobs 0;
+	#var cur_opponents 1
+	#if { ($aggressiveprofession) && ("%3"=="near") } {
+		#show <131>AGRESSIVE PROFESSION;
+		#math spellLock { @mpoch{} + 3000 };
+		$profession[str_corpse] corpse;
+	};
+	#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
+		#show <131>AGRESSIVE LOOT;
+		#math spellLock { @mpoch{} + 3000 };
+		get all.tooth all.corpse;
+		put all.tooth $toothcontainer
+	};
 } {2}
+
+#action {^< Crom | %1 | %2} {
+	show_debug {<131>No Combat};
+	#var tankingmobs 0;
+	#var cur_opponents 0
+} {4}
 
 #var predeathdelay 0.1;
 #action {%1's body turns solid when %2's frostbite freezes %3.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse] corpse}}
