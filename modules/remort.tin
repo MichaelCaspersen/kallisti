@@ -30,6 +30,17 @@ event_register {level gain} {remort} {handle_remort_level};
 #var spec_class ranger;
 #var time_bloodline_start $MSDP_UPTIME;
 
+#NOP #######################################################
+#NOP Lifetime events and actions 
+#NOP #######################################################
+#NOP    start_bloodline
+#NOP    initialize_remort
+#NOP    end_remort_newbie
+#NOP    gogummton
+#NOP    initialize_wilderness
+#NOP    join_gary_group
+#NOP    end_wilderness
+#NOP #######################################################
 #tab start_bloodline;
 #alias start_bloodline {
     #var time_bloodline_start $MSDP_UPTIME;
@@ -75,6 +86,71 @@ event_register {level gain} {remort} {handle_remort_level};
     recall;5nwn;
 }
 
+#alias {gogummton} {visit house;dep all;with 100000;egre;3s2es;book gumm}
+
+#action {End of Frontier Pier at Gummton Outpost} {
+    #if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<60)} {
+        initialize_wilderness
+    };#elseif { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL==60)} {
+        end_wilderness;
+    }
+}
+
+#alias initialize_wilderness {
+    #if {$remort_equipped==0} { #nop First time we enter wilderness;
+        #var time_bloodline_wilderness $MSDP_UPTIME;
+        #math temptime_wilder {$time_bloodline_wilderness - $time_bloodline_start};
+        send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_wilderness}) since start;
+        #unvar temptime_wilder;
+        home;get all case;wear all;get all case;wear all;put all case;get backpack case;
+        #var remort_equipped 1;
+        recall;
+        #show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group;
+        join_gary_group
+    };
+    profon skinning;
+    #var autopickuphides 1;
+    #var autotooth 0;
+    #var toothcontainer backpack;
+    bot_init;
+    botrole damage;
+    setsummon group;
+    #ticker clearroom profroom 10;
+}
+
+#alias join_gary_group {
+    #var regroup 1;
+    #action {A glowing white portal appears.} {
+        #if $regroup {
+            #var regroup 0;
+            enter portal;
+            fol gary;
+            #unaction {A glowing white portal appears.};
+        };
+        #action {You now follow Gary.} {
+            #unaction {You now follow Gary.};
+            #var time_bloodline_grouped $MSDP_UPTIME;
+            #math temptime_group {$time_bloodline_grouped - $time_bloodline_start};
+            send_to_comms_session <170>Phase: Grouped in Wilderness.  (@return_min_sec{$temptime_group}) since start;
+            #unvar temptime_group;
+        } {1}
+    };
+    tell gary portal me;
+}
+
+#alias end_wilderness {
+    #var time_bloodline_theend $MSDP_UPTIME;
+    #math time_bloodline_end {$time_bloodline_theend - $time_bloodline_start};
+    send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_end}) since start;
+    #unvar time_bloodline_end;
+    gt nohunt;recall;home;get all backpack;put all case;get all hole;put all case;rem all;put all case;rem all;put all case;
+    #show <131>END OF JOURNEY, NEXT STEP: create bloodlines;
+}
+
+
+#NOP #######################################################
+#NOP Level Logic 
+#NOP #######################################################
 #alias handle_remort_level {
     #show <131>HANDLE REMORT LEVEL: %2;
     #nop send_to_comms_session <170>New level, $MSDP_CHARACTER_NAME - %2;
@@ -167,6 +243,10 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 
+
+#NOP #######################################################
+#NOP Handle gain+meta 
+#NOP #######################################################
 #action {Ancestor %1 gains %2 hitpoints, %3 mana, and %4 stamina for gaining 50 levels.} {
     send_to_comms_session <170>Ancestor %1 gains: %2 hitpoints, %3 mana, and %4 stamina;
 }
@@ -205,6 +285,9 @@ event_register {level gain} {remort} {handle_remort_level};
 }
 
 
+#NOP #######################################################
+#NOP Handle proficiency points 
+#NOP #######################################################
 #action {You now have %1 proficiency points available.} {#if ($tanningmaxed==0) {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
 
 #action {Wasat%1s Workshop} {#if ($tanningmaxed==0) {prac tanning};#if { ($skinningmaxed==0) && ($MSDP_LEVEL>49) } {prac skinning}}
@@ -220,6 +303,9 @@ event_register {level gain} {remort} {handle_remort_level};
 
 
 
+#NOP #######################################################
+#NOP Quests 1-5 
+#NOP #######################################################
 #nop LEVEL 1-8
 #alias remort_quest_1 {recall;3swn;buy south;sesd3s;quest;give south cleric}
 #action {The cleric healer tells you, 'Great job!  While by no means exact, the maps will help you find your way more easily.'} {remort_quest_1a}
@@ -277,6 +363,10 @@ event_register {level gain} {remort} {handle_remort_level};
     }
 }
 
+
+#NOP #######################################################
+#NOP Prac skills+professions 
+#NOP #######################################################
 #alias prac_base_class {
     recall;2s2e2s;
     #3 prac critical hits;
@@ -328,69 +418,9 @@ event_register {level gain} {remort} {handle_remort_level};
     recall;
 }
 
-#alias {gogummton} {visit house;dep all;with 100000;egre;3s2es;book gumm}
-
-#action {End of Frontier Pier at Gummton Outpost} {
-    #if { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL<60)} {
-        initialize_wilderness
-    };#elseif { ("$MSDP_ACCOUNT_NAME"=="Kruoill") && (("$MSDP_CLASS"=="Ranger") || ("$MSDP_CLASS"=="Barbarian")) && ($MSDP_LEVEL==60)} {
-        end_wilderness;
-    }
-}
-
-#alias initialize_wilderness {
-    #if {$remort_equipped==0} { #nop First time we enter wilderness;
-        #var time_bloodline_wilderness $MSDP_UPTIME;
-        #math temptime_wilder {$time_bloodline_wilderness - $time_bloodline_start};
-        send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_wilderness}) since start;
-        #unvar temptime_wilder;
-        home;get all case;wear all;get all case;wear all;put all case;get backpack case;
-        #var remort_equipped 1;
-        recall;
-        #show <131>IN WILDERNESS AND EQUIPPED, NEXT STEP: join_gary_group;
-        join_gary_group
-    };
-    profon skinning;
-    #var autopickuphides 1;
-    #var autotooth 0;
-    #var toothcontainer backpack;
-    bot_init;
-    botrole damage;
-    setsummon group;
-    #ticker clearroom profroom 10;
-}
-
-#alias join_gary_group {
-    #var regroup 1;
-    #action {A glowing white portal appears.} {
-        #if $regroup {
-            #var regroup 0;
-            enter portal;
-            fol gary;
-            #unaction {A glowing white portal appears.};
-        };
-        #action {You now follow Gary.} {
-            #unaction {You now follow Gary.};
-            #var time_bloodline_grouped $MSDP_UPTIME;
-            #math temptime_group {$time_bloodline_grouped - $time_bloodline_start};
-            send_to_comms_session <170>Phase: Grouped in Wilderness.  (@return_min_sec{$temptime_group}) since start;
-            #unvar temptime_group;
-        } {1}
-    };
-    tell gary portal me;
-}
-
-#alias end_wilderness {
-    #var time_bloodline_theend $MSDP_UPTIME;
-    #math time_bloodline_end {$time_bloodline_theend - $time_bloodline_start};
-    send_to_comms_session <170>Phase: Arrived at Gummton. (@return_min_sec{$time_bloodline_end}) since start;
-    #unvar time_bloodline_end;
-    gt nohunt;recall;home;get all backpack;put all case;get all hole;put all case;rem all;put all case;rem all;put all case;
-    #show <131>END OF JOURNEY, NEXT STEP: create bloodlines;
-}
-
-
-
+#NOP #######################################################
+#NOP Prepare 1-5 targets 
+#NOP #######################################################
 #alias prepare_towers_of_training {
     #action {A swordswoman is here, practicing with her blade.%1} {settarget 999 @mob_count{"%%1"} sword 1 1 1};
     #action {A foul-smelling goblin skulks about, avoiding your gaze.%1} {settarget 999 @mob_count{"%%1"} goblin 1 1 1};

@@ -472,6 +472,9 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {You pick up %1 leathers.} {#var profession[refining][reset] 1;#var total_leather_pickedup %1;#math total_leather_remaining {$total_leather-%1};#math mats_to_sell {$total_leather_pickedup-1};#math total_rounds_remaining {$total_leather_remaining/$total_leather_pickedup}}
 
+#action {You get some %1 bone from %2.} {#if { ("%1"=="junk") || {"%1"=="rough"} {sac bone} {donate bone home}}}
+
+
 
 
 #alias countmats {#nop};#nop {#math profession[refining][runtime] {$MSDP_UPTIME - $profession[refining][start]};#nop delay removetotal {gt $communication[left] Sold: $profession[refining][sold]  Left: $total_mats_remaining  Laps remaining: $total_rounds_remaining  Time spent: @return_min_sec{$profession[refining][runtime]} $communication[right]} {5}	}
@@ -484,7 +487,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #var autosell 1
 
 #tab sellleathers
-#alias sellleathers {visit house;dep all;e;get all.leather;recall;2s3es;#29 sell leather;visit house;dep all;say $total_leather_remaining leathers left, sold: $profession[refining][sold] haggled:$profession[refining][haggledgold] ($total_rounds_remaining) rounds}
+#alias sellleathers {visit house;dep all;e;get all.leather;recall;2s3es;sell all;visit house;dep all;say $total_leather_remaining leathers left, sold: $profession[refining][sold] haggled:$profession[refining][haggledgold] ($total_rounds_remaining) rounds}
 
 #action {There aren't any leathers here you can take.} {#var autosell 0}
          
