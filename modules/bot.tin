@@ -1239,9 +1239,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 
-< Crom | 9264h 4651m 3658s | a wandering paladin:moderately hurt | fHVS >
-< Crom | 9264h 4703m 3603s | a wandering paladin:near death | Fighting: 4 | fHVS >
-
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
 	#var tankingmobs 0;
