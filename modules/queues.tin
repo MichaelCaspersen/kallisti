@@ -248,6 +248,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"harvest"} #var result 0;
         #case {"extract"} #var result 3000;
         #case {"skin"} #var result 4000;
+        #case {"dfog"} #var result 1000;
         #case {"darkfire"} #var result 1000;
         #case {"lbolt"} #var result 1000;
         #case {"chain"} #var result 1400;
