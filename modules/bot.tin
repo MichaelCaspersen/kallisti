@@ -1256,21 +1256,29 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	};
 } {1}
 
+		 < Kralll | 6532h 3447m 3241s | x:984453426 | f >
+
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4 %5} {
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
-	#var tankingmobs 0;
-	#var cur_opponents 1;
-	#if { ($aggressiveprofession) && ("%3"=="near") } {
-		#show <131>AGRESSIVE PROFESSION;
-		#math spellLock { @mpoch{} + 3000 };
-		$profession[str_corpse] corpse;
-	};
-	#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
-		#show <131>AGRESSIVE LOOT;
-		#math spellLock { @mpoch{} + 3000 };
-		get all.tooth all.corpse;
-		put all.tooth $toothcontainer
-	};
+	#if {"%2"!="x"} { #nop Fix if prompt exp is shown;
+		#var tankingmobs 0;
+		#var cur_opponents 1;
+		#if { ($aggressiveprofession) && ("%3"=="near") } {
+			#show <131>AGRESSIVE PROFESSION;
+			#math spellLock { @mpoch{} + 3000 };
+			$profession[str_corpse] corpse;
+		};
+		#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
+			#show <131>AGRESSIVE LOOT;
+			#math spellLock { @mpoch{} + 3000 };
+			get all.tooth all.corpse;
+			put all.tooth $toothcontainer
+		};
+	}; #else {
+		show_debug {<131>No Combat};
+		#var tankingmobs 0;
+		#var cur_opponents 0
+	}
 } {2}
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2} {
