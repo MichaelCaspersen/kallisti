@@ -121,6 +121,7 @@ Commands:\n
 	#highlight {flawless {hide|bone|meat}} {underscore Jade};
 	#highlight {divine {hide|bone|meat}} {underscore Jade};
 }
+highlight_materials_on;
 
 #alias highlight_materials_off {
 	#unhighlight {junk {hide|bone|meat}};
