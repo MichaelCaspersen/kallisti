@@ -466,14 +466,14 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 
 #action {Your personal donation fairy whisks away the bone to your manor.} {#variable profession[refining][sold] @increment{$profession[refining][sold]}}
 
+#var tanning_session_start $MSDP_UPTIME;
+#var tanning_session_pickup $MSDP_UPTIME;
 #action {Some {hide|bone} from %2 lies here. (%3)} {#math total_mats {$total_mats+%3}}
-#action {A {leather} lies here. (%3)} {#math total_leather {%3}}
-#action {You pick up %1 {hides|bone}.} {#var profession[refining][reset] 1;#var total_mats_pickedup %1;#math total_mats_remaining {$total_mats-%1};#math mats_to_sell {$total_mats_pickedup-1};#math total_rounds_remaining {$total_mats_remaining/$total_mats_pickedup}}
-
-
-#action {You pick up %1 leathers.} {#var profession[refining][reset] 1;#var total_leather_pickedup %1;#math total_leather_remaining {$total_leather-%1};#math mats_to_sell {$total_leather_pickedup-1};#math total_rounds_remaining {$total_leather_remaining/$total_leather_pickedup}}
-
+#action {You pick up %1 {hides|bone}.} {#math tanning_session_pickup_delta {$MSDP_UPTIME-$tanning_session_pickup};#var tanning_session_pickup $MSDP_UPTIME;#math tanning_session_total {$MSDP_UPTIME-$tanning_session_start};send_to_comms_session <170>Tanning: delta ($total_leather_pickedup):@return_min_sec{$tanning_session_pickup_delta}, total ($total_leather):@return_min_sec{$tanning_session_total};#var profession[refining][reset] 1;#var total_mats_pickedup %1;#math total_mats_remaining {$total_mats-%1};#math mats_to_sell {$total_mats_pickedup-1};#math total_rounds_remaining {$total_mats_remaining/$total_mats_pickedup}}
 #action {You get some %1 bone from %2.} {#if { ("%1"=="junk") || {"%1"=="rough"} {sac bone} {donate bone home}}}
+
+#action {A {leather} lies here. (%3)} {#math total_leather {%3}}
+#action {You pick up %1 leathers.} {#var profession[refining][reset] 1;#var total_leather_pickedup %1;#math total_leather_remaining {$total_leather-%1};#math mats_to_sell {$total_leather_pickedup-1};#math total_rounds_remaining {$total_leather_remaining/$total_leather_pickedup}}
 
 
 
