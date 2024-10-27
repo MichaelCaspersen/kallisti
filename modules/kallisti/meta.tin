@@ -348,7 +348,7 @@ init metaHero preferences 0
         with 100000;
         egress;
         3s2es;
-        book gumm;;
+        book gumm;
         #action {Land is in sight!} {
             #delay 10 {#unaction {Land is in sight!};gt &08yeshunt&--}
         };
@@ -360,6 +360,16 @@ init metaHero preferences 0
     #if {"$return_zone"=="Tellurian"} {egress;8sw2se29s9w2sswswswdses4e;enter portal};
     #if {"$return_zone"=="Profession"} {egress;remorttan};
 };
+
+#action {The captain explains, 'the price is 100000 for your ticket'} {
+    #if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} { visit house; } { home; };
+    dep all;
+    with 100000;
+    egress;
+    3s2es;
+    book gumm;
+}
+
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
 #action {^The meta-sage tells you 'You don't have enough gold.} {
