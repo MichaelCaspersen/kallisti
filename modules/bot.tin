@@ -137,6 +137,10 @@ init bot[rescue2] preferences off;
 		#var bot[spellSustain] drain;
 		#var allowedToTank 99;
 
+		#var autopickuphides 1;
+		#var toothcontainer hole;
+		profon skinning;
+
 		#var autobloodlust on;
 		#var autocorpsevisage on;
 		pref autobuf shapechange lich;
