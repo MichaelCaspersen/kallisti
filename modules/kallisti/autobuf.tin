@@ -298,7 +298,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             #case {"Templar"} {nco true};
             #default {
                 #if { ( @groupClassIsPresent{TEM} || @groupClassIsPresent{PRO} || @groupClassIsPresent{DRU}) && ( "$toggle[truesee]"=="on" )} {
-                    queueAdd nco {gt &08true&--}
+                    queueAdd nco {gt &08all true $MSDP_CHARACTER_NAME&--}
                 }
             }
         };
