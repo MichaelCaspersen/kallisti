@@ -473,7 +473,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#math tanning_session_pickup_delta {$MSDP_UPTIME-$tanning_session_pickup};
 	#var tanning_session_pickup $MSDP_UPTIME;
 	#math tanning_session_total {$MSDP_UPTIME-$tanning_session_start};
-	send_to_comms_session <170>Tanning: delta ($total_mats_pickedup):@return_min_sec{$tanning_session_pickup_delta}, total ($total_leather):@return_min_sec{$tanning_session_total};
+	send_to_comms_session <170>Tanning: delta ($total_mats_pickedup):@return_min_sec{$tanning_session_pickup_delta}, total ($total_leather):@return_min_sec{$tanning_session_total},  AvgExp:@avg_xp_per_hour{};
 	#var profession[refining][reset] 1;
 	#var total_mats_pickedup %1;
 	#math total_mats_remaining {$total_mats-%1};
