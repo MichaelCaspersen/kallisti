@@ -393,6 +393,7 @@ init bot[rescue2] preferences off;
 	#var bot[nextActionDebug] {};
 	#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
 	#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$druid_convert_at) && ($nextallowedconvert<$MSDP_UPTIME) } {
+		#math nextallowedconvert {$MSDP_UPTIME + $mintimebetweenconvert};
 		queueAdd any convert;
 	};
 	#if { @is_group_fighting{}==0 } {
