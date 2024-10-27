@@ -320,7 +320,7 @@ init metaHero preferences 0
             #action {Your mana reserve expands with new power.} {buy mana};
             #action {Your heart pounds as your body grows more resilient.} {buy hit};
             #action {Your heart races with fresh energy reserves.} {buy stam};
-            #delay 10 {#show <131>BUY MANA;buy hit}
+            #delay 10 {#show <131>BUY MANA;buy mana}
         };
         #case {"Crom"} {
             #action {Your mana reserve expands with new power.} {buy mana};
