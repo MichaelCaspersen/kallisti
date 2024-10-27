@@ -1396,10 +1396,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
 			queueAdd priority animate corpse;
 		}; #else {
-			#if { (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) } {#show <131>HIT LOW - vdrain;queueAdd priority $bot[spellCorpse] corpse};
-			#else {
-				#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {#show <131>MANA LOW - edrain;queueAdd priority edrain corpse};
-			}
+			#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {#show <131>MANA LOW - edrain;queueAdd priority edrain corpse};
+			#if { (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<80) } {#show <131>HIT/STAM LOW - vdrain;queueAdd priority $bot[spellCorpse] corpse};
 		};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
