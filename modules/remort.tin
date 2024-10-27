@@ -27,7 +27,7 @@ event_register {level gain} {remort} {handle_remort_level};
 #var booster {Liminal};
 #var refresher {Volva}
 #var tanningmaxed 1;
-#var spec_class ranger;
+#var spec_class samurai;
 #var time_bloodline_start $MSDP_UPTIME;
 
 #NOP #######################################################
