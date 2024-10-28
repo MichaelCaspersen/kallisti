@@ -298,7 +298,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
             #case {"Templar"} {nco true};
             #default {
                 #if { ( @groupClassIsPresent{TEM} || @groupClassIsPresent{PRO} || @groupClassIsPresent{DRU}) && ( "$toggle[truesee]"=="on" )} {
-                    queueAdd nco {gt &08true&--}
+                    queueAdd nco {gt &08all true $MSDP_CHARACTER_NAME&--}
                 }
             }
         };
@@ -498,7 +498,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
                 }
 	    	};
 	    	#case {"Necromancer"} {
-                #if {(&MSDP_GROUP) && (&MSDP_GROUP[] > 2) } {
+                #if {(@groupAmILeader{}) && (&MSDP_GROUP) && (&MSDP_GROUP[] > 2) } {
                     #if {$MSDP_MANA > 100} {queueAdd nco {aura group}}
                 } {
                     #if {$MSDP_MANA > 40}  {queueAdd nco {aura}}
@@ -554,7 +554,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
 		#case {"Necromancer"} {
 			#if { ("$autogrim" == "on") } {
                 #if { @autobuf_check{grim ward} } {
-				    #if {(&MSDP_GROUP) && (&MSDP_GROUP[] > 2) } {
+				    #if {(@groupAmILeader{}) && (&MSDP_GROUP) && (&MSDP_GROUP[] > 2) } {
 				    	#if {$MSDP_MANA > 100} {queueAdd nco {grimw group}}
 				    } {
 				    	#if {$MSDP_MANA > 40}  {queueAdd nco {grimw}}

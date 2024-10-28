@@ -137,6 +137,10 @@ init bot[rescue2] preferences off;
 		#var bot[spellSustain] drain;
 		#var allowedToTank 99;
 
+		#var autopickuphides 1;
+		#var toothcontainer hole;
+		profon skinning;
+
 		#var autobloodlust on;
 		#var autocorpsevisage on;
 		pref autobuf shapechange lich;
@@ -390,6 +394,7 @@ init bot[rescue2] preferences off;
 	#var bot[nextActionDebug] {};
 	#math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
 	#if { ("$MSDP_CLASS"=="Druid") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$druid_convert_at) && ($nextallowedconvert<$MSDP_UPTIME) } {
+		#math nextallowedconvert {$MSDP_UPTIME + $mintimebetweenconvert};
 		queueAdd any convert;
 	};
 	#if { @is_group_fighting{}==0 } {
@@ -919,8 +924,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#CASE {3001} {#show <141>END ZONE;#if $zone[active] {#var zone[active] 0}};
 		#CASE {3074} {#show <141>END ZONE;#if $zone[active] {#var zone[active] 0}};
 		#CASE {Bandit} {#show <141>Bandit maze: neswnwse};
-		#CASE {ChaosPortal} {#show <141>Exit portal: unwd};
-		#CASE {ChaosGate} {#show <141>Enter grate: wnwnwe};
+		#CASE {15000} {#show <141>Exit portal: unwd};
+		#CASE {15000} {#show <141>Enter grate(city): wnwnwe};
 		#CASE {13340} {#show <141>Grelic Maze: ws2nesweswn2s};
 		#DEFAULT {#nop};
 	};	
@@ -1392,9 +1397,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
 			queueAdd priority animate corpse;
 		}; #else {
-			#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<80) || (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) } {
-				queueAdd priority $bot[spellCorpse] corpse;
-			};	
+			#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {#show <131>MANA LOW - edrain;queueAdd priority edrain corpse};
+			#if { (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<80) } {#show <131>HIT/STAM LOW - vdrain;queueAdd priority $bot[spellCorpse] corpse};
 		};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
