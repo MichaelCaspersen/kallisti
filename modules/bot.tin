@@ -1334,10 +1334,20 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var toothcontainer backpack;
 #alias lootgold {get gold all.corpse}
 #alias loottooth {nco get tooth all.corpse;nco put all.tooth $toothcontainer}
-#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth;nco put all.tooth $toothcontainer}}
-#action {Gary drops %1 tooth.} {#if $autotooth {get all.tooth;put all.tooth $toothcontainer}} 
-#action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get tooth all.corpse}
-#action {You get a %1 tooth from the corpse of a %2.} {put all.tooth $toothcontainer}
+#action {A gleaming, knife-length tooth lies here.} {
+	#if $autotooth {
+		nco get all.tooth all.corpse;
+		nco put all.tooth $toothcontainer
+	}
+}
+#action {Gary drops %1 tooth.} {
+	#if $autotooth {
+		nco get all.tooth all.corpse;
+		nco put all.tooth $toothcontainer
+	}
+} 
+#action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;nco get all.tooth all.corpse}
+#action {You get a %1 tooth from the corpse of a %2.} {nco put all.tooth $toothcontainer}
 
 #highlight {You get a %1 tooth from the corpse of a %2.} {cyan}
 #highlight {You extract some %2 bone from %3.} {cyan}
@@ -1392,7 +1402,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #ACTION {%0 is dead!  R.I.P.} {
 	#if {$profession[gather][auto]} { do_gather %0 };
-	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth $toothcontainer };
+	#if { $autotooth } { 
+		nco get all.tooth all.corpse;
+		nco put all.tooth $toothcontainer
+	};
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	show_debug {<123>%0 is dead, what to do!!};
