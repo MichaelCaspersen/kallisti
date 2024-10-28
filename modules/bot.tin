@@ -223,6 +223,7 @@ init bot[rescue2] preferences off;
 		#var druid_convert_at 70;
 		#var nextallowedconvert 0;
 		#var mintimebetweenconvert 30;
+		#var healpct_damage_allowed 25;
 
 		#var autobark on;
 		#var autobless on;
@@ -449,15 +450,19 @@ init bot[rescue2] preferences off;
 						#var bot[nextActionDebug] {$bot[nextActionDebug], low life DRAIN };
 						#var bot[nextAction] {queueAdd heal drain};
 					}; #else {
-						#var bot[nextActionDebug] {$bot[nextActionDebug], target too low, nuke };
-						#var bot[nextAction] {queueAdd combat attackTarget};
+						#if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>20 } {
+							#var bot[nextActionDebug] {$bot[nextActionDebug], target too low, nuke };
+							#var bot[nextAction] {queueAdd combat attackTarget};
+						};
 					}
 				}; #else {
-					#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
-					#var bot[nextAction] {queueAdd combat attackTarget};
+					#if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>20 } {
+						#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
+						#var bot[nextAction] {queueAdd combat attackTarget};
+					};
 				};
 			};
-			#elseif { ("$bot[role]" == "healer") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
+			#elseif { (("$bot[role]" == "healer") || ("$MSDP_CLASS" == "Druid")) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
 				#nop Don't do damage, mana too low;
 			};
 			#else {
@@ -1419,6 +1424,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
+	#if {$profession[gather][auto]} { do_gather %0 };
+	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth $toothcontainer };
+	cleartarget;
+	#var lastkilltime $MSDP_UPTIME;
+	show_debug {<123>%0 is dead, what to do!!};
 	#if { ($MSDP_EXPERIENCE>$needmetaat) } { nco return_and_meta };
 	#if { $bot[examine] } { nco exa corpse };
 	#if { $bot[controlweather] } { nco cweather $bot[weatherdir] };
