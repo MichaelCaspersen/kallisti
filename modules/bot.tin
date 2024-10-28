@@ -449,13 +449,17 @@ init bot[rescue2] preferences off;
 					#if { @pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25 } {
 						#var bot[nextActionDebug] {$bot[nextActionDebug], low life DRAIN };
 						#var bot[nextAction] {queueAdd heal drain};
-					}; #elseif { @pct{$MSDP_MANA;$MSDP_MANA_MAX}>20 } {
-						#var bot[nextActionDebug] {$bot[nextActionDebug], target too low, nuke };
-						#var bot[nextAction] {queueAdd combat attackTarget};
+					}; #else {
+						#if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>20 } {
+							#var bot[nextActionDebug] {$bot[nextActionDebug], target too low, nuke };
+							#var bot[nextAction] {queueAdd combat attackTarget};
+						};
 					}
 				}; #else {
-					#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
-					#var bot[nextAction] {queueAdd combat attackTarget};
+					#if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>20 } {
+						#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
+						#var bot[nextAction] {queueAdd combat attackTarget};
+					};
 				};
 			};
 			#elseif { (("$bot[role]" == "healer") || ("$MSDP_CLASS" == "Druid")) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
