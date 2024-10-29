@@ -143,11 +143,11 @@ init bot[rescue2] preferences off;
 
 		#var autobloodlust on;
 		#var autocorpsevisage on;
-		pref autobuf shapechange lich;
 		#var autoaura on;
 		#var autowraithform on;
 		#var autogrim on;
-		#var autozombieform on;
+		pref autobuf shapechange none;
+		#var autozombieform off;
 	};
 
 	#NOP #######################################################;
