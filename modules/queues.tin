@@ -244,6 +244,8 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"mobAttack"} #var result 8000;
         #case {"fkill"} #var result 5000;
         #case {"get"} #var result 500;
+        #case {"hide"} #var result 500;
+        #case {"put"} #var result 500;
         #case {"drop"} #var result 500;
         #case {"harvest"} #var result 0;
         #case {"extract"} #var result 3000;
