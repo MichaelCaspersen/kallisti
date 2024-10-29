@@ -1359,16 +1359,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var toothcontainer backpack;
 #alias lootgold {get gold all.corpse}
 #alias loottooth {nco get all.tooth all.corpse;}
-#action {A gleaming, knife-length tooth lies here.} {
-	#if $autotooth {
-		nco get all.tooth all.corpse;
-	}
-}
-#action {Gary drops %1 tooth.} {
-	#if $autotooth {
-		nco get all.tooth all.corpse;
-	}
-} 
+#action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth}}
+#action {Gary drops %1 tooth.} {#if $autotooth {nco get all.tooth}} 
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get all.tooth all.corpse}
 #action {You get a %1 tooth from the corpse of a %2.} {nco put all.tooth $toothcontainer;}
 #action {You get a %1 tooth.} {nco put all.tooth $toothcontainer;}
