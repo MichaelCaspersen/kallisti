@@ -185,10 +185,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP Professions - Gathering;
 #NOP #######################################################
 
-#alias profroom {#var clearingroom 1;#var room_corpse_id 0;$profession[str_corpse] corpse}
-#action {It isn't quality enough to {skin|extract|butcher}} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
-#action {You {skin|extract|butcher} it but you make a mess of it.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
-#action {You can't {skin|extract|butcher} a corpse from %1.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};$profession[str_corpse] $room_corpse_id.corpse;}}
+#alias profroom {#var clearingroom 1;#var room_corpse_id 0;queueAdd any {$profession[str_corpse] corpse}}
+#action {It isn't quality enough to {skin|extract|butcher}} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {$profession[str_corpse] $room_corpse_id.corpse}}}
+#action {You {skin|extract|butcher} it but you make a mess of it.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {$profession[str_corpse] $room_corpse_id.corpse}}}
+#action {You can't {skin|extract|butcher} a corpse from %1.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {$profession[str_corpse] $room_corpse_id.corpse}}}
 #action {You must also specify what you want to {skin|extract|butcher}.} {#var clearingroom 0}
 
 
@@ -197,10 +197,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	show_debug {<157><<< $profession[gather][type] ? >>%0<<   , in list: &zone[proflist]["%0"] >>>};
 	#if { $profession[gather][auto] } {
 		#if { $profession[gather][all] } {
-			queueAdd any { $profession[str_corpse] corpse};
+			queueAdd any {$profession[str_corpse] corpse};
 		};#else {
 			#if { &zone[proflist]["%0"]>0 } {
-				queueAdd any { $profession[str_corpse] corpse };
+				queueAdd any {$profession[str_corpse] corpse};
 			}
 		}
 	}
@@ -225,7 +225,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 	#if {$clearingroom==1} {
 		#math room_corpse_id {$room_corpse_id+1};
-		$profession[str_corpse] $room_corpse_id.corpse;
+		queueAdd any {$profession[str_corpse] $room_corpse_id.corpse};
 	}
 }
 

@@ -1276,7 +1276,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if { ($aggressiveprofession) && ("%3"=="near") } {
 		#show <131>AGRESSIVE PROFESSION;
 		#math spellLock { @mpoch{} + 3000 };
-		$profession[str_corpse] corpse;
+		queueAdd any {$profession[str_corpse] corpse};
 	};
 	#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
 		#show <131>AGRESSIVE LOOT;
@@ -1316,11 +1316,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 } {4}
 
 #var predeathdelay 0.1;
-#action {%1's body turns solid when %2's frostbite freezes %3.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse] corpse}}
-#action {The dead body of %1 sizzles in the heat from an arcing lightning bolt sent by %2.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse] corpse}}
-#action {%1 collapses in a spray of blood as %2's meteor storm pulverizes %3 body.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse] corpse}}
-#action {%1 is stunned but will probably regain consciousness again.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse] corpse}}
-#action {%1's slice to the back of %2's legs drops %3... and %4 doesn't get back up.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay $profession[str_corpse] corpse}}
+#action {%1's body turns solid when %2's frostbite freezes %3.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {The dead body of %1 sizzles in the heat from an arcing lightning bolt sent by %2.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1 collapses in a spray of blood as %2's meteor storm pulverizes %3 body.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1 is stunned but will probably regain consciousness again.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1's slice to the back of %2's legs drops %3... and %4 doesn't get back up.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
 
 #gag {You can't seem to find any corpses here.}
 #gag {You must also specify what you want to skin.}
