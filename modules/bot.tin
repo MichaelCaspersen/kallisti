@@ -133,9 +133,12 @@ init bot[rescue2] preferences off;
 	#if { "$MSDP_CLASS" == "Necromancer" } {
 		#var bot[damage][single] creeping;
 		#var bot[damage][multiple] dfog;
-		#var bot[spellCorpse] vdrain; #NOP options:   edrain/vdrain/viscera;
 		#var bot[spellSustain] drain;
 		#var allowedToTank 99;
+
+		#var necro_manadrain 50; #nop %;
+		#var necro_lifedrain 80; #nop %;
+		#var necro_lifedrain 40; #nop %;
 
 		#var autopickuphides 1;
 		#var toothcontainer hole;
@@ -156,7 +159,6 @@ init bot[rescue2] preferences off;
 	#if { "$MSDP_CLASS" == "Prophet" } {
 		#var bot[damage][single] lbolt;
 		#var bot[damage][multiple] icestorm;
-		#var bot[spellCorpse] #nop;
 		#var bot[spellSustain] heal;
 		#var bot[controlweather] 0;
 
@@ -1436,8 +1438,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
 			queueAdd priority animate corpse;
 		}; #else {
-			#if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<50) } {#show <131>MANA LOW - edrain;queueAdd priority edrain corpse};
-			#if { (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<80) } {#show <131>HIT/STAM LOW - vdrain;queueAdd priority $bot[spellCorpse] corpse};
+			#NOP options:   edrain/vdrain/viscera;
+			#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_mana_drain) } {#show <131>MANA LOW - edrain;#var bot[spellCorpse] edrain};
+			#if { ($MSDP_LEVEL>=40) && (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<necro_stamdrain) } {#show <131>HIT/STAM LOW - vdrain;#var bot[spellCorpse] vdrain};
+			#if { ($MSDP_LEVEL>=75) && (@gotFollowers{}>0) } {#show <131>FOLLOWERS HEAL ALL - viscera;#var bot[spellCorpse] viscera};
+			queueAdd priority $bot[spellCorpse] corpse
 		};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
