@@ -138,7 +138,7 @@ init bot[rescue2] preferences off;
 
 		#var necro_manadrain 50; #nop %;
 		#var necro_lifedrain 80; #nop %;
-		#var necro_lifedrain 40; #nop %;
+		#var necro_stamdrain 40; #nop %;
 
 		#var autopickuphides 1;
 		#var toothcontainer hole;
