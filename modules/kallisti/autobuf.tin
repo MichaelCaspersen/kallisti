@@ -165,11 +165,11 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
     };
 
     #if {"$toggle[hide]" == "on"} {
-        #regex {$MSDP_PROMPT} {h} {#nop} {doHide};
+        #regexp {$MSDP_PROMPT} {h} {#nop} {doHide};
     };
 
     #if {"$toggle[shroud]" == "on"} {
-        #regex {$MSDP_PROMPT} {I} {#nop} {doShroud};
+        #regexp {$MSDP_PROMPT} {I} {#nop} {doShroud};
     };
 
     #if {@hasAffect{haste} < 1} {
@@ -690,7 +690,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
 }
 
 #function autobuf_abbreviations {
-    #regex {sanctuary} {{^%1}} {#return sanctuary};
+    #regexp {sanctuary} {{^%1}} {#return sanctuary};
     #return %1
 }
 

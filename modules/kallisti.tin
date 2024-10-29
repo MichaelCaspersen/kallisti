@@ -164,6 +164,7 @@ event_register {variable MSDP_CHARACTER_NAME} {left} {update_player_info %1};
 event_register {variable MSDP_LEVEL}  {left} {update_player_info %1};
 event_register {variable MSDP_CLASS} {left} {update_player_info %1};
 event_register {variable MSDP_RACE} {left} {update_player_info %1};
+event_register {variable MSDP_RACE} {bot} {drainRace %1};
 event_register {variable MSDP_STR} {left} {update_player_info %1};
 event_register {variable MSDP_DEX} {left} {update_player_info %1};
 event_register {variable MSDP_INT} {left} {update_player_info %1};

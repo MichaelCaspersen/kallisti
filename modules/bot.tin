@@ -447,7 +447,7 @@ init bot[rescue2] preferences off;
 		#else {
 			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
 				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
-					#if { @pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25 } {
+					#if { (@pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25) && ($drainrace) } {
 						#var bot[nextActionDebug] {$bot[nextActionDebug], low life DRAIN };
 						#var bot[nextAction] {queueAdd heal drain};
 					}; #else {
@@ -1153,6 +1153,25 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You can't see a darn thing -- you're blind!} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Prophet")} {queueAdd priority cure}}
 #action {Your sight has returned.} {get all.gold all.corpse}
 
+#var drainrace 0;
+#alias drainRace {
+	show_debug {<131>RACE CHANGED,<$MSDP_RACE>};
+	#regexp {"$MSDP_RACE"} {"skeleton"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"phantom"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"spectre"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"ghoul"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"wight"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"lich"} {#var resdrainraceult 1} {#var drainrace 0};
+
+	#regexp {"$MSDP_RACE"} {"succubus"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"gorgon"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"ice demon"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"kappa"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"fire demon"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"devil"} {#var drainrace 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"archdemon"} {#var drainrace 1} {#var drainrace 0};
+}
+	
 
 #NOP Druid/Prophet specific
 #action {You call upon the forces of nature to heal yourself.} {
