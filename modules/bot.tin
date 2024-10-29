@@ -1431,10 +1431,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			queueAdd priority animate corpse;
 		}; #else {
 			#NOP options:   edrain/vdrain/viscera;
-			#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_mana_drain) } {#show <131>MANA LOW - edrain;#var bot[spellCorpse] edrain};
+			#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) } {#show <131>MANA LOW - edrain;#var bot[spellCorpse] edrain};
 			#if { ($MSDP_LEVEL>=40) && (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<necro_stamdrain) } {#show <131>HIT/STAM LOW - vdrain;#var bot[spellCorpse] vdrain};
 			#if { ($MSDP_LEVEL>=75) && (@gotFollowers{}>0) } {#show <131>FOLLOWERS HEAL ALL - viscera;#var bot[spellCorpse] viscera};
-			#show <131>$MSDP_LEVEL Mana: @pct{$MSDP_MANA;$MSDP_MANA_MAX} $necro_mana_drain     @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} $necro_lifedrain     @gotFollowers{} 0    SPELL: $bot[spellCorpse];
+			#show <131>$MSDP_LEVEL Mana: @pct{$MSDP_MANA;$MSDP_MANA_MAX} $necro_manadrain     @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} $necro_lifedrain     @gotFollowers{} 0    SPELL: $bot[spellCorpse];
 			queueAdd priority $bot[spellCorpse] corpse
 		};
 		#if {@gotFollowers{}>0} { nco lootgold };
