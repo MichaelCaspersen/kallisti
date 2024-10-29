@@ -1338,7 +1338,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #variable autotooth 1;
 #var toothcontainer backpack;
 #alias lootgold {get gold all.corpse}
-#alias loottooth {nco get tooth all.corpse;nco put all.tooth $toothcontainer}
+#alias loottooth {nco get all.tooth all.corpse;nco put all.tooth $toothcontainer}
 #action {A gleaming, knife-length tooth lies here.} {
 	#if $autotooth {
 		nco get all.tooth all.corpse;
@@ -1425,7 +1425,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
 	#if {$profession[gather][auto]} { do_gather %0 };
-	#if { $autotooth } { nco get tooth all.corpse;nco put all.tooth $toothcontainer };
+	#if { $autotooth } { nco get all.tooth all.corpse;nco put all.tooth $toothcontainer };
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
 	show_debug {<123>%0 is dead, what to do!!};
