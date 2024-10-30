@@ -1140,11 +1140,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {You recite a scroll of recall which dissolves.} {
-	get reca all;
+	get rec all;
 }
 
 
-#action {There doesn't seem to be a recall in %1.} {#if $stock[recall] {home;with 27010;recall;2s2wn;#10 buy recall;put all.reca $container;res2e2n}};
+#action {There doesn't seem to be a recall in %1.} {#if $stock[recall] {home;with 27010;recall;2s2wn;#10 buy rec;put all.rec $container;res2e2n}};
 #action {There doesn't seem to be a purple in %1.} {#if $stock[purple] {recall;2s3wn;#10 buy purple;put all.purple $container;s3e2n}};
 
 #alias update_weapons {
@@ -1252,7 +1252,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {**Gary: 'PANIC RECALL'} {#if {"$MSDP_CLASS" == "Prophet"} {mir group;queueAdd priority recall}} {1}
 
 #action {You are dead!  Better luck next time...} {#delay 5 {#show <131>DEAD RELOGGING;1;#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show <131>DEAD IN WILDERNESS BUY CR;3n;with 5000000;buy cr;dep all}}}
-#action {Lezalas gives you the corpse of $MSDP_CHARACTER_NAME.} {bot_init;dep all;get all corpse;wear all;get all corpse;wear all;get all corpse;wear all;put all.recall back;get all corpse;wear all;#var regroup 1;#delay 60 {tell gary portal me}}
+#action {Lezalas gives you the corpse of $MSDP_CHARACTER_NAME.} {bot_init;dep all;get all corpse;wear all;get all corpse;wear all;get all corpse;wear all;put all.rec $container;get all corpse;wear all;#var regroup 1;#delay 60 {tell gary portal me}}
 #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
 #var regroup 0;
 
@@ -1352,11 +1352,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
 	#show <131>I'm tanking $tankingmobs mobs;
-	#if { ($tankingmobs>=$allowedToTank) && ($getoutnow==0) } {
+	#if { ($getoutnow==0) && (($tankingmobs>=$allowedToTank) || (@leaderIsPresent{}==0)) } {
 		#var getoutnow 1;
-		#show <131>GET OUT!! Tanking $tankingmobs mobs;
-		#if {$MSDP_QUEUE>0} {breakout};
-		queueAdd priority {recal}
+		#show <131>GET OUT!! Tanking $tankingmobs mobs, leader here:@leaderIsPresent{};
+		#if {$MSDP_QUEUE>2} {breakout};
+		queueAdd priority {recall}
 	}
 }
 
@@ -1374,7 +1374,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth}}
 #action {Gary drops %1 tooth.} {#if $autotooth {nco get all.tooth}} 
-#action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get all.tooth all.corpse}
+#action {a %1 tooth: You can't carry that many items.}{put all.rec backpack;get rec backpack;get all.tooth all.corpse}
 #action {You get a %1 tooth from the corpse of a %2.} {nco put all.tooth $container;}
 #action {You get a %1 tooth.} {nco put all.tooth $container;}
 

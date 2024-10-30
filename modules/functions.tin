@@ -390,6 +390,15 @@
     #return 1;
 }
 
+#function leaderIsPresent {
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if { ("$MSDP_GROUP[$index][name]" == "$MSDP_CHARACTER_NAME") && ($MSDP_GROUP[$index][with_leader] == 1 ) } {
+            #return 1;
+        }
+    };
+    #return 0;
+}
+
 #nop -- This uses the three letter combo thing
 #function groupClassIsPresent {                                                                                 
     #loop {1} {&MSDP_GROUP[]} {index} {
