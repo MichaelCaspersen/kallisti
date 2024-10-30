@@ -62,8 +62,6 @@
 	};
 	#switch {"$MSDP_CLASS"} {
 		#case {"Necromancer"} {
-			#show <131>bot_init;
-			bot_init;
 		};
 		#case {"Demoniac"} {
 		};
@@ -78,6 +76,7 @@
 		}
 	};
 	#line oneshot #tick {clear} {#buffer end} {0.5};
+	#line bot_init #tick {bot_init} {bot_init} {0.5};
 	#if {@is_alias{player_setup}} {player_setup %1};
 }
 
