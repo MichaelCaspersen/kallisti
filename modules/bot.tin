@@ -1864,3 +1864,4 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop var zone[proflist] {{"The thri-kreen scout"};{"The thri-kreen hunter"};{"The experienced looking thri-kreen"};{"The thri-kreen guard"};{"XXXXX"};{"XXXXXXX"};{"XXXXXXX"}};
 
 
+bot_init;
