@@ -76,7 +76,7 @@
 		}
 	};
 	#line oneshot #tick {clear} {#buffer end} {0.5};
-	#line bot_init #tick {bot_init} {bot_init} {0.5};
+	#delay 1 {bot_init};
 	#if {@is_alias{player_setup}} {player_setup %1};
 }
 
