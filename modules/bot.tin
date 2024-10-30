@@ -77,6 +77,7 @@ Commands:\n
 #var bot[examine] 1;
 #var bot[controlweather] 0;
 #var bot[weatherdir] {better}; #nop better/worse
+#var autotooth 0;
 
 init bot[role2] preferences damage;
 init bot[cast2] preferences on;
@@ -142,7 +143,8 @@ init bot[rescue2] preferences off;
 		#var necro_stamdrain 40; #nop %;
 
 		#var autopickuphides 1;
-		#var toothcontainer hole;
+		#var autotooth 0;
+		#var container hole;
 		profon skinning;
 
 		#var autobloodlust on;
@@ -163,6 +165,9 @@ init bot[rescue2] preferences off;
 		#var bot[spellSustain] heal;
 		#var bot[controlweather] 0;
 		botrole healer;
+
+		#var autotooth 1;
+		#var container backpack;
 
 		#var autobless on;
 		#var autodarmor on;
@@ -196,6 +201,9 @@ init bot[rescue2] preferences off;
 		#var bot[damage][multiple] {zeal};
 		#var allowedToTank 99;
 
+		#var autotooth 1;
+		#var container backpack;
+
 		#nop var toggle[focus] on;
 		#nop var toggle[prayer] on;
 		#nop var toggle[focus] on;
@@ -210,6 +218,8 @@ init bot[rescue2] preferences off;
 		#var bot[cast] 1;
 		#var bot[damage][single] {hamstring};
 		#var bot[damage][multiple] {hamstring};
+		#var autotooth 1;
+		#var container backpack;
 	};
 
 	#NOP #######################################################;
@@ -228,7 +238,7 @@ init bot[rescue2] preferences off;
 		#var nextallowedconvert 0;
 		#var mintimebetweenconvert 30;
 		#var healpct_damage_allowed 25;
-		#var toothcontainer hole;
+		#var container hole;
 
 		#var autobark on;
 		#var autobless on;
@@ -263,8 +273,8 @@ init bot[rescue2] preferences off;
 		#case {"Malai"} {
 			group all;
 			botrole leader;
-			#var bot[damage][single] {};
-			#var bot[damage][multiple] {};
+			#var bot[damage][single] {tornado};
+			#var bot[damage][multiple] {tornado};
 			#var bot[spellSustain] heal;
 			botcast 1;
 			botpoke 1;
@@ -272,7 +282,7 @@ init bot[rescue2] preferences off;
 			#var bot[mount][name] dragonne;
 			#var container {backpack};
 			#var weapon_pri {knife};
-			#var weapon_sec {};
+			#var weapon_sec {knife};
 		 };
 		#case {"Shaita"} {
 			botrole damage;
@@ -523,6 +533,9 @@ init bot[rescue2] preferences off;
 #tab stats_reset;
 #alias stats_reset {
 	#var stats {};
+	#var stats[damage][dragonstrike] 0;
+	#var stats[damage][smite] 0;
+	#var stats[damage][deathtwirl] 0;
 	#var stats[damage][zeal] 0;
 	#var stats[damage][icestorm] 0;
 	#var stats[damage][earthquake] 0;
@@ -1320,11 +1333,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 } {4}
 
 #var predeathdelay 0.1;
-#action {%1's body turns solid when %2's frostbite freezes %3.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
-#action {The dead body of %1 sizzles in the heat from an arcing lightning bolt sent by %2.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
-#action {%1 collapses in a spray of blood as %2's meteor storm pulverizes %3 body.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
-#action {%1 is stunned but will probably regain consciousness again.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
-#action {%1's slice to the back of %2's legs drops %3... and %4 doesn't get back up.} {#if {$profession[gather][auto]} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1's body turns solid when %2's frostbite freezes %3.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {The dead body of %1 sizzles in the heat from an arcing lightning bolt sent by %2.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1 collapses in a spray of blood as %2's meteor storm pulverizes %3 body.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1 is stunned but will probably regain consciousness again.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1's slice to the back of %2's legs drops %3... and %4 doesn't get back up.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
 
 #gag {You can't seem to find any corpses here.}
 #gag {You must also specify what you want to skin.}
@@ -1351,21 +1364,18 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop "><" indicates that you are targetting one another.
 
 #action {A sabertooth tiger wanders around here looking for food.}{#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
-#unaction {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
-#ACTION {A smilodon is here, fighting } {#nop}
-#ACTION {You must wait for a smilodon to stand up first.} {#nop}
 #ACTION {A smilodon arrives.} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} {4}
-#action {You need to wield a weapon to attempt to hamstring.} {wear all}
+#unaction {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
 
-#variable autotooth 1;
-#var toothcontainer backpack;
+#action {You need to wield a weapon to attempt to hamstring.} {wear all}
 #alias lootgold {get gold all.corpse}
 #alias loottooth {nco get all.tooth all.corpse;}
+
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth}}
 #action {Gary drops %1 tooth.} {#if $autotooth {nco get all.tooth}} 
 #action {a %1 tooth: You can't carry that many items.}{put all.recall backpack;get recall backpack;get all.tooth all.corpse}
-#action {You get a %1 tooth from the corpse of a %2.} {nco put all.tooth $toothcontainer;}
-#action {You get a %1 tooth.} {nco put all.tooth $toothcontainer;}
+#action {You get a %1 tooth from the corpse of a %2.} {nco put all.tooth $container;}
+#action {You get a %1 tooth.} {nco put all.tooth $container;}
 
 #highlight {You get a %1 tooth from the corpse of a %2.} {cyan}
 #highlight {You get a %1 tooth.} {cyan}
