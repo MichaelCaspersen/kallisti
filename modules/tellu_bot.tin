@@ -324,9 +324,6 @@ event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
 }
 
 
-Clan: FTB (Sorter of Bins)
-
-
 #alias tellu_summon {
     #if {&need_summons[]>0} {
         #loop 1 &need_summons[] {id} {
