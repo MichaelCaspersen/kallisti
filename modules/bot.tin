@@ -1444,7 +1444,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if { ($MSDP_EXPERIENCE>$needmetaat) } { nco return_and_meta };
 	#if { $bot[examine] } { nco exa corpse };
 	#if { $bot[controlweather] } { nco cweather $bot[weatherdir] };
-	#math stat[kill][%0] {$stat[kill][%0]+1};#var stat[kill];#nop Show kills
+	#math stats[kill][%0] {$stats[kill][%0]+1};#nop stats[kill];#nop Show kills
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
