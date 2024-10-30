@@ -455,7 +455,9 @@ init bot[rescue2] preferences off;
 			#else {
 				#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
 				#show <131><TOO LOW ($recall_below_hit) - RECALL;
-				#var bot[nextAction] {queueAdd priority recall};
+				#if {$MSDP_QUEUE>2} {breakout};
+				queueAdd priority {recall}
+				#nop var bot[nextAction] {queueAdd priority recall};
 			}
 		}; 
 		#else {
