@@ -1371,6 +1371,23 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #unaction {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
 
 #action {You must either wield a weapon or remove your wielded item and fight bare-handed.} {wear all}
+
+#alias equipweapons {
+	#SWITCH {"$MSDP_CHARACTER_NAME"} {
+		#CASE {"Loke"} {
+			#if {"$MSDP_WIELD"!="a spiteful spear"} {rem scalpel;wield spiteful;grab scalpel}"
+		};
+		#CASE {"Sun"} {
+			#if {"$MSDP_WIELD"!="a katana"} {wield katana;wear all}"
+		};
+		#CASE {"Kaicha"} {
+			#if {"$MSDP_WIELD"!="a katana"} {wield katana;wear all}"
+		};
+		#DEFAULT {#nop}
+	};
+	
+}
+
 #action {You need to wield a weapon to attempt to hamstring.} {wear all}
 #alias lootgold {get gold all.corpse}
 #alias loottooth {nco get all.tooth all.corpse;}
