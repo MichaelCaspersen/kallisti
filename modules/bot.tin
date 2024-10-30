@@ -1420,7 +1420,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias ftank {	reform follow%1 prima; }
 
 #var needmetaat 3800000000;
-
+#var drain_corpses 0;
 #ACTION {%0 is dead!  R.I.P.} {
 	#if {$profession[gather][auto]} { do_gather %0 };
 	#if { $autotooth } {nco get all.tooth all.corpse;};
@@ -1431,6 +1431,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#var auto[candrain] 1;
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
 			queueAdd priority animate corpse;
+		}; #elseif {$gathercorpses} {
+			#action {You get the corpse of %1.} {#math drain_corpses {$drain_corpses+1};#unaction {You get the corpse of %1.};nco ecorpse corpse};
+			#action {You connect the corpse of %1 to the ethereal realm. It fades slightly.} {#unaction {You connect the corpse of %1 to the ethereal realm. It fades slightly.};put corpse $container};
+			get corpse
 		}; #else {
 			#NOP options:   edrain/vdrain/viscera;
 			#var bot[spellCorpse] {};
