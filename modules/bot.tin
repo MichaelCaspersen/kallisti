@@ -135,6 +135,7 @@ init bot[rescue2] preferences off;
 		#var bot[damage][multiple] dfog;
 		#var bot[spellSustain] drain;
 		#var allowedToTank 99;
+		botrole damage;
 
 		#var necro_manadrain 50; #nop %;
 		#var necro_lifedrain 80; #nop %;
@@ -161,6 +162,7 @@ init bot[rescue2] preferences off;
 		#var bot[damage][multiple] icestorm;
 		#var bot[spellSustain] heal;
 		#var bot[controlweather] 0;
+		botrole healer;
 
 		#var autobless on;
 		#var autodarmor on;
@@ -1375,8 +1377,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #HIGHLIGHT {Sword of the spirit pulses with white hot energy, filling your party with joy!} {lime}
 #HIGHLIGHT {You use %1 to focus your spell.} {yellow};
 
-#nop ACTION {%0 is dead!  R.I.P.} {get all.tooth all.corpse;put all.tooth back;#if { ($MSDP_STAMINA>300) && ("%0"!="A massive harvester spider")} {nco extract corpse};#math stat[kill][%0] {$stat[kill][%0]+1};#var stat[kill]}
-
 #NOP #######################################################
 #NOP General
 #NOP #######################################################
@@ -1388,8 +1388,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {The gust of wind knocks you to the ground.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 #action {You try to ride %1, but you fall on your butt.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
 #action {You lose control and fall off of %1.} {stand;#if { "$bot[mount][name]" !="" } {ride $bot[mount][name]}}
-
-
 
 #action {You grunt in frustration trying to chop up the vines entangling %1.} {chop %1}
 
@@ -1408,23 +1406,16 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#return $followers;
 }
 
-
-#alias dowildernessdrain {#if { (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80) } {#show \n<131>WILDERNESS CHECK - LOW LIFE;vdrain corpse} { #if { (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<80) } {#show \n<131>WILDERNESS CHECK - LOW MANA;edrain corpse} {#show \n<172>WILDERNESS CHECK - ALL GOOD}}}
-
-
-
 #alias ftank {	reform follow%1 prima; }
 
 #var needmetaat 3800000000;
 
 #ACTION {%0 is dead!  R.I.P.} {
 	#if {$profession[gather][auto]} { do_gather %0 };
-	#if { $autotooth } { 
-		nco get all.tooth all.corpse;
-	};
+	#if { $autotooth } {nco get all.tooth all.corpse;};
+	show_debug {<123>%0 is dead, what to do!!};
 	cleartarget;
 	#var lastkilltime $MSDP_UPTIME;
-	show_debug {<123>%0 is dead, what to do!!};
 	#if { "$MSDP_CLASS"=="Necromancer"} {
 		#var auto[candrain] 1;
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
@@ -1435,19 +1426,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) } {#show <131>MANA LOW [@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain] - edrain;#var bot[spellCorpse] edrain};
 			#if { ($MSDP_LEVEL>=40) && (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<$necro_stamdrain) } {#show <131>HITS [@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_manadrain]  STAM [@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<$necro_stamdrain] LOW - vdrain;#var bot[spellCorpse] vdrain};
 			#if { ($MSDP_LEVEL>=75) && (@gotFollowers{}>0) } {#show <131>FOLLOWERS HEAL ALL - viscera;#var bot[spellCorpse] viscera};
-			#nop show <131>Level[$MSDP_LEVEL]   Mana: @pct{$MSDP_MANA;$MSDP_MANA_MAX} $necro_manadrain     Life: @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} $necro_lifedrain    @pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} $necro_stamdrain   SPELL: $bot[spellCorpse];
+			show_debug {<131>Level[$MSDP_LEVEL]   Mana: @pct{$MSDP_MANA;$MSDP_MANA_MAX} $necro_manadrain     Life: @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} $necro_lifedrain    @pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} $necro_stamdrain   DECIDED SPELL: $bot[spellCorpse]};
 			#if {"$bot[spellCorpse]"!=""} {queueAdd priority $bot[spellCorpse] corpse}
 		};
 		#if {@gotFollowers{}>0} { nco lootgold };
 	};
-	#if {$profession[gather][auto]} { do_gather %0 };
-	#if { $autotooth } { nco get all.tooth all.corpse};
-	cleartarget;
-	#var lastkilltime $MSDP_UPTIME;
-	show_debug {<123>%0 is dead, what to do!!};
 	#if { ($MSDP_EXPERIENCE>$needmetaat) } { nco return_and_meta };
 	#if { $bot[examine] } { nco exa corpse };
 	#if { $bot[controlweather] } { nco cweather $bot[weatherdir] };
+	#math stat[kill][%0] {$stat[kill][%0]+1};#var stat[kill];#nop Show kills
 }
 
 #ACTION {The %1 {above|below|to the .*} seems to be closed.}
@@ -1468,7 +1455,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#replace {i} {above} {up};
 	#replace {i} {below} {down};
 	#replace {i} {to the } {};
-	#nop {Hook name: closed.};
+	#nop {Hook name: locked.};
 	#nop {Hook args: %1 name of door %2 direction.};
 	#line substitute variables #regexp {%1} {{.*} {.*}} {unlock &2 $i} {unlock %1 $i};
 	#if { "$toggle[hunt]"=="on" } { look };
@@ -1596,14 +1583,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
-	#FUNCTION pretty_number {
-		#math temp[mil] { %1 / 1000000 };
-		#if { ($temp[mil]) >= 1} {
-			#return $temp[mil]mil;
-		}; #else {
-			#return %1;
-		}
-	};
+#FUNCTION pretty_number {
+	#math temp[mil] { %1 / 1000000 };
+	#if { ($temp[mil]) >= 1} {
+		#return $temp[mil]mil;
+	}; #else {
+		#return %1;
+	}
+};
 
 
 #NOP ############### SPEED PATH WALK
