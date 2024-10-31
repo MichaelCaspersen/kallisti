@@ -1259,7 +1259,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A glowing white portal appears.} {#if $regroup {#var regroup 0;enter portal;fol gary;#unaction {A glowing white portal appears.}}}
 #var regroup 0;
 
-#action {The Shop Inside the Tree} {#delay {40} {#if {"$MSDP_ROOM_VNUM"=="13200"} {#var TARGET_HEROS 40000;autometa;l}}} {1}
+#action {The Shop Inside the Tree} {
+	#delay {20} {
+		#if {"$MSDP_ROOM_VNUM"=="13200"} {
+			#var TARGET_HEROS 50000;
+			#if {"$MSDP_CHARACTER_NAME"!="Kroil"} {autometa} {buy hit};
+			l
+		}
+	}
+} {1}
 
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
