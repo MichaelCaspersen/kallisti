@@ -1283,6 +1283,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #gag {You can't get any {tooths} from the corpse of }
 #gag {You don't seem to have any {tooths}.}
 
+#action {%1 smites you -  OUCH that really did HURT! (%2 damage)} {#show <131>Start draining - Soulsyphon}
 
 
 #var allowedToTank 3;
@@ -1468,7 +1469,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#NOP options:   edrain/vdrain/viscera;
 			#var bot[spellCorpse] {};
 			#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) } {#show <131>MANA LOW [@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain] - edrain;#var bot[spellCorpse] edrain};
-			#if { ($MSDP_LEVEL>=40) && (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<$necro_stamdrain) } {#show <131>HITS [@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_manadrain]  STAM [@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<$necro_stamdrain] LOW - vdrain;#var bot[spellCorpse] vdrain};
+			#if { ($MSDP_LEVEL>=40) && (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<$necro_stamdrain) } {#show <131>HITS [@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain]  STAM [@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<$necro_stamdrain] LOW - vdrain;#var bot[spellCorpse] vdrain};
 			#if { ($MSDP_LEVEL>=75) && (@gotFollowers{}>0) } {#show <131>FOLLOWERS HEAL ALL - viscera;#var bot[spellCorpse] viscera};
 			show_debug {<131>Level[$MSDP_LEVEL]   Mana: @pct{$MSDP_MANA;$MSDP_MANA_MAX} $necro_manadrain     Life: @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} $necro_lifedrain    @pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} $necro_stamdrain   DECIDED SPELL: $bot[spellCorpse]};
 			#if {"$bot[spellCorpse]"!=""} {queueAdd priority $bot[spellCorpse] corpse}
