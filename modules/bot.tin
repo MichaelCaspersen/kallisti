@@ -1283,7 +1283,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #gag {You can't get any {tooths} from the corpse of }
 #gag {You don't seem to have any {tooths}.}
 
-#action {%1 smites you -  OUCH that really did HURT! (%2 damage)} {#show <131>Start draining - Soulsyphon}
+#action {%1 smites you -  OUCH that really did HURT! (%2 damage)} {#show <131>Start draining - Soulsyphon;queueAdd combat soulsyphon;}
 
 
 #var allowedToTank 3;
