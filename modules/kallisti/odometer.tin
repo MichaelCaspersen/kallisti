@@ -109,6 +109,7 @@ event_register {mob kill} {odometer} {odometer_kills};
 		#math {_total} {${_total} + ${tmp}}
 	};
 	#math {result} {48 * (1.00 *${_total}) / &{_meter[XP][]}};
+	#var avg_xp_per_hour $result;
 	#var result @hNum{$result}
 }
 
