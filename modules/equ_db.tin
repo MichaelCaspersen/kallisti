@@ -444,3 +444,14 @@ Commands:\n
     #return $final_;
 }
 
+#tab sql_save_char;
+#alias sql_save_char {
+    #var charsql {"$MSDP_CHARACTER_NAME" "$MSDP_ACCOUNT_NAME" "$MSDP_LEVEL" "$MSDP_ALIGNMENT" "$MSDP_HERO_POINTS" "$MSDP_HERO_POINTS_TNL" "$MSDP_EXPERIENCE" "$avg_xp_per_hour" "$MSDP_GOLD" "$MSDP_BANK_GOLD" "$MSDP_AREA_NAME" "$MSDP_ROOM_VNUM" "&MSDP_GROUP[]" "$MSDP_GROUPLEVEL" "@safesql{$MSDP_WIELD}" "@safesql{$MSDP_HOLD}" "@safesql{$MSDP_SHIELD}" "$MSDP_NOBLE_POINTS" "$MSDP_UPTIME"};
+    #script {pythonResponse} {
+        python3 connect_char.py $charsql;
+    };
+    #show <131> Added char information to SQL [$pythonResponse];
+}
+
+
+
