@@ -216,8 +216,11 @@ init metaHero preferences 0
 
 
 #ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {
-    #if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ($profession[refining][auto]) } {
-        goguild;gain;gain;gain;gain;remorttan
+    #if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) } {
+        recall;goguild;gain;gain;gain;gain;
+        #if {$profession[refining][auto]} {
+            remorttan
+        }
     };#else {
         nco return_and_meta
     }
