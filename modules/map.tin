@@ -212,6 +212,7 @@
 	#list mapZoneBlacklist find {%0} {result}
 }
 
+#macro {\e[18~} { #if {"$layout_preference"=="right"} {layout mapping;};#else {layout right;}}
 
 #ALIAS {^mark %slist$}
 {
