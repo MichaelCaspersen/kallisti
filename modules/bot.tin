@@ -128,6 +128,8 @@ init bot[rescue2] preferences off;
 	};
 	#alias gtell {gt $communication[left] %1 $communication[right]};
 
+	#ticker {log_char} {sql_save_char ticker} {600}
+
 	#NOP #######################################################;
 	#NOP Class Specific: Necromancer							;
 	#NOP #######################################################;
