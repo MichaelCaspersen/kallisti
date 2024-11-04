@@ -432,6 +432,9 @@ Commands:\n
         #local safe_sql_temp_ %1;
         #replace {safe_sql_temp_} {!} {anti-};
         #return $safe_sql_temp_;
+    };
+    #else {
+        #return {};
     }
 }
 
