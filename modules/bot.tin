@@ -956,7 +956,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#CASE {13340} {#show <141>Grelic Maze: ws2nesweswn2s};
 		#DEFAULT {#nop};
 	};	
-
+	#var newroom 1;
 }
 
 #NOP #######################################################
@@ -1308,7 +1308,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#buffer get temp_buffer -$buffer_size -1;
 	#show <131>BUFFER SCAN START;
 	#loop {$buffer_size} {1} {index} {
-        #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#nop};
+        #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#show<131>FALSE: $temp_buffer[$index]};
         #regexp {$temp_buffer[$index]} {You follow {.*}} {#break} {#nop};
     };
 	#show <131>BUFFER SCAN END;
