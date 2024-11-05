@@ -1299,10 +1299,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var getoutnow 0
 }
 
-#var parse_buffer 0;
+#var parse_buffer 1;
 #ALIAS {parse_buffer} {
 	#var buffer_size 60;
-	#buffer temp_buffer -$buffer_size -1;
+	#buffer get temp_buffer -$buffer_size -1;
 	#loop {$buffer_size} {1} {index} {
         #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#nop};
         #regexp {$temp_buffer[$index]} {You follow {.*}} {#show <131>IGNORE ALL BEFORE;#break} {#nop};
@@ -1310,7 +1310,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var newroom 0;
 }
 
-#action {You follow} {#var newroom 1}
+#action {You follow} {#var newroom 1;#show <131>NEW ROOM PARSE DATA}
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
