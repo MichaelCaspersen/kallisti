@@ -106,42 +106,42 @@ toggle ranged
 
 
 #alias godarkport {}
-#action {An octopus drifts lazily along in the currents, probably looking for things to grab, and eat.%1} {settarget 999 @mob_count{"%1"} octopus 40 100 1}
-#action {A large salmon darts by.%1} {settarget 999 @mob_count{"%1"} salmon 40 100 1}
-#action {A stingray floats just below you.%1} {settarget 999 @mob_count{"%1"} stingray 40 100 1}
-#action {One of the many cod in these waters swims by.%1} {settarget 999 @mob_count{"%1"} cod 40 100 1}
+#action {An octopus drifts lazily along in the currents, probably looking for things to grab, and eat.%1} {settarget 999 @mob_count{"%1"} octopus 35 100 1}
+#action {A large salmon darts by.%1} {settarget 999 @mob_count{"%1"} salmon 35 100 1}
+#action {A stingray floats just below you.%1} {settarget 999 @mob_count{"%1"} stingray 35 100 1}
+#action {One of the many cod in these waters swims by.%1} {settarget 999 @mob_count{"%1"} cod 35 100 1}
 
 
 #alias {golagoon} {}
-#action {A porcupine fish picks at the coral here.%1} {settarget 999 @mob_count{"%1"} porcupine 40 100 1}
-#action {A yellow tang lazily looks for food.%1} {settarget 999 @mob_count{"%1"} yellow 40 100 1}
-#action {A foxface fish swims peacefully through the water.%1} {settarget 999 @mob_count{"%1"} foxface 40 100 1}
-#action {A lobster crawls along the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} lobster 40 100 1}
-#action {A manta ray glides through the water.%1} {settarget 999 @mob_count{"%1"} manta 40 100 1}
+#action {A porcupine fish picks at the coral here.%1} {settarget 999 @mob_count{"%1"} porcupine 35 100 1}
+#action {A yellow tang lazily looks for food.%1} {settarget 999 @mob_count{"%1"} yellow 35 100 1}
+#action {A foxface fish swims peacefully through the water.%1} {settarget 999 @mob_count{"%1"} foxface 35 100 1}
+#action {A lobster crawls along the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} lobster 35 100 1}
+#action {A manta ray glides through the water.%1} {settarget 999 @mob_count{"%1"} manta 35 100 1}
 
-#action {A ghost crab skitters along the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} crab 40 100 1}
-#action {A blue and yellow fish zips through the water.%1} {settarget 999 @mob_count{"%1"} damselfish 40 100 1}
-#action {An odd creature with eight tentacles and a fish body floats here.%1} {settarget 999 @mob_count{"%1"} cuttlefish 40 100 1}
-#action {An eel with razor sharp teeth looks for food.%1} {settarget 999 @mob_count{"%1"} moray 40 100 1}
-#action {A giant clam sits on the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} clam 40 100 1}
-#action {An urchin sits on the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} urchin 40 100 1}
-
-
-#action {A long thin fish speeds through the water.%1} {settarget 999 @mob_count{"%1"} needle 40 100 1}
-#action {A crab with long spindly legs skitters across the bottom.%1} {settarget 999 @mob_count{"%1"} crab 40 100 1}
-#action {A neon blue damselfish zips through the lagoon.%1} {settarget 999 @mob_count{"%1"} damselfish 40 100 1}
-#action {A blue ringed octopus shuffles along the bottom.%1} {settarget 999 @mob_count{"%1"} octopus 40 100 1}
-
-#action {A turtle hatchling struggles across the beach to the sea.%1} {settarget 999 @mob_count{"%1"} turtle 40 100 1}
-#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 40 100 1}
+#action {A ghost crab skitters along the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} crab 35 100 1}
+#action {A blue and yellow fish zips through the water.%1} {settarget 999 @mob_count{"%1"} damselfish 35 100 1}
+#action {An odd creature with eight tentacles and a fish body floats here.%1} {settarget 999 @mob_count{"%1"} cuttlefish 35 100 1}
+#action {An eel with razor sharp teeth looks for food.%1} {settarget 999 @mob_count{"%1"} moray 35 100 1}
+#action {A giant clam sits on the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} clam 35 100 1}
+#action {An urchin sits on the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} urchin 35 100 1}
 
 
-#action {A flamboyant lionfish proudly swims here.%1} {settarget 999 @mob_count{"%1"} lion 40 100 1}
-#action {A stonefish blends in perfectly with the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} stonefish 40 100 1}
-#action {A venomous krait glides through the water.%1} {settarget 999 @mob_count{"%1"} krait 40 100 1}
-#action {A barracuda flashes through the water.%1} {settarget 999 @mob_count{"%1"} barracuda 40 100 1}
-#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 40 100 1}
-#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 40 100 1}
+#action {A long thin fish speeds through the water.%1} {settarget 999 @mob_count{"%1"} needle 35 100 1}
+#action {A crab with long spindly legs skitters across the bottom.%1} {settarget 999 @mob_count{"%1"} crab 35 100 1}
+#action {A neon blue damselfish zips through the lagoon.%1} {settarget 999 @mob_count{"%1"} damselfish 35 100 1}
+#action {A blue ringed octopus shuffles along the bottom.%1} {settarget 999 @mob_count{"%1"} octopus 35 100 1}
+
+#action {A turtle hatchling struggles across the beach to the sea.%1} {settarget 999 @mob_count{"%1"} turtle 35 100 1}
+#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 35 100 1}
+
+
+#action {A flamboyant lionfish proudly swims here.%1} {settarget 999 @mob_count{"%1"} lion 35 100 1}
+#action {A stonefish blends in perfectly with the bottom of the lagoon.%1} {settarget 999 @mob_count{"%1"} stonefish 35 100 1}
+#action {A venomous krait glides through the water.%1} {settarget 999 @mob_count{"%1"} krait 35 100 1}
+#action {A barracuda flashes through the water.%1} {settarget 999 @mob_count{"%1"} barracuda 35 100 1}
+#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 35 100 1}
+#action {A furry flightless bird pecks at insects.%1} {settarget 999 @mob_count{"%1"} bird 35 100 1}
 
 
 
@@ -192,9 +192,10 @@ Equip tanning gear
 
 
 #var guildpath {2s2e2se}; #nop RANGER
+
 #var tanningnotmaxed 1;
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.bone;3w;get all.toot trunk;3e;carve tooth}}
 #action {--+  Congratulations, you are now level %1!  +--} {send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1;odometer_reset} {4}
 
 #action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}

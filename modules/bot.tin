@@ -619,7 +619,9 @@ stats_reset;
 
 #action {is now a member of your group} {gt Welcome! }
 #action {you start following} {gt Current role: $bot[role]}
-#action {You now follow %1.} {#var leader %1}
+#action {You now follow %1.} {#var leader %1;@findPartMemNames{}}
+
+#function findPartMemNames {#loop {1} {&MSDP_GROUP[]} {index} {#list group_names add  {$MSDP_GROUP[$index][name]};};}
 
 
 #ALIAS {^all %1} {
@@ -1301,21 +1303,22 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #nop action {~%1\e[1;30m[ %2\e[1;30m]%3$} {#regexp {%2} {%dbashed%d} {#show <131>NPC} {#nop}}
+#action {~^\e[0;37m\e[1;37m%1$} {#show <131>NPC DETECTED: <%1>} {8}
 
 #var parse_buffer 0;
 #ALIAS {parse_buffer} {
 	#var buffer_size 60;
 	#buffer get temp_buffer -$buffer_size -1;
 	#show <131>BUFFER SCAN START;
+	#var temp_buffer;
 	#loop {$buffer_size} {1} {index} {
         #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#nop};
         #regexp {$temp_buffer[$index]} {You follow {.*}} {#break} {#nop};
+        #regexp {$temp_buffer[$index]} {ENTER ROOM OLD:{.*}} {#break} {#nop};
     };
 	#show <131>BUFFER SCAN END;
 	#var newroom 0;
 }
-
-#nop action {You follow} {#var newroom 1;#show <131>NEW ROOM PARSE DATA}
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};

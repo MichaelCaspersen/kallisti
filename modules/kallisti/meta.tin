@@ -216,7 +216,7 @@ init metaHero preferences 0
 
 
 #ACTION {You are nearing the cap for bankable xp, consider 'meta' or 'gain' now.} {
-    #if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) } {
+    #if { (20<=$MSDP_LEVEL) && ($MSDP_LEVEL<51) && ("$MSDP_AREA_NAME"!="The Wilderness") } {
         recall;goguild;gain;gain;gain;gain;
         #if {$profession[refining][auto]} {
             remorttan
