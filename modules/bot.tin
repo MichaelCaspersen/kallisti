@@ -1299,11 +1299,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var getoutnow 0
 }
 
+
+#action {~%1\e[1;30m[ %2\e[1;30m]%3$} {#regexp {%2} {bashed%d} {#show NPC <%1><%2>} {#nop}}
+
 #var parse_buffer 1;
 #ALIAS {parse_buffer} {
 	#var buffer_size 60;
 	#buffer get temp_buffer -$buffer_size -1;
 	#loop {$buffer_size} {1} {index} {
+		#show $temp_buffer[$index];
         #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#nop};
         #regexp {$temp_buffer[$index]} {You follow {.*}} {#show <131>IGNORE ALL BEFORE;#break} {#nop};
     };
