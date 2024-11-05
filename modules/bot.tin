@@ -1300,21 +1300,22 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 
-#action {~%1\e[1;30m[ %2\e[1;30m]%3$} {#regexp {%2} {%dbashed%d} {#show NPC <%1><%2>} {#nop}}
+#nop action {~%1\e[1;30m[ %2\e[1;30m]%3$} {#regexp {%2} {%dbashed%d} {#show <131>NPC} {#nop}}
 
 #var parse_buffer 1;
 #ALIAS {parse_buffer} {
 	#var buffer_size 60;
 	#buffer get temp_buffer -$buffer_size -1;
+	#show <131>BUFFER SCAN START;
 	#loop {$buffer_size} {1} {index} {
-		#show <143>$temp_buffer[$index];
         #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#nop};
-        #regexp {$temp_buffer[$index]} {You follow {.*}} {#show <131>IGNORE ALL BEFORE;#break} {#nop};
+        #regexp {$temp_buffer[$index]} {You follow {.*}} {#break} {#nop};
     };
+	#show <131>BUFFER SCAN END;
 	#var newroom 0;
 }
 
-#action {You follow} {#var newroom 1;#show <131>NEW ROOM PARSE DATA}
+#nop action {You follow} {#var newroom 1;#show <131>NEW ROOM PARSE DATA}
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
