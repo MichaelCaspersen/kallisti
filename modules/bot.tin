@@ -1299,6 +1299,18 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var getoutnow 0
 }
 
+#var parse_buffer 0;
+#ALIAS {parse_buffer} {
+	#var buffer_size 60;
+	#buffer temp_buffer -$buffer_size -1;
+	#loop {$buffer_size} {1} {index} {
+        #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#nop};
+        #regexp {$temp_buffer[$index]} {You follow {.*}} {#show <131>IGNORE ALL BEFORE;#break} {#nop};
+    };
+	#var newroom 0;
+}
+
+#action {You follow} {#var newroom 1}
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
@@ -1314,6 +1326,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#math spellLock { @mpoch{} + 3000 };
 		get all.tooth all.corpse;
 	};
+	#if {$parse_buffer && $newroom} {parse_buffer;};
 } {1}
 
 		 < Kralll | 6532h 3447m 3241s | x:984453426 | f >
@@ -1337,13 +1350,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		show_debug {<131>No Combat};
 		#var tankingmobs 0;
 		#var cur_opponents 0
-	}
+	};
+	#if {$parse_buffer && $newroom} {parse_buffer;};
 } {2}
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2} {
 	show_debug {<131>No Combat};
 	#var tankingmobs 0;
-	#var cur_opponents 0
+	#var cur_opponents 0;
+	#if {$parse_buffer && $newroom} {parse_buffer;};
 } {4}
 
 #var predeathdelay 0.1;
