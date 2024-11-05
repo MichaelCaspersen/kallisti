@@ -1302,13 +1302,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #nop action {~%1\e[1;30m[ %2\e[1;30m]%3$} {#regexp {%2} {%dbashed%d} {#show <131>NPC} {#nop}}
 
-#var parse_buffer 1;
+#var parse_buffer 0;
 #ALIAS {parse_buffer} {
 	#var buffer_size 60;
 	#buffer get temp_buffer -$buffer_size -1;
 	#show <131>BUFFER SCAN START;
 	#loop {$buffer_size} {1} {index} {
-        #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#show<131>FALSE: $temp_buffer[$index]};
+        #regexp {$temp_buffer[$index]} {{.*}[%d]} {#show <131>MOBS FOUND: &1} {#nop};
         #regexp {$temp_buffer[$index]} {You follow {.*}} {#break} {#nop};
     };
 	#show <131>BUFFER SCAN END;
