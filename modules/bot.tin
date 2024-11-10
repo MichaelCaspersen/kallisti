@@ -504,7 +504,7 @@ init bot[rescue2] preferences off;
 			#case {"Necromancer"} { #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain} {#var bot[damage][multiple] soulsyphon} {#var bot[damage][multiple] dfog} };
 			#case {"Paladin"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>$healpct_damage_allowed} {#var bot[damage][multiple] icestorm} {#var bot[damage][multiple] zeal} };
 			#case {"Druid"} {#if {$cur_opponents<4} {#var bot[damage][multiple] chain} {#var bot[damage][multiple] sunray} };
-			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} {#var bot[damage][multiple] hamstring} };
+			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} {#var bot[damage][multiple] hamstring} {#var bot[damage][multiple] backstab}};
 			#default {#nop};
 		};
 		#var stats[damage][$bot[damage][multiple]] @increment{$stats[damage][$bot[damage][multiple]]};
@@ -526,7 +526,7 @@ init bot[rescue2] preferences off;
 				};
 				#default {#nop};
 			};
-			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]]};
+			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]] {#var bot[damage][multiple] backstab}};
 			queueAdd combat $bot[damage][single]
 		}
 	}
@@ -1164,7 +1164,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {%1 makes an impressive fighting move.} {get $weapon_pri;wield $weapon_pri}
-#action {{A|An|The} %1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri}
+#action {{A|An|The|} %1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri} {5}
+#action {%1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri} {6}
+
+#action {You must be able to breathe water to go that way.} {gt I can't breath water!}
 
 
 #NOP Necro/Demoniac specific
