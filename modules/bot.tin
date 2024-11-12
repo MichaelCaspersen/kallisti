@@ -504,7 +504,7 @@ init bot[rescue2] preferences off;
 			#case {"Necromancer"} { #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain} {#var bot[damage][multiple] soulsyphon} {#var bot[damage][multiple] dfog} };
 			#case {"Paladin"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>$healpct_damage_allowed} {#var bot[damage][multiple] icestorm} {#var bot[damage][multiple] zeal} };
 			#case {"Druid"} {#if {$cur_opponents<4} {#var bot[damage][multiple] chain} {#var bot[damage][multiple] sunray} };
-			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} {#var bot[damage][multiple] hamstring} };
+			#case {"Assassin"} {#if {"$MSDP_OPPONENT_NAME"=="a smilodon"} {#var bot[damage][multiple] hamstring} {#var bot[damage][multiple] backstab}};
 			#default {#nop};
 		};
 		#var stats[damage][$bot[damage][multiple]] @increment{$stats[damage][$bot[damage][multiple]]};
@@ -526,7 +526,7 @@ init bot[rescue2] preferences off;
 				};
 				#default {#nop};
 			};
-			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]]};
+			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]] {#var bot[damage][multiple] backstab}};
 			queueAdd combat $bot[damage][single]
 		}
 	}
@@ -1163,7 +1163,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {%1 makes an impressive fighting move.} {get $weapon_pri;wield $weapon_pri}
-#action {{A|An|The} %1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri}
+#action {{A|An|The|} %1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri} {5}
+#action {%1 flies from your grasp.} {get $weapon_pri;wield $weapon_pri} {6}
+
+#action {You must be able to breathe water to go that way.} {gt I can't breath water!}
 
 
 #NOP Necro/Demoniac specific
@@ -1330,12 +1333,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
 	#var tankingmobs 0;
 	#var cur_opponents %5;
-	#if { ($aggressiveprofession) && ("%3"=="near") } {
+	#if { ($aggressiveprofession) && ("%3"=="near death") } {
 		#show <131>AGRESSIVE PROFESSION;
 		#math spellLock { @mpoch{} + 3000 };
 		queueAdd any {$profession[str_corpse] corpse};
 	};
-	#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
+	#if { ("%2"=="a gigasaur") && (("%3"=="near death") && ($aggressivetooth)) } {
 		#show <131>AGRESSIVE LOOT;
 		#math spellLock { @mpoch{} + 3000 };
 		get all.tooth all.corpse;
@@ -1350,12 +1353,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
 		#var tankingmobs 0;
 		#var cur_opponents 1;
-		#if { ($aggressiveprofession) && ("%3"=="near") } {
+		#if { ($aggressiveprofession) && ("%3"=="near death") } {
 			#show <131>AGRESSIVE PROFESSION;
 			#math spellLock { @mpoch{} + 3000 };
 			$profession[str_corpse] corpse;
 		};
-		#if { ("%2"=="a gigasaur") && (("%3"=="near") && ($aggressivetooth)) } {
+		#if { ("%2"=="a gigasaur") && (("%3"=="near death") && ($aggressivetooth)) } {
 			#show <131>AGRESSIVE LOOT;
 			#math spellLock { @mpoch{} + 3000 };
 			get all.tooth all.corpse;

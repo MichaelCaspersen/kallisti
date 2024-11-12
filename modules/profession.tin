@@ -438,7 +438,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 				2s3es;
 				sell leather;
 			}; #else {
-				drop all.leather;
+				drop all;
 				get all.hide backpack;
 				pickup_mats;
 			}
@@ -482,7 +482,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	#if $donate_all {#%1 donate hide home}
 }
 
-#action {You get some %1 bone from %2.} {#if { ("%1"=="junk") || {"%1"=="rough"} {sac bone} {donate bone home}}}
+#action {You get some %1 bone from %2.} {#if { (("%1"=="junk") || ("%1"=="rough")) } {sac bone} {donate bone home}}
 
 #action {A {leather} lies here. (%3)} {#math total_leather {%3}}
 #action {You pick up %1 leathers.} {#var profession[refining][reset] 1;#var total_leather_pickedup %1;#math total_leather_remaining {$total_leather-%1};#math mats_to_sell {$total_leather_pickedup-1};#math total_rounds_remaining {$total_leather_remaining/$total_leather_pickedup}}

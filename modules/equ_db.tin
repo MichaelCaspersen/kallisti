@@ -275,6 +275,9 @@ Commands:\n
     #var equ[weapon][hold][rank] %4;
 }
 
+#action {            Strength  Dexterity} {#nop;}
+
+
 #action {            Strength  Dexterity  Rank (%1)} {
     show_equ_match %1;
     #var equ[weapon][skilltype] %1
