@@ -391,12 +391,40 @@ Usage: levelreq <startlevel> <endlevel>}
 }
 
 #function xpbanksize {
-    #if {$MSDP_LEVEL > 94} {
+	#local _level $MSDP_LEVEL;
+	#if {"%1" != ""} {
+		#var _level %1;
+	}; 
+    #if {_level > 94} {
      #var result 4294967295
     } {
-        #math xpfoo {$MSDP_LEVEL + 1};
+        #math xpfoo {$_level + 1};
         #math result { $explevel[$xpfoo] * 5};
     }
+}
+
+#function expmeter {
+	#nop name, level, exp
+	#local _msg Name;
+	#local _level 100;
+	#local _exp 0;
+	#local _size 30;
+	#if {"%1" != ""} {
+		#var _msg %1
+	};
+	#if {"%2" != ""} {
+		#var _level %2;
+		#var _msg {$_msg (@hNum{@xpbanksize{$_level}})}
+	};
+	#if {"%3" != ""} {
+		#var _exp %3
+	};
+	#if {"%4" != ""} {
+		#var _size %4
+	};
+
+	#math _value { $_exp * 1.00 / @xpbanksize{$_level}};
+	#return @display_progress{$_value;$_msg;$_size}
 }
 
 #nop vim: syntax=tt
