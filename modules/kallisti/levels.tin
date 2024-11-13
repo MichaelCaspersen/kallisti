@@ -404,7 +404,7 @@ Usage: levelreq <startlevel> <endlevel>}
 }
 
 #function expmeter {
-	#nop name, level, exp
+	#nop name, level, exp, size;
 	#local _msg Name;
 	#local _level 100;
 	#local _exp 0;
