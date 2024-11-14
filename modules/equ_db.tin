@@ -467,18 +467,19 @@ Commands:\n
     #script {pythonResponse} {
         python3 connect_status.py;
     };
-    #show <131> Fetched Char info: [$pythonResponse];
+    #nop show <131> Fetched Char info: [$pythonResponse];
     #foreach {$pythonResponse} {_id} {
-       showCharStatus $pythonResponse[$_id];
+       showCharStatus {$pythonResponse[$_id]};
     };
 }
 
 
 #alias showCharStatus {
-    #regexp {%1} {('{.*}', '{.*}', {.*}, {.*}, {.*})} {
-        #show True 1:&1 2:&2 3:&3 4:&4 %:&5;
+    #regexp {%1} {('{.*}', '{.*}', {.*}, {.*}, {.*})} 
+    {
+        #nop show True 1:&1 2:&2 3:&3 4:&4 %:&5;
         #show @expmeter{&1;&3;&4}
-    } 
+    }
     {
         #show False
     }
