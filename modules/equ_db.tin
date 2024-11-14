@@ -465,7 +465,7 @@ Commands:\n
 
 #alias sql_status_chars {
     #script {pythonResponse} {
-        python3 sql_status_chars.py;
+        python3 connect_status.py;
     };
     #show <131> Added char information to SQL [$pythonResponse];
 }
