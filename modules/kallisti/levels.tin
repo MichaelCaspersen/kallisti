@@ -422,14 +422,14 @@ Usage: levelreq <startlevel> <endlevel>}
 	};
 	#if {"%4" != ""} {
 		#var _gold %4;
-		#var _msg {$_msg @hNum{$_gold}}
+		#nop var _msg {$_msg @hNum{$_gold}}
 	};
 	#if {"%5" != ""} {
 		#var _size %5
 	};
 
 	#math _value { $_exp * 1.00 / @xpbanksize{$_level}};
-	#return @display_progress{$_value;$_msg;$_size}
+	#return {@display_progress{$_value;$_msg;$_size} @hNum{$_gold}}
 }
 
 #nop vim: syntax=tt
