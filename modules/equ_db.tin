@@ -475,7 +475,7 @@ Commands:\n
 #alias showCharStatus {
     #regexp {%1} {('{.*}', '{.*}', {.*}, {.*}, {.*})} 
     {
-        #show True 1:&1 2:&2 3:&3 4:&4 %:&5;
+        #nop show True 1:&1 2:&2 3:&3 4:&4 5:&5;
         #show @expmeter{&1;&3;&4;&5}
     }
     {
