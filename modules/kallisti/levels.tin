@@ -408,6 +408,7 @@ Usage: levelreq <startlevel> <endlevel>}
 	#local _msg Name;
 	#local _level 100;
 	#local _exp 0;
+	#local _gold 0;
 	#local _size 30;
 	#if {"%1" != ""} {
 		#var _msg %1
@@ -421,6 +422,10 @@ Usage: levelreq <startlevel> <endlevel>}
 	};
 	#if {"%4" != ""} {
 		#var _size %4
+	};
+	#if {"%5" != ""} {
+		#var _gold %5
+		#var _msg {$_msg @hNum{$_gold}}
 	};
 
 	#math _value { $_exp * 1.00 / @xpbanksize{$_level}};
