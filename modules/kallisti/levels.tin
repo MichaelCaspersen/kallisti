@@ -424,7 +424,7 @@ Usage: levelreq <startlevel> <endlevel>}
 		#var _size %4
 	};
 	#if {"%5" != ""} {
-		#var _gold %5
+		#var _gold %5;
 		#var _msg {$_msg @hNum{$_gold}}
 	};
 
