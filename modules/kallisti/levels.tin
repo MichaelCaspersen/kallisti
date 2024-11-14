@@ -404,7 +404,7 @@ Usage: levelreq <startlevel> <endlevel>}
 }
 
 #function expmeter {
-	#nop name, level, exp, gold, size;
+	#nop name, level, exp, gold, bank, size;
 	#local _msg Name;
 	#local _level 100;
 	#local _exp 0;
@@ -420,12 +420,12 @@ Usage: levelreq <startlevel> <endlevel>}
 	#if {"%3" != ""} {
 		#var _exp %3
 	};
-	#if {"%4" != ""} {
-		#var _gold %4;
+	#if { ("%4" != "") || ("%5" != "") } {
+		#math _gold {%4+%5};
 		#nop var _msg {$_msg @hNum{$_gold}}
 	};
-	#if {"%5" != ""} {
-		#var _size %5
+	#if {"%6" != ""} {
+		#var _size %6
 	};
 
 	#math _value { $_exp * 1.00 / @xpbanksize{$_level}};
