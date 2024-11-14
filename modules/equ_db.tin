@@ -467,5 +467,5 @@ Commands:\n
     #script {pythonResponse} {
         python3 connect_status.py;
     };
-    #show <131> Added char information to SQL [$pythonResponse];
+    #show <131> Fetched Char info: [$pythonResponse];
 }

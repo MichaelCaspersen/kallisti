@@ -395,7 +395,7 @@ Usage: levelreq <startlevel> <endlevel>}
 	#if {"%1" != ""} {
 		#var _level %1;
 	}; 
-    #if {_level > 94} {
+    #if {$_level > 94} {
      #var result 4294967295
     } {
         #math xpfoo {$_level + 1};
