@@ -463,5 +463,9 @@ Commands:\n
     #nop show <131> Added char information to SQL [$pythonResponse];
 }
 
-
-
+#alias sql_status_chars {
+    #script {pythonResponse} {
+        python3 sql_status_chars.py;
+    };
+    #show <131> Added char information to SQL [$pythonResponse];
+}
