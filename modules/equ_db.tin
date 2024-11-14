@@ -464,9 +464,7 @@ Commands:\n
 }
 
 #alias sql_status_chars {
-    #script {pythonResponse} {
-        python3 connect_status.py;
-    };
+    #script {pythonResponse} {python3 connect_status.py;};
     #nop show <131> Fetched Char info: [$pythonResponse];
     #foreach {$pythonResponse} {_id} {
        showCharStatus {$pythonResponse[$_id]};
@@ -477,7 +475,7 @@ Commands:\n
 #alias showCharStatus {
     #regexp {%1} {('{.*}', '{.*}', {.*}, {.*}, {.*})} 
     {
-        #nop show True 1:&1 2:&2 3:&3 4:&4 %:&5;
+        #show True 1:&1 2:&2 3:&3 4:&4 %:&5;
         #show @expmeter{&1;&3;&4;&5}
     }
     {
