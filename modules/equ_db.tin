@@ -470,6 +470,7 @@ Commands:\n
     #foreach {$pythonResponse} {_id} {
        showCharStatus {$pythonResponse[$_id]};
     };
+    #if {@is_alias{display_left_tiles}} {display_left_tiles};
 }
 
 
