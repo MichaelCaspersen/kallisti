@@ -7,7 +7,7 @@
 	#var top_rows 11;
 	#var bottom_rows 2;
 	#math bp_top {-1 - $bottom_rows};
-	#math left_panel 30;
+	#math left_panel 45;
 	#math right_panel 45;
 
 	#math bottom_left {$left_panel + 1};
