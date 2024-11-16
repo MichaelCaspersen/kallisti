@@ -487,6 +487,6 @@ event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
 }
 
 #if {&{right_tiles}} {
-	set_right_tile 11 <B85678f> tellu_bot_info[%*] 5 tile;
-	tellu_bot_info;
+#nop	set_right_tile 11 <B85678f> tellu_bot_info[%*] 5 tile;
+#nop	tellu_bot_info;
 }

@@ -688,8 +688,8 @@ event_register {variable master[active]} {right} {generate_bot_info};
 }
 
 #if {&{right_tiles}} {
-	set_right_tile 10 <B85678f> bot_info[%*] 6 tile;
-	generate_bot_info;
+#nop	set_right_tile 10 <B85678f> bot_info[%*] 6 tile;
+#nop 	generate_bot_info;
 }
 
 

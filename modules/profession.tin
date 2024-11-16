@@ -172,15 +172,12 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		#var profession_gather_info {$profession_gather_info \nRefining: Offline}
 	};
     #if {@is_alias{display_right_tiles}} {display_right_tiles};
+    #if {@is_alias{display_left_tiles}} {display_left_tiles};
 }
 
 #if {&{right_tiles}} {
-	#if {"$layout_preference"=="right"} {
-		set_right_tile 11 <B5f819d> profession_gather_info 2 tile;
-	}; #elseif {"$layout_preference"=="full"} {
-		set_left_tile 11 <B5f819d> profession_gather_info 2 tile;
-	}
-	generate_profession_info;
+#nop	set_right_tile 11 <B5f819d> profession_gather_info 2 tile;
+#nop	generate_profession_info;
 }
 
 
