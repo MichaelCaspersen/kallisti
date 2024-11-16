@@ -150,7 +150,4 @@ event_register {mob kill} {odometer} {odometer_kills};
 	#delay 3 {sql_save_char level};
 }
 
-#nop set_right_tile 20 <F5f819d> xp_block 3 tile;
-#nop set_right_tile 21 <F5f819d> uptime_block 1 tile
-
 #nop vim: syntax=tt
