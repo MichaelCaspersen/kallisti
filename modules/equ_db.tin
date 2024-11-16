@@ -467,8 +467,9 @@ Commands:\n
     #script {pythonResponse} {python3 connect_status.py;};
     #nop show <131> Fetched Char info: [$pythonResponse];
     #foreach {$pythonResponse} {_id} {
-       showCharStatus {$pythonResponse[$_id]};
+       #format player_status[_id] showCharStatus {$pythonResponse[$_id]};
     };
+    #show $player_status;
 }
 
 
