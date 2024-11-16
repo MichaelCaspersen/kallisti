@@ -175,10 +175,10 @@ event_register {variable profession[gather][total]} {right} {generate_profession
     #if {@is_alias{display_left_tiles}} {display_left_tiles};
 }
 
-#if {&{right_tiles}} {
+#nop #if {&{right_tiles}} {
 #nop	set_right_tile 11 <B5f819d> profession_gather_info 2 tile;
 #nop	generate_profession_info;
-}
+#nop }
 
 
 

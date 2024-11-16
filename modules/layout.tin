@@ -81,13 +81,10 @@ event_register {SESSION ACTIVATED} {layout} {layout_reset %1}
 	set_right_tile 2 <B85678f> group_info[%*] 10 tile;
 	set_right_tile 3 <B5f819d> queue_block 3 tile;
 	set_right_tile 4 <B5f819d> queue_block_spells[%*] 5 tile;
-
 	set_right_tile 10 <B85678f> bot_info[%*] 6 tile;
 	set_right_tile 11 <B5f819d> profession_gather_info 2 tile;
-	
 	set_right_tile 20 <F5f819d> xp_block 3 tile;
-	set_right_tile 21 <F5f819d> uptime_block 1 tile
-
+	set_right_tile 21 <F5f819d> uptime_block 1 tile;
 	set_right_tile 31 <Fd5d8d6> player_info[%*] 17 tile;
 }
 

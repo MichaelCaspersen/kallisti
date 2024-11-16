@@ -687,10 +687,10 @@ event_register {variable master[active]} {right} {generate_bot_info};
     #if {@is_alias{display_right_tiles}} {display_right_tiles};
 }
 
-#if {&{right_tiles}} {
+#nop #if {&{right_tiles}} {
 #nop	set_right_tile 10 <B85678f> bot_info[%*] 6 tile;
 #nop 	generate_bot_info;
-}
+#nop }
 
 
 #NOP #######################################################
