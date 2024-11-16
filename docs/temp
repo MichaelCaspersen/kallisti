@@ -195,10 +195,10 @@ Equip tanning gear
 
 #var tanningnotmaxed 1;
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.bone;3w;get all.toot trunk;3e;carve tooth}}
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<55) && ($profession[refining][auto])} {remorttan}}
 #action {--+  Congratulations, you are now level %1!  +--} {send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1;odometer_reset} {4}
 
-#action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
+#action {You now have %1 proficiency point{s|} available.} {#if $tanningnotmaxed {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
 
 #action {Wasat%1s Workshop} {#if $tanningnotmaxed {prac tanning}}
 #action {You practice tanning for a while...} {#if $tanningnotmaxed {prac tanning}}
