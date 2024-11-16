@@ -88,6 +88,10 @@ event_register {SESSION ACTIVATED} {layout} {layout_reset %1}
 	set_right_tile 31 <Fd5d8d6> player_info[%*] 17 tile;
 }
 
+#if {!&{left_tiles}} {
+	set_left_tile 1 <B85678f> player_status_panel 5 tile;
+}
+
 
 #if {!&{map_tiles}} {
 	set_map_tile 1 <B5f819d> area_info 2 tile;
