@@ -1646,6 +1646,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #function return_min_sec {
 	#math temp[sec] { %1 % 60 };
 	#math temp[min] { %1 / 60 };
+	#if {$temp[min] == 0} {
+		#return $temp[sec]s;
+		break;
+	};
 	#if {$temp[min] > 59} {
 		#math temp[hour] { $temp[min] / 60 };
 		#math temp[min] { $temp[min] % 60 };
