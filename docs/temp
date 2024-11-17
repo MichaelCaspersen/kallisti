@@ -168,6 +168,17 @@ toggle ranged
 #action {The crystal bishop looks down upon you with an evil glare.%1} {settarget 999 @mob_count{"%1"} bishop 40 100 1}
 
 
+
+Blackhalo Keep                     	38	54	Andromeda       	None	2s14e14ne3n4ed4e2n2e5nw9n10w3nen
+#action {A demon servant wanders the halls here.%1} {settarget 999 @mob_count{"%1"} demon 40 100 1}
+#action {A shimmering demon lunges out of the walls at you!%1} {settarget 999 @mob_count{"%1"} demon 40 100 1}
+#action {A cowering servant stands here, looking about wildly.%1} {settarget 999 @mob_count{"%1"} servant 40 100 1}
+
+
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
 #action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
 #action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
 #action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
@@ -190,6 +201,9 @@ Equip tanning gear
 
 
 #var guildpath {2s2e2se}; #nop RANGER
+#var guildpath {2s2w2sd}; #nop NECRO
+
+
 #var tanningnotmaxed 1;
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
 #alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<55) && ($profession[refining][auto])} {remorttan}}
