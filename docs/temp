@@ -216,8 +216,8 @@ Equip tanning gear
 #action {Wasat says, 'At rank s10, you know all that I can teach you in tanning.'} {#var tanningnotmaxed 0;remorttan}
 #action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan}
 #action {You do not have enough proficiency points left to learn what I can teach you.} {remorttan}
-
 #alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;drop all;get all.hide;tan hide}
+
 
 
 
