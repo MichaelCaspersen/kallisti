@@ -404,12 +404,13 @@ Usage: levelreq <startlevel> <endlevel>}
 }
 
 #function expmeter {
-	#nop name, level, exp, gold, bank, size;
+	#nop name, level, exp, gold, bank, size, timesincelastkill;
 	#local _msg Name;
 	#local _level 100;
 	#local _exp 0;
 	#local _gold 0;
 	#local _size 30;
+	#local _timesincelastkill 999;
 	#if {"%1" != ""} {
 		#var _msg %1
 	};
@@ -427,9 +428,12 @@ Usage: levelreq <startlevel> <endlevel>}
 	#if {"%6" != ""} {
 		#var _size %6
 	};
+	#if {"%7" != ""} {
+		#var _timesincelastkill %7
+	};
 
 	#math _value { $_exp * 1.00 / @xpbanksize{$_level}};
-	#return {@display_progress{$_value;$_msg;$_size} @hNum{$_gold}}
+	#return {@display_progress{$_value;$_msg;$_size} @hNum{$_gold} @return_min_sec{$_timesincelastkill}}
 }
 
 #nop vim: syntax=tt
