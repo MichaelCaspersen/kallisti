@@ -71,6 +71,7 @@ Commands:\n
 #var bot[pokecommand] pokes;
 #var bot[damage][single] {};
 #var bot[damage][multiple] {};
+#var bot[damage][allowaoe] 1;
 #var bot[nextAction] {};
 #var bot[rescue] 0;
 #var bot[mount][name] {};
@@ -510,7 +511,9 @@ init bot[rescue2] preferences off;
 			#default {#nop};
 		};
 		#var stats[damage][$bot[damage][multiple]] @increment{$stats[damage][$bot[damage][multiple]]};
-		queueAdd combat $bot[damage][multiple];
+		#if {$bot[damage][allowaoe]} {
+			queueAdd combat $bot[damage][multiple];
+		}
 	} 
 	{
 		#if {"%1"!=""} {
