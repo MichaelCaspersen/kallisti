@@ -78,14 +78,13 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
     #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {queueAdd heal hea %1};
 }
 
-#var allowrefreshincombat 0;
 #alias {autoheal} {
     #nop %0;
     #if {&MSDP_GROUP[] == 0} {
         #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} < $healpct} {
             queueAdd heal {pheal}
         };
-        #if { (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} < $refreshpct) && ($allowrefreshincombat) } {
+        #if { (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} < $refreshpct) && ($cur_opponents<1) } {
             queueAdd any {refresh}
         };
     };
@@ -106,7 +105,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
                 };
             }
         };
-        #if { ($MSDP_GROUP[$_tmp][stamina] < $refreshpct) && ($allowrefreshincombat) } {
+        #if { ($MSDP_GROUP[$_tmp][stamina] < $refreshpct) && ($cur_opponents<1) } {
             #if {$MSDP_MANA > $refreshManaThreshold} {
                 show_debug {STAMINIA  $MSDP_GROUP[$_tmp][name]  $MSDP_GROUP[$_tmp][stamina]};
                 #if {@refreshBlacklist{$MSDP_GROUP[$_tmp][name]}} {
