@@ -79,6 +79,7 @@ Commands:\n
 #var bot[weatherdir] {better}; #nop better/worse
 #var autotooth 0;
 
+
 init bot[role2] preferences damage;
 init bot[cast2] preferences on;
 init bot[poke2] preferences off;
@@ -86,6 +87,8 @@ init bot[rescue2] preferences off;
 
 #var healpct_damage_allowed 85;
 #var recall_below_hit 50;
+
+#var mintimebetweenbreakout 10;
 
 #var master[active] 1;
 
@@ -457,9 +460,8 @@ init bot[rescue2] preferences off;
 			#else {
 				#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
 				#show <131><TOO LOW ($recall_below_hit) - RECALL;
-				#if {$MSDP_QUEUE>2} {breakout};
+				#if { ($MSDP_QUEUE>2) && ($nextallowedbreakout<$MSDP_UPTIME) } {breakout};
 				queueAdd priority {recall};
-				#nop var bot[nextAction] {queueAdd priority recall};
 			}
 		}; 
 		#else {
@@ -1389,13 +1391,17 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var aggressivetooth 0;
 #var aggressiveprofession 0;
 
+#action {You breakout of your combat strategy and ignore all stacked commands. (%1 stamina used)} {
+	#math nextallowedbreakout {$MSDP_UPTIME + $mintimebetweenbreakout};
+}
+
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
 	#show <131>I'm tanking $tankingmobs mobs;
 	#if { ($getoutnow==0) && (($tankingmobs>=$allowedToTank) || (@leaderIsPresent{}==0)) } {
 		#var getoutnow 1;
 		#show <131>GET OUT!! Tanking $tankingmobs mobs, leader here:@leaderIsPresent{};
-		#if {$MSDP_QUEUE>2} {breakout};
+		#if { ($MSDP_QUEUE>2) && ($nextallowedbreakout<$MSDP_UPTIME) } {breakout};
 		queueAdd priority {recall}
 	}
 }
