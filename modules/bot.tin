@@ -75,7 +75,7 @@ Commands:\n
 #var bot[nextAction] {};
 #var bot[rescue] 0;
 #var bot[mount][name] {};
-#var bot[examine] 1;
+#var bot[examine] 0;
 #var bot[controlweather] 0;
 #var bot[weatherdir] {better}; #nop better/worse
 #var autotooth 0;
