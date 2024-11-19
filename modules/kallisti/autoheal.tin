@@ -84,7 +84,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
         #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} < $healpct} {
             queueAdd heal {pheal}
         };
-        #if { (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} < $refreshpct) && ($cur_opponents<1) } {
+        #if { (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}) } {
             queueAdd any {refresh}
         };
     };
