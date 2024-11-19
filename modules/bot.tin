@@ -511,9 +511,7 @@ init bot[rescue2] preferences off;
 			#default {#nop};
 		};
 		#var stats[damage][$bot[damage][multiple]] @increment{$stats[damage][$bot[damage][multiple]]};
-		#if {$bot[damage][allowaoe]} {
-			queueAdd combat $bot[damage][multiple];
-		}
+		#if {$bot[damage][allowaoe]} { queueAdd combat $bot[damage][multiple]; } {#show <131>AOE NOT ALLOWED;queueAdd combat $bot[damage][single]; }
 	} 
 	{
 		#if {"%1"!=""} {
