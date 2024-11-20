@@ -642,7 +642,7 @@ stats_reset;
 
 #alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel;}
 
-#action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {gt Damaged item: @colorPctIngame{@pct{%2;%3}}% &0f%5&--}}
+#action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {#show Damaged item: @colorPctIngame{@pct{%2;%3}}% &0f%5&--}}
 
 #alias {dress %1} {
 	#if {"$MSDP_CLASS"=="Druid"} {shapechange normal;};
