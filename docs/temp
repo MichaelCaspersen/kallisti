@@ -1,3 +1,10 @@
+Druid config:
+
+Solo Healer: 
+#var healpct 80
+#var refreshpct 80
+#var healpct_damage_allowed 90
+
 
 
 
