@@ -140,7 +140,7 @@ init bot[rescue2] preferences off;
 		#var allowedToTank 99;
 		botrole damage;
 
-		#var necro_manadrain 50; #nop %;
+		#var necro_manadrain 85; #nop %;
 		#var necro_lifedrain 80; #nop %;
 		#var necro_stamdrain 40; #nop %;
 
