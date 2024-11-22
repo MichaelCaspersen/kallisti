@@ -1,3 +1,10 @@
+Druid config:
+
+Solo Healer: 
+#var healpct 80
+#var refreshpct 80
+#var healpct_damage_allowed 90
+
 
 
 
@@ -168,6 +175,17 @@ toggle ranged
 #action {The crystal bishop looks down upon you with an evil glare.%1} {settarget 999 @mob_count{"%1"} bishop 40 100 1}
 
 
+
+Blackhalo Keep                     	38	54	Andromeda       	None	2s14e14ne3n4ed4e2n2e5nw9n10w3nen
+#action {A demon servant wanders the halls here.%1} {settarget 999 @mob_count{"%1"} demon 40 100 1}
+#action {A shimmering demon lunges out of the walls at you!%1} {settarget 999 @mob_count{"%1"} demon 40 100 1}
+#action {A cowering servant stands here, looking about wildly.%1} {settarget 999 @mob_count{"%1"} servant 40 100 1}
+
+
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
+#action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
 #action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
 #action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
 #action {XXXXXXXXXX%1} {settarget 999 @mob_count{"%1"} XXXXX 40 100 1}
@@ -190,20 +208,23 @@ Equip tanning gear
 
 
 #var guildpath {2s2e2se}; #nop RANGER
+#var guildpath {2s2w2sd}; #nop NECRO
+
+
 #var tanningnotmaxed 1;
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) && ($profession[refining][auto])} {visit house;dep all;e;drop all.leather;get all.hide;tan hide}}
+#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<55) && ($profession[refining][auto])} {remorttan}}
 #action {--+  Congratulations, you are now level %1!  +--} {send_to_comms_session New level, $MSDP_CHARACTER_NAME - %1;odometer_reset} {4}
 
-#action {You now have %1 proficiency points available.} {#if $tanningnotmaxed {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
+#action {You now have %1 proficiency point{s|} available.} {#if $tanningnotmaxed {#show <131>We need to practice tanning;breakout;visit house;with 45000;egress;4nwnnn}}
 
 #action {Wasat%1s Workshop} {#if $tanningnotmaxed {prac tanning}}
 #action {You practice tanning for a while...} {#if $tanningnotmaxed {prac tanning}}
 #action {Wasat says, 'At rank s10, you know all that I can teach you in tanning.'} {#var tanningnotmaxed 0;remorttan}
 #action {Wasat says, 'You are too inexperienced!  You need 1000 experience to train tanning.'} {remorttan}
 #action {You do not have enough proficiency points left to learn what I can teach you.} {remorttan}
+#alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;drop all;get all.hide;tan hide}
 
-#alias remorttan {profon skinning;maton HouseOfAnasasi;#var profession[gather][selling] 0;visit house;e;get all.hide;tan hide}
 
 
 

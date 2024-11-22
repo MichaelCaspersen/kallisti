@@ -71,13 +71,15 @@ Commands:\n
 #var bot[pokecommand] pokes;
 #var bot[damage][single] {};
 #var bot[damage][multiple] {};
+#var bot[damage][allowaoe] 1;
 #var bot[nextAction] {};
 #var bot[rescue] 0;
 #var bot[mount][name] {};
-#var bot[examine] 1;
+#var bot[examine] 0;
 #var bot[controlweather] 0;
 #var bot[weatherdir] {better}; #nop better/worse
 #var autotooth 0;
+
 
 init bot[role2] preferences damage;
 init bot[cast2] preferences on;
@@ -86,6 +88,8 @@ init bot[rescue2] preferences off;
 
 #var healpct_damage_allowed 85;
 #var recall_below_hit 50;
+
+#var mintimebetweenbreakout 10;
 
 #var master[active] 1;
 
@@ -457,9 +461,8 @@ init bot[rescue2] preferences off;
 			#else {
 				#var bot[nextActionDebug] {$bot[nextActionDebug], Too LOW recall };
 				#show <131><TOO LOW ($recall_below_hit) - RECALL;
-				#if {$MSDP_QUEUE>2} {breakout};
+				#if { ($MSDP_QUEUE>2) && ($nextallowedbreakout<$MSDP_UPTIME) } {breakout};
 				queueAdd priority {recall};
-				#nop var bot[nextAction] {queueAdd priority recall};
 			}
 		}; 
 		#else {
@@ -508,7 +511,7 @@ init bot[rescue2] preferences off;
 			#default {#nop};
 		};
 		#var stats[damage][$bot[damage][multiple]] @increment{$stats[damage][$bot[damage][multiple]]};
-		queueAdd combat $bot[damage][multiple];
+		#if {$bot[damage][allowaoe]} { queueAdd combat $bot[damage][multiple]; } {#show <131>AOE NOT ALLOWED;queueAdd combat $bot[damage][single]; }
 	} 
 	{
 		#if {"%1"!=""} {
@@ -639,7 +642,7 @@ stats_reset;
 
 #alias {checkheros} {#math nextlevel { $MSDP_LEVEL+1 };levelreq $nextlevel;}
 
-#action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {gt Damaged item: @colorPctIngame{@pct{%2;%3}}% &0f%5&--}}
+#action {<%1>  %2/ %3 {the|a|an| } %5} {#if {@pct{%2;%3}<100} {#show Damaged item: @colorPctIngame{@pct{%2;%3}}% &0f%5&--}}
 
 #alias {dress %1} {
 	#if {"$MSDP_CLASS"=="Druid"} {shapechange normal;};
@@ -686,12 +689,6 @@ event_register {variable master[active]} {right} {generate_bot_info};
 	};
     #if {@is_alias{display_right_tiles}} {display_right_tiles};
 }
-
-#if {&{right_tiles}} {
-	set_right_tile 10 <B85678f> bot_info[%*] 6 tile;
-	generate_bot_info;
-}
-
 
 #NOP #######################################################
 #NOP Navigation and walking routes - MasterPlanner
@@ -1395,13 +1392,17 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var aggressivetooth 0;
 #var aggressiveprofession 0;
 
+#action {You breakout of your combat strategy and ignore all stacked commands. (%1 stamina used)} {
+	#math nextallowedbreakout {$MSDP_UPTIME + $mintimebetweenbreakout};
+}
+
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
 	#show <131>I'm tanking $tankingmobs mobs;
 	#if { ($getoutnow==0) && (($tankingmobs>=$allowedToTank) || (@leaderIsPresent{}==0)) } {
 		#var getoutnow 1;
 		#show <131>GET OUT!! Tanking $tankingmobs mobs, leader here:@leaderIsPresent{};
-		#if {$MSDP_QUEUE>2} {breakout};
+		#if { ($MSDP_QUEUE>2) && ($nextallowedbreakout<$MSDP_UPTIME) } {breakout};
 		queueAdd priority {recall}
 	}
 }
@@ -1439,11 +1440,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A gleaming, knife-length tooth lies here.} {#if $autotooth {nco get all.tooth}}
 #action {Gary drops %1 tooth.} {#if $autotooth {nco get all.tooth}} 
 #action {a %1 tooth: You can't carry that many items.}{put all.rec backpack;get rec backpack;get all.tooth all.corpse}
-#action {You get a %1 tooth from the corpse of a %2.} {nco put all.tooth $container;}
-#action {You get a %1 tooth.} {nco put all.tooth $container;}
+#action {You {get|palm} %1 tooth from the corpse of a %2.} {nco put all.tooth $container;}
+#action {You {get|palm} %1 tooth.} {nco put all.tooth $container;}
 
-#highlight {You get a %1 tooth from the corpse of a %2.} {cyan}
-#highlight {You get a %1 tooth.} {cyan}
+#highlight {You {get|palm} %1 tooth from the corpse of a %2.} {cyan}
+#highlight {You {get|palm} %1 tooth.} {cyan}
 #highlight {You extract some %2 bone from %3.} {cyan}
 
 #HIGHLIGHT {A spiteful spear erupts poisonous liquid.} {white}
@@ -1485,8 +1486,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #var needmetaat 3800000000;
 #var drain_corpses 0;
+#var willskinif 50;
 #ACTION {%0 is dead!  R.I.P.} {
-	#if {$profession[gather][auto]} { do_gather %0 };
+	#if { ($profession[gather][auto]) && (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}>$willskinif) } { do_gather %0 };
 	#if { $autotooth } {nco get all.tooth all.corpse;};
 	show_debug {<123>%0 is dead, what to do!!};
 	cleartarget;
@@ -1652,6 +1654,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #function return_min_sec {
 	#math temp[sec] { %1 % 60 };
 	#math temp[min] { %1 / 60 };
+	#if {$temp[min] == 0} {
+		#return $temp[sec]s;
+		break;
+	};
 	#if {$temp[min] > 59} {
 		#math temp[hour] { $temp[min] / 60 };
 		#math temp[min] { $temp[min] % 60 };

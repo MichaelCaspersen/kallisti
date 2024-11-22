@@ -172,13 +172,8 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 		#var profession_gather_info {$profession_gather_info \nRefining: Offline}
 	};
     #if {@is_alias{display_right_tiles}} {display_right_tiles};
+    #if {@is_alias{display_left_tiles}} {display_left_tiles};
 }
-
-#if {&{right_tiles}} {
-	set_right_tile 11 <B5f819d> profession_gather_info 2 tile;
-	generate_profession_info;
-}
-
 
 
 #NOP #######################################################
@@ -263,7 +258,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #alias maton {
 	#var profession[refining][auto] 1;
 	#if { $MSDP_UPTIME>86400 } {
-		#var profession[gather][selling] 1;
+		#var profession[gather][selling] 0;
 	};
 	generate_profession_info;
 	#var profession[refining][start] $MSDP_UPTIME;

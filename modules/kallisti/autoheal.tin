@@ -84,7 +84,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
         #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} < $healpct} {
             queueAdd heal {pheal}
         };
-        #if {@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} < $refreshpct} {
+        #if { (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}) } {
             queueAdd any {refresh}
         };
     };
@@ -105,7 +105,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
                 };
             }
         };
-        #if {$MSDP_GROUP[$_tmp][stamina] < $refreshpct } {
+        #if { ($MSDP_GROUP[$_tmp][stamina] < $refreshpct) && ($cur_opponents<1) } {
             #if {$MSDP_MANA > $refreshManaThreshold} {
                 show_debug {STAMINIA  $MSDP_GROUP[$_tmp][name]  $MSDP_GROUP[$_tmp][stamina]};
                 #if {@refreshBlacklist{$MSDP_GROUP[$_tmp][name]}} {

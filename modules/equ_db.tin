@@ -456,7 +456,7 @@ Commands:\n
     @avg_kills_per_hour{};
     #var cur_room_vnum $MSDP_ROOM_VNUM;
     #if {"$cur_room_vnum"=="?"} {#var cur_room_vnum 99999};
-    #var charsql {"$MSDP_CHARACTER_NAME" "$MSDP_ACCOUNT_NAME" "$MSDP_LEVEL" "$MSDP_ALIGNMENT" "$MSDP_HERO_POINTS" "$MSDP_HERO_POINTS_TNL" "$MSDP_EXPERIENCE" "$avg_xp_per_hour" "$MSDP_GOLD" "$MSDP_BANK_GOLD" "$MSDP_AREA_NAME" "$cur_room_vnum" "&MSDP_GROUP[]" "$MSDP_GROUPLEVEL" "$MSDP_WIELD" "$MSDP_HOLD" "$MSDP_SHIELD" "$MSDP_NOBLE_POINTS" "$char_event" "$MSDP_UPTIME"};
+    #var charsql {"$MSDP_CHARACTER_NAME" "$MSDP_ACCOUNT_NAME" "$MSDP_LEVEL" "$MSDP_ALIGNMENT" "$MSDP_HERO_POINTS" "$MSDP_HERO_POINTS_TNL" "$MSDP_EXPERIENCE" "$avg_xp_per_hour" "$MSDP_GOLD" "$MSDP_BANK_GOLD" "$MSDP_AREA_NAME" "$cur_room_vnum" "&MSDP_GROUP[]" "$MSDP_GROUPLEVEL" "$MSDP_WIELD" "$MSDP_HOLD" "$MSDP_SHIELD" "$MSDP_NOBLE_POINTS" "$char_event" "$MSDP_HEALTH_MAX" "$MSDP_MANA_MAX" "$MSDP_STAMINA_MAX" "$timesincelastkill" "$MSDP_UPTIME"};
     #script {pythonResponse} {
         python3 connect_char.py $charsql;
     };
@@ -464,19 +464,22 @@ Commands:\n
 }
 
 #alias sql_status_chars {
+    #var player_status_panel {};
     #script {pythonResponse} {python3 connect_status.py;};
     #nop show <131> Fetched Char info: [$pythonResponse];
     #foreach {$pythonResponse} {_id} {
        showCharStatus {$pythonResponse[$_id]};
     };
+    #if {@is_alias{display_left_tiles}} {display_left_tiles};
 }
 
 
 #alias showCharStatus {
-    #regexp {%1} {('{.*}', '{.*}', {.*}, {.*}, {.*}, {.*})} 
+    #regexp {%1} {('{.*}', '{.*}', {.*}, {.*}, {.*}, {.*}, {.*})} 
     {
-        #nop show True 1:&1 2:&2 3:&3 4:&4 5:&5 6:&6;
-        #show @expmeter{&1;&3;&4;&5;&6}
+        #nop show True 1:&1 2:&2 3:&3 4:&4 5:&5 6:&6 7:&7;
+        #show @expmeter{&1;&3;&4;&5;&6;&7};
+        #list player_status_panel add @expmeter{&1;&3;&4;&5;&6;&7};
     }
     {
         #nop show False
