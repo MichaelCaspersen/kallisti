@@ -373,6 +373,20 @@ init metaHero preferences 0
     book gumm;
 }
 
+#action {The meta-sage touches you, draining %1 experience points, ARGH - THIS HURTS!} {
+    #var meta[cost] %1
+}
+#action {+%1 hero points!  This is meta %2 for you and you now have %3 hero points.} {
+    #var meta[herogain] %1;
+    #var meta[nr] %2;
+    #var meta[herototal] %3
+}
+#action {Your heart pounds as your body grows more resilient.  +%1!} {
+    #var meta[gain] %1;
+    send_to_comms_session <170>Meta: $meta[nr] Gained: $meta[gain], worth $meta[herogain] nobs Cost: $meta[cost]
+}
+ 
+
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
 #action {^The meta-sage tells you 'You don't have enough gold.} {
