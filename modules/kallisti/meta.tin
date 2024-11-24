@@ -342,7 +342,23 @@ init metaHero preferences 0
         3s2es;
         book gumm;
         #action {Land is in sight!} {
-            #delay 10 {#unaction {Land is in sight!};gt &08yeshunt&--}
+            #delay 10 {
+                #unaction {Land is in sight!};
+                gt &08yeshunt&--;
+                #switch {"$MSDP_CHARACTER_NAME"} {
+                    #case {"Kroil"} {
+                        wear all;
+                    };
+                    #case {"Loke"} {
+                        grab scalpel;
+                        wear spiteful quick;
+                        wear heartseeker quick;
+                    };
+                    #default {
+                        wear all
+                    };
+                }
+            }
         };
         #action {You wash up on shore...} {
             #if {"$MSDP_AREA_NAME"=="The Wilderness"} {gt &08yeshunt&--;#if {"$MSDP_ACCOUNT_NAME"=="Kruoill"} {true;holygate crom}};
@@ -432,9 +448,6 @@ init metaHero preferences 0
         #var autometa off;
         dep all;
         wear all;
-        #unaction {Your mana reserve expands with new power.};
-        #unaction {Your heart pounds as your body grows more resilient.};
-        #unaction {Your heart races with fresh energy reserves.};
         16e2n;
         odometer_reset;
         returntostart
