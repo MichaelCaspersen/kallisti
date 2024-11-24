@@ -314,21 +314,12 @@ init metaHero preferences 0
     };
     #switch {"$MSDP_CHARACTER_NAME"} {
         #case {"Kroll"} {
-            #action {Your mana reserve expands with new power.} {buy mana};
-            #action {Your heart pounds as your body grows more resilient.} {buy hit};
-            #action {Your heart races with fresh energy reserves.} {buy stam};
             #delay 10 {#show <131>BUY HIT;buy hit}
         };
         #case {"Kroil"} {
-            #action {Your mana reserve expands with new power.} {buy mana};
-            #action {Your heart pounds as your body grows more resilient.} {buy hit};
-            #action {Your heart races with fresh energy reserves.} {buy stam};
             #delay 10 {#show <131>BUY MANA;buy mana}
         };
         #case {"Crom"} {
-            #action {Your mana reserve expands with new power.} {buy mana};
-            #action {Your heart pounds as your body grows more resilient.} {buy hit};
-            #action {Your heart races with fresh energy reserves.} {buy stam};
             #delay 10 {#show <131>BUY MANA;buy mana}
         };
         #case {"Kaicha"} {
@@ -337,8 +328,6 @@ init metaHero preferences 0
         };
         #case {"Loke"} {
             list;
-            #action {Your heart pounds as your body grows more resilient.} {buy hit};
-            #action {Your heart races with fresh energy reserves.} {buy stam};
             #delay 10 {#show <131>BUY HIT;buy hit}
         };
     }
@@ -383,12 +372,38 @@ init metaHero preferences 0
 }
 #action {Your heart pounds as your body grows more resilient.  +%1!} {
     #var meta[gain] %1;
-    send_to_comms_session <170>Meta: $meta[nr] Gained: $meta[gain], worth $meta[herogain] nobs Cost: $meta[cost]
+    send_to_comms_session <170>Meta: $meta[nr] Gained: $meta[gain], worth $meta[herogain] nobs Cost: $meta[cost];
+    #switch {"$MSDP_CHARACTER_NAME"} {
+        #case {"Kroll"} {
+            #delay 10 {#show <131>BUY HIT;buy hit}
+        };
+        #case {"Loke"} {
+            #delay 10 {#show <131>BUY HIT;buy hit}
+        };
+    }
 }
 #action {Your heart races with fresh energy reserves.  +%1!} {
     #var meta[gain] %1;
-    send_to_comms_session <170>Meta: $meta[nr] Gained: $meta[gain], worth $meta[herogain] nobs Cost: $meta[cost]
+    send_to_comms_session <170>Meta: $meta[nr] Gained: $meta[gain], worth $meta[herogain] nobs Cost: $meta[cost];
+    #switch {"$MSDP_CHARACTER_NAME"} {
+        #case {"STAM_NAME"} {
+            #delay 10 {#show <131>BUY HIT;buy hit}
+        };
+    }
 }
+#action {Your mana reserve expands with new power.  +%1!} {
+    #var meta[gain] %1;
+    send_to_comms_session <170>Meta: $meta[nr] Gained: $meta[gain], worth $meta[herogain] nobs Cost: $meta[cost];
+    #switch {"$MSDP_CHARACTER_NAME"} {
+        #case {"Kroil"} {
+            #delay 10 {#show <131>BUY MANA;buy mana}
+        };
+        #case {"Crom"} {
+            #delay 10 {#show <131>BUY MANA;buy mana}
+        };
+    }
+}
+
 
 
 
