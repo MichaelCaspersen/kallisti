@@ -385,7 +385,11 @@ init metaHero preferences 0
     #var meta[gain] %1;
     send_to_comms_session <170>Meta: $meta[nr] Gained: $meta[gain], worth $meta[herogain] nobs Cost: $meta[cost]
 }
- 
+#action {Your heart races with fresh energy reserves.  +%1!} {
+    #var meta[gain] %1;
+    send_to_comms_session <170>Meta: $meta[nr] Gained: $meta[gain], worth $meta[herogain] nobs Cost: $meta[cost]
+}
+
 
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
