@@ -237,7 +237,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
-#action {You {get|palm} some %2 {hide|meat} from %4.} {
+#unaction {You {get|palm} some %2 {hide|meat} from %4.} {
 	show_debug {<157>GET/PALM HIDE <%1> <%2> <%3> <%4>};
 	#switch {"%2"} {
 		#case {"junk"} { sac %3 };
@@ -249,7 +249,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 }
 
 #var autopickuphides 0;
-#action {Some {hide|bone|meat} from %2 lies here.} {#if {($autopickuphides) && ("$MSDP_AREA_NAME"=="The Wilderness")} {get %1}}
+#action {Some {hide|bone|meat} from %2 lies here.} {#if {($autopickuphides) && ("$MSDP_AREA_NAME"=="The Wilderness")} {get %1;donate %1 home}}
 
 
 #NOP #######################################################
