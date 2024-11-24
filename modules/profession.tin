@@ -237,11 +237,11 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 	generate_profession_info;
 }
 
-#unaction {You {get|palm} some %2 {hide|meat} from %4.} {
+#action {You {get|palm} some %2 {hide|meat} from %4.} {
 	show_debug {<157>GET/PALM HIDE <%1> <%2> <%3> <%4>};
 	#switch {"%2"} {
-		#case {"junk"} { sac %3 };
-		#case {"rough"} { sac %3 };
+		#nop case {"junk"} { sac %3 };
+		#nop case {"rough"} { sac %3 };
 		#default {
 			donate %3 home;
 		};
