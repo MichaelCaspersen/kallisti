@@ -235,6 +235,10 @@ event_register {level gain} {remort} {handle_remort_level};
         };
         #CASE {60} { 
             #show <131>END OF JOURNEY, NEXT STEP: create bloodlines;
+            #show <131>DO LAMIA QUEST;
+        };
+        #CASE {85} { 
+            #ticker remind_to_quest {#show <131>NEED TO DO SKYBIRD AND ROOT DWELLER QUESTS} 10;
         };
         #DEFAULT {
             #show <131>NO LEVEL %2 ACTION DEFINED;
