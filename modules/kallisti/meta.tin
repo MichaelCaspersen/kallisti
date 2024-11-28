@@ -421,7 +421,7 @@ init metaHero preferences 0
 }
 
 
-
+#action {You lose %1 experience, %2 MaxHp, %3 MaxMana, and %4 MaxStamina.} {send_to_comms_session <170>DEATH: [$MSDP_ROOM_VNUM] You lose <110>%1<170> experience, <110>%2<170> MaxHp, <110>%3<170> MaxMana, and <110>%4<170> MaxStamina.}
 
 #action {^The meta-sage tells you 'You have to remove ALL your items first.'} {dress 0;autometa}
 #action {^The meta-sage tells you 'You don't have enough gold.} {
