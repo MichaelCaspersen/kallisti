@@ -1498,8 +1498,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
 			queueAdd priority animate corpse;
 		}; #elseif {$gathercorpses} {
-			#action {You get the corpse of %1.} {#math drain_corpses {$drain_corpses+1};#unaction {You get the corpse of %1.};nco ecorpse corpse};
+			#action {You get the corpse of %1.} {#math drain_corpses {$drain_corpses+1};nco ecorpse corpse;#unaction {You get the corpse of %1.}};
 			#action {You connect the corpse of %1 to the ethereal realm. It fades slightly.} {#unaction {You connect the corpse of %1 to the ethereal realm. It fades slightly.};put corpse $container};
+			#action {The corpse of an orcish raider decays in your hands.}
 			get corpse
 		}; #else {
 			#NOP options:   edrain/vdrain/viscera;

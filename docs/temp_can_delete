@@ -1,0 +1,620 @@
+<?php
+error_reporting(-1);
+ini_set('display_errors', 'On');
+include "db-config.php";
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .left-panel {
+            width: 300px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            position: fixed;
+            height: 100%;
+        }
+
+        /* Basic right panel scrollable area */
+        .right-panel {
+            margin-left: 300px;
+            padding: 20px;
+            width: calc(100% - 300px);
+            overflow-y: auto;
+        }
+
+        /* Card styling */
+        .card {
+            margin-bottom: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        /* Style the clickable card header */
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #f8f9fa;
+            /* A background color to indicate interactivity */
+        }
+
+        .card-header:hover {
+            background-color: #e2e6ea;
+            /* Change color on hover for feedback */
+        }
+
+        .kal_class {
+            white-space: nowrap;
+            width: 15%;
+        }
+
+
+        .kal_class_level {
+            white-space: nowrap;
+            width: 5%;
+        }
+
+        /* Grid layout for the expanded content */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 2fr 3fr 3fr;
+            /* Three equal columns */
+            gap: 10px;
+            /* Space between columns */
+            padding: 10px;
+        }
+
+        /* Grid layout for the expanded content */
+        .grid-layout-requirements {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 2fr;
+            /* Four equal columns */
+            gap: 10px;
+            /* Space between columns */
+            padding: 1px;
+        }
+
+        .col {
+            padding: 10px;
+            border-right: 1px solid #dee2e6;
+        }
+
+        /* Remove the border on the last column */
+        .col:last-child {
+            border-right: none;
+        }
+
+        /* Button styling */
+        .btn-link {
+            background: none;
+            border: none;
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .btn-link:hover {
+            color: #0056b3;
+        }
+    </style>
+
+    <script>
+        function toggleCard(header) {
+            // Collapse any open cards first
+            const allCards = document.querySelectorAll('.card-body');
+
+            allCards.forEach((cardBody) => {
+                if (cardBody !== header.nextElementSibling) {
+                    cardBody.style.display = 'none'; // Collapse all other cards
+                }
+            });
+
+            // Toggle the clicked card
+            const cardBody = header.nextElementSibling; // The next sibling of the header is the body
+            if (cardBody.style.display === "none" || cardBody.style.display === "") {
+                cardBody.style.display = "grid"; // Display the card body as a grid
+            } else {
+                cardBody.style.display = "none"; // Hide the card body
+            };
+            highlightElementsById(document.getElementById('class').value);
+        }
+
+        function highlightElementsById(id) {
+            // Select all elements with the given ID
+            var elements = document.querySelectorAll('#' + id);
+
+            elements.forEach(function(element) {
+                // Highlight the element with a background color
+                element.style.backgroundColor = '#dddddd';
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Column -->
+            <div class="col-auto" style="width: 300px; background-color: #f8f9fa; height: 100vh; overflow-y: auto;">
+                <form method="post" id="searchForm">
+                    <div class="mb-3">
+                        <label for="search" class="form-label">Search</label>
+                        <input type="text" class="form-control" name="equname" id="equname" placeholder="Enter name of equipment">
+                        <select name="class" class="form-select" id="class">
+                            <option value="">Choose class</option>
+                            <option value="Fighter">Fighter</option>
+                            <option value="Barbarian">Barbarian</option>
+                            <option value="Dreadlord">Dreadlord</option>
+                            <option value="Paladin">Paladin</option>
+                            <option value="Ranger">Ranger</option>
+                            <option value="Valkyrie">Valkyrie</option>
+                            <option value="Rogue">Rogue</option>
+                            <option value="Assassin">Assassin</option>
+                            <option value="Bard">Bard</option>
+                            <option value="Demoniac">Demoniac</option>
+                            <option value="Priest">Priest</option>
+                            <option value="Druid">Druid</option>
+                            <option value="Prophet">Prophet</option>
+                            <option value="Templar">Templar</option>
+                            <option value="Mage">Mage</option>
+                            <option value="Necromancer">Necromancer</option>
+                            <option value="Wizard">Wizard</option>
+                            <option value="Monastic">Monastic</option>
+                            <option value="Monk">Monk</option>
+                            <option value="Samurai">Samurai</option>
+                        </select>
+                        <select name="type" class="form-select" id="type">
+                            <option value="">Choose type</option>
+                            <option value="Light">Light</option>
+                            <option value="MonkGloves">MonkGloves</option>
+                            <option value="Weapon">Weapon</option>
+                            <option value="Worn">Worn</option>
+                            <option value="Missile_Weapon">Missile_Weapon</option>
+                            <option value="Missile_Container">Missile_Container</option>
+                            <option value="Armor">Armor</option>
+                            <option value="Spellbook">Spellbook</option>
+                            <option value="Instrument">Instrument</option>
+                            <option value="Portal">Portal</option>
+                            <option value="Container">Container</option>
+                            <option value="Scroll">Scroll</option>
+                            <option value="Fabric">Fabric</option>
+                            <option value="Wand">Wand</option>
+                            <option value="Treasure">Treasure</option>
+                            <option value="Boat">Boat</option>
+                            <option value="Sextant">Sextant</option>
+                            <option value="Staff">Staff</option>
+                            <option value="Rod">Rod</option>
+                            <option value="Potion">Potion</option>
+                            <option value="Pen">Pen</option>
+                            <option value="Trash">Trash</option>
+                            <option value="Note">Note</option>
+                            <option value="HarnessingGem">HarnessingGem</option>
+                        </select>
+                        <select name="position" class="form-select" id="position">
+                            <option value="">Position</option>
+                            <option value="Anklet">Anklet</option>
+                            <option value="About_Body">About_Body</option>
+                            <option value="Arms">Arms</option>
+                            <option value="Back">Back</option>
+                            <option value="Body">Body</option>
+                            <option value="Ear">Ear</option>
+                            <option value="Eyes">Eyes</option>
+                            <option value="Face">Face</option>
+                            <option value="Feet">Feet</option>
+                            <option value="Finger">Finger</option>
+                            <option value="Floating">Floating</option>
+                            <option value="Hands">Hands</option>
+                            <option value="Head">Head</option>
+                            <option value="Hold">Hold</option>
+                            <option value="Leg">Leg</option>
+                            <option value="Legs">Legs</option>
+                            <option value="Neck">Neck</option>
+                            <option value="OneArm">OneArm</option>
+                            <option value="OneFoot">OneFoot</option>
+                            <option value="OneHand">OneHand</option>
+                            <option value="OneLeg">OneLeg</option>
+                            <option value="Shield">Shield</option>
+                            <option value="Surrounding">Surrounding</option>
+                            <option value="Waist">Waist</option>
+                            <option value="Wield">Wield</option>
+                            <option value="Wrist">Wrist</option>
+                        </select>
+                        <input type="text" class="form-control" name="affects" id="affects" placeholder="Enter part of affect/special">
+                        <input type="text" class="form-control" name="minlevel" id="minlevel" placeholder="Enter min level">
+                        <input type="text" class="form-control" name="maxlevel" id="maxlevel" placeholder="Enter max level">
+                        <input type="text" class="form-control" name="maxresults" id="maxresults" placeholder="50">
+                        <input type="text" class="form-control" name="zone" id="zone" placeholder="Enter zone">
+                    </div>
+                    <input type="submit" class="btn btn-primary" name="submit-btn" value="submit">
+                    <input type="reset" class="btn btn-primary" name="reset-btn" value="reset">
+                </form>
+                <br>
+                <script>
+                    document.getElementById('equname').value = "<?php echo $_POST['equname']; ?>";
+                    document.getElementById('class').value = "<?php echo $_POST['class']; ?>";
+                    document.getElementById('type').value = "<?php echo $_POST['type']; ?>";
+                    document.getElementById('position').value = "<?php echo $_POST['position']; ?>";
+                    document.getElementById('affects').value = "<?php echo $_POST['affects']; ?>";
+                    document.getElementById('minlevel').value = "<?php echo $_POST['minlevel']; ?>";
+                    document.getElementById('maxlevel').value = "<?php echo $_POST['maxlevel']; ?>";
+                    document.getElementById('maxresults').value = "<?php echo $_POST['maxresults']; ?>";
+                    document.getElementById('zone').value = "<?php echo $_POST['zone']; ?>";
+                </script>
+
+
+                <?php
+                $params = array("equname" => "", "class" => "", "type" => "", "affects" => "", "minlevel" => "", "maxlevel" => "", "zone" => "", "position" => "", "maxresults" => "");
+                if (isset($_POST["submit-btn"])) {
+                    $post_data = file_get_contents('php://input');
+                    parse_str($post_data, $params);
+                    //echo "<div> POST BODY <br>".$post_data."</div>";         
+                }
+
+                //$query = 'select name from items where name like CONCAT("%", ?, "%")'
+                $query = "SELECT * FROM items WHERE name LIKE '%" . $params['equname'] . "%'";
+
+                if ($params['class'] != '') {
+                    if ($params['minlevel'] != '') {
+                        $query .= " AND minlevel_" . $params['class'] . ">=" . $params['minlevel'];
+                    };
+                    if ($params['maxlevel'] != '') {
+                        $query .= " AND minlevel_" . $params['class'] . "<=" . $params['maxlevel'];
+                    };
+                    if ($params['minlevel'] == '' && $params['maxlevel'] == '') {
+                        $query .= " AND minlevel_" . $params['class'] . "<999";
+                    };
+                }
+                if ($params['type'] != '') {
+                    $query .= " AND type ='" . $params['type'] . "'";
+                }
+                if ($params['position'] != '') {
+                    $query .= " AND worn ='" . $params['position'] . "'";
+                }
+                if ($params['zone'] != '') {
+                    $query .= " AND zone LIKE '%" . $params['zone'] . "%'";
+                }
+                if ($params['affects'] != '') {
+                    $query .= " AND (";
+                    $query .= " affects_1_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR affects_2_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR affects_3_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR affects_4_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR affects_5_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR affects_6_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR affects_7_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR special_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR spell_1_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR spell_2_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " OR spell_3_name LIKE '%" . $params['affects'] . "%'";
+                    $query .= " )";
+                }
+                if ($params['position'] != '') {
+                    $query .= " ORDER BY weapon_damage DESC";
+                }
+                if ($params['maxresults'] != '') {
+                    $query .= " LIMIT " . $params['maxresults'];
+                } else {
+                    $query .= " LIMIT 10";
+                }
+
+                echo "<!--" . $query . "-->";
+                $handle = $dbconn->prepare($query);
+                //$handle->bindValue(1, );
+
+                $handle->execute();
+
+                echo "<br>Results:" . $handle->rowCount() . "<br>";
+
+                // Using the fetchAll() method might be too resource-heavy if you're selecting a truly massive amount of rows.
+                // If that's the case, you can use the fetch() method and loop through each result row one by one.
+                // You can also return arrays and other things instead of objects.  See the PDO documentation for details.
+                $result = $handle->fetchAll(PDO::FETCH_OBJ);
+                function clean_min_level($level)
+                {
+                    if ($level == 999) {
+                        return "!";
+                    } else {
+                        return $level;
+                    }
+                }
+                ?>
+
+
+            </div>
+
+            <!-- Middle Column (Scrollable) -->
+            <div class="col" style="height: 100vh; overflow-y: auto;">
+
+                <div id="results">
+                    <!-- Example card -->
+                    <?php
+                    foreach ($result as $row) {
+                    ?>
+                        <div class="card">
+                            <div class="card-header clickable" onclick="toggleCard(this)">
+                                (<?php echo json_encode($row->equ_id, JSON_HEX_TAG); ?>) <?php echo htmlspecialchars($row->name, JSON_HEX_TAG); ?> (<?php echo htmlspecialchars($row->worn, JSON_HEX_TAG); ?>) <button class="btn btn-primary" onclick="updateRightColumn('Item 1')">Select</button>
+                            </div>
+
+                            <div class="card-body grid-layout" style="display: none;">
+                                <div class="col">
+                                    <div style="display: flex;">
+                                        <div style="margin-right: 10px;"><strong>Zone:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->zone), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="margin-right: 10px;"><strong>Type:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->type), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->quality == '') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Quality:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->quality), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->worn == '') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Worn:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->worn), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->features == 'features') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Features:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->features), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="margin-right: 10px;"><strong>Composition:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->composition), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->restricted == '') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Restricted:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->restricted), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->quality == '') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Quality:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->quality), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->hoursremaining == 0) ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Hours remaining:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->hoursremaining), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->color == '') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Color:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->color), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->capacity == 0) ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Capacity:</strong></div>
+                                        <div><?php echo htmlspecialchars(clean_min_level($row->capacity), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <div style="margin-right: 10px;"><strong>Weight:</strong></div>
+                                        <div style="margin-right: 10px;">
+                                            <?php echo htmlspecialchars(clean_min_level($row->weight), JSON_HEX_TAG); ?> stones,</div>
+                                        <div style="margin-right: 10px;"><strong> Value:</strong></div>
+                                        <div style="margin-right: 10px;">
+                                            <?php echo htmlspecialchars(clean_min_level($row->value), JSON_HEX_TAG); ?> coins, </div>
+                                        <div style="margin-right: 10px;"><strong> Size:</strong></div>
+                                        <div style="margin-right: 10px;">
+                                            <?php echo htmlspecialchars(clean_min_level($row->size), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div style="display: flex;" <?php echo ($row->special_name == '') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Special:</strong></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars($row->special_name, JSON_HEX_TAG); ?>, </div>
+                                        <div style="margin-right: 10px;"><strong>Power:</strong></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars($row->special_power, JSON_HEX_TAG); ?>, </div>
+                                        <div style="margin-right: 10px;"><strong>Frequency:</strong></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars($row->special_frequency, JSON_HEX_TAG); ?> %, </div>
+                                        <div style="margin-right: 10px;"><strong>Dice:</strong></div>
+                                        <div style="margin-right: 10px;">
+                                            <?php echo htmlspecialchars($row->special_dice1, JSON_HEX_TAG); ?>d<?php echo htmlspecialchars($row->special_dice2, JSON_HEX_TAG); ?>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex;">
+                                        <div style="margin-right: 10px;"><strong>Affects:</strong></div>
+                                    </div>
+                                    <?php
+                                    for ($i = 1; $i <= 7; $i++) {
+                                        $j = $i + 1;
+                                        $sql_field = "affects_" . $i . "_name";
+                                        $sql_field_next = "affects_" . $j . "_name";
+                                        $sql_field_value = "affects_" . $i . "_rank";
+                                        $sql_field_next_value = "affects_" . $j . "_rank";
+                                        if ($row->$sql_field == "hitroll" and $row->$sql_field_next == "damroll" and $row->$sql_field_value == $row->$sql_field_next_value) {
+                                            print("<div style=display: flex;>");
+                                            print("<div>" . $row->$sql_field_value . " Hitroll_and_Damroll</div>");
+                                            print("</div>");
+                                            $i++;
+                                        } elseif ($row->$sql_field == "hitpoints" and $row->$sql_field_next == "mana" and $row->$sql_field_value == $row->$sql_field_next_value) {
+                                            print("<div style=display: flex;>");
+                                            print("<div>" . $row->$sql_field_value . " Hitpoints_and_Mana</div>");
+                                            print("</div>");
+                                            $i++;
+                                        } elseif ($row->$sql_field == "") {
+                                        } else {
+                                            print("<div style=display: flex;>");
+                                            print("<div>" . $row->$sql_field . " " . $row->$sql_field_value . "</div>");
+                                            print("</div>");
+                                        };
+                                    };
+                                    ?>
+                                    <div style="display: flex;" <?php echo ($row->spell_1_name == '') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Spells:</strong></div>
+                                    </div>
+                                    <?php
+                                    for ($i = 1; $i <= 3; $i++) {
+                                        $sql_field = "spell_" . $i . "_name";
+                                        $sql_field_value = "spell_" . $i . "_level";
+                                        if ($row->$sql_field != "") {
+                                            print("<div style=display: flex;>");
+                                            print("<div>" . $row->$sql_field . " " . $row->$sql_field_value . "</div>");
+                                            print("</div>");
+                                            $i++;
+                                        };
+                                    };
+                                    ?>
+                                    <div style="display: flex;" <?php echo ($row->weapon_dice1 == 0) ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;">
+                                            <strong>Damage Dice:</strong> <?php echo htmlspecialchars($row->weapon_dice1, JSON_HEX_TAG); ?>d<?php echo htmlspecialchars($row->weapon_dice2, JSON_HEX_TAG); ?> (<?php echo htmlspecialchars($row->weapon_damage, JSON_HEX_TAG); ?>),
+                                            <strong>Weaponspeed:</strong> <?php echo htmlspecialchars($row->weapon_speed, JSON_HEX_TAG); ?> (<?php echo htmlspecialchars($row->weapon_speednum, JSON_HEX_TAG); ?>),
+                                            <strong>Attack Type:</strong> <?php echo htmlspecialchars($row->weapon_attacktype, JSON_HEX_TAG); ?>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;" <?php echo ($row->weapon_missiletype == '') ? 'class="d-none"' : ''; ?>>
+                                        <div style="margin-right: 10px;"><strong>Missile Type:</strong></div>
+                                        <div><?php echo htmlspecialchars($row->weapon_missiletype, JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div style="margin-right: 10px;" <?php echo ($row->weapon_skilltype == '') ? 'class="d-none"' : ''; ?>><strong>Requirements:</strong></div>
+                                    <div class="grid-layout-requirements <?php echo ($row->weapon_skilltype == '') ? 'd-none' : ''; ?>">
+                                        <div style="margin-right: 10px;"></div>
+                                        <div style="margin-right: 10px;"><strong>Strength:</strong></div>
+                                        <div style="margin-right: 10px;"><strong>Dexterity:</strong></div>
+                                        <div style="margin-right: 10px;"><strong>Rank (<?php echo htmlspecialchars($row->weapon_skilltype, JSON_HEX_TAG); ?>):</strong></div>
+                                    </div>
+                                    <div class="grid-layout-requirements <?php echo ($row->weapon_skilltype == '') ? 'd-none' : ''; ?>">
+                                        <div style="margin-right: 10px;"><strong>Wield:</strong></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars(clean_min_level($row->weapon_wield_str), JSON_HEX_TAG); ?></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars(clean_min_level($row->weapon_wield_dex), JSON_HEX_TAG); ?></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars(clean_min_level($row->weapon_wield_rank), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                    <div class="grid-layout-requirements <?php echo ($row->weapon_skilltype == '') ? 'd-none' : ''; ?>">
+                                        <div style="margin-right: 10px;"><strong>Hold:</strong></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars(clean_min_level($row->weapon_hold_str), JSON_HEX_TAG); ?></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars(clean_min_level($row->weapon_hold_dex), JSON_HEX_TAG); ?></div>
+                                        <div style="margin-right: 10px;"><?php echo htmlspecialchars(clean_min_level($row->weapon_hold_rank), JSON_HEX_TAG); ?></div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="container">
+                                        <h5>Minimum Level:</h5>
+                                        <div class="row">
+                                            <div id="Fighter" class="col-md-1 kal_class">Fighter:</div>
+                                            <div id="Fighter" class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_fighter), JSON_HEX_TAG); ?></div>
+                                            <div id="Rogue" class="col-md-1 kal_class">Rogue:</div>
+                                            <div id="Rogue" class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_rogue), JSON_HEX_TAG); ?></div>
+                                            <div id="Priest" class="col-md-1 kal_class">Priest:</div>
+                                            <div id="Priest" class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_priest), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Monastic:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_monastic), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Mage:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_mage), JSON_HEX_TAG); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div id="Barbarian" class="col-md-1 kal_class">Barbarian:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_barbarian), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Assassin:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_assassin), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Templar:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_templar), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Monk:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_monk), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Wizard:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_wizard), JSON_HEX_TAG); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1 kal_class">Paladin:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_paladin), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Demoniac:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_demoniac), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Druid:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_druid), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Samurai:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_samurai), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Necromancer:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_necromancer), JSON_HEX_TAG); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1 kal_class">Dreadlord:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_dreadlord), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Bard:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_bard), JSON_HEX_TAG); ?></div>
+                                            <div class="col-md-1 kal_class">Prophet:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_prophet), JSON_HEX_TAG); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1 kal_class">Ranger:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_ranger), JSON_HEX_TAG); ?></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1 kal_class">Valkyrie:</div>
+                                            <div class="col-md-1 kal_class_level">
+                                                <?php echo htmlspecialchars(clean_min_level($row->minlevel_valkyrie), JSON_HEX_TAG); ?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php
+                    }
+                    ?>
+
+                </div>
+
+            </div>
+
+            <!-- Right Column -->
+            <div class="col-auto" style="width: 300px; background-color: #f8f9fa; height: 100vh; overflow-y: auto;">
+
+                <p>
+                <h4>Selected Item</h4>
+                <p id="selectedItem">None</p>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <script>
+        function expandCard(button) {
+            const cardBody = button.parentElement;
+            const description = cardBody.querySelector('.card-text');
+            description.textContent = description.textContent === 'Description of result 1.' ? 'Detailed description of result 1' : 'Description of result 1.';
+        }
+
+        function updateRightColumn(item) {
+            // Update the content in the right column
+            document.getElementById('selectedItem').textContent = item;
+        }
+    </script>
+</body>
+
+</html>

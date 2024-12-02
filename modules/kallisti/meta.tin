@@ -348,6 +348,8 @@ init metaHero preferences 0
                 #switch {"$MSDP_CHARACTER_NAME"} {
                     #case {"Kroil"} {
                         wear all;
+                        rem sex;
+                        grab book;
                     };
                     #case {"Loke"} {
                         grab scalpel;
