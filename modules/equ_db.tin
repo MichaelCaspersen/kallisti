@@ -402,6 +402,14 @@ Commands:\n
     #nop delay 0.5 {#var equ}
 }
 
+#alias exa {
+    equ_var_reset;
+    #var affects_id 1;
+    #var spell_id 1;
+    examine %1;
+    #nop delay 0.5 {#var equ}
+}
+
 #variable equ_debug 0;
 #variable log {equ.csv}
 #variable csvheader {name;from;type;quality;worn;features;composition;restricted;weight;value;size;weaponspeed;weaponspeednum;weaponmissiletype;punchdamagedice1;punchdamagedice2;specialname;specialpower;specialfrequency;specialfrequencynum;specialdice1;specialdice2;acmax;accurrent;hoursremaining;color;capacity;weapondice1;weapondice2;weapondamage;weaponattacktype;spellchargesmax;spellchargesleft;missilestr_required;missiledice1;missiledice2;missiletype;missileboomeranging;spelllevel;spellspells;spell1name;spell1level;spell2name;spell2level;spell3name;spell3level;castlevel;affects1name;affects1rank;affects2name;affects2rank;affects3name;affects3rank;affects4name;affects4rank;affects5name;affects5rank;affects6name;affects6rank;affects7name;affects7rank;minlevelfighter;minlevelrogue;minlevelpriest;minlevelmonastic;minlevelmage;minlevelbarbarian;minlevelassassin;minleveltemplar;minlevelmonk;minlevelwizard;minlevelpaladin;minleveldemoniac;minleveldruid;minlevelsamurai;minlevelnecromancer;minleveldreadlord;minlevelbard;minlevelprophet;minlevelranger;minlevelvalkyrie;weaponskilltype;weaponwieldstr;weaponwielddex;weaponwieldrank;weaponholdstr;weaponholddex;weaponholdrank;armortype;armorwearstr;armorwearrank;ammotype;ammocurrent;ammomax;ammodice1;ammodice2}
