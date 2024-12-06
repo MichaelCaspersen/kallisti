@@ -1274,6 +1274,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
 #action {**Kroll: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
+#action {**Pif: '$MSDP_CHARACTER_NAME %1'} {#var pif_delay $MSDP_UPTIME;#show <131>PIF <$pif_delay>;%1;#var pif_delay $MSDP_UPTIME} 3
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
 
 #action {Gary issues the order: hamstring%1} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>Gary;queueAdd priority hamstring %1}} {2}
@@ -1325,6 +1326,36 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#show <131>BUFFER SCAN END;
 	#var newroom 0;
 }
+
+#alias scan_line_wilder {
+	#var line_id %1;
+	#var temp_line temp_buffer[$line_id];
+	#regexp $temp_line {{.*}@{.*}} {
+		#show LINE CONTAINING ME: $line_id;
+		#list temp_line_me explode {@};
+	} {
+		#show LINE NOT CONTAING ME;
+		#list temp_line_me explode {h};
+		#if {&temp_line[]>1} {
+			#math herbs_found {$temp_line_size -1};
+			#show We found $herbs_found herbs;
+			#format temp_line_len_x {%L} {$temp_line};
+		}; #else {
+			#show No herbs found in line;
+		}
+	};
+
+	
+	#list temp_line explode {h};
+	#list temp_line size temp_line_size;
+	#if {$temp_line_size>1} {
+		#show We found $temp_line_size -1 herbs;
+		#format temp_line_len_x {%L} {$temp_line};
+	}; #else {
+		#show No herbs found in line;
+	}
+}
+
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
