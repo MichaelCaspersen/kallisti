@@ -1247,6 +1247,14 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #NOP Assassin specific
 #action {%1 doesn't have a normal hamstring.} {ba}
 
+
+#NOP #######################################################
+#NOP Waves of War
+#NOP #######################################################
+#highlight {A %1 sized cannon rests here, aimed haphazardly out the ship.} {red}
+
+
+
 #NOP #######################################################
 #NOP Wilderness
 #NOP #######################################################

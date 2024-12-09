@@ -20,3 +20,113 @@ AVERNUS
 
 an intricately folded packet       (contains key for Dispater)
 a carved crystal figurine of a dragon
+
+
+
+
+
+Waves of War
+
+ !LEGEND!   H- Human Ship     O- Orc Ship   Always check Orc Ships with the tank to see if it's clear
+(directions in order of ships)
+1H   Hunter          (from [A Small Passage Between Gun Decks] s3w enter cannon)
+2O   Vinscheer       (from [The Companionway of the Vinscheer] s enter cannon) 
+3    [In the water]  (es enter ship)
+4O   Ulingov         (from [The Companionway of the Ulingov] e enter cannon)
+5H   Allure          (from [A Small Passage Between Gun Decks] en enter cannon)
+6    [In the water]  (sw enter ship)
+7H   Meteor          (from [A Small Passage Between Gun Decks] s enter cannon)
+8O   Sinvog          (from [The Companionway of the Sinvog] s enter cannon)
+9    [In the water]  (s enter ship)
+10O  Vinyol          (from [A Small Passage Between Gun Decks] w enter [An Intersection] cannon)
+11H  Cortes          (from [A Small Passage Between Gun Decks] ws enter cannon
+12   [In the water]  (sw enter ship)
+13H  Hornet***       (from [A Small Passage Between Gun Decks] e enter cannon
+14   [*Under water*] need breathe water and can move quickly to summon those without
+15   Beside a Sunken Ship---- neess then up (leads to *Oriziba Big Orc Ship*) *2 guards to kill on the Oriziba/Challenger Captains 
+***** Ship that leads to underwater ship that leads to the Oriziba (Big Orc Ship)
+---------------------------------------------------------------------------------------------------------------------------------------
+ Ulingov.        *Screams of war                   * Pick
+ Meteor.         *Sea soaked sleeves of stoddard   * Knock
+ Allure.         *Shield of the Blameless
+ Vorgyun.        *a twisted ring of rusted metal
+ Wizgar.         *the fists of rage
+***Hornet.       *the quiver of Rayne
+ Vinscheer.      *a set of bloody footprints
+ Ygormin.        *Spear of the spiteful
+ Hunter.         *Sea legs
+ Orizaba.        *the soul-stealing hands of Dessleqk/a tattoo of hideous fangs (Captain D's doors are knock and pick)
+ Challenger.     *a medal of valor/the boots of readiness
+ Kygol.          *Tattoo of serpents
+ Rattler.        *Stromalitic cyanobacteria
+ Tornado.        *Stalman's Defiance
+ Vinyol.         *a tattoo of flames
+ Sinvog.         *Nevs will
+ Cortes.         *a white linen body-wrap
+ Govgyl.         *Warpaint on face
+ Serpent.        *Bow
+ Whirlwind.      *Belt of Truth
+
+9:46
+my old notes on area - not sure how current, but may help
+  
+  
+  Ygormin (ORC) take west ship from 3    (from [The Companionway of the Ygormin] w3s enter cannon)
+  Rattler (HUMAN) (from [An Intersection on the Gun Deck] w enter cannon, in water se -> Tornado)
+  Tornado (HUMAN) (from [An Intersection on the Gun Deck] s enter cannon -> Kygol
+  Kygol (ORC)  (from [The Companionway of the Kygol] s3w enter cannon -> water -> Govgyl
+  Govgyl (ORC)  (from [******] *** enter cannon -> ***** -> ******
+
+  ***** (****)  (from [******] *** enter cannon -> ***** -> ******
+  ***** (****)  (from [******] *** enter cannon -> ***** -> ******
+  ***** (****)  (from [******] *** enter cannon -> ***** -> ******
+  ***** (****)  (from [******] *** enter cannon -> ***** -> ******
+  ***** (****)  (from [******] *** enter cannon -> ***** -> ******
+
+  
+Ulingov
+Ygromin
+Allure
+Vinscheer
+
+
+
+
+
+
+Caverns Below
+#action {A soul generator sends a bolt of energy at the soul of %1, completely reanimating it.} {gt bad kill on %1, trap not dropped}
+#action {The soul of %1 briefly appears, and is then sucked into the soul trap!}{#math soulscaptured {$soulscaptured+1};gt good kill on %1, soul captured, total souls: $soulscaptured;#delay 4 gettrap;#var trapdrop 0}
+#alias gettrap {#show <131>TRYING TO GET TRAP: Opp $MSDP_OPPONENT_NUMBER;#if {($MSDP_OPPONENT_NUMBER<1)} {#nop get trap}}
+#ticker {droptrap} {#if { ($MSDP_OPPONENT_NUMBER>0) && ($trapdrop==0) && ("$MSDP_AREA_NAME"=="Caverns Below") } {#show <131>DROP TRAP;gt dropping trap;drop trap;#var trapdrop 1}} {2}
+#nop action {A small device used for trapping souls is here.%1} {#if { ($MSDP_OPPONENT_NUMBER<1) && ($trapdrop==0) && ("$MSDP_AREA_NAME"=="Caverns Below") } {gettrap}}
+#action {%1 {drop|drops} a soul trap.} {#var trapdrop 1}
+#action {%1 {get|gets} a soul trap.} {#var trapdrop 0;gt Soul trap picked up}
+#var soulscaptured 0;
+#var MSDP_PROMPT
+#action {A soul trap begins shaking violently as its magic fails outside of the factory!} {gt Left factory, Soul trap shattered}
+#action {A soul trap shatters into a swirling cloud of wild magic!} {#nop}
+ 
+
+
+
+xdc
+xrp
+
+uphold
+
+
+RENAT
+2n4w2n3w3us3e5s3us2e2sw
+
+
+SURGARD
+5944 - Methusa + Pineapple
+5928 - 
+
+
+HALLS OF CHAMPIONS
+Hall of patience - yellow key
+pull yellow;pull blue;pull green;pull green;yellow;pull yellow;pull red;pull green
+get iron key
+
