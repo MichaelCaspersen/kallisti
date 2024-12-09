@@ -11,33 +11,18 @@
 
 Waves of War
 
-4O   Ulingov         (from [The Companionway of the Ulingov] e enter cannon)
-5H   Allure          (from [A Small Passage Between Gun Decks] en enter cannon)
-6    [In the water]  (sw enter ship)
-7H   Meteor          (from [A Small Passage Between Gun Decks] s enter cannon)
-8O   Sinvog          (from [The Companionway of the Sinvog] s enter cannon)
-9    [In the water]  (s enter ship)
-10O  Vinyol          (from [A Small Passage Between Gun Decks] w enter [An Intersection] cannon)
-11H  Cortes          (from [A Small Passage Between Gun Decks] ws enter cannon
-12   [In the water]  (sw enter ship)
-13H  Hornet***       (from [A Small Passage Between Gun Decks] e enter cannon
-14   [*Under water*] need breathe water and can move quickly to summon those without
-15   Beside a Sunken Ship---- neess then up (leads to *Oriziba Big Orc Ship*) *2 guards to kill on the Oriziba/Challenger Captains 
-***** Ship that leads to underwater ship that leads to the Oriziba (Big Orc Ship)
----------------------------------------------------------------------------------------------------------------------------------------
-
 
 Hunter    (HUMAN)   (from [A Small Passage Between Gun Decks] s3w enter cannon -> Vinscheer
 Vinscheer (ORC)     (from [The Companionway of the Vinscheer] s enter cannon 
     -> water(right) -> Ulingov  ; water(left) -> Ygormin
 
-Ulingov   (ORC)     (from [******] *** enter cannon -> ***** -> ******
-***** (****)  (from [******] *** enter cannon -> ***** -> ******
-***** (****)  (from [******] *** enter cannon -> ***** -> ******
-***** (****)  (from [******] *** enter cannon -> ***** -> ******
-***** (****)  (from [******] *** enter cannon -> ***** -> ******
-***** (****)  (from [******] *** enter cannon -> ***** -> ******
-
+Ulingov   (ORC)     (from [The Companionway of the Ulingov] e enter cannon -> Allure
+Allure    (HUMAN)   (from [A Small Passage Between Gun Decks] en enter cannon -> water -> Meteor
+Meteor    (HUMAN)   (from [A Small Passage Between Gun Decks] s enter cannon -> Sinvog
+Sinvog    (ORC)     (from [The Gun Deck of the Sinvog] s enter cannon -> water -> Vinyol
+Vinyol    (ORC)     (from [The Companionway of the Vinyol] w enter cannon -> Cortes
+Cortes    (HUMAN)   (from [A Small Passage Between Gun Decks] w enter cannon
+      -> water(s) -> Hornet  ;  -> water(n) -> undead ships - > BIG SHIPS
 
  
 Ygormin (ORC)       (from [The Companionway of the Ygormin] w3s enter cannon)
@@ -49,13 +34,13 @@ Serpent (HUMAN)     (from [The Companionway of the Serpent] nw enter cannon -> w
 Whirlwind (HUMAN)   (from [The Companionway of the Whirlwind] ws enter cannon -> Vorgyun
 Vorgyun (ORC)       (from [The Companionway of the Vorgyun] s3w enter cannon -> water -> Wizgar
 Wizgar (ORC)        (from [The Companionway of the Wizgar] e3s enter cannon -> Hornet
-Hornet (HUMAN)      (from [The Companionway of the Hornet] se3n enter cannon -> under water -> GhostShips -> BIG SHIP
+Hornet (HUMAN)      (from [The Companionway of the Hornet] se3n enter cannon -> under water -> GhostShips -> BIG SHIPS
 Orizaba (****)  (from [******] *** enter cannon -> ***** -> ******
 
 
 
 -Ulingov.        *Screams of war                   * Pick
- Meteor.         *Sea soaked sleeves of stoddard   * Knock
+-Meteor.         *Sea soaked sleeves of stoddard   * Knock
 -Allure.         *Shield of the Blameless
  Vorgyun.        *a twisted ring of rusted metal
 -Wizgar.         *the fists of rage
@@ -68,9 +53,9 @@ Orizaba (****)  (from [******] *** enter cannon -> ***** -> ******
 -Kygol.          *Tattoo of serpents
 -Rattler.        *Stromalitic cyanobacteria
 -Tornado.        *Stalman's Defiance
- Vinyol.         *a tattoo of flames
- Sinvog.         *Nevs will
- Cortes.         *a white linen body-wrap
+-Vinyol.         *a tattoo of flames
+-Sinvog.         *Nevs will
+-Cortes.         *a white linen body-wrap
 -Govgyl.         *Warpaint on face
 -Serpent.        *Bow
 -Whirlwind.      *Belt of Truth
