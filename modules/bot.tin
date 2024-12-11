@@ -1072,13 +1072,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		queueAdd combat attackTarget;
 	};
 	#if { "$bot[role]"=="tank" } {
-		#if $bot[rescue] {breakout;queueAdd priority rescue %1};
+		#if $bot[rescue] {queueAdd priority rescue %1};
 	}	
 }
 
 #action {SEEK SHELTER AT ONCE!  %1 has begun to sing.} {
 	#if { ("$bot[role]"=="tank") && ("$MSDP_POSITION"!="Fighting") } {
-		#if $bot[rescue] {breakout;queueAdd priority rescue %1};
+		#if $bot[rescue] {queueAdd priority rescue %1};
 	}
 }
 
