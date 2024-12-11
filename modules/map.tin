@@ -172,12 +172,12 @@
 	}
 }
 
-#alias n {north;#var curdir north;#var prevdir south}
-#alias e {east;#var curdir east;#var prevdir west}
-#alias w {west;#var curdir west;#var prevdir east}
-#alias s {south;#var curdir south;#var prevdir north}
-#alias u {up;#var curdir up;#var prevdir down}
-#alias d {down;#var curdir down;#var prevdir uu}
+#alias n {north;#var curdir north;#var prevdir south;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear")} {#map move n}}
+#alias e {east;#var curdir east;#var prevdir west;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear")} {#map move e}}
+#alias w {west;#var curdir west;#var prevdir east;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear")} {#map move w}}
+#alias s {south;#var curdir south;#var prevdir north;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear")} {#map move s}}
+#alias u {up;#var curdir up;#var prevdir down;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear")} {#map move u}}
+#alias d {down;#var curdir down;#var prevdir up;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear")} {#map move d}}
 
 #nop -- ---------------------------------------------------------------
 #nop -- Actions
