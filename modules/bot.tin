@@ -1082,6 +1082,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
+#action {%1 drives a quivering Heartseeker deep into} {
+	#if { ("$bot[role]"=="tank") && ("$MSDP_POSITION"!="Fighting") } {
+		#if $bot[rescue] {queueAdd priority rescue %1};
+	}
+}
+
 #action {%1 places something in the back of} {
 	#if { ("$bot[role]"=="tank") && ("$MSDP_POSITION"!="Fighting") } {
 		#if $bot[rescue] {queueAdd priority rescue %1};
