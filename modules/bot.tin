@@ -466,7 +466,7 @@ init bot[rescue2] preferences off;
 			}
 		}; 
 		#else {
-			if { (("$bot[role]" == "healer") || ("$MSDP_CLASS" == "Druid")) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
+			#if { (("$bot[role]" == "healer") || ("$MSDP_CLASS" == "Druid")) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
 				#nop Don't do damage, mana too low;
 			};
 			#else {
@@ -1176,7 +1176,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#regexp {"$MSDP_RACE"} {"spectre"} {#var drainrace 1} {#var drainrace 0};
 	#regexp {"$MSDP_RACE"} {"ghoul"} {#var drainrace 1} {#var drainrace 0};
 	#regexp {"$MSDP_RACE"} {"wight"} {#var drainrace 1} {#var drainrace 0};
-	#regexp {"$MSDP_RACE"} {"lich"} {#var resdrainraceult 1} {#var drainrace 0};
+	#regexp {"$MSDP_RACE"} {"lich"} {#var drainrace 1} {#var drainrace 0};
 
 	#regexp {"$MSDP_RACE"} {"succubus"} {#var drainrace 1} {#var drainrace 0};
 	#regexp {"$MSDP_RACE"} {"gorgon"} {#var drainrace 1} {#var drainrace 0};
