@@ -140,8 +140,8 @@
                         #if {$tell_start_kill_delay==0} {
                             kill $tellu_target;
                         };#else {
-                            #if {"$bot[damage]"!=""} {
-                                #delay $tell_start_kill_delay {$bot[damage] $tellu_target}
+                            #if {"$bot[damage][single]"!=""} {
+                                #delay $tell_start_kill_delay {$bot[damage][single] $tellu_target}
                             };#else {
                                 #delay $tell_start_kill_delay {kill $tellu_target}
                             }
@@ -241,7 +241,7 @@
 
 #alias decidedamage {
     #switch {"$MSDP_CLASS"} {
-        #case {"Wizard"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {damage frostbite} {damage zap} };
+        #case {"Wizard"} { #if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>50} {#var bot[damage][single] frostbite} {#var bot[damage][single] zap} };
         #default {#nop};
     }
 }
@@ -361,12 +361,12 @@ event_register {commsTell} {tellu_bot} {clan_command {%1} {%2} {%3} {%4}};
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
 
-#action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {damage dmagic}}
+#action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single]dmagic}}
 #action {A Tellurian fury steps out of the shadows.} {#show <131>FURY JOINED THE FIGHT!!!}
 
 #action {A Tellurian elder is hovering here.} {#var tellu_target elder;: marks $tellu_target for death.}
 
-#action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {damage dmagic}}
+#action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic}}
 
 #action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
 
