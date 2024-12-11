@@ -1095,7 +1095,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {#if $bot[rescue] {queueAdd priority rescue %4}}
-#action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {breakout;queueAdd priority !rescue}}
+#action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {
 	#if { ("$bot[role]"=="leader") || ("$bot[role]"=="damage") || ("$bot[role]"=="stabber") } {
