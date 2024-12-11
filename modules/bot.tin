@@ -145,7 +145,7 @@ init bot[rescue2] preferences off;
 		botrole damage;
 
 		#var necro_manadrain 85; #nop %;
-		#var necro_lifedrain 80; #nop %;
+		#var necro_lifedrain 90; #nop %;
 		#var necro_stamdrain 40; #nop %;
 
 		#var autopickuphides 1;
@@ -466,25 +466,7 @@ init bot[rescue2] preferences off;
 			}
 		}; 
 		#else {
-			#if { "$MSDP_CLASS" == "Necromancer" || "$MSDP_CLASS" == "Demoniac" } {
-				#if { @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<80 } {
-					#if { (@pct{$MSDP_OPPONENT_HEALTH;$MSDP_OPPONENT_HEALTH_MAX}>25) && ($drainrace) } {
-						#var bot[nextActionDebug] {$bot[nextActionDebug], low life DRAIN };
-						#var bot[nextAction] {queueAdd heal drain};
-					}; #else {
-						#if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>20 } {
-							#var bot[nextActionDebug] {$bot[nextActionDebug], target too low, nuke };
-							#var bot[nextAction] {queueAdd combat attackTarget};
-						};
-					}
-				}; #else {
-					#if {@pct{$MSDP_MANA;$MSDP_MANA_MAX}>20 } {
-						#var bot[nextActionDebug] {$bot[nextActionDebug], use attackTarget};
-						#var bot[nextAction] {queueAdd combat attackTarget};
-					};
-				};
-			};
-			#elseif { (("$bot[role]" == "healer") || ("$MSDP_CLASS" == "Druid")) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
+			if { (("$bot[role]" == "healer") || ("$MSDP_CLASS" == "Druid")) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
 				#nop Don't do damage, mana too low;
 			};
 			#else {
@@ -529,7 +511,11 @@ init bot[rescue2] preferences off;
 				};
 				#default {#nop};
 			};
-			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]] {#var bot[damage][multiple] backstab}};
+			#switch {"$MSDP_CLASS"} {
+				#case {"Necromancer"} { #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain} {#var bot[damage][single] drain} {#var bot[damage][single] creeping} };
+				#default {#nop};
+			};
+			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]]};
 			queueAdd combat $bot[damage][single]
 		}
 	}
