@@ -23,7 +23,7 @@
 }
 
 
-#alias mob_dead {
+#alias tellu_mob_dead {
     #if {"$char_entangled"!=""} {
         #format char_entangled %l $char_entangled;
         gt all chop $char_entangled
@@ -177,6 +177,16 @@
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
 
+#action {^%1 chops up the vines entangling %2.} {
+    #format char_entangled %l $char_entangled;
+    #if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {
+        #var char_entangled {}
+    };
+    #delay {2} {nco room_clear}
+};
+
+
+
 #alias eval_mobs_in_room {
     #var tellu_mob_in_room %1;
     #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
@@ -244,41 +254,45 @@
 #highlight {All of Telluria shakes and rumbles as the ground shifts.} {reverse yellow}
 
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {
-    #delay $tellu_kill_delay {actionCleared};
+    #delay $tellu_kill_delay {room_clear};
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[revive] @increment{$tellu_stats[revive]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show \n<172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
-    #nop addAverageKillTime $tellu_kill_timer
+    #nop addAverageKillTime $tellu_kill_timer;
+    tellu_mob_dead
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {
-    #delay $tellu_kill_delay {actionCleared};
+    #delay $tellu_kill_delay {room_clear};
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show \n<Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
-    #nop addAverageKillTime $tellu_kill_timer
+    #nop addAverageKillTime $tellu_kill_timer;
+    tellu_mob_dead
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {
-    #delay $tellu_kill_delay {actionCleared};
+    #delay $tellu_kill_delay {room_clear};
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show \n<Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
-    #nop addAverageKillTime $tellu_kill_timer
+    #nop addAverageKillTime $tellu_kill_timer;
+    tellu_mob_dead
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
-    #delay $tellu_kill_delay {actionCleared};
+    #delay $tellu_kill_delay {room_clear};
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[prudent] @increment{$tellu_stats[prudent]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show \n131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     gt BAD KILL;
-    #nop addAverageKillTime $tellu_kill_timer
+    #nop addAverageKillTime $tellu_kill_timer;
+    tellu_mob_dead
 };
 
 #action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
