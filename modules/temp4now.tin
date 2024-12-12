@@ -40,12 +40,12 @@
             find_next_move;
         };
         #else {
-            #if {$botNegative>0 || $tellu_mobs_in_room>1} {
+            #if { ($botNegative>0) || ($tellu_mobs_in_room>1) } {
                 #show <131>BAD GUYS OR TOO MANY MOBS;
                 find_next_move;
             };
             #else {
-                show_debug {<131>EVALUATE ROOM - ONLY ONE GOOD TARGET};
+                #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
                     #show <131>ROOM VERIFIED - KILL TARGET;
                     #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON}}
@@ -67,7 +67,7 @@
             show_debug {<147>No destination};
             #nop
         };
-        #show <147>FIND PATH TOWARDS MOVE;
+        #show <147>FIND PATH TOWARDS MOVE: $destination;
         #show <147>MOVE;
     }
 }
