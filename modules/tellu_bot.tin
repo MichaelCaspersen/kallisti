@@ -10,8 +10,8 @@
 #var botNegative 0;
 #var tellu_mobs_in_room 0;
 
-#var autowalkspeed 0.3;
-#var waypointdelay 0.3;
+#var autowalkspeed 0.5;
+#var waypointdelay 0.5;
 #var zonedelay 5;
 #var tellu_kill_delay 4;
 #var tellu_allowed_downtime 60;
