@@ -100,7 +100,7 @@
 
 
 #alias load_route {
-    #show <132>LOAD ROUTE CALLED - We are in $tellu_zone;
+    #show <132>LOAD ROUTE CALLED - We are in $tellu_zone $cur_room_vnum;
 	#list waypoints[$tellu_zone] get 1 destination;
     #show <132>Next destination: $destination;
     #map find $destination;
