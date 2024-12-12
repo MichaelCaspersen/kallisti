@@ -77,7 +77,7 @@
 
 
 #alias load_next_zone {
-    #show <172>LOAD NEXT ZONE CALLED
+    #show <172>LOAD NEXT ZONE CALLED;
     #math tellu[zindex] {$tellu[zindex]+1};
     #if {$tellu[zindex] <= &tellu[zone][]} {
     };#else {
