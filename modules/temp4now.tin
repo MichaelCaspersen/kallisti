@@ -5,6 +5,7 @@
 #var autowalk 1;
 #var autowalk_delay 1;
 #var zonechange_delay 5;
+#var death_delay 2;
 
 
 #event {MAP ENTER ROOM} {
@@ -24,18 +25,20 @@
 
 
 #alias tellu_mob_dead {
-    #show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
-    #if {@can_group_move{}} {
-        #show <131>Group can move - Find next move;
-        find_next_move;
-    };#else {
-        #show <131>Group cant move;
-        #if {"$char_entangled"!=""} {
-            #format char_entangled %l $char_entangled;
-            gt all chop $char_entangled
-        };
-        #var char_entangled {};
-        find_next_move;
+    #delay $death_delay {
+        #show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
+        #if {@can_group_move{}} {
+            #show <131>Group can move - Find next move;
+            find_next_move;
+        };#else {
+            #show <131>Group cant move;
+            #if {"$char_entangled"!=""} {
+                #format char_entangled %l $char_entangled;
+                gt all chop $char_entangled
+            };
+            #var char_entangled {};
+            find_next_move;
+        }
     }
 }
 
