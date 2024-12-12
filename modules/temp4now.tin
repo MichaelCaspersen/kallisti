@@ -48,7 +48,7 @@
                 #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
                     #show <131>ROOM VERIFIED - KILL TARGET;
-                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move}}
+                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON}}
                 };#else {
                     #show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
                     find_next_move
@@ -68,11 +68,13 @@
             #show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
             #list waypoints[$tellu_zone] delete 1;
             load_route;
+        }; #elseif {$destination>0} {
+            #show <147>FIND PATH TOWARDS MOVE: $destination;
+            load_route;
         }; #else {
             show_debug {<147>No destination};
             #nop
         };
-        #show <147>FIND PATH TOWARDS MOVE: $destination;
         #show <147>MOVE;
     }
 }
@@ -99,7 +101,6 @@
 
 #alias load_route {
     #show <132>LOAD ROUTE CALLED - We are in $tellu_zone;
-    #nop var waypoints[$tellu_zone];
 	#list waypoints[$tellu_zone] get 1 destination;
     #show <132>Next destination: $destination;
     #map find $destination;
