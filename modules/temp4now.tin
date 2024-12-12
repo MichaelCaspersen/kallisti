@@ -48,8 +48,11 @@
                 #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
                     #show <131>ROOM VERIFIED - KILL TARGET;
-                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON}}
-                };
+                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move}}
+                };#else {
+                    #show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
+                    find_next_move
+                }
             }
         }
     }
