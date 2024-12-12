@@ -102,6 +102,7 @@
     #nop var waypoints[$tellu_zone];
 	#list waypoints[$tellu_zone] get 1 destination;
     #show <132>Next destination: $destination;
+    #map find $destination;
 }
 
 
