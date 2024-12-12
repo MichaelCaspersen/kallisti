@@ -114,7 +114,7 @@
     }
 }
 
-#var time_since_last_move $MSDP_UPTIME;
+#var last_move_time $MSDP_UPTIME;
 
 #alias load_route {
     #nop show <132>LOAD ROUTE CALLED;
