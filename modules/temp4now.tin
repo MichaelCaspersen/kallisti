@@ -1,11 +1,14 @@
 #nop Walker debug
 
 
+#var hub 34595;
+#var autowalk 1;
+#var autowalk_delay 0.4;
 
 
 #event {MAP ENTER ROOM} {
     room_clear;
-    #delay 0.4 {
+    #delay $autowalk_delay {
         #if {"$MSDP_ROOM_VNUM"=="?"} {
             #map get roomvnum cur_room_vnum;
             #nop show <143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum
@@ -56,25 +59,21 @@
     }
 }    
 
-#var hub 34595;
-#var autowalk 1;
 
 #alias find_next_move {
     #nop show <147>FIND NEXT MOVE CALLED;
-    #if {$autowalk} {
-        #if {$cur_room_vnum==$destination} {
-            #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
-            #list waypoints[$tellu_zone] delete 1;
-            load_route;
-        }; #elseif {$destination>0} {
-            #nop show <147>FIND PATH TOWARDS MOVE: $destination;
-            load_route;
-        }; #else {
-            #nop show <147>No destination;
-            #nop
-        };
-        #nop show <147>MOVE;
-    }
+    #if {$cur_room_vnum==$destination} {
+        #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
+        #list waypoints[$tellu_zone] delete 1;
+        load_route;
+    }; #elseif {$destination>0} {
+        #nop show <147>FIND PATH TOWARDS MOVE: $destination;
+        load_route;
+    }; #else {
+        #nop show <147>No destination;
+        #nop
+    };
+    #nop show <147>MOVE;
 }
 
 
@@ -102,6 +101,9 @@
 	#list waypoints[$tellu_zone] get 1 destination;
     #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination;
     #map find $destination;
+    #if {$autowalk} {
+        smart_move;
+    }
 }
 
 
