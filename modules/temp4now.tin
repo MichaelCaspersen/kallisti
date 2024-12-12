@@ -33,6 +33,7 @@
             gt all chop $char_entangled
         };
         #var char_entangled {};
+        find_next_move;
     }
 }
 
@@ -57,7 +58,7 @@
                 #if {@verifyTelluZone{}} {
                     #show <131>ROOM VERIFIED - KILL TARGET;
                     kill $tellu_target;
-                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move}}
+                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#show <131>Combat started}}
                 };#else {
                     #nop show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
                 }
