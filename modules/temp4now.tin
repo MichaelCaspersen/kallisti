@@ -5,13 +5,27 @@
 
 #event {MAP ENTER ROOM} {
     #if {"$MSDP_ROOM_VNUM"=="?"} {
-        #map get roomvnum event_cur_room_vnum;#show <143>GOT FROM MAP $event_cur_room_vnum
+        #map get roomvnum event_cur_room_vnum;#show <143>MAP ENTER EVENT: GOT FROM MAP $event_cur_room_vnum
     }; #else {
-        #show <143>GET FROM MSDP;#var event_cur_room_vnum $MSDP_ROOM_VNUM
+        #show <143>MAP ENTER EVENT: GET FROM MSDP;#var event_cur_room_vnum $MSDP_ROOM_VNUM
     };
     #show <143>MAP ENTER EVENT: $MSDP_ROOM_VNUM $event_cur_room_vnum;
     #delay 0.4 {
         #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  Pos:$botPositive   Neg:$botNegative  Mobs: $tellu_mobs_in_room;
+        #show <174>CALL examine_room;
+        examine_room
+    }
+}
+
+#event {MAP EXIT ROOM} {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {
+        #map get roomvnum event_cur_room_vnum;#show <143>MAP EXIT EVENT: GOT FROM MAP $event_cur_room_vnum
+    }; #else {
+        #show <143>MAP EXIT EVENT: GET FROM MSDP;#var event_cur_room_vnum $MSDP_ROOM_VNUM
+    };
+    #show <143>MAP EXIT EVENT: $MSDP_ROOM_VNUM $event_cur_room_vnum;
+    #delay 0.4 {
+        #show <174>DELAYED MAP EXIT ROOM: $cur_room_vnum  Pos:$botPositive   Neg:$botNegative  Mobs: $tellu_mobs_in_room;
         #show <174>CALL examine_room;
         examine_room
     }
