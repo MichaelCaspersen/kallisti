@@ -40,22 +40,23 @@
     #else {
         #if {$botPositive!=1} {
             #nop show <131>NO POSITIVE TARGETS;
+            find_next_move;
         };
         #else {
             #if { ($botNegative>0) || ($tellu_mobs_in_room>1) } {
                 #nop show <131>BAD GUYS OR TOO MANY MOBS;
+                find_next_move;
             };
             #else {
                 #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
-                    #nop show <131>ROOM VERIFIED - KILL TARGET;
-                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON}}
+                    #show <131>ROOM VERIFIED - KILL TARGET;
+                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move}}
                 };#else {
                     #nop show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
                 }
             }
         };
-        find_next_move;
     }
 }    
 
