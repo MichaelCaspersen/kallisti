@@ -147,7 +147,7 @@
                             }
                         }
                     };
-                    : marks $tellu_target for death.;
+                    #nop : marks $tellu_target for death.;
                     #var tellu_kill_timer $MSDP_UPTIME;
                     #delay 5 {
                         #show \n<135>Test poke! Time Since Kill: @tellu_lastkilltime{}  Postion: $MSDP_POSITION <070>.;
