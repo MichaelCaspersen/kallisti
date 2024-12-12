@@ -110,6 +110,7 @@
         #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
         #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
+        updategroupname;
         #delay $zonechange_delay load_route;
     }
 }
@@ -341,6 +342,42 @@
     #var tellu_joiner {};
 }
 
+
+#action {^%1 tells you, 'sum me'} {
+    #regexp {$need_summons} {%1} 
+    {#show Already added} 
+    {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};
+} {2}
+
+#alias tellu_summon {
+    #if {&need_summons[]>0} {
+        #loop 1 &need_summons[] {id} {
+            gt all sum $need_summons[$id];
+            gt all portal $need_summons[$id];
+            #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Templar") || ("$MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
+            #if {"$MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
+        };
+        #var need_summons {};
+    }
+}
+
+#alias updategroupname {
+    #var groupsize &MSDP_GROUP[];
+    #if {$oldgroupsize!=$groupsize} {
+        #math groupsizefree {9-$groupsize};
+        #if {$groupsizefree==1} 
+        {#show <143>Tellurian: $groupsizefree open spot} 
+        {#show <143>Tellurian: $groupsizefree open spots}
+    };
+    #var oldgroupsize $groupsize;
+}
+
+
+#alias tellu_stats {
+    #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
+    #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
+    #show <134> Last kill: $tellu_kill_timer(s);
+}
 
 
 #function visualizeOdometer {
