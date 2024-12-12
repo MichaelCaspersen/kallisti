@@ -14,8 +14,7 @@
             #nop show <143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum;
         };
         #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  Pos:$botPositive   Neg:$botNegative  Mobs: $tellu_mobs_in_room;
-        #show <174>CALL examine_room;
-        examine_room
+        evaluate_room
     }
 }
 
@@ -29,20 +28,21 @@
     #show <131>MOB DEAD - FIND NEXT MOVE;
 }
 
-#alias examine_room {
+#alias evaluate_room {
+    #show <131>EVALUATE ROOM CALLED;
     #if {$botPositive!=1} {
         #show <131>EXAMINE ROOM - FIND NEXT MOVE;
     };
     #else {
         #if {$botNegative>0 || $tellu_mobs_in_room>1} {
-            #show <131>EXAMINE ROOM - BAD GUYS MOVE ON;
+            #show <131>EVALUATE ROOM - BAD GUYS MOVE ON;
             room_clear;
         };
         #else {
-            show_debug {<131>EXAMINE ROOM - THERE ARE ACTIONS WE NEED TO DEAL WITH};
+            show_debug {<131>EVALUATE ROOM - THERE ARE ACTIONS WE NEED TO DEAL WITH};
             #if {@verifyTelluZone{}} {
                 #show <131>SINGLE GOOD TARGET KILL IT;
-                #delay 5 {#if {$cur_opponents==0} {#SHOW <131>EXAMINE ROOM - WE NOT IN COMBAT MOVE ON}}
+                #delay 5 {#if {$cur_opponents==0} {#SHOW <131>EVALUATE ROOM - WE NOT IN COMBAT MOVE ON}}
             }; #else {
                 room_clear;
             };
