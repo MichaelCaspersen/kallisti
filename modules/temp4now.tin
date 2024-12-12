@@ -4,6 +4,7 @@
 #var hub 34595;
 #var autowalk 1;
 #var autowalk_delay 1;
+#var zonechange_delay 5;
 
 
 #event {MAP ENTER ROOM} {
@@ -97,7 +98,8 @@
         #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595,34595};
         #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
-        load_route;
+        #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
+        #delay $zonechange_delay load_route;
     }
 }
 
