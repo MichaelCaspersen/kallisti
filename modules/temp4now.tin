@@ -31,24 +31,24 @@
 #alias evaluate_room {
     #show <131>EVALUATE ROOM CALLED;
     #if {$cur_room_vnum==$hub} {
-        #show <131>EVALUATE ROOM - WE ARE AT HUB;
+        #show <131>WE ARE AT HUB;
         load_next_zone;
     };
     #else {
         #if {$botPositive!=1} {
-            #show <131>EXAMINE ROOM - NO POSITIVE TARGETS;
+            #show <131>NO POSITIVE TARGETS;
             find_next_move;
         };
         #else {
             #if {$botNegative>0 || $tellu_mobs_in_room>1} {
-                #show <131>EVALUATE ROOM - BAD GUYS OR TOO MANY MOBS;
+                #show <131>BAD GUYS OR TOO MANY MOBS;
                 find_next_move;
             };
             #else {
                 show_debug {<131>EVALUATE ROOM - ONLY ONE GOOD TARGET};
                 #if {@verifyTelluZone{}} {
                     #show <131>ROOM VERIFIED - KILL TARGET;
-                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>EVALUATE ROOM - COMBAT DIDNT START - MOVE ON}}
+                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON}}
                 };
             }
         }
@@ -61,16 +61,14 @@
 #alias find_next_move {
     #show <147>FIND NEXT MOVE CALLED;
     #if {$autowalk} {
-        #if {$cur_room_vnum==$hub} {
-            #show <131>FIND NEXT MOVE - WE ARE AT HUB - LOAD NEXT ZONE;
-        }; #elseif {$cur_room_vnum==$destination} {
-            #show <131>FIND NEXT MOVE - At destination: LOAD NEXT DESTINATION;
+        #if {$cur_room_vnum==$destination} {
+            #show <147>At destination: LOAD NEXT DESTINATION;
         }; #else {
-            show_debug {<131>FIND NEXT MOVE - ROOM EVENT: No destination};
+            show_debug {<147>No destination};
             #nop
         };
-        #show <131>FIND NEXT MOVE - FIND PATH TOWARDS MOVE;
-        #show <131>FIND NEXT MOVE - MOVE;
+        #show <147>FIND PATH TOWARDS MOVE;
+        #show <147>MOVE;
     }
 }
 
@@ -96,7 +94,7 @@
 
 #alias load_route {
     #show <132>LOAD ROUTE CALLED - We are in $tellu_zone;
-    #var waypoints[$tellu_zone];
+    #nop var waypoints[$tellu_zone];
 	#list waypoints[$tellu_zone] get 1 destination;
     #show <132>Next destination: $destination;
 }
