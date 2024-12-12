@@ -1,3 +1,41 @@
+ON ENTER ROOM
+    delay xx examine_room
+
+MOB DEAD
+    if rooted/missing -> FIX
+    find_next_move
+
+EXAMINE ROOM
+    determine mobs in room
+
+    if 1 good mob && (verify room vs mob)
+        kill it 
+        (if kill time out find_next_move)
+    else 
+        find_next_move
+
+
+FIND NEXT MOVE
+    if @location = HUB summon 
+        load next zone
+        set destination = first destination
+    if destination==current
+        set destination = next destination
+    if end of destinations && !HUB 
+        set destination HUB
+
+    determine path to destination
+    MOVE
+    
+
+
+
+
+
+	
+
+
+
 Druid config:
 
 Solo Healer: 
