@@ -65,7 +65,9 @@
     #show <147>FIND NEXT MOVE CALLED;
     #if {$autowalk} {
         #if {$cur_room_vnum==$destination} {
-            #show <147>At destination: LOAD NEXT DESTINATION;
+            #show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
+            #list waypoints[$tellu_zone] delete 1;
+            load_route;
         }; #else {
             show_debug {<147>No destination};
             #nop
