@@ -18,7 +18,7 @@
             #var cur_room_vnum $MSDP_ROOM_VNUM;
             #nop show <143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum;
         };
-        #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  Pos:$botPositive   Neg:$botNegative  Mobs: $tellu_mobs_in_room;
+        #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  Pos:$botPositive   Neg:$botNegative  Mobs: $tellu_mobs_in_room LastMove: $last_move_time;
         evaluate_room
     }
 }
@@ -62,7 +62,6 @@
                 #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
                     #show <131>ROOM VERIFIED - KILL TARGET;
-                    #var tellu_kill_timer $MSDP_UPTIME;
                     kill $tellu_target;
                     #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#show <131>Combat started}}
                 };#else {
@@ -115,6 +114,7 @@
     }
 }
 
+#var time_since_last_move $MSDP_UPTIME;
 
 #alias load_route {
     #nop show <132>LOAD ROUTE CALLED;
@@ -122,13 +122,11 @@
     #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination;
     #map find $destination;
     #if {$autowalk} {
-        @tellu_lastkilltime{};
+        #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
+        #var $last_move_time $MSDP_UPTIME;
         smart_move;
     }
 }
-
-
-
 
 
 
@@ -212,11 +210,6 @@
     #var tellu_zone_correct 0;
     #regexp {$tellu_rooms[$tellu_zone]} {$cur_room_vnum} {#var tellu_zone_correct 1};
     #return $tellu_zone_correct
-}
-
-#function tellu_lastkilltime {
-    #math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
-    #return $timesincelastkill
 }
 
 #alias room_clear {
