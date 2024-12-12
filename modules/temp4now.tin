@@ -24,10 +24,12 @@
 
 
 #alias tellu_mob_dead {
-    #show <131>MOB DEAD - FIND NEXT MOVE;
+    #show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
     #if {@can_group_move{}} {
+        #show <131>Group can move - Find next move;
         find_next_move;
     };#else {
+        #show <131>Group cant move;
         #if {"$char_entangled"!=""} {
             #format char_entangled %l $char_entangled;
             gt all chop $char_entangled
