@@ -4,6 +4,7 @@
 
 
 #event {MAP ENTER ROOM} {
+    room_clear;
     #delay 0.4 {
         #if {"$MSDP_ROOM_VNUM"=="?"} {
             #map get roomvnum cur_room_vnum;
@@ -35,7 +36,7 @@
     #else {
         #if {$botNegative>0 || $tellu_mobs_in_room>1} {
             #show <131>EXAMINE ROOM - BAD GUYS MOVE ON;
-            actionCleared;
+            room_clear;
         };
         #else {
             show_debug {<131>EXAMINE ROOM - THERE ARE ACTIONS WE NEED TO DEAL WITH};
@@ -43,7 +44,7 @@
                 #show <131>SINGLE GOOD TARGET KILL IT;
                 #delay 5 {#if {$cur_opponents==0} {#SHOW <131>EXAMINE ROOM - WE NOT IN COMBAT MOVE ON}}
             }; #else {
-                actionCleared;
+                room_clear;
             };
         }
     }
@@ -170,7 +171,7 @@
     #return $tellu_zone_correct
 }
 
-#alias actionCleared {
+#alias room_clear {
     #var tellu_mobs_in_room 0;
     #var botPositive 0;
     #var botNegative 0;
