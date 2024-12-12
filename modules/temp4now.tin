@@ -81,9 +81,9 @@
 #var lastzonetime $MSDP_UPTIME;
 
 #alias load_next_zone {
-    #show <172>LOAD NEXT ZONE CALLED;
     #math timesincelastzone { $MSDP_UPTIME - $lastzonetime };
     #var lastzonetime $MSDP_UPTIME;
+    #show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
     #if {$timesincelastzone>10} {
         #math tellu[zindex] {$tellu[zindex]+1};
         #if {$tellu[zindex] <= &tellu[zone][]} {
@@ -97,6 +97,7 @@
         #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595,34595};
         #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
+        load_route;
     }
 }
 
