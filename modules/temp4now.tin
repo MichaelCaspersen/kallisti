@@ -29,7 +29,7 @@
         #show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
         #if {@can_group_move{}} {
             #show <131>Group can move - Find next move;
-            load_route;
+            find_next_move;
         };#else {
             #show <131>Group cant move;
             #if {"$char_entangled"!=""} {
@@ -37,7 +37,7 @@
                 gt all chop $char_entangled
             };
             #var char_entangled {};
-            load_route;
+            find_next_move;
         }
     }
 }
@@ -74,7 +74,7 @@
 
 
 #alias find_next_move {
-    #nop show <147>FIND NEXT MOVE CALLED;
+    #show <147>FIND NEXT MOVE CALLED;
     #if {$cur_room_vnum==$destination} {
         #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
         #list waypoints[$tellu_zone] delete 1;
