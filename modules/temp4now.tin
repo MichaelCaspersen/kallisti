@@ -3,7 +3,7 @@
 
 #var hub 34595;
 #var autowalk 1;
-#var autowalk_delay 0.4;
+#var autowalk_delay 1;
 
 
 #event {MAP ENTER ROOM} {
