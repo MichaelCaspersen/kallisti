@@ -1,0 +1,59 @@
+
+#var tellu_mode normal;
+#var tellu_zone normal;
+
+
+#event {MAP ENTER ROOM} {#if {"$MSDP_ROOM_VNUM"=="?"} { #map get roomvnum cur_room_vnum } { #var cur_room_vnum $MSDP_ROOM_VNUM };#delay 0.4 #show <174>DELAYED EVALUATE ROOM: $cur_room_vnum  Positive:$botPositive   Negative:$botNegative  MobsInRoom: $tellu_mobs_in_room  PrevPathLength:$path_length  GroupCanMove:@can_group_move{} TimeSinceKill: @tellu_lastkilltime{}};#if {$botPositive!=1} {#show <172>$cur_room_vnum We only kill if there is 1 positive - move on};#else {#if {$botNegative>0 || $tellu_mobs_in_room>1} {#show <172>$cur_room_vnum BAD GUYS MOVE ON};#else {#show <172>$cur_room_vnum THERE ARE ACTIONS WE NEED TO DEAL WITH}}
+
+
+#alias eval_mobs_in_room {
+    #var tellu_mob_in_room %1;
+    #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
+    #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
+        {#show <172> [$tellu_mob_in_room] TRUE - $tellu_mode $cur_room_vnum;#var botPositive $tellu_mob_in_room}
+        {#show <131> [$tellu_mob_in_room] FALSE - $tellu_mode $cur_room_vnum;#var botNegative $tellu_mob_in_room} 
+}
+
+#action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;eval_mobs_in_room @mob_count{"%1"}}
+#action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;eval_mobs_in_room @mob_count{"%1"}}
+#action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target topiary;eval_mobs_in_room @mob_count{"%1"}}
+#action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;eval_mobs_in_room @mob_count{"%1"}}
+#action {A Tellurian tundra-snap is here looking alert.%1} {#var tellu_target wolf;eval_mobs_in_room @mob_count{"%1"}}
+#action {A Tellurian topiary is here looking alert.%1} {#var tellu_target topiary;eval_mobs_in_room @mob_count{"%1"}}
+
+#var tell_mobs[east][normal][Forest] {"snap", "scarab", "wolf"};
+#var tell_mobs[east][normal][Desert] {"topiary", "snap", "wolf"};
+#var tell_mobs[east][normal][Tundra] {"scarab", "topiary"};
+#var tell_mobs[east][clear][Forest] {"tree", "topiary"};
+#var tell_mobs[east][clear][Desert] {"scarab"};
+#var tell_mobs[east][clear][Tundra] {"wolf", "snap"};
+
+#var tell_mobs[west][normal][Forest] {"snap", "topiary", "wolf"};
+#var tell_mobs[west][normal][Desert] {"scarab", "topiary"};
+#var tell_mobs[west][normal][Tundra] {"scarab", "snap", "wolf"};
+#var tell_mobs[west][clear][Forest] {"scarab"};
+#var tell_mobs[west][clear][Desert] {"wolf", "snap"};
+#var tell_mobs[west][clear][Tundra] {"tree", "topiary"};
+
+#var tell_mobs[north][normal][Forest] {"scarab", "topiary"};
+#var tell_mobs[north][normal][Desert] {"snap", "scarab", "wolf"};
+#var tell_mobs[north][normal][Tundra] {"topiary", "snap", "wolf"};
+#var tell_mobs[north][clear][Forest] {"wolf", "snap"};
+#var tell_mobs[north][clear][Desert] {"tree", "topiary"};
+#var tell_mobs[north][clear][Tundra] {"scarab"};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

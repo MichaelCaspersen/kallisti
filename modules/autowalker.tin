@@ -3,41 +3,38 @@
 #nop log good/bad kills 
 #nop log time of kill, times since last kill, averages , kills per zone (wen)
 
-#var botPostitive 0;
-#var botNegative 0;
-#var tellu_mobs_in_room 0;
-
-#var autowalkspeed 0.3;
-#var waypointdelay 0.3;
-#var zonedelay 5;
-#var tellu_kill_delay 4;
-#var tellu_allowed_downtime 60;
 #var autowalk 1;
 
-#var tell_start_kill 1; #nop Will initiate kill, ask for rescue
-#var tell_start_kill_delay 0.1; #nop time we wait before initiating combat
+#var walker[room][positive] 0;
+#var walker[room][negative] 0;
+#var walker[room][mobs] 0;
+#var walker[room][target] {};
 
-#var tellu_stats[average_kill_time] 0;
-#var tellu_stats[revive] 0;
-#var tellu_stats[fury] 0;
-#var tellu_stats[prudent] 0;
-#var tellu_stats[scarab-kin] 0;
-#var tellu_stats[topiary] 0;
-#var tellu_stats[tundra-snap] 0;
+#var walker[delay][step] 0.3;
+#var walker[delay][waypoint] 0.3;
+#var walker[delay][zone] 5;
+#var walker[delay][action] 4;
+#var walker[delay][kill] 0.1;
+#var walker[delay][downtime] 60;
 
+#var walker[action][kill] 1; #nop Will initiate kill, ask for rescue
+#var walker[action][poke] 1; #nop Will initiate kill, ask for rescue
 
-#var tellu_mode normal;
+#var walker[mode] normal; #nop Will initiate kill, ask for rescue
+#var walker[destination] {};
 
-#var tellu[zindex] 0;
-#var tellu[zone] {west,north,east};
-#list tellu[zone] explode {,};
+#var walker[zone][index] 0;
+#var walker[zone][destination] 0;
+#var walker[zone][active] {};
+#var walker[zone][zones] {north,west,east};
+#list walker[zone][zones] explode {,};
 
-#var tellu_rooms[north] {34509,34531,34556,34529,34502,34527,34551,34526,34501,34528,34553,34530,34508,34532,34506,34554,34503,34552,34505,34557,34558,34533,34507,34555,34504,34529,34556,34531,34509};
-#var tellu_rooms[west] {34543,34569,34518,34568,34542,34570,34520,34572,34549,34574,34525,34575,34550,34573,34548,34524,34547,34521,34546,34522,34523,34571,34545,34519,34544,34568,34518,34569,34543};
-#var tellu_rooms[east] {34566,34516,34541,34517,34567,34515,34539,34513,34560,34511,34534,34510,34559,34512,34561,34535,34562,34538,34563,34537,34536,34514,34564,34540,34565,34517,34541,34516,34566};
-#list tellu_rooms[north] explode {,};
-#list tellu_rooms[west] explode {,};
-#list tellu_rooms[east] explode {,};
+#var walker[zone][north][safe] {34509,34531,34556,34529,34502,34527,34551,34526,34501,34528,34553,34530,34508,34532,34506,34554,34503,34552,34505,34557,34558,34533,34507,34555,34504,34529,34556,34531,34509};
+#var walker[zone][west][safe] {34543,34569,34518,34568,34542,34570,34520,34572,34549,34574,34525,34575,34550,34573,34548,34524,34547,34521,34546,34522,34523,34571,34545,34519,34544,34568,34518,34569,34543};
+#var walker[zone][east][safe] {34566,34516,34541,34517,34567,34515,34539,34513,34560,34511,34534,34510,34559,34512,34561,34535,34562,34538,34563,34537,34536,34514,34564,34540,34565,34517,34541,34516,34566};
+#list walker[zone][north][safe] explode {,};
+#list walker[zone][west][safe] explode {,};
+#list walker[zone][east][safe] explode {,};
 
 #var tell_mobs[east][normal][Forest] {"snap", "scarab", "wolf"};
 #var tell_mobs[east][normal][Desert] {"topiary", "snap", "wolf"};
@@ -60,50 +57,111 @@
 #var tell_mobs[north][clear][Desert] {"tree", "topiary"};
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
+#var tellu_stats[average_kill_time] 0;
+#var tellu_stats[revive] 0;
+#var tellu_stats[fury] 0;
+#var tellu_stats[prudent] 0;
+#var tellu_stats[scarab-kin] 0;
+#var tellu_stats[topiary] 0;
+#var tellu_stats[tundra-snap] 0;
 
+#alias start_walker {
+    next_zone;
+}
 
-#alias nextTellZone {
-    #var botPositive 0;
-    #var botNegative 0;
-    #var tellu_mobs_in_room 0;
-    #math tellu[zindex] {$tellu[zindex]+1};
-    #if {$tellu[zindex] <= &tellu[zone][]} {
-    };#else {
-        #var tellu[zindex] 1;
+#alias room_reset {
+    #var walker[room][mobs] 0;
+    #var walker[room][positive] 0;
+    #var walker[room][negative] 0;
+    #var walker[target] {};
+    #nop if { ("$MSDP_POSITION"!="Fighting") && ($cur_opponents==0)} { room_event };
+}
+
+#alias next_zone {
+    room_reset;
+    #math walker[zone][index] {$walker[zone][index]+1};
+    #if {$walker[zone][index] > &walker[zone][zones][]} {
+        #var walker[zone][index] 1;
     };
-    #var tellu_zone $tellu[zone][$tellu[zindex]];
-    #show <131>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone;
-    #var waypoints[north] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595};
-    #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595};
-    #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595};
-    #list waypoints[$tellu_zone] explode {,};
-    load_route;
+    #var walker[zone][active] $walker[zone][zones][$walker[zone][index]];
+    #var walker[zone][north][waypoints] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595};
+    #var walker[zone][west][waypoints] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595};
+    #var walker[zone][east][waypoints] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595};
+    #list walker[zone][$walker[zone][active]][waypoints] explode {,};
+    #show <131>NEXT ZONE CALLED: [$walker[zone][index]:&walker[zone][zones][]] $walker[zone][active];
+    get_destination;
 }
 
 
-#alias load_route {
-	show_debug {<131>LOAD ROUTE CALLED - We are in $tellu_zone zone};
-	#list waypoints[$tellu_zone] get 1 destination;
-	#nop room_event;
+#alias get_destination {
+	#list walker[zone][$walker[zone][active]][waypoints] get 1 destination;
+	#show <131>FIRST DESTINATION FOUND  Zone: $walker[zone][active]   Destination; $destination;
+    evalutate_next_step
 }
 
-#alias takeStep {
+
+#alias get_next_destination {
+	#list walker[zone][$walker[zone][active]][waypoints] delete 1;
+    #local _steps_left &walker[zone][$walker[zone][active]][waypoints][];
+
+	#show <142>Current stop removed, steps left: $_steps_left;
+	#if { $_steps_left>0 } {
+		#show  <142>Journey to next destination starting in $walker[delay][waypoint] secs;
+		#delay $walker[delay][waypoint] { get_destination }
+	};#else {
+		#show <132>No more destinations, load next zone: $tellu_zone starting in $walker[delay][zone] seconds;
+		#var destination {};
+        decidedamage;
+        updategroupname;
+        #if {&need_summons[]>0} {
+            nco tellu_summon;
+            #delay $walker[delay][zone] next_zone;
+        }; #else {
+            #delay $walker[delay][zone] next_zone;
+        }
+	}
+}
+
+
+
+#alias evalutate_next_step {
     #if {"$MSDP_ROOM_VNUM"=="?"} { #map get roomvnum cur_room_vnum } { #var cur_room_vnum $MSDP_ROOM_VNUM };
-    show_debug {TAKESTEP ROOM: $cur_room_vnum  Positive: $botPositive   Negative: $botNegative MobsInRoom: $tellu_mobs_in_room  PrevPathLength: $path_length  GroupCanMove: @can_group_move{} TimeSinceKill: @tellu_lastkilltime{}};
+    #if {$cur_room_vnum==$destination} {
+        #show <131>ROOM EVENT: We have arrived $cur_room_vnum;
+        get_next_destination;
+    }; #elseif {$destination>0} {
+        #show <131>ROOM EVENT: Not at destination CurRoom: $cur_room_vnum Dest: $destination;
+        #if { $autowalk }  {
+            #delay $walker[delay][step] {#show <146>AUTOWALK called after $autowalkspeed (s);takeStep}
+        }
+    }; #else {
+        show_debug {<131>ROOM EVENT: No destination};
+        #nop
+    }    
+}
+
+
+
+#on enter room 
+#if {"$MSDP_ROOM_VNUM"=="?"} {
+    show_debug {<131>We are in Unknown area, check room action after $autowalkspeed(s) delay};
+    #delay $autowalkspeed room_event;
+}
+
+
+
+#alias evalute_room {
+    #show EVALUATE ROOM: $cur_room_vnum  Positive:$botPositive   Negative:$botNegative  MobsInRoom: $tellu_mobs_in_room  PrevPathLength:$path_length  GroupCanMove:@can_group_move{} TimeSinceKill: @tellu_lastkilltime{}};
+    #nop NOT SAFE FOR KILL - TAKE STEP TOWARDS DESTINATION
     #if {$botPositive!=1} {
         #map find $destination;
         #path get length path_length;
         #if {$path_length>0} {
+            #nop WE HAVE A PATH
             #if { (@can_group_move{}) } {
-                #var botPositive 0;
-                #var botNegative 0;
-                #var tellu_mobs_in_room 0;
+                room_reset;
                 #if { (&_queue[move][]==0) } {
                     smart_move;
-                    #if {"$MSDP_ROOM_VNUM"=="?"} {
-                        #nop show_debug {<131>We are in Unknown area, check room action after $autowalkspeed(s) delay};
-                        #nop delay $autowalkspeed room_event;
-                    }
                 }
             }; #else {
                 #if {"$char_entangled"!=""} {
@@ -114,13 +172,14 @@
             };
         };
     };
+    #nop THERE IS TARGET IN ROOM
     #else {
         #if {$botNegative>0 || $tellu_mobs_in_room>1} {
-            show_debug {<131>BAD GUYS MOVE ON};
-            actionCleared;
-        };
+            #show <131>BAD GUYS MOVE ON;
+            room_reset;
+        }; 
         #else {
-            show_debug {<131>THERE ARE ACTIONS WE NEED TO DEAL WITH};
+            #show <131>THERE ARE ACTIONS WE NEED TO DEAL WITH;
             #if {@verifyTelluZone{}} {
                 #if {$tell_start_kill} {
                     #if {$tell_start_kill_delay==0} {
@@ -142,58 +201,18 @@
                     }
                 };
             }; #else {
-                actionCleared;
+                room_reset;
             };
         }
     }
- }
-
-
-#alias room_event {
-    #if {"$MSDP_ROOM_VNUM"=="?"} { #map get roomvnum cur_room_vnum } { #var cur_room_vnum $MSDP_ROOM_VNUM };
-    #if {$autowalk} {
-        #if {$cur_room_vnum==$destination} {
-            show_debug {<131>ROOM EVENT: We have arrived $cur_room_vnum};
-            getNextDestination
-        }; #elseif {$destination>0} {
-            show_debug {<131>ROOM EVENT: Not at destination CurRoom: $cur_room_vnum Dest: $destination};
-            #if { $autowalk }  {#delay $autowalkspeed {show_debug {<146>AUTOWALK called after $autowalkspeed (s)};takeStep}}
-        }; #else {
-            show_debug {<131>ROOM EVENT: No destination};
-            #nop
-        }    
-    }
-}
-
-#alias getNextDestination {
-	#list waypoints[$tellu_zone] delete 1;
-	show_debug {<142>GET NEXT DESTINATION <&waypoints[$tellu_zone][]> left};
-	#if {&waypoints[$tellu_zone][]>0} {
-		show_debug {<142>Next path starting in $waypointdelay secs};
-		#delay $waypointdelay {load_route}
-	};#else {
-		#show <132>End of zone: $tellu_zone - Next zone starting in $zonedelay seconds;
-		#var destination {};
-        decidedamage;
-        updategroupname;
-        #if {&need_summons[]>0} {
-            #nop math zonedelay {$zonedelay+3};
-            nco tellu_summon;
-            #delay $zonedelay nextTellZone;
-        }; #else {
-            #delay $zonedelay nextTellZone;
-        }
-	}
 }
 
 
-#alias actionCleared {
-    #var tellu_mobs_in_room 0;
-    #var botPositive 0;
-    #var botNegative 0;
-    #var tellu_target {};
-    #nop if {"$MSDP_POSITION"!="Fighting"} { room_event };
-}
+
+
+
+
+
 
  #function verifyTelluZone {
     #var tellu_zone_correct 0;
@@ -206,7 +225,7 @@
     #show <143>END ZONE, RETURN TO START;
     #list waypoints[$tellu_zone] clear;
     #var destination 34595;
-    #nop room_event;
+    room_event;
 }
 
 #action {^%1 chops up the vines entangling %2.} {
