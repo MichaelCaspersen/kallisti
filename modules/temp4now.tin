@@ -30,19 +30,24 @@
 
 #alias evaluate_room {
     #show <131>EVALUATE ROOM CALLED;
-    #if {$botPositive!=1} {
-        #show <131>EXAMINE ROOM - NO POSITIVE TARGETS - MOVE ON;
+    #if {$cur_room_vnum==$hub} {
+        #show <131>EVALUATE ROOM - WE ARE AT HUB - LOAD NEXT ZONE;
     };
     #else {
-        #if {$botNegative>0 || $tellu_mobs_in_room>1} {
-            #show <131>EVALUATE ROOM - BAD GUYS OR TOO MANY MOBS - MOVE ON;
+        #if {$botPositive!=1} {
+            #show <131>EXAMINE ROOM - NO POSITIVE TARGETS - MOVE ON;
         };
         #else {
-            show_debug {<131>EVALUATE ROOM - ONLY ONE GOOD TARGET};
-            #if {@verifyTelluZone{}} {
-                #show <131>ROOM VERIFIED - KILL TARGET;
-                #delay 5 {#if {$cur_opponents==0} {#SHOW <131>EVALUATE ROOM - COMBAT DIDNT START - MOVE ON}}
+            #if {$botNegative>0 || $tellu_mobs_in_room>1} {
+                #show <131>EVALUATE ROOM - BAD GUYS OR TOO MANY MOBS - MOVE ON;
             };
+            #else {
+                show_debug {<131>EVALUATE ROOM - ONLY ONE GOOD TARGET};
+                #if {@verifyTelluZone{}} {
+                    #show <131>ROOM VERIFIED - KILL TARGET;
+                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>EVALUATE ROOM - COMBAT DIDNT START - MOVE ON}}
+                };
+            }
         }
     }
 }    
