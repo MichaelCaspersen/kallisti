@@ -29,28 +29,28 @@
 }
 
 #alias evaluate_room {
-    #show <131>EVALUATE ROOM CALLED;
+    #nop show <131>EVALUATE ROOM CALLED;
     #if {$cur_room_vnum==$hub} {
-        #show <131>WE ARE AT HUB;
+        #nop show <131>WE ARE AT HUB;
         load_next_zone;
     };
     #else {
         #if {$botPositive!=1} {
-            #show <131>NO POSITIVE TARGETS;
+            #nop show <131>NO POSITIVE TARGETS;
             find_next_move;
         };
         #else {
             #if { ($botNegative>0) || ($tellu_mobs_in_room>1) } {
-                #show <131>BAD GUYS OR TOO MANY MOBS;
+                #nop show <131>BAD GUYS OR TOO MANY MOBS;
                 find_next_move;
             };
             #else {
                 #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
-                    #show <131>ROOM VERIFIED - KILL TARGET;
+                    #nop show <131>ROOM VERIFIED - KILL TARGET;
                     #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON}}
                 };#else {
-                    #show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
+                    #nop show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
                     find_next_move
                 }
             }
@@ -62,34 +62,34 @@
 #var autowalk 1;
 
 #alias find_next_move {
-    #show <147>FIND NEXT MOVE CALLED;
+    #nop show <147>FIND NEXT MOVE CALLED;
     #if {$autowalk} {
         #if {$cur_room_vnum==$destination} {
-            #show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
+            #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
             #list waypoints[$tellu_zone] delete 1;
             load_route;
         }; #elseif {$destination>0} {
-            #show <147>FIND PATH TOWARDS MOVE: $destination;
+            #nop show <147>FIND PATH TOWARDS MOVE: $destination;
             load_route;
         }; #else {
-            show_debug {<147>No destination};
+            #nop show <147>No destination;
             #nop
         };
-        #show <147>MOVE;
+        #nop show <147>MOVE;
     }
 }
 
 
 
 #alias load_next_zone {
-    #show <172>LOAD NEXT ZONE CALLED;
+    #nop show <172>LOAD NEXT ZONE CALLED;
     #math tellu[zindex] {$tellu[zindex]+1};
     #if {$tellu[zindex] <= &tellu[zone][]} {
     };#else {
         #var tellu[zindex] 1;
     };
     #var tellu_zone $tellu[zone][$tellu[zindex]];
-    #show <172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone;
+    #nop show <172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone;
     #var waypoints {};
     #var waypoints[north] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595,34595};
     #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595,34595};
@@ -100,9 +100,9 @@
 
 
 #alias load_route {
-    #show <132>LOAD ROUTE CALLED;
+    #nop show <132>LOAD ROUTE CALLED;
 	#list waypoints[$tellu_zone] get 1 destination;
-    #show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination;
+    #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination;
     #map find $destination;
 }
 
@@ -223,6 +223,140 @@
 
 
 
+#action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}}
+#action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}}
+#action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target topiary;tellu_kill @mob_count{"%1"}}
+#action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;tellu_kill @mob_count{"%1"}}
+#action {A Tellurian tundra-snap is here looking alert.%1} {#var tellu_target wolf;tellu_kill @mob_count{"%1"}}
+#action {A Tellurian topiary is here looking alert.%1} {#var tellu_target topiary;tellu_kill @mob_count{"%1"}}
+
+#action {A Tellurian blood-mage is hovering here.} {kill mage;#var tellu_target mage;: marks $tellu_target for death.}
+#action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
+
+#action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single]dmagic}}
+#action {A Tellurian fury steps out of the shadows.} {#show <131>FURY JOINED THE FIGHT!!!}
+
+#action {A Tellurian elder is hovering here.} {#var tellu_target elder;: marks $tellu_target for death.}
+
+#action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic}}
+
+#action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
+
+#action {Grodan glimmers as the remaining visages infuse him with their life essence.} {#show <131>VISAGES SPAWNED, MIRACLE!!!}
+#action {A visage of Grodan is hovering here.} {#var tellu_target grodan;: marks $tellu_target for death.}
+#highlight {All of Telluria shakes and rumbles as the ground shifts.} {reverse yellow}
+
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {
+    #delay $tellu_kill_delay {actionCleared};
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[revive] @increment{$tellu_stats[revive]};
+    #var lastkilltime $MSDP_UPTIME;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show \n<172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #nop addAverageKillTime $tellu_kill_timer
+};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {
+    #delay $tellu_kill_delay {actionCleared};
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[fury] @increment{$tellu_stats[fury]};
+    #var lastkilltime $MSDP_UPTIME;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show \n<Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #nop addAverageKillTime $tellu_kill_timer
+};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {
+    #delay $tellu_kill_delay {actionCleared};
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[fury] @increment{$tellu_stats[fury]};
+    #var lastkilltime $MSDP_UPTIME;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show \n<Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #nop addAverageKillTime $tellu_kill_timer
+};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
+    #delay $tellu_kill_delay {actionCleared};
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[prudent] @increment{$tellu_stats[prudent]};
+    #var lastkilltime $MSDP_UPTIME;
+    #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
+    #show \n131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    gt BAD KILL;
+    #nop addAverageKillTime $tellu_kill_timer
+};
+
+#action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
+
+#action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
+
+#action {A Tellurian %1 utters the words 'unsohaiorz'} {#nop show <131>%1 ENDS COMBAT}
+#action {A Tellurian %1 steps out of the shadows.} {#nop show <131>%1 JOINER!!!!}
+
+#alias safetokill {
+    #nop %1 joiner, %2 aided, %3 direction, %4 action ;
+    #show \n<132>>%1< >%2< >%3< >%4<;
+    #switch {"%1"} {
+        #case {"tundra-snap"} {#var tellu_joiner wolf};
+        #case {"topiary"} {#var tellu_joiner topiary};
+        #case {"scarab-kin"} {#var tellu_joiner scarab};
+    };
+    #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_joiner} 
+    {
+        #nop MOB in safe room;
+        #if {"%4"=="JOINED"} {
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt $tellu_joiner JOINED %2, SAFE kill} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
+        };#else {
+            #show <172>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+        }
+    }
+    {
+        #nop MOB in BAD room;
+        #if {"%4"=="JOINED"} {
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt $tellu_joiner JOINED %2, BAD kill} {#show <132>$tellu_joiner JOINED %2, BAD kill};
+        };#else {
+            #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+        }
+    };
+    #var tellu_joiner {};
+}
+
+
+
+#function visualizeOdometer {
+    #var odobar {};
+    #local _temp_odo_bar $_meter[KILLS];
+    #list _temp_odo_bar sort;
+    #list _temp_odo_bar reverse;
+    #local _temp_odo_bar_max $_temp_odo_bar[0];
+
+    #loop 1 &_meter[KILLS][] id {
+        #math _odo_bar_current { @pct{$_meter[KILLS][$id];$_temp_odo_bar_max} };
+        #format _odo_bar_current {%d} {$_odo_bar_current};
+        #if {$MSDP_WORLD_TIME != $id} {
+            #cat odobar {@colorPctBlock{$_odo_bar_current}}
+        };#else {
+            #cat odobar {<bffffff><f000000>■}
+        }
+    };
+    #cat odobar {<B538d87>};
+    #return $odobar
+}
+
+
+
+#alias tellu_bot_info {
+	#if $autowalk {
+        #math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
+		#format tellu_bot_info[1] {<B538d87><Fffffff>Zone:<Fd5d8d6>%-5s <Fffffff>Autokill:<Fd5d8d6>%s (%ss) <Fffffff>Autowalk:<Fd5d8d6>%s} {$tellu_mode} {$tell_start_kill} {$tell_start_kill_delay} {$autowalk};
+        #format tellu_bot_info[2] {<B538d87><Fffffff>Walk:<Fd5d8d6>%-3s <Fffffff>WayP:<Fd5d8d6>%s <Fffffff>Delays Kill:<Fd5d8d6>%s <Fffffff>Zone:<Fd5d8d6> %s } {$autowalkspeed} {$waypointdelay} {$tellu_kill_delay} {$zonedelay};
+        #format tellu_bot_info[3] {<B538d87><Fffffff>LastKill:<Fd5d8d6>%+3s(s) <Fffffff>Allowed:<Fd5d8d6>%s(s)} {@tellu_lastkilltime{}} {$tellu_allowed_downtime};
+        #format tellu_bot_info[4] {<B538d87><Fffffff>Prudent:<Fd5d8d6> %-1s <Fffffff>Revive:<Fd5d8d6>%s <Fffffff>Fury:<Fd5d8d6>%s} {$tellu_stats[prudent]} {$tellu_stats[revive]} {$tellu_stats[fury]};
+        #format tellu_bot_info[5] {<B538d87><Fffffff>Odometer: %s} {@visualizeOdometer{}};
+    };
+	#else {
+		#var tellu_bot_info {Tellu Bot: offline};
+	};
+    #if {@is_alias{display_right_tiles}} {display_right_tiles};
+}
 
 
 
