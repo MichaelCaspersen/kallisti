@@ -5,7 +5,7 @@
 #var autowalk 1;
 #var autowalk_delay 1;
 #var zonechange_delay 5;
-#var death_delay 2;
+#var death_delay 5;
 
 
 #event {MAP ENTER ROOM} {
@@ -62,6 +62,7 @@
                 #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
                     #show <131>ROOM VERIFIED - KILL TARGET;
+                    #var tellu_kill_timer $MSDP_UPTIME;
                     kill $tellu_target;
                     #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#show <131>Combat started}}
                 };#else {
@@ -121,6 +122,7 @@
     #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination;
     #map find $destination;
     #if {$autowalk} {
+        @tellu_lastkilltime{};
         smart_move;
     }
 }
@@ -210,6 +212,11 @@
     #var tellu_zone_correct 0;
     #regexp {$tellu_rooms[$tellu_zone]} {$cur_room_vnum} {#var tellu_zone_correct 1};
     #return $tellu_zone_correct
+}
+
+#function tellu_lastkilltime {
+    #math timesincelastkill { $MSDP_UPTIME - $lastkilltime };
+    #return $timesincelastkill
 }
 
 #alias room_clear {
