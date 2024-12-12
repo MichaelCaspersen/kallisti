@@ -85,6 +85,7 @@
     };
     #var tellu_zone $tellu[zone][$tellu[zindex]];
     #show <172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone;
+    #var waypoints {};
     #var waypoints[north] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595,34595};
     #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595,34595};
     #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595,34595};
@@ -95,7 +96,9 @@
 
 #alias load_route {
     #show <132>LOAD ROUTE CALLED - We are in $tellu_zone;
+    #var waypoints[$tellu_zone];
 	#list waypoints[$tellu_zone] get 1 destination;
+    #show <132>Next destination: $destination;
 }
 
 
