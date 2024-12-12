@@ -9,7 +9,7 @@
             #map get roomvnum cur_room_vnum;
             #nop show <143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum
         }; #else {
-            #var cur_room_vnum $MSDP_ROOM_VNUM
+            #var cur_room_vnum $MSDP_ROOM_VNUM;
             #nop show <143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum;
         };
         #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  Pos:$botPositive   Neg:$botNegative  Mobs: $tellu_mobs_in_room;
