@@ -41,19 +41,17 @@
         #if {$botPositive!=1} {
             #nop show <131>NO POSITIVE TARGETS;
             find_next_move;
-            #if {$autowalk} {smart_move}
         };
         #else {
             #if { ($botNegative>0) || ($tellu_mobs_in_room>1) } {
                 #nop show <131>BAD GUYS OR TOO MANY MOBS;
                 find_next_move;
-                #if {$autowalk} {smart_move}
             };
             #else {
                 #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
                     #show <131>ROOM VERIFIED - KILL TARGET;
-                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move;#if {$autowalk} {smart_move}}}
+                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move}}
                 };#else {
                     #nop show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
                 }
@@ -80,22 +78,26 @@
 }
 
 
+#var lastzonetime $MSDP_UPTIME;
 
 #alias load_next_zone {
-    #nop show <172>LOAD NEXT ZONE CALLED;
-    #math tellu[zindex] {$tellu[zindex]+1};
-    #if {$tellu[zindex] <= &tellu[zone][]} {
-    };#else {
-        #var tellu[zindex] 1;
-    };
-    #var tellu_zone $tellu[zone][$tellu[zindex]];
-    #nop show <172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone;
-    #var waypoints {};
-    #var waypoints[north] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595,34595};
-    #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595,34595};
-    #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595,34595};
-    #list waypoints[$tellu_zone] explode {,};
-    #delay 5 {#if {$autowalk} {smart_move}};
+    #show <172>LOAD NEXT ZONE CALLED;
+    #math timesincelastzone { $MSDP_UPTIME - $lastzonetime };
+    #var lastzonetime $MSDP_UPTIME;
+    #if {$timesincelastzone>10} {
+        #math tellu[zindex] {$tellu[zindex]+1};
+        #if {$tellu[zindex] <= &tellu[zone][]} {
+        };#else {
+            #var tellu[zindex] 1;
+        };
+        #var tellu_zone $tellu[zone][$tellu[zindex]];
+        #show <172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone;
+        #var waypoints {};
+        #var waypoints[north] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595,34595};
+        #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595,34595};
+        #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595,34595};
+        #list waypoints[$tellu_zone] explode {,};
+    }
 }
 
 
@@ -104,6 +106,9 @@
 	#list waypoints[$tellu_zone] get 1 destination;
     #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination;
     #map find $destination;
+    #if {$autowalk} {
+        smart_move;
+    }
 }
 
 
