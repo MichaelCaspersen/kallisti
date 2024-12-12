@@ -29,7 +29,7 @@
         #show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
         #if {@can_group_move{}} {
             #show <131>Group can move - Find next move;
-            find_next_move;
+            load_route;
         };#else {
             #show <131>Group cant move;
             #if {"$char_entangled"!=""} {
@@ -37,7 +37,7 @@
                 gt all chop $char_entangled
             };
             #var char_entangled {};
-            find_next_move;
+            load_route;
         }
     }
 }
