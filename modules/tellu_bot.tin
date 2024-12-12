@@ -87,7 +87,7 @@
 #alias load_route {
 	show_debug {<131>LOAD ROUTE CALLED - We are in $tellu_zone zone};
 	#list waypoints[$tellu_zone] get 1 destination;
-	#nop room_event;
+	room_event;
 }
 
 #alias takeStep {
@@ -115,8 +115,8 @@
                     #if { (&_queue[move][]==0) } {
                         smart_move;
                         #if {"$MSDP_ROOM_VNUM"=="?"} {
-                            #nop show_debug {<131>We are in Unknown area, check room action after $autowalkspeed(s) delay};
-                            #nop delay $autowalkspeed room_event;
+                            show_debug {<131>We are in Unknown area, check room action after $autowalkspeed(s) delay};
+                            #delay $autowalkspeed room_event;
                         }
                     }
                 }; #else {
@@ -212,7 +212,7 @@
     #var botPositive 0;
     #var botNegative 0;
     #var tellu_target {};
-    #if {"$MSDP_POSITION"!="Fighting"} { #nop room_event };
+    #if {"$MSDP_POSITION"!="Fighting"} { room_event };
 }
 
  #function verifyTelluZone {
@@ -226,7 +226,7 @@
     #show <143>END ZONE, RETURN TO START;
     #list waypoints[$tellu_zone] clear;
     #var destination 34595;
-    #nop room_event;
+    room_event;
 }
 
 #action {^%1 chops up the vines entangling %2.} {
