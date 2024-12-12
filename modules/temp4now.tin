@@ -24,12 +24,16 @@
 
 
 #alias tellu_mob_dead {
-    #if {"$char_entangled"!=""} {
-        #format char_entangled %l $char_entangled;
-        gt all chop $char_entangled
-    };
-    #var char_entangled {};
     #show <131>MOB DEAD - FIND NEXT MOVE;
+    #if {@can_group_move{}} {
+        find_next_move;
+    };#else {
+        #if {"$char_entangled"!=""} {
+            #format char_entangled %l $char_entangled;
+            gt all chop $char_entangled
+        };
+        #var char_entangled {};
+    }
 }
 
 #alias evaluate_room {
