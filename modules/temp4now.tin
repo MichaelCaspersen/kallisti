@@ -3,8 +3,18 @@
 #var tellu_zone normal;
 
 
-#event {MAP ENTER ROOM} {#if {"$MSDP_ROOM_VNUM"=="?"} { #map get roomvnum cur_room_vnum } { #var cur_room_vnum $MSDP_ROOM_VNUM };#delay 0.4 #show <174>DELAYED EVALUATE ROOM: $cur_room_vnum  Positive:$botPositive   Negative:$botNegative  MobsInRoom: $tellu_mobs_in_room  PrevPathLength:$path_length  GroupCanMove:@can_group_move{} TimeSinceKill: @tellu_lastkilltime{}};#if {$botPositive!=1} {#show <172>$cur_room_vnum We only kill if there is 1 positive - move on};#else {#if {$botNegative>0 || $tellu_mobs_in_room>1} {#show <172>$cur_room_vnum BAD GUYS MOVE ON};#else {#show <172>$cur_room_vnum THERE ARE ACTIONS WE NEED TO DEAL WITH}}
-
+#event {MAP ENTER ROOM} {
+    #if {"$MSDP_ROOM_VNUM"=="?"} { #map get roomvnum cur_room_vnum } { #var cur_room_vnum $MSDP_ROOM_VNUM };
+    #show MAP ENTER EVENT: $cur_room_vnum;
+    #delay 0.4 {
+        #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  Pos:$botPositive   Neg:$botNegative  Mobs: $tellu_mobs_in_room  PrevPathLength:$path_length  Move:@can_group_move{} TimeSinceKill: @tellu_lastkilltime{};
+        #if {$botPositive!=1} {#show <172>$cur_room_vnum We only kill if there is 1 positive - move on};
+        #else {
+            #if {$botNegative>0 || $tellu_mobs_in_room>1} { #show <172>$cur_room_vnum BAD GUYS MOVE ON};
+            #else {#show <172>$cur_room_vnum THERE ARE ACTIONS WE NEED TO DEAL WITH}
+        }
+    };
+}
 
 #alias eval_mobs_in_room {
     #var tellu_mob_in_room %1;
