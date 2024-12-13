@@ -89,10 +89,10 @@ Functions:\n
     #delay $autowalk_delay {
         #if {"$MSDP_ROOM_VNUM"=="?"} {
             #map get roomvnum cur_room_vnum;
-            #nop show <143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum
+            #show <143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum
         }; #else {
             #var cur_room_vnum $MSDP_ROOM_VNUM;
-            #nop show <143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum;
+            #show <143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum;
         };
         #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move;
         evaluate_room
@@ -109,7 +109,7 @@ Functions:\n
 
 #alias tellu_mob_dead {
     #delay $death_delay {
-        #nop show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
+        #show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
         #if { ("$tellu_target"=="mage") && ("$tellu_mode"=="clear") } {
             #list tellu[contains_mage] {find} {$tellu_zone} {mage_zone_id};
             #list tellu[contains_mage] delete $mage_zone_id
@@ -118,7 +118,7 @@ Functions:\n
             #show <131>Group can move - Find next move;
             find_next_move;
         };#else {
-            #nop show <131>Group cant move;
+            #show <131>Group cant move;
             #if {"$char_entangled"!=""} {
                 #format char_entangled %l $char_entangled;
                 gt all chop $char_entangled
@@ -130,9 +130,9 @@ Functions:\n
 }
 
 #alias evaluate_room {
-    #nop show <131>EVALUATE ROOM CALLED;
+    #show <131>EVALUATE ROOM CALLED;
     #if {$cur_room_vnum==$hub} {
-        #nop show <131>WE ARE AT HUB;
+        #show <131>WE ARE AT HUB;
         #if {$tellu_mode_running} {
             load_next_zone;
         };#else {
@@ -142,23 +142,23 @@ Functions:\n
     };
     #else {
         #if {$botPositive!=1} {
-            #nop show <131>NO POSITIVE TARGETS;
+            #show <131>NO POSITIVE TARGETS;
             find_next_move;
         };
         #else {
             #if { ($botNegative>0) || ($tellu_mobs_in_room>1) } {
-                #nop show <131>BAD GUYS OR TOO MANY MOBS;
+                #show <131>BAD GUYS OR TOO MANY MOBS;
                 find_next_move;
             };
             #else {
-                #nop show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
+                #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
-                    #nop show <131>ROOM VERIFIED - KILL TARGET;
+                    #show <131>ROOM VERIFIED - KILL TARGET;
                     #if {$marktarget} {: marks $tellu_target};
                     kill $tellu_target;
                     #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#show <131>Combat started}}
                 };#else {
-                    #nop show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
+                    #show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
                 }
             }
         };
@@ -166,20 +166,20 @@ Functions:\n
 }    
 
 #alias find_next_move {
-    #nop show <147>FIND NEXT MOVE CALLED;
+    #show <147>FIND NEXT MOVE CALLED;
     #if {$destination==$cur_room_vnum} {
-        #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
+        #show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
         #if { &waypoints[$tellu_zone][]>0 } { #list waypoints[$tellu_zone] delete 1 };
         load_route;
     }; #elseif {$destination>0} {
-        #nop show <147>FIND PATH TOWARDS MOVE: $destination;
+        #show <147>FIND PATH TOWARDS MOVE: $destination;
         load_route;
     }; #elseif {$destination==0} {
-        #nop show <147>RETURN TO HUB;
+        #show <147>RETURN TO HUB;
         #list waypoints[$tellu_zone] add $hub;
         load_route;
     }; #else {
-        #nop show <147>No destination;
+        #show <147>No destination;
         #nop
     };
 }
@@ -188,7 +188,7 @@ Functions:\n
 #alias load_next_zone {
     #math timesincelastzone { $MSDP_UPTIME - $lastzonetime };
     #var lastzonetime $MSDP_UPTIME;
-    #nop show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
+    #show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
     #var waypoints {};
     #var waypoints[north] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595,34595};
     #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595,34595};
@@ -217,11 +217,11 @@ Functions:\n
 
 
 #alias load_route {
-    #nop show <132>LOAD ROUTE CALLED;
+    #show <132>LOAD ROUTE CALLED;
 	#list waypoints[$tellu_zone] get 1 destination;
     #map find $destination;
     #path get length path_length;
-    #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
+    #show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
     #if {$path_length==0} {
         #list waypoints[$tellu_zone] delete 1;
         find_next_move;
@@ -372,8 +372,8 @@ Functions:\n
 #action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
 #action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
 
-#action {A Tellurian %1 utters the words 'unsohaiorz'} {#nop show <131>%1 ENDS COMBAT}
-#action {A Tellurian %1 steps out of the shadows.} {#nop show <131>%1 JOINER!!!!}
+#action {A Tellurian %1 utters the words 'unsohaiorz'} {#show <131>%1 ENDS COMBAT}
+#action {A Tellurian %1 steps out of the shadows.} {#show <131>%1 JOINER!!!!}
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
