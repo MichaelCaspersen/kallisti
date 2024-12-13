@@ -111,6 +111,9 @@
         #list waypoints[$tellu_zone] explode {,};
         #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
         updategroupname;
+        #if {&need_summons[]>0} {
+            nco tellu_summon;
+        };
         #delay $zonechange_delay load_route;
     }
 }
@@ -376,7 +379,7 @@
 #alias tellu_stats {
     #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
     #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
-    #show <134> Last kill: $tellu_kill_timer(s);
+    #show <134> Last move: $time_since_last_move(s);
 }
 
 
