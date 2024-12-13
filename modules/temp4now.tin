@@ -134,7 +134,8 @@ Functions:\n
         #nop show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
         #if { ("$tellu_target"=="mage") && ("$tellu_mode"=="clear") } {
             #list tellu[contains_mage] {find} {$tellu_zone} {mage_zone_id};
-            #list tellu[contains_mage] delete $mage_zone_id
+            #list tellu[contains_mage] delete $mage_zone_id;
+            #show <131>Removing $tellu_zone from clearing;
         };
         #if {@can_group_move{}} {
             #nop show <131>Group can move - Find next move;
