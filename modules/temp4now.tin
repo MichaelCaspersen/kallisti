@@ -53,7 +53,7 @@ Functions:\n
             #var tellu_mode normal;
             #var tellu_mode_running 1;
             #var autowalk 1;
-            #if {$cur_room_vnum<>$hub} {
+            #if {$cur_room_vnum!=$hub} {
                 #show <143>We must start from HUB;
                 #map run $hub;
             };#else {
@@ -177,7 +177,7 @@ Functions:\n
 
 #alias find_next_move {
     #nop show <147>FIND NEXT MOVE CALLED;
-    #if { ($destination==$cur_room_vnum) && ($cur_room_vnum<>$hub) } {
+    #if { ($destination==$cur_room_vnum) && ($cur_room_vnum!=$hub) } {
         #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
         #if { &waypoints[$tellu_zone][]>0 } { #list waypoints[$tellu_zone] delete 1 };
         load_route;
@@ -242,7 +242,7 @@ Functions:\n
 }
 
 #ticker {restartwalker} {
-    #if { ($tellu_mode_running) && ($cur_room_vnum<>$hub) } {
+    #if { ($tellu_mode_running) && ($cur_room_vnum!=$hub) } {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
         #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
             #show <175>Stuck $time_since_last_move s continue move;
