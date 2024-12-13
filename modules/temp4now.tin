@@ -258,20 +258,20 @@
 #var tell_mobs[north][clear][Desert] {"tree", "topiary"};
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
-#action {A Tellurian blood-mage is hovering here.} {kill mage;#var tellu_target mage;: marks $tellu_target for death.}
+#action {A Tellurian blood-mage is hovering here.} {kill mage;#var tellu_target mage;: marks $tellu_target}
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
 
 #action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single]dmagic}}
 #action {A Tellurian fury steps out of the shadows.} {#show <131>FURY JOINED THE FIGHT!!!}
 
-#action {A Tellurian elder is hovering here.} {#var tellu_target elder;: marks $tellu_target for death.}
+#action {A Tellurian elder is hovering here.} {#var tellu_target elder;: marks $tellu_target}
 
 #action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic}}
 
 #action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
 
 #action {Grodan glimmers as the remaining visages infuse him with their life essence.} {#show <131>VISAGES SPAWNED, MIRACLE!!!}
-#action {A visage of Grodan is hovering here.} {#var tellu_target grodan;: marks $tellu_target for death.}
+#action {A visage of Grodan is hovering here.} {#var tellu_target grodan;: marks $tellu_target}
 #highlight {All of Telluria shakes and rumbles as the ground shifts.} {reverse yellow}
 
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {
