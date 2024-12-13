@@ -49,7 +49,7 @@ Functions:\n
 #alias {^tellu %1} {
     #SWITCH {"%1"} {
         #CASE {"start"} {
-            #show <143>Tellu START;
+            #nopshow <143>Tellu START;
             #var tellu_mode normal;
             #var tellu_mode_running 1;
             #var autowalk 1;
@@ -99,10 +99,10 @@ Functions:\n
     #delay $autowalk_delay {
         #if {"$MSDP_ROOM_VNUM"=="?"} {
             #map get roomvnum cur_room_vnum;
-            #show <143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum
+            #nop show <143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum
         }; #else {
             #var cur_room_vnum $MSDP_ROOM_VNUM;
-            #show <143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum;
+            #nop show <143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum;
         };
         #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move;
         evaluate_room
@@ -119,16 +119,16 @@ Functions:\n
 
 #alias tellu_mob_dead {
     #delay $death_delay {
-        #show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
+        #nop show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
         #if { ("$tellu_target"=="mage") && ("$tellu_mode"=="clear") } {
             #list tellu[contains_mage] {find} {$tellu_zone} {mage_zone_id};
             #list tellu[contains_mage] delete $mage_zone_id
         };
         #if {@can_group_move{}} {
-            #show <131>Group can move - Find next move;
+            #nop show <131>Group can move - Find next move;
             find_next_move;
         };#else {
-            #show <131>Group cant move;
+            #nop show <131>Group cant move;
             #if {"$char_entangled"!=""} {
                 #format char_entangled %l $char_entangled;
                 gt all chop $char_entangled
@@ -140,35 +140,35 @@ Functions:\n
 }
 
 #alias evaluate_room {
-    #show <131>EVALUATE ROOM CALLED;
+    #nop show <131>EVALUATE ROOM CALLED;
     #if {$cur_room_vnum==$hub} {
-        #show <131>WE ARE AT HUB;
+        #nop show <131>WE ARE AT HUB;
         #if {$tellu_mode_running} {
             load_next_zone;
         };#else {
             #var autowalk 0;
-            #show <131>Tellurian Bot Stopped - <tellu start> to run again;
+            #nop show <131>Tellurian Bot Stopped - <tellu start> to run again;
         }
     };
     #else {
         #if {$botPositive!=1} {
-            #show <131>NO POSITIVE TARGETS;
+            #nop show <131>NO POSITIVE TARGETS;
             find_next_move;
         };
         #else {
             #if { ($botNegative>0) || ($tellu_mobs_in_room>1) } {
-                #show <131>BAD GUYS OR TOO MANY MOBS;
+                #nop show <131>BAD GUYS OR TOO MANY MOBS;
                 find_next_move;
             };
             #else {
-                #show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
+                #nop show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
-                    #show <131>ROOM VERIFIED - KILL TARGET;
+                    #nop show <131>ROOM VERIFIED - KILL TARGET;
                     #if {$marktarget} {: marks $tellu_target};
                     kill $tellu_target;
-                    #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#show <131>Combat started}}
+                    #delay 5 {#if {$cur_opponents==0} {#nop SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#nop show <131>Combat started}}
                 };#else {
-                    #show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
+                    #nop show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
                 }
             }
         };
@@ -176,21 +176,21 @@ Functions:\n
 }    
 
 #alias find_next_move {
-    #show <147>FIND NEXT MOVE CALLED;
+    #nop show <147>FIND NEXT MOVE CALLED;
     #if { ($destination==$cur_room_vnum) && ($cur_room_vnum<>$hub) } {
-        #show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
+        #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
         #if { &waypoints[$tellu_zone][]>0 } { #list waypoints[$tellu_zone] delete 1 };
         load_route;
     }; #elseif {$destination>0} {
-        #show <147>FIND PATH TOWARDS MOVE: $destination;
+        #nop show <147>FIND PATH TOWARDS MOVE: $destination;
         load_route;
     }; #elseif {$destination==0} {
-        #show <147>RETURN TO HUB;
+        #nop show <147>RETURN TO HUB;
         #list waypoints[$tellu_zone] clear;
         #list waypoints[$tellu_zone] add $hub;
         load_route;
     }; #else {
-        #show <147>No destination;
+        #nop show <147>No destination;
         #nop
     };
 }
@@ -199,7 +199,7 @@ Functions:\n
 #alias load_next_zone {
     #math timesincelastzone { $MSDP_UPTIME - $lastzonetime };
     #var lastzonetime $MSDP_UPTIME;
-    #show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
+    #nop show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
     #if {$timesincelastzone>10} {
         #math tellu[zindex] {$tellu[zindex]+1};
         #if {$tellu[zindex] <= &tellu[zone][]} { };
@@ -225,11 +225,11 @@ Functions:\n
 
 
 #alias load_route {
-    #show <132>LOAD ROUTE CALLED;
+    #nop show <132>LOAD ROUTE CALLED;
 	#list waypoints[$tellu_zone] get 1 destination;
     #map find $destination;
     #path get length path_length;
-    #show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
+    #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
     #if {$path_length==0} {
         #list waypoints[$tellu_zone] delete 1;
         find_next_move;
