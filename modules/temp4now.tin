@@ -58,6 +58,10 @@ Functions:\n
             #var destination 0;
             find_next_move;
         };
+        #CASE {"clearzone"} {
+            #var tellu[contains_mage] {west,north,east};
+            #list tellu[contains_mage] explode {,};
+        };
         #CASE {"stats"} {
             #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
             #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
@@ -66,6 +70,8 @@ Functions:\n
         #DEFAULT {#show <134>Tellu command not recognized. start stop stats};
     };
 }
+
+
 
 
 
