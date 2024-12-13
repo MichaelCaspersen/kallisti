@@ -266,6 +266,7 @@ Functions:\n
 }
 
 #ticker {restartwalker} {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {#map get roomvnum cur_room_vnum};
     #if { ($tellu_mode_running) && ($cur_room_vnum!=$hub) } {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
         #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
