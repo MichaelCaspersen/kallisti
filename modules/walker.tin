@@ -32,6 +32,7 @@ Functions:\n
 
 #var tellu_mode normal;
 
+#var cur_room_vnum 34595;
 #var hub 34595;
 #var autowalk 1;
 #var autowalk_delay 1;
@@ -370,7 +371,7 @@ Functions:\n
 #nop UPPER FLOOR
 #action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
 
-#action {A Tellurian elder is hovering here.} {#var tellu_target elder;#if {$marktarget} {: marks $tellu_target}}
+#action {A Tellurian elder is hovering here.} {#var tellu_target elder;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if {$marktarget} {: marks $tellu_target}}
 
 #action {A visage of Grodan is hovering here.} {#var tellu_target grodan;#if {$marktarget} {: marks $tellu_target}}
 
@@ -379,7 +380,7 @@ Functions:\n
 #action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
 #action {Grodan glimmers as the remaining visages infuse him with their life essence.} {#show <131>VISAGES SPAWNED, MIRACLE!!!}
 
-#action {All of Telluria shakes and rumbles as the ground shifts.} {#var tellu_mode normal}
+#action {All of Telluria shakes and rumbles as the ground shifts.} {#var tellu_mode normal;gt ZONE RESET}
 
 
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {
