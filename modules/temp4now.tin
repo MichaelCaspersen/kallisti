@@ -357,7 +357,9 @@ Functions:\n
 #action {A Tellurian tundra-snap is here looking alert.%1} {#var tellu_target wolf;eval_mobs_in_room @mob_count{"%1"}}
 #action {A Tellurian topiary is here looking alert.%1} {#var tellu_target topiary;eval_mobs_in_room @mob_count{"%1"}}
 
-#action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;#if {$marktarget} {: marks $tellu_target};#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
+#action {a Tellurian blood-mage begins searching their sector for those responsible for the carnage.} {#show <143>Mage has spawn}
+#action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;#if {$marktarget} {: marks $tellu_target};kill mage;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
+#action {A Tellurian blood-mage is dead!  R.I.P.} {tellu_mob_dead}
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#var tellu_mode normal;#show <143>UPPER FLOOR OPEN}
 
