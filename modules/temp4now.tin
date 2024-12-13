@@ -79,19 +79,20 @@
 }    
 
 #alias find_next_move {
-    #show <147>FIND NEXT MOVE CALLED;
+    #nop show <147>FIND NEXT MOVE CALLED;
     #if {$destination==$cur_room_vnum} {
-        #show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
+        #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
         #list waypoints[$tellu_zone] delete 1;
         load_route;
     }; #elseif {$destination>0} {
-        #show <147>FIND PATH TOWARDS MOVE: $destination;
+        #nop show <147>FIND PATH TOWARDS MOVE: $destination;
         load_route;
     }; #elseif {$destination==0} {
-        #show <147>RETURN TO HUB;
+        #nop show <147>RETURN TO HUB;
         #list waypoints[$tellu_zone] add $hub;
+        load_route;
     }; #else {
-        #show <147>No destination;
+        #nop show <147>No destination;
         #nop
     };
 }
@@ -128,11 +129,11 @@
 #var last_move_time $MSDP_UPTIME;
 
 #alias load_route {
-    #show <132>LOAD ROUTE CALLED;
+    #nop show <132>LOAD ROUTE CALLED;
 	#list waypoints[$tellu_zone] get 1 destination;
     #map find $destination;
     #path get length path_length;
-    #show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
+    #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
     #if {$path_length==0} {
         #list waypoints[$tellu_zone] delete 1;
         find_next_move;
