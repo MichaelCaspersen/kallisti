@@ -170,9 +170,7 @@ Functions:\n
     #nop show <147>FIND NEXT MOVE CALLED;
     #if {$destination==$cur_room_vnum} {
         #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
-        #if {&waypoints[$tellu_zone][]>0} {
-            #list waypoints[$tellu_zone] delete 1;
-        }
+        #if { &waypoints[$tellu_zone][]>0 } { #list waypoints[$tellu_zone] delete 1 };
         load_route;
     }; #elseif {$destination>0} {
         #nop show <147>FIND PATH TOWARDS MOVE: $destination;
