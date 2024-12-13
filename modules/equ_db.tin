@@ -463,7 +463,7 @@ Commands:\n
     #if {"%1"==""} {#var char_event timer} {#var char_event %1};
     @avg_kills_per_hour{};
     #var cur_room_vnum $MSDP_ROOM_VNUM;
-    #if {"$cur_room_vnum"=="?"} {#var cur_room_vnum 99999};
+    #if {"$cur_room_vnum"=="?"} {#map get roomvnum cur_room_vnum};
     #var charsql {"$MSDP_CHARACTER_NAME" "$MSDP_ACCOUNT_NAME" "$MSDP_LEVEL" "$MSDP_ALIGNMENT" "$MSDP_HERO_POINTS" "$MSDP_HERO_POINTS_TNL" "$MSDP_EXPERIENCE" "$avg_xp_per_hour" "$MSDP_GOLD" "$MSDP_BANK_GOLD" "$MSDP_AREA_NAME" "$cur_room_vnum" "&MSDP_GROUP[]" "$MSDP_GROUPLEVEL" "$MSDP_WIELD" "$MSDP_HOLD" "$MSDP_SHIELD" "$MSDP_NOBLE_POINTS" "$char_event" "$MSDP_HEALTH_MAX" "$MSDP_MANA_MAX" "$MSDP_STAMINA_MAX" "$timesincelastkill" "$MSDP_UPTIME"};
     #script {pythonResponse} {
         python3 connect_char.py $charsql;
