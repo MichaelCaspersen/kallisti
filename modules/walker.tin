@@ -349,6 +349,8 @@ Functions:\n
 #var tellu_stats[topiary] 0;
 #var tellu_stats[tundra-snap] 0;
 
+
+#nop LOWER FLOOR
 #action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;eval_mobs_in_room @mob_count{"%1"}}
 #action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;eval_mobs_in_room @mob_count{"%1"}}
 #action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target topiary;eval_mobs_in_room @mob_count{"%1"}}
@@ -364,6 +366,8 @@ Functions:\n
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show <143>UPPER FLOOR OPEN;#delay 2 {tellu stop}}
 
+
+#nop UPPER FLOOR
 #action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
 
 #action {A Tellurian elder is hovering here.} {#var tellu_target elder;#if {$marktarget} {: marks $tellu_target}}
