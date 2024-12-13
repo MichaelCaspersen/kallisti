@@ -95,7 +95,6 @@ Functions:\n
 
 #event {MAP ENTER ROOM} {
     room_clear;
-    tellu_bot_info;
     #delay $autowalk_delay {
         #if {"$MSDP_ROOM_VNUM"=="?"} {
             #map get roomvnum cur_room_vnum;
