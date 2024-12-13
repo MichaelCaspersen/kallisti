@@ -200,10 +200,12 @@ Functions:\n
     #var lastzonetime $MSDP_UPTIME;
     #nop show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
     #if {$timesincelastzone>10} {
-        #math tellu[zindex] {$tellu[zindex]+1};
-        #if {$tellu[zindex] <= &tellu[zone][]} { };
-        #else { 
-            #var tellu[zindex] 1 
+        #if {"$tellu_mode"=="normal"} {
+            #math tellu[zindex] {$tellu[zindex]+1};
+            #if {$tellu[zindex] <= &tellu[zone][]} { };
+            #else { 
+                #var tellu[zindex] 1 
+            };
         };
         #var tellu_zone $tellu[zone][$tellu[zindex]];
         #var waypoints {};
