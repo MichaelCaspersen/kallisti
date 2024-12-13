@@ -57,8 +57,6 @@ Functions:\n
         #CASE {"stop"} {
             #var tellu_mode normal;
             #var tellu_mode_running 0;
-            #var waypoints {};
-            #var destination $hub;
             find_next_move;
         };
         #CASE {"clearzone"} {
