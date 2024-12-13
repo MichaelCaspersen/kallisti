@@ -41,6 +41,7 @@ Functions:\n
 #var death_delay 5;
 #var marktarget 1;
 #var tellu_mode_running 1;
+#var time_since_last_move 0;
 
 
 #NOP #######################################################
@@ -415,8 +416,8 @@ Functions:\n
 #action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
 #action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
 
-#action {A Tellurian %1 utters the words 'unsohaiorz'} {#show <131>%1 ENDS COMBAT}
-#action {A Tellurian %1 steps out of the shadows.} {#show <131>%1 JOINER!!!!}
+#action {A Tellurian %1 utters the words 'unsohaiorz'} {#nop show <131>%1 ENDS COMBAT}
+#action {A Tellurian %1 steps out of the shadows.} {#nop show <131>%1 JOINER!!!!}
 #action {A Tellurian fury steps out of the shadows.} {#nop show <131>FURY JOINED THE FIGHT!!!}
 
 #alias safetokill {
@@ -456,7 +457,7 @@ Functions:\n
     #if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {
         #var char_entangled {}
     };
-    #delay {2} {nco room_clear}
+    #delay {2} {nco room_clear;find_next_move}
 };
 
 #action {^%1 tells you, 'sum me'} {
