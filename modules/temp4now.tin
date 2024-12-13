@@ -168,7 +168,7 @@ Functions:\n
 
 #alias find_next_move {
     #show <147>FIND NEXT MOVE CALLED;
-    #if {$destination==$cur_room_vnum} {
+    #if { ($destination==$cur_room_vnum) && ($cur_room_vnum<>$hub) } {
         #show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
         #if { &waypoints[$tellu_zone][]>0 } { #list waypoints[$tellu_zone] delete 1 };
         load_route;
