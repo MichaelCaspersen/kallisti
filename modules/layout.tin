@@ -85,8 +85,8 @@ event_register {SESSION ACTIVATED} {layout} {layout_reset %1}
 	set_right_tile 11 <B5f819d> profession_gather_info 2 tile;
 	set_right_tile 20 <F5f819d> xp_block 3 tile;
 	set_right_tile 21 <F5f819d> uptime_block 1 tile;
-	set_right_tile 31 <Fd5d8d6> player_info[%*] 17 tile;
-	set_right_tile 41 <Fd5d8d6> tellu_bot_info[%*] 5 tile;
+	set_right_tile 31 <Fd5d8d6> player_info[%*] 18 tile;
+	set_right_tile 41 <Fd5d8d6> tellu_bot_info[%*] 6 tile;
 }
 
 #if {!&{left_tiles}} {

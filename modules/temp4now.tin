@@ -5,7 +5,7 @@
 #var walker-description {Bot for running Tellurian}
 #var walker-help {
 Commands:\n
-\ttellu <command> - start stop status\n
+\ttellu <command> - start stop clearzone status\n
 
 Functions:\n
 \t....\n
@@ -49,10 +49,12 @@ Functions:\n
 #alias {^tellu %1} {
     #SWITCH {"%1"} {
         #CASE {"start"} {
+            #var tellu_mode normal;
             #var tellu_mode_running 1;
             #var autowalk 1;
         };
         #CASE {"stop"} {
+            #var tellu_mode normal;
             #var tellu_mode_running 0;
             #var waypoints[$tellu_zone] {};
             #var destination 0;
@@ -61,13 +63,14 @@ Functions:\n
         #CASE {"clearzone"} {
             #var tellu[contains_mage] {west,north,east};
             #list tellu[contains_mage] explode {,};
+            #var tellu_mode clear;
         };
         #CASE {"stats"} {
             #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
             #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
             #show <134> Last move: $time_since_last_move(s);
         };
-        #DEFAULT {#show <134>Tellu command not recognized. start stop stats};
+        #DEFAULT {#show <134>Tellu command not recognized. start stop clearzone stats};
     };
 }
 
@@ -107,6 +110,10 @@ Functions:\n
 #alias tellu_mob_dead {
     #delay $death_delay {
         #nop show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
+        #if { ("$tellu_target"=="mage") && ("$tellu_mode"=="clear") } {
+            #list tellu[contains_mage] {find} {$tellu_zone} {mage_zone_id};
+            #list tellu[contains_mage] delete $mage_zone_id
+        };
         #if {@can_group_move{}} {
             #show <131>Group can move - Find next move;
             find_next_move;
@@ -311,7 +318,8 @@ Functions:\n
 #action {A Tellurian topiary is here looking alert.%1} {#var tellu_target topiary;eval_mobs_in_room @mob_count{"%1"}}
 
 #action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;#if {$marktarget} {: marks $tellu_target};#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
-#action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
+
+#action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#var tellu_mode normal;#show <143>UPPER FLOOR OPEN}
 
 #action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
 #action {A Tellurian fury steps out of the shadows.} {#show <131>FURY JOINED THE FIGHT!!!}
