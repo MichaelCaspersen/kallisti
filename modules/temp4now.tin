@@ -95,6 +95,7 @@ Functions:\n
 
 #event {MAP ENTER ROOM} {
     room_clear;
+    tellu_bot_info;
     #delay $autowalk_delay {
         #if {"$MSDP_ROOM_VNUM"=="?"} {
             #map get roomvnum cur_room_vnum;
@@ -473,7 +474,7 @@ Functions:\n
 }
 
 
-event_register {variable autowalker} {right} {tellu_bot_info};
+event_register {variable cur_room_vnum} {right} {tellu_bot_info};
 #alias tellu_bot_info {
 	#if $tellu_mode_running {
         #format tellu_bot_info[1] {<B538d87><Fffffff>Zone:<Fd5d8d6>%-5s<Fffffff> (<Fd5d8d6>%-6s<Fffffff>) WayP:<Fd5d8d6>%-5s<Fffffff> (<Fd5d8d6>4<Fffffff>)} {$tellu_zone} {$tellu_mode} {$destination} {&waypoints[]};
