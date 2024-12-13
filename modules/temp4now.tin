@@ -31,12 +31,12 @@
 
 #alias tellu_mob_dead {
     #delay $death_delay {
-        #show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
+        #nop show <131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{};
         #if {@can_group_move{}} {
             #show <131>Group can move - Find next move;
             find_next_move;
         };#else {
-            #show <131>Group cant move;
+            #nop show <131>Group cant move;
             #if {"$char_entangled"!=""} {
                 #format char_entangled %l $char_entangled;
                 gt all chop $char_entangled
@@ -162,7 +162,7 @@
 #var autowalkspeed 0.5;
 #var waypointdelay 0.5;
 #var zonedelay 5;
-#var tellu_allowed_downtime 60;
+#var tellu_allowed_downtime 25;
 #var autowalk 1;
 
 #var tell_start_kill 1; #nop Will initiate kill, ask for rescue
