@@ -57,8 +57,9 @@ Functions:\n
         #CASE {"stop"} {
             #var tellu_mode normal;
             #var tellu_mode_running 0;
-            #var destination 0;
-            find_next_move;
+            #if {$cur_room_vnum==$hub} 
+                {#nop do nothing}      
+                {#var destination 0;find_next_move;}
         };
         #CASE {"clearzone"} {
             #var tellu[contains_mage] {west,north,east};
