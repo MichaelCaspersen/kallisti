@@ -49,7 +49,7 @@ Functions:\n
 #alias {^tellu %1} {
     #SWITCH {"%1"} {
         #CASE {"start"} {
-            #nopshow <143>Tellu START;
+            #show <143>Tellu START;
             #var tellu_mode normal;
             #var tellu_mode_running 1;
             #var autowalk 1;
