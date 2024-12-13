@@ -3,7 +3,6 @@
 
 #var tellu_mode normal;
 
-
 #var hub 34595;
 #var autowalk 1;
 #var autowalk_delay 1;
@@ -118,10 +117,11 @@
         #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
         #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
-        updategroupname;
         #if {&need_summons[]>0} {
             nco tellu_summon;
         };
+        updategroupname;
+        tellu_stats;
         #delay $zonechange_delay load_route;
     }
 }
@@ -270,15 +270,15 @@
 #var tell_mobs[north][clear][Desert] {"tree", "topiary"};
 #var tell_mobs[north][clear][Tundra] {"scarab"};
 
-#action {A Tellurian blood-mage is hovering here.} {kill mage;#var tellu_target mage;: marks $tellu_target}
+#action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;: marks $tellu_target;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show UPPER FLOOR OPEN}
 
-#action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single]dmagic}}
+#action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
 #action {A Tellurian fury steps out of the shadows.} {#show <131>FURY JOINED THE FIGHT!!!}
 
 #action {A Tellurian elder is hovering here.} {#var tellu_target elder;: marks $tellu_target}
 
-#action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic}}
+#action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
 
 #action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
 
