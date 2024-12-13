@@ -181,7 +181,8 @@ Functions:\n
                         #if {$marktarget} {: marks $tellu_target};
                         kill $tellu_target;
                     };#elseif {"$tellu_mode"=="clear"} { 
-                        #show <131>TEST NOT KILLING DURING CLEARING;
+                        #if {$marktarget} {: marks $tellu_target};
+                        kill $tellu_target;
                     };
                     #delay 5 {#if {$cur_opponents==0} {#nop SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#nop show <131>Combat started}}
                 };#else {
