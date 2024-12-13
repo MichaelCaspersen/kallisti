@@ -378,7 +378,7 @@ Functions:\n
     #var tellu_stats[revive] @increment{$tellu_stats[revive]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
-    #show \n<172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #show <172>GOOD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     tellu_mob_dead
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and {fuel|} my FURY!'} {
@@ -386,7 +386,7 @@ Functions:\n
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
-    #show \n<Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #show <Bfca><F000>FURY KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     tellu_mob_dead
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
@@ -394,11 +394,11 @@ Functions:\n
     #var tellu_stats[prudent] @increment{$tellu_stats[prudent]};
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
-    #show \n131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     #if {"$tellu_mode"=="normal"} {
         gt BAD KILL;
-        send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
     }
+    send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
     tellu_mob_dead
 };
 
