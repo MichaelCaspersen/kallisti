@@ -88,12 +88,17 @@
     }; #elseif {$destination>0} {
         #nop show <147>FIND PATH TOWARDS MOVE: $destination;
         load_route;
+    }; #elseif {$destination==0} {
+        #nop show <147>RETURN TO HUB;
+        #list waypoints[$tellu_zone] add $hub;
     }; #else {
         #nop show <147>No destination;
         #nop
     };
     #nop show <147>MOVE;
 }
+
+
 
 
 #var lastzonetime $MSDP_UPTIME;
@@ -129,13 +134,12 @@
 #alias load_route {
     #show <132>LOAD ROUTE CALLED;
 	#list waypoints[$tellu_zone] get 1 destination;
-    #if {$destination==0} {#list waypoints[$tellu_zone] add $hub};
     #map find $destination;
     #path get length path_length;
     #show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
     #if {$path_length==0} {
         #list waypoints[$tellu_zone] delete 1;
-        load_route;
+        find_next_move;
     };
     #elseif {$autowalk} {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
