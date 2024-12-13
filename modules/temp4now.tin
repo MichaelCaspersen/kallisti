@@ -136,7 +136,7 @@
         #list waypoints[$tellu_zone] delete 1;
         load_route;
     };
-    #else {$autowalk} {
+    #elseif {$autowalk} {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
         #var last_move_time $MSDP_UPTIME;
         smart_move;
