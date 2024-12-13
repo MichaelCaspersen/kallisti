@@ -49,12 +49,14 @@ Functions:\n
 #alias {^tellu %1} {
     #SWITCH {"%1"} {
         #CASE {"start"} {
+            #show <143>Tellu START;
             #var tellu_mode normal;
             #var tellu_mode_running 1;
             #var autowalk 1;
             load_next_zone
         };
         #CASE {"stop"} {
+            #show <143>Tellu STOP;
             #var tellu_mode normal;
             #var tellu_mode_running 0;
             #if {$cur_room_vnum==$hub} 
@@ -62,11 +64,13 @@ Functions:\n
                 {#var destination 0;find_next_move;}
         };
         #CASE {"clearzone"} {
+            #show <143>Tellu CLEARZONE;
             #var tellu[contains_mage] {west,north,east};
             #list tellu[contains_mage] explode {,};
             #var tellu_mode clear;
         };
         #CASE {"stats"} {
+            #show <143>Tellu STATS;
             #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
             #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
             #show <134> Last move: $time_since_last_move(s);
@@ -177,6 +181,7 @@ Functions:\n
         load_route;
     }; #elseif {$destination==0} {
         #show <147>RETURN TO HUB;
+        #list waypoints[$tellu_zone] clear;
         #list waypoints[$tellu_zone] add $hub;
         load_route;
     }; #else {
