@@ -361,7 +361,7 @@ Functions:\n
 #action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;#if {$marktarget} {: marks $tellu_target};kill mage;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
 #action {A Tellurian blood-mage is dead!  R.I.P.} {tellu_mob_dead}
 
-#action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#var tellu_mode normal;#show <143>UPPER FLOOR OPEN}
+#action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#var tellu_mode normal;#show <143>UPPER FLOOR OPEN;tellu stop}
 
 #action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
 
