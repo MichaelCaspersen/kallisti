@@ -75,7 +75,6 @@ Functions:\n
             #var tellu_mode clear;
         };
         #CASE {"stats"} {
-            #show <143>Tellu STATS;
             #show <134> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
             #show <134> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
             #show <134> Last move: $time_since_last_move(s);
@@ -147,7 +146,7 @@ Functions:\n
             load_next_zone;
         };#else {
             #var autowalk 0;
-            #nop show <131>Tellurian Bot Stopped - <tellu start> to run again;
+            #show <131>Tellurian Bot Stopped - <tellu start> to run again;
         }
     };
     #else {
