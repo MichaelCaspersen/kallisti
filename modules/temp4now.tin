@@ -163,8 +163,12 @@ Functions:\n
                 #nop show <131>EVALUATE ROOM - ONLY ONE GOOD TARGET;
                 #if {@verifyTelluZone{}} {
                     #nop show <131>ROOM VERIFIED - KILL TARGET;
-                    #if {$marktarget} {: marks $tellu_target};
-                    kill $tellu_target;
+                    #if {"$tellu_mode"=="normal"} { 
+                        #if {$marktarget} {: marks $tellu_target};
+                        kill $tellu_target;
+                    };#elseif {"$tellu_mode"=="clear"} { 
+                        #show <131>TEST NOT KILLING DURING CLEARING;
+                    };
                     #delay 5 {#if {$cur_opponents==0} {#nop SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#nop show <131>Combat started}}
                 };#else {
                     #nop show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
@@ -203,6 +207,12 @@ Functions:\n
         #if {"$tellu_mode"=="normal"} {
             #math tellu[zindex] {$tellu[zindex]+1};
             #if {$tellu[zindex] <= &tellu[zone][]} { };
+            #else { 
+                #var tellu[zindex] 1 
+            };
+        };#elseif {"$tellu_mode"=="clear"} {
+            #math tellu[zindex] {$tellu[zindex]+1};
+            #if {$tellu[zindex] <= &tellu[contains_mage][]} { };
             #else { 
                 #var tellu[zindex] 1 
             };
