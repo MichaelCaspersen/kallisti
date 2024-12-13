@@ -402,7 +402,7 @@ Functions:\n
     #if {"$tellu_mode"=="normal"} {
         gt BAD KILL;
     }
-    send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
+    send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
     tellu_mob_dead
 };
 
