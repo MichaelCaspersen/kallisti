@@ -129,7 +129,7 @@
 #alias load_route {
     #nop show <132>LOAD ROUTE CALLED;
 	#list waypoints[$tellu_zone] get 1 destination;
-    #if {$destination==0} {#var destination $hub};
+    #if {$destination==0} {#list waypoints[$tellu_zone] add $hub};
     #map find $destination;
     #path get length path_length;
     #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
