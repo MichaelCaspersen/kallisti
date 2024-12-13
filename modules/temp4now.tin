@@ -52,6 +52,7 @@ Functions:\n
             #var tellu_mode normal;
             #var tellu_mode_running 1;
             #var autowalk 1;
+            evaluate_room
         };
         #CASE {"stop"} {
             #var tellu_mode normal;
