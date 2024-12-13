@@ -103,7 +103,7 @@
 #alias load_next_zone {
     #math timesincelastzone { $MSDP_UPTIME - $lastzonetime };
     #var lastzonetime $MSDP_UPTIME;
-    #show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
+    #nop show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
     #if {$timesincelastzone>10} {
         #math tellu[zindex] {$tellu[zindex]+1};
         #if {$tellu[zindex] <= &tellu[zone][]} {
