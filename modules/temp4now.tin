@@ -199,11 +199,12 @@ Functions:\n
         #if {$tellu[zindex] <= &tellu[zone][]} { };#else { #var tellu[zindex] 1 };
         #if {"$tellu_mode"=="normal"} {
             #var tellu_zone $tellu[zone][$tellu[zindex]];
+            #list waypoints[$tellu_zone] explode {,};
         };#else { 
             #nop CLEARING MODE;
             #var tellu_zone $tellu[contains_mage][$tellu[zindex]];
+            #list waypoints[$contains_mage] explode {,};
         };
-        #list waypoints[$tellu_zone] explode {,};
         #show <172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone;
         #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
         #if {&need_summons[]>0} {
