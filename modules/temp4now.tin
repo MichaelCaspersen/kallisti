@@ -170,7 +170,9 @@ Functions:\n
     #nop show <147>FIND NEXT MOVE CALLED;
     #if {$destination==$cur_room_vnum} {
         #nop show <147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION;
-        #list waypoints[$tellu_zone] delete 1;
+        #if {&waypoints[$tellu_zone][]>0} {
+            #list waypoints[$tellu_zone] delete 1;
+        }
         load_route;
     }; #elseif {$destination>0} {
         #nop show <147>FIND PATH TOWARDS MOVE: $destination;
@@ -239,7 +241,8 @@ Functions:\n
     #if {$tellu_mode_running} {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
         #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
-            #show <175>Stuck $time_since_last_move s continue move;find_next_move
+            #show <175>Stuck $time_since_last_move s continue move;
+            find_next_move
         }
     }
 } {10}
