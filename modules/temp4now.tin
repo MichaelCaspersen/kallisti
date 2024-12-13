@@ -7,7 +7,7 @@
 #var hub 34595;
 #var autowalk 1;
 #var autowalk_delay 1;
-#var autowalk_allowed_downtime 20;
+#var autowalk_allowed_downtime 30;
 #var zonechange_delay 8;
 #var death_delay 5;
 #var marktarget 1;
