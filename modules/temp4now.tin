@@ -127,11 +127,11 @@
 #var last_move_time $MSDP_UPTIME;
 
 #alias load_route {
-    #nop show <132>LOAD ROUTE CALLED;
+    #show <132>LOAD ROUTE CALLED;
 	#list waypoints[$tellu_zone] get 1 destination;
-    #nop show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination;
     #map find $destination;
     #path get length path_length;
+    #show <132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length;
     #if {$path_length==0} {
         #list waypoints[$tellu_zone] delete 1;
         load_route;
