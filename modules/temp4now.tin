@@ -57,6 +57,7 @@ Functions:\n
         #CASE {"stop"} {
             #var tellu_mode normal;
             #var tellu_mode_running 0;
+            #var destination 0;
             find_next_move;
         };
         #CASE {"clearzone"} {
