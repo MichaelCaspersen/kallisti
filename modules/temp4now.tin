@@ -236,9 +236,11 @@ Functions:\n
 }
 
 #ticker {restartwalker} {
-    #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
-    #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
-        #show <175>Stuck $time_since_last_move s continue move;find_next_move
+    #if {$tellu_mode_running} {
+        #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
+        #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
+            #show <175>Stuck $time_since_last_move s continue move;find_next_move
+        }
     }
 } {10}
 
@@ -475,6 +477,7 @@ event_register {variable autowalker} {right} {tellu_bot_info};
         #format tellu_bot_info[5] {<B538d87><Fffffff>Odometer: %s} {@visualizeOdometer{}};
     };
 	#else {
+        #list tellu_bot_info clear;
         #format tellu_bot_info[1] {<B538d87><Fffffff>Tellu Bot Offline};
 	};
     #if {@is_alias{display_right_tiles}} {display_right_tiles};
