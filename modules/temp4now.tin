@@ -218,7 +218,7 @@ Functions:\n
     #var lastzonetime $MSDP_UPTIME;
     #nop show <172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone;
     #if {$timesincelastzone>10} {
-        #if {"$tellu_mode"=="normal"} {
+        #if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") } {
             #math tellu[zindex] {$tellu[zindex]+1};
             #if {$tellu[zindex] <= &tellu[zone][]} { };
             #else { 
