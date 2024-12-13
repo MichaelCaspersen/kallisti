@@ -1,11 +1,16 @@
 #nop Walker debug
 
 
+#var tellu_mode normal;
+
+
 #var hub 34595;
 #var autowalk 1;
 #var autowalk_delay 1;
+#var autowalk_allowed_downtime 20;
 #var zonechange_delay 8;
 #var death_delay 5;
+#var marktarget 1;
 
 
 #event {MAP ENTER ROOM} {
@@ -63,6 +68,7 @@
                 #if {@verifyTelluZone{}} {
                     #nop show <131>ROOM VERIFIED - KILL TARGET;
                     kill $tellu_target;
+                    #if {$marktarget} {: marks $tellu_target};
                     #delay 5 {#if {$cur_opponents==0} {#SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#show <131>Combat started}}
                 };#else {
                     #nop show <131>ROOM NOT VERIFIED - DONT KILL TARGET;
@@ -132,6 +138,9 @@
     }
 }
 
+#ticker {restartwalker} {#math time_since_last_move { $MSDP_UPTIME - $last_move_time };#var last_move_time $MSDP_UPTIME;#if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {#show <175>Stuck $time_since_last_move s continue move;smart_move}} {10}
+
+
 
 
 #var botPostitive 0;
@@ -141,7 +150,6 @@
 #var autowalkspeed 0.5;
 #var waypointdelay 0.5;
 #var zonedelay 5;
-#var tellu_kill_delay 4;
 #var tellu_allowed_downtime 60;
 #var autowalk 1;
 
@@ -156,8 +164,6 @@
 #var tellu_stats[topiary] 0;
 #var tellu_stats[tundra-snap] 0;
 
-
-#var tellu_mode normal;
 
 #var tellu[zindex] 0;
 #var tellu[zone] {west,north,east};
@@ -269,7 +275,6 @@
 #highlight {All of Telluria shakes and rumbles as the ground shifts.} {reverse yellow}
 
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {
-    #delay $tellu_kill_delay {room_clear};
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[revive] @increment{$tellu_stats[revive]};
     #var lastkilltime $MSDP_UPTIME;
@@ -279,7 +284,6 @@
     tellu_mob_dead
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and fuel my FURY!'} {
-    #delay $tellu_kill_delay {room_clear};
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
@@ -289,7 +293,6 @@
     tellu_mob_dead
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and my FURY!'} {
-    #delay $tellu_kill_delay {room_clear};
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[fury] @increment{$tellu_stats[fury]};
     #var lastkilltime $MSDP_UPTIME;
@@ -299,7 +302,6 @@
     tellu_mob_dead
 };
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
-    #delay $tellu_kill_delay {room_clear};
     #var tellu_stats[%1] @increment{$tellu_stats[%1]};
     #var tellu_stats[prudent] @increment{$tellu_stats[prudent]};
     #var lastkilltime $MSDP_UPTIME;
