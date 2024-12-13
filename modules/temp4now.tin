@@ -475,7 +475,7 @@ event_register {variable autowalker} {right} {tellu_bot_info};
         #format tellu_bot_info[5] {<B538d87><Fffffff>Odometer: %s} {@visualizeOdometer{}};
     };
 	#else {
-		#var tellu_bot_info {Tellu Bot: offline};
+        #format tellu_bot_info[1] {<B538d87><Fffffff>Tellu Bot Offline};
 	};
     #if {@is_alias{display_right_tiles}} {display_right_tiles};
 }
