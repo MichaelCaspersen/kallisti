@@ -168,7 +168,7 @@ Functions:\n
         #if {$tellu_mode_running} {
             load_next_zone;
         };#else {
-            #var autowalk 0;
+            #nop var autowalk 0;
             #show <131>Tellurian Bot Stopped - <tellu start> to run again;
         }
     };
