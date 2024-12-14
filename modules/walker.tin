@@ -149,7 +149,7 @@ Functions:\n
                 gt all chop $char_entangled
             };
             #var char_entangled {};
-            find_next_move;
+            #delay 2 {find_next_move};
         }
     }
 }
