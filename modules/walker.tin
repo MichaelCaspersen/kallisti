@@ -35,10 +35,11 @@ Functions:\n
 #var cur_room_vnum 34595;
 #var hub 34595;
 #var autowalk 1;
-#var autowalk_delay 1;
+#var autowalk_delay 0.8;
 #var autowalk_allowed_downtime 30;
 #var zonechange_delay 6;
 #var death_delay 3;
+#var entangle_delay 3;
 #var marktarget 1;
 #var tellu_mode_running 1;
 #var time_since_last_move 0;
@@ -149,7 +150,7 @@ Functions:\n
                 gt &08all chop $char_entangled&--
             };
             #var char_entangled {};
-            #delay 2 {find_next_move};
+            #delay $entangle_delay {find_next_move};
         }
     }
 }
@@ -449,9 +450,12 @@ Functions:\n
     {
         #nop MOB in BAD room;
         #if {"%4"=="JOINED"} {
-            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt $tellu_joiner JOINED %2, BAD kill} {#show <132>$tellu_joiner JOINED %2, BAD kill};
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
+                {gt $tellu_joiner JOINED %2, BAD kill;gt &08all calm $tellu_joiner&--} 
+                {#show <132>$tellu_joiner JOINED %2, BAD kill;gt &08all calm $tellu_joiner&--};
         };#else {
-            #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+            #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN];
+            gt &08all calm $tellu_joiner&--
         }
     };
     #var tellu_joiner {};
