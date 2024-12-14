@@ -451,11 +451,11 @@ Functions:\n
         #nop MOB in BAD room;
         #if {"%4"=="JOINED"} {
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
-                {gt $tellu_joiner JOINED %2, BAD kill;gt &08all calm $tellu_joiner&--} 
-                {#show <132>$tellu_joiner JOINED %2, BAD kill;gt &08all calm $tellu_joiner&--};
+                {gt $tellu_joiner JOINED %2, BAD kill;#delay 2 {gt &08all calm $tellu_joiner&--}} 
+                {#show <132>$tellu_joiner JOINED %2, BAD kill;#delay 2 {gt &08all calm $tellu_joiner&--}};
         };#else {
             #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN];
-            gt &08all calm $tellu_joiner&--
+            #delay 2 {gt &08all calm $tellu_joiner&--}
         }
     };
     #var tellu_joiner {};
