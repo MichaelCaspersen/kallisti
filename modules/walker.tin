@@ -39,7 +39,7 @@ Functions:\n
 #var hub 34595;
 #var autowalk 1;
 #var autowalk_delay 0.8;
-#var autowalk_allowed_downtime 30;
+#var autowalk_allowed_downtime 20;
 #var zonechange_delay 2;
 #var death_delay 4;
 #var entangle_delay 3;
@@ -279,16 +279,16 @@ Functions:\n
 
 #var showticker 0;
 #ticker {restartwalker} {
-    tellu_debug {<175>Ticker called};
     #if {"$MSDP_ROOM_VNUM"=="?"} {#map get roomvnum cur_room_vnum};
     #if { ($tellu_mode_running) && ($cur_room_vnum!=$hub) } {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
+        #if {$showticker} {#show <175>Ticker called: msdp:$MSDP_ROOM_VNUM cur:$cur_room_vnum last:$time_since_last_move allow:$autowalk_allowed_downtime};
         #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
             #if {$showticker} {#show <175>Stuck $time_since_last_move s continue move};
             find_next_move
         }
     }
-} {10}
+} {2}
 
 
 
