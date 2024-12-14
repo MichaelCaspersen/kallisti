@@ -43,6 +43,7 @@ Functions:\n
 #var zonechange_delay 6;
 #var death_delay 4;
 #var entangle_delay 3;
+#var killtarget 0;
 #var marktarget 1;
 #var tellu_mode_running 1;
 #var time_since_last_move 0;
@@ -185,10 +186,10 @@ Functions:\n
                     #nop show <131>ROOM VERIFIED - KILL TARGET;
                     #if {"$tellu_mode"=="normal"} { 
                         #if {$marktarget} {: marks $tellu_target};
-                        kill $tellu_target;
+                        #if {$killtarget} {kill $tellu_target};
                     };#elseif {"$tellu_mode"=="clear"} { 
                         #if {$marktarget} {: marks $tellu_target};
-                        kill $tellu_target;
+                        #if {$killtarget} {kill $tellu_target};
                     };
                     #delay 5 {#if {$cur_opponents==0} {#nop SHOW <131>COMBAT DIDNT START - MOVE ON;find_next_move} {#nop show <131>Combat started}}
                 };#else {
@@ -374,8 +375,8 @@ Functions:\n
 
 #action {a Tellurian blood-mage begins searching their sector for those responsible for the carnage.} {#show <143>Mage has spawn}
 
-#action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;#if {$marktarget} {: marks $tellu_target};kill mage;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
-#action {A visibly experienced mage stands here, protecting Telluria.} {#var tellu_target mage;#if {$marktarget} {: marks $tellu_target};kill mage;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
+#action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;#if {$killtarget} {kill $tellu_target};#if {$marktarget} {: marks $tellu_target};#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
+#action {A visibly experienced mage stands here, protecting Telluria.} {#var tellu_target mage;#if {$killtarget} {kill $tellu_target};#if {$marktarget} {: marks $tellu_target};kill mage;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
 #action {A Tellurian blood-mage is dead!  R.I.P.} {send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110> Killed <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;tellu_mob_dead}
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show <143>UPPER FLOOR OPEN;#delay 2 {tellu stop}}
