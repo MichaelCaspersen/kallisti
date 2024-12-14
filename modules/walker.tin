@@ -37,8 +37,8 @@ Functions:\n
 #var autowalk 1;
 #var autowalk_delay 1;
 #var autowalk_allowed_downtime 30;
-#var zonechange_delay 8;
-#var death_delay 4;
+#var zonechange_delay 6;
+#var death_delay 2;
 #var marktarget 1;
 #var tellu_mode_running 1;
 #var time_since_last_move 0;
@@ -265,7 +265,7 @@ Functions:\n
     #elseif {$autowalk} {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
         #var last_move_time $MSDP_UPTIME;
-        smart_move;
+        queueAdd move {#path w}
     }
 }
 
