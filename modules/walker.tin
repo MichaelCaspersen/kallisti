@@ -24,6 +24,10 @@ Functions:\n
 	}
 }
 
+#alias remort-unregister {
+	event_remove_handler remort;
+    #unevent {MAP ENTER ROOM}
+}
 
 
 #NOP #######################################################
