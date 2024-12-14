@@ -146,7 +146,7 @@ Functions:\n
             #nop show <131>Group cant move;
             #if {"$char_entangled"!=""} {
                 #format char_entangled %l $char_entangled;
-                gt all chop $char_entangled
+                gt &08all chop $char_entangled&--
             };
             #var char_entangled {};
             #delay 2 {find_next_move};
@@ -277,7 +277,7 @@ Functions:\n
         #if {@can_group_move{}==0} {
             #if {"$char_entangled"!=""} {
                 #format char_entangled %l $char_entangled;
-                gt all chop $char_entangled
+                gt &08all chop $char_entangled&--
             };
             #var char_entangled {};
         };
