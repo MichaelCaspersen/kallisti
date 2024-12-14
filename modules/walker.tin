@@ -40,7 +40,7 @@ Functions:\n
 #var autowalk 1;
 #var autowalk_delay 0.8;
 #var autowalk_allowed_downtime 30;
-#var zonechange_delay 4;
+#var zonechange_delay 2;
 #var death_delay 4;
 #var entangle_delay 3;
 #var killtarget 0;
@@ -62,7 +62,7 @@ Functions:\n
             #var tellu_mode normal;
             #var tellu_mode_running 1;
             #var autowalk 1;
-            #var zonechange_delay 8;
+            #var zonechange_delay 2;
             tellu_bot_info;
             #if {$cur_room_vnum!=$hub} {
                 #show <143>We must start from HUB;
