@@ -142,24 +142,13 @@ Functions:\n
 
 #alias tellu_mob_dead {
     #delay $death_delay {
-        tellu_debug {<131>MOB DEAD - FIND NEXT MOVE - CanMove: @can_group_move{}};
+        tellu_debug {<131>MOB DEAD - FIND NEXT MOVE};
         #if { ("$tellu_target"=="mage") && ("$tellu_mode"=="clear") } {
             #list tellu[contains_mage] {find} {$tellu_zone} {mage_zone_id};
             #list tellu[contains_mage] delete $mage_zone_id;
             tellu_debug {Removing $tellu_zone from clearing};
         };
-        #if {@can_group_move{}} {
-            tellu_debug {<131>Group can move - Find next move};
-            find_next_move;
-        };#else {
-            tellu_debug {<131>Group cant move};
-            #if {"$char_entangled"!=""} {
-                #format char_entangled %l $char_entangled;
-                gt &08all chop $char_entangled&--
-            };
-            #var char_entangled {};
-            #delay $entangle_delay {find_next_move};
-        }
+        find_next_move
     }
 }
 
@@ -274,25 +263,26 @@ Functions:\n
         find_next_move;
     };
     #elseif {$autowalk} {
-        #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
-        #var last_move_time $MSDP_UPTIME;
-        queueAdd move {#path w}
+        tellu_debug {<132>Can we move? @can_group_move{}};
+        #if {@can_group_move{}} {
+            #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
+            #var last_move_time $MSDP_UPTIME;
+            queueAdd move {#path w}
+        };#else {
+            #format char_entangled %l $char_entangled;
+            gt &08all chop $char_entangled&--;
+            #var char_entangled {};
+        }
     };
     tellu_bot_info
 }
 
 #var showticker 0;
 #ticker {restartwalker} {
+    tellu_debug {<175>Ticker called};
     #if {"$MSDP_ROOM_VNUM"=="?"} {#map get roomvnum cur_room_vnum};
     #if { ($tellu_mode_running) && ($cur_room_vnum!=$hub) } {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
-        #if {@can_group_move{}==0} {
-            #if {"$char_entangled"!=""} {
-                #format char_entangled %l $char_entangled;
-                gt &08all chop $char_entangled&--
-            };
-            #var char_entangled {};
-        };
         #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
             #if {$showticker} {#show <175>Stuck $time_since_last_move s continue move};
             find_next_move
