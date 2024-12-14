@@ -38,7 +38,7 @@ Functions:\n
 #var autowalk_delay 0.8;
 #var autowalk_allowed_downtime 30;
 #var zonechange_delay 6;
-#var death_delay 3;
+#var death_delay 4;
 #var entangle_delay 3;
 #var marktarget 1;
 #var tellu_mode_running 1;
