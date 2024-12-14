@@ -38,7 +38,7 @@ Functions:\n
 #var autowalk_delay 1;
 #var autowalk_allowed_downtime 30;
 #var zonechange_delay 8;
-#var death_delay 5;
+#var death_delay 4;
 #var marktarget 1;
 #var tellu_mode_running 1;
 #var time_since_last_move 0;
@@ -274,6 +274,13 @@ Functions:\n
     #if {"$MSDP_ROOM_VNUM"=="?"} {#map get roomvnum cur_room_vnum};
     #if { ($tellu_mode_running) && ($cur_room_vnum!=$hub) } {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
+        #if {@can_group_move{}==0} {
+            #if {"$char_entangled"!=""} {
+                #format char_entangled %l $char_entangled;
+                gt all chop $char_entangled
+            };
+            #var char_entangled {};
+        };
         #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
             #if {$showticker} {#show <175>Stuck $time_since_last_move s continue move};
             find_next_move
