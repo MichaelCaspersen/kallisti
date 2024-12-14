@@ -75,6 +75,8 @@ Functions:\n
             #show <143>Tellu STOP;
             #var tellu_mode normal;
             #var tellu_mode_running 0;
+            #var killtarget 0;
+            #var marktarget 0;
             tellu_bot_info;
             #if {$cur_room_vnum==$hub} 
                 {#nop do nothing}      
@@ -170,6 +172,7 @@ Functions:\n
         };#else {
             #nop var autowalk 0;
             #show <131>Tellurian Bot Stopped - <tellu start> to run again;
+            #var destination {};
         }
     };
     #else {
