@@ -257,6 +257,7 @@ Functions:\n
         };
         updategroupname;
         tellu stats;
+        ponder;
         #delay $zonechange_delay load_route;
     }
 }
