@@ -266,7 +266,8 @@ Functions:\n
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
         #var last_move_time $MSDP_UPTIME;
         queueAdd move {#path w}
-    }
+    };
+    tellu_bot_info
 }
 
 #var showticker 0;
