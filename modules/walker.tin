@@ -293,6 +293,7 @@ Functions:\n
         #if {$tellu_debug} {#show <175>Ticker called: msdp:$MSDP_ROOM_VNUM cur:$cur_room_vnum last:$time_since_last_move allow:$autowalk_allowed_downtime};
         #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
             #if {$showticker} {#show <175>Stuck $time_since_last_move s continue move};
+            #var tellu_bot_state search;
             find_next_move
         }
     }
