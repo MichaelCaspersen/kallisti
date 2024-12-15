@@ -215,7 +215,7 @@
 		createExit;
 		#var old_vnum $MSDP_ROOM_VNUM;
 		generate_area_info
-	}
+	};
 }
 
 #nop -- ---------------------------------------------------------------
