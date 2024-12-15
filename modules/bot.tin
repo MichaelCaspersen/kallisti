@@ -1312,10 +1312,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {~^\e[0;37m\e[1;37m\e[1;37m%1$} {#nop player}
 #action {~^\e[0;37m\e[1;37m\e[0;37m%1$} {#nop player}
 
-#action {~^\e[22;37m\e[0;37m%1$} {#show ITEM(6) DETECTED: <%1>} {6}
-#action {~^\e[22;37m\e[1;37m%1$} {#show NPC(7) DETECTED: <%1>} {7} 
-#action {~^\e[0;37m\e[1;37m%1$} {#show NPC(8) DETECTED: <%1>} {8}  
-#action {~^\e[1;37m%1$} {#show NPC(9) DETECTED: <%1>} {9}  
+#action {~^\e[22;37m\e[0;37m%1$} {#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show ITEM(6) DETECTED: <%1>}} {6}
+#action {~^\e[22;37m\e[1;37m%1$} {#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show NPC(7) DETECTED: <%1>}} {7} 
+#action {~^\e[0;37m\e[1;37m%1$} {#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show NPC(8) DETECTED: <%1>}} {8}  
+#action {~^\e[1;37m%1$} {#if {"$MSDP_AREA_NAME"=="The Wilderness"} {#show NPC(9) DETECTED: <%1>}} {9}  
 
 
 #var parse_buffer 0;
