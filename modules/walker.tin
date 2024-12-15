@@ -49,6 +49,7 @@ Functions:\n
 #var time_since_last_move 0;
 
 #var tellu_debug 1;
+#var tellu_bot_state {};
 
 
 #NOP #######################################################
@@ -127,7 +128,7 @@ Functions:\n
             #var cur_room_vnum $MSDP_ROOM_VNUM;
             tellu_debug {<143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum};
         };
-        #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move;
+        #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state ;
         evaluate_room
     }
 }
@@ -148,12 +149,14 @@ Functions:\n
             #list tellu[contains_mage] delete $mage_zone_id;
             tellu_debug {Removing $tellu_zone from clearing};
         };
-        find_next_move
+        find_next_move;
+        #var tellu_bot_state search;
     }
 }
 
 #alias evaluate_room {
     tellu_debug {<131>EVALUATE ROOM CALLED};
+    #var tellu_bot_state evaluate;
     #if {$cur_room_vnum==$hub} {
         tellu_debug {<131>WE ARE AT HUB};
         #if {$tellu_mode_running} {
@@ -178,6 +181,7 @@ Functions:\n
                 tellu_debug {<131>EVALUATE ROOM - ONLY ONE GOOD TARGET};
                 #if {@verifyTelluZone{}} {
                     tellu_debug {<131>ROOM VERIFIED - KILL TARGET};
+                    #var tellu_bot_state kill;
                     #if {"$tellu_mode"=="normal"} { 
                         #if {$marktarget} {: marks $tellu_target};
                         #if {$killtarget} {kill $tellu_target};
@@ -196,6 +200,7 @@ Functions:\n
 
 #alias find_next_move {
     tellu_debug {<147>FIND NEXT MOVE CALLED};
+    #var tellu_bot_state search;
     #if { ($destination==$cur_room_vnum) && ($cur_room_vnum!=$hub) } {
         tellu_debug {<147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION};
         #if { &waypoints[$tellu_zone][]>0 } { #list waypoints[$tellu_zone] delete 1 };
@@ -254,6 +259,7 @@ Functions:\n
 
 #alias load_route {
     tellu_debug {<132>LOAD ROUTE CALLED};
+    #var tellu_bot_state search; 
 	#list waypoints[$tellu_zone] get 1 destination;
     #map find $destination;
     #path get length path_length;
@@ -265,10 +271,12 @@ Functions:\n
     #elseif {$autowalk} {
         tellu_debug {<132>Can we move? @can_group_move{}};
         #if {@can_group_move{}} {
+            #var tellu_bot_state  move;
             #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
             #var last_move_time $MSDP_UPTIME;
             queueAdd move {#path w}
         };#else {
+            #var tellu_bot_state stuck;
             #format char_entangled %l $char_entangled;
             gt &08all chop $char_entangled&--;
             #var char_entangled {};
