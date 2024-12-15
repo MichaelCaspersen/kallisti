@@ -153,7 +153,6 @@
 }
 
 #alias man_map {
-	#var {_current_vnum} {};
 	#MAP get roomvnum {_current_vnum};
 	#if {"%2"!=""} {
 		#map dig %1 %2;
@@ -162,7 +161,6 @@
 	};
 	#delay 1 {
 		%1;
-		#map move %1;
 		#if {"%1"=="n"} {#var map_prevdir s};
 		#if {"%1"=="e"} {#var map_prevdir w};
 		#if {"%1"=="w"} {#var map_prevdir e};
