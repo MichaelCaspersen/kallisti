@@ -240,9 +240,9 @@ Functions:\n
         };
         #var tellu_zone $tellu[zone][$tellu[zindex]];
         #var waypoints {};
-        #var waypoints[north] {34502,34501,34508,34532,34503,34552,34558,34533,34504,34529,34595,34595};
-        #var waypoints[west] {34542,34549,34550,34573,34547,34521,34523,34571,34544,34568,34595,34595};
-        #var waypoints[east] {34567,34560,34559,34512,34562,34538,34536,34514,34565,34517,34595,34595};
+        #var waypoints[north] {34504,34500,34520,34521,34506,34507,34522,34523,34508,34509,34595,34595};
+        #var waypoints[west] {34525,34545,34549,34544,34541,34536,34539,34534,34531,34526,34595,34595};
+        #var waypoints[east] {34574,34554,34550,34555,34558,34563,34560,34565,34568,34573,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
         #show <172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
         #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
@@ -309,14 +309,6 @@ Functions:\n
 #var tellu[zone] {west,north,east};
 #list tellu[zone] explode {,};
 
-#var tellu_rooms[north] {34509,34531,34556,34529,34502,34527,34551,34526,34501,34528,34553,34530,34508,34532,34506,34554,34503,34552,34505,34557,34558,34533,34507,34555,34504,34529,34556,34531,34509};
-#var tellu_rooms[west] {34543,34569,34518,34568,34542,34570,34520,34572,34549,34574,34525,34575,34550,34573,34548,34524,34547,34521,34546,34522,34523,34571,34545,34519,34544,34568,34518,34569,34543};
-#var tellu_rooms[east] {34566,34516,34541,34517,34567,34515,34539,34513,34560,34511,34534,34510,34559,34512,34561,34535,34562,34538,34563,34537,34536,34514,34564,34540,34565,34517,34541,34516,34566};
-#list tellu_rooms[north] explode {,};
-#list tellu_rooms[west] explode {,};
-#list tellu_rooms[east] explode {,};
-
-
 #alias eval_mobs_in_room {
     #var tellu_mob_in_room %1;
     #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
@@ -327,7 +319,9 @@ Functions:\n
 
 #function verifyTelluZone {
     #var tellu_zone_correct 0;
-    #regexp {$tellu_rooms[$tellu_zone]} {$cur_room_vnum} {#var tellu_zone_correct 1};
+    #if { ("$tellu_zone"=="north") && ($cur_room_vnum<=34524) } {#var tellu_zone_correct 1}
+    #if { ("$tellu_zone"=="east") && ($cur_room_vnum>=34550) } {#var tellu_zone_correct 1}
+    #if { ("$tellu_zone"=="west") && ($cur_room_vnum>=34525) && ($cur_room_vnum<=34549) } {#var tellu_zone_correct 1}
     #return $tellu_zone_correct
 }
 
