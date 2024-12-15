@@ -319,9 +319,9 @@ Functions:\n
 
 #function verifyTelluZone {
     #var tellu_zone_correct 0;
-    #if { ("$tellu_zone"=="north") && ($cur_room_vnum<=34524) } {#var tellu_zone_correct 1}
-    #if { ("$tellu_zone"=="east") && ($cur_room_vnum>=34550) } {#var tellu_zone_correct 1}
-    #if { ("$tellu_zone"=="west") && ($cur_room_vnum>=34525) && ($cur_room_vnum<=34549) } {#var tellu_zone_correct 1}
+    #if { ("$tellu_zone"=="north") && ($cur_room_vnum<=34524) } {#var tellu_zone_correct 1};
+    #if { ("$tellu_zone"=="east") && ($cur_room_vnum>=34550) } {#var tellu_zone_correct 1};
+    #if { ("$tellu_zone"=="west") && ($cur_room_vnum>=34525) && ($cur_room_vnum<=34549) } {#var tellu_zone_correct 1};
     #return $tellu_zone_correct
 }
 
