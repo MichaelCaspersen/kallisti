@@ -152,6 +152,24 @@
 
 }
 
+#alias man_map {
+	#LOCAL {_current_vnum} {};
+	#MAP get roomvnum {_current_vnum};
+	#if {"%1"=="n"} {#var prevdir s};
+	#if {"%1"=="e"} {#var prevdir w};
+	#if {"%1"=="w"} {#var prevdir e};
+	#if {"%1"=="s"} {#var prevdir n};
+	#if {"%1"=="u"} {#var prevdir d};
+	#if {"%1"=="d"} {#var prevdir u};
+	#if {"%2"!=""} {
+		#map dig %1 %2;
+	};#else {
+		#map dig %1;
+	};
+	%1;
+	#delay 0.2 {#map link $prevdir $_current_vnum};
+}
+
 #ACTION {$MSDP_ROOM_NAME (%2, %3)} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		show_debug {<131>Coords: %2, %3   - Name $MSDP_ROOM_NAME};
