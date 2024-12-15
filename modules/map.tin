@@ -159,8 +159,7 @@
 	};#else {
 		#map dig %1;
 	};
-	#delay 1 {
-		#map move %1;
+	#delay 0.5 {
 		%1;
 		#if {"%1"=="n"} {#var map_prevdir s};
 		#if {"%1"=="e"} {#var map_prevdir w};
@@ -168,7 +167,7 @@
 		#if {"%1"=="s"} {#var map_prevdir n};
 		#if {"%1"=="u"} {#var map_prevdir d};
 		#if {"%1"=="d"} {#var vprevdir u};
-		#map link $map_prevdir $_current_vnum
+		#delay 0.5 {#map link $map_prevdir $_current_vnum}
 	};
 }
 
