@@ -130,7 +130,8 @@ Functions:\n
             tellu_debug {<143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum};
         };
         #if {$tellu_room_debug} {#show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state};
-        evaluate_room
+        evaluate_room;
+        generate_area_info
     }
 }
 
