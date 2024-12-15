@@ -471,6 +471,8 @@ Functions:\n
 #NOP #######################################################
 #alias tellu_debug {#if {$tellu_debug} {#show %1}}
 
+#action {is now a member of your group} {gt Welcome, please make sure not to use aoe (weapon/skills)} {4}
+
 
 #action {^%1 chops up the vines entangling %2.} {
     #format char_entangled %l $char_entangled;
