@@ -160,7 +160,7 @@
 		#math room_vnums_for_new_zone {%2+1};
 	};#else {
 		#map dig %1 $room_vnums_for_new_zone;
-		#math room_vnums_for_new_zone {%2+1};
+		#math room_vnums_for_new_zone {$room_vnums_for_new_zone+1};
 	};
 	#delay 0.5 {
 		%1;
