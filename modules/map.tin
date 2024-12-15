@@ -153,7 +153,7 @@
 }
 
 #alias man_map {
-	#LOCAL {_current_vnum} {};
+	#var {_current_vnum} {};
 	#MAP get roomvnum {_current_vnum};
 	#if {"%1"=="n"} {#var prevdir s};
 	#if {"%1"=="e"} {#var prevdir w};
