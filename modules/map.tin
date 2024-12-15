@@ -167,7 +167,7 @@
 		#map dig %1;
 	};
 	%1;
-	#delay 0.2 {#map link $prevdir $_current_vnum};
+	#delay 1 {#map link $prevdir $_current_vnum};
 }
 
 #ACTION {$MSDP_ROOM_NAME (%2, %3)} {
