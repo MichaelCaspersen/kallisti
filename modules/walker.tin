@@ -38,7 +38,7 @@ Functions:\n
 #var cur_room_vnum 34595;
 #var hub 34595;
 #var autowalk 1;
-#var autowalk_delay 0.5;
+#var autowalk_delay 0.3;
 #var autowalk_allowed_downtime 20;
 #var zonechange_delay 2;
 #var death_delay 4;
@@ -49,6 +49,7 @@ Functions:\n
 #var time_since_last_move 0;
 
 #var tellu_debug 0;
+#var tellu_room_debug 0;
 #var tellu_bot_state {};
 
 
@@ -128,7 +129,7 @@ Functions:\n
             #var cur_room_vnum $MSDP_ROOM_VNUM;
             tellu_debug {<143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum};
         };
-        #show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state ;
+        #if {$tellu_room_debug} {#show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state};
         evaluate_room
     }
 }
