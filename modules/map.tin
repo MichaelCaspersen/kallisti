@@ -155,12 +155,6 @@
 #alias man_map {
 	#var {_current_vnum} {};
 	#MAP get roomvnum {_current_vnum};
-	#if {"%1"=="n"} {#var prevdir s};
-	#if {"%1"=="e"} {#var prevdir w};
-	#if {"%1"=="w"} {#var prevdir e};
-	#if {"%1"=="s"} {#var prevdir n};
-	#if {"%1"=="u"} {#var prevdir d};
-	#if {"%1"=="d"} {#var prevdir u};
 	#if {"%2"!=""} {
 		#map dig %1 %2;
 	};#else {
@@ -169,7 +163,13 @@
 	#delay 1 {
 		%1;
 		#map move %1;
-		#map link $prevdir $_current_vnum
+		#if {"%1"=="n"} {#var map_prevdir s};
+		#if {"%1"=="e"} {#var map_prevdir w};
+		#if {"%1"=="w"} {#var map_prevdir e};
+		#if {"%1"=="s"} {#var map_prevdir n};
+		#if {"%1"=="u"} {#var map_prevdir d};
+		#if {"%1"=="d"} {#var vprevdir u};
+		#map link $map_prevdir $_current_vnum
 	};
 }
 
