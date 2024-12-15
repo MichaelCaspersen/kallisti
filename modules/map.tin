@@ -160,6 +160,7 @@
 		#map dig %1;
 	};
 	#delay 1 {
+		#map move %1;
 		%1;
 		#if {"%1"=="n"} {#var map_prevdir s};
 		#if {"%1"=="e"} {#var map_prevdir w};
