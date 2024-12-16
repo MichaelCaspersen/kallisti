@@ -174,7 +174,7 @@ Functions:\n
         };#else {
             #nop var autowalk 0;
             #show <131>Tellurian Bot Stopped - <tellu start> to run again;
-            gt &08Bot stopped&--;
+            gt &08bot stopped&--;
             #var destination {};
         }
     };
@@ -478,7 +478,7 @@ Functions:\n
     {
         #nop MOB in safe room;
         #if {"%4"=="JOINED"} {
-            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt &08$tellu_joiner joined %2, safe kill&--} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt &08 $tellu_joiner joined %2, safe kill&--} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
         };#else {
             #show <172>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
@@ -489,7 +489,7 @@ Functions:\n
         #if {"%4"=="JOINED"} {
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
                 {
-                    gt &08$tellu_joiner joined %2, BAD kill&--;
+                    gt &08 $tellu_joiner joined %2, BAD kill&--;
                     #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
                 } 
                 {
