@@ -228,6 +228,7 @@ Functions:\n
 #alias load_next_zone {
     #math timesincelastzone { $MSDP_UPTIME - $lastzonetime };
     #var lastzonetime $MSDP_UPTIME;
+    #var last_move_time $MSDP_UPTIME;
     tellu_debug {<172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone};
     #if {$timesincelastzone>10} {
         #if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") } {
