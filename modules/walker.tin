@@ -404,7 +404,10 @@ Functions:\n
 
 #action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;#if {$killtarget} {kill $tellu_target};#if {$marktarget} {: marks $tellu_target};#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
 #action {A visibly experienced mage stands here, protecting Telluria.} {#var tellu_target mage;#if {$killtarget} {kill $tellu_target};#if {$marktarget} {: marks $tellu_target};kill mage;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
-#action {A Tellurian blood-mage is dead!  R.I.P.} {send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110> Killed <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;tellu_mob_dead}
+#action {A Tellurian blood-mage is dead!  R.I.P.} {
+    send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110> Killed <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
+    tellu_mob_dead
+}
 
 #action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show <143>UPPER FLOOR OPEN;#delay 2 {tellu stop}}
 
@@ -450,7 +453,7 @@ Functions:\n
     #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     #if {"$tellu_mode"=="normal"} {
         gt &08BAD KILL&--;
-    }
+    };
     send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
     tellu_mob_dead
 };
