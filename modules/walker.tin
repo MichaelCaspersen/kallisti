@@ -259,6 +259,7 @@ Functions:\n
         #show \n<172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
         #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
         #if {&need_summons[]>0} {
+            #var last_move_time $MSDP_UPTIME;
             nco tellu_summon;
         };
         updategroupname;
@@ -283,7 +284,7 @@ Functions:\n
     #elseif {$autowalk} {
         tellu_debug {<132>Can we move? @can_group_move{}};
         #if { (@can_group_move{}) && ("$tellu_bot_state"!="kill")} {
-            #var tellu_bot_state  move;
+            #var tellu_bot_state move;
             #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
             #var last_move_time $MSDP_UPTIME;
             #if {$tellu_room_debug} {#show \n<174>MOVE CALLED};
