@@ -257,7 +257,7 @@ Functions:\n
         #var waypoints[east] {34574,34554,34550,34555,34558,34563,34560,34565,34568,34573,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
         #show \n<172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
-        #show \n<172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
+        #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
         #if {&need_summons[]>0} {
             nco tellu_summon;
         };
