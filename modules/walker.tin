@@ -136,7 +136,7 @@ Functions:\n
             tellu_debug {<143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum};
         };
         #map move $cur_room_vnum;
-        #if {$tellu_room_debug} {#show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state};
+        #if {$tellu_room_debug} {#show \<174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state};
         evaluate_room;
         generate_area_info
     }
@@ -256,8 +256,8 @@ Functions:\n
         #var waypoints[west] {34525,34545,34549,34544,34541,34536,34539,34534,34531,34526,34595,34595};
         #var waypoints[east] {34574,34554,34550,34555,34558,34563,34560,34565,34568,34573,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
-        #show <172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
-        #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
+        #show \n<172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
+        #show \n<172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
         #if {&need_summons[]>0} {
             nco tellu_summon;
         };
@@ -286,7 +286,7 @@ Functions:\n
             #var tellu_bot_state  move;
             #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
             #var last_move_time $MSDP_UPTIME;
-            #if {$tellu_room_debug} {#show <174>MOVE CALLED};
+            #if {$tellu_room_debug} {#show \n<174>MOVE CALLED};
             queueAdd move {#path w}
         };#else {
             #var tellu_bot_state stuck;
@@ -306,9 +306,9 @@ Functions:\n
     #map move $cur_room_vnum;
     #if { ($tellu_mode_running) && ($cur_room_vnum!=$hub) } {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
-        #if {$tellu_debug} {#show <175>Ticker called: msdp:$MSDP_ROOM_VNUM cur:$cur_room_vnum last:$time_since_last_move allow:$autowalk_allowed_downtime};
+        #if {$tellu_debug} {#show \n<175>Ticker called: msdp:$MSDP_ROOM_VNUM cur:$cur_room_vnum last:$time_since_last_move allow:$autowalk_allowed_downtime};
         #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
-            #if {$showticker} {#show <175>Stuck $time_since_last_move s continue move};
+            #if {$showticker} {#show \n<175>Stuck $time_since_last_move s continue move};
             #var tellu_bot_state search;
             find_next_move
         }
