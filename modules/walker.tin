@@ -48,6 +48,8 @@ Functions:\n
 #var tellu_mode_running 1;
 #var time_since_last_move 0;
 
+#var char_entangled {};
+
 #var tellu_debug 0;
 #var tellu_room_debug 0;
 #var tellu_bot_state {};
