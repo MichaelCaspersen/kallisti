@@ -295,6 +295,7 @@ Functions:\n
 #var showticker 0;
 #ticker {restartwalker} {
     #if {"$MSDP_ROOM_VNUM"=="?"} {#map get roomvnum cur_room_vnum};
+    #map move $cur_room_vnum;
     #if { ($tellu_mode_running) && ($cur_room_vnum!=$hub) } {
         #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
         #if {$tellu_debug} {#show <175>Ticker called: msdp:$MSDP_ROOM_VNUM cur:$cur_room_vnum last:$time_since_last_move allow:$autowalk_allowed_downtime};
@@ -305,6 +306,17 @@ Functions:\n
         }
     }
 } {5}
+
+#alias resetmap {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {
+        #map get roomvnum cur_room_vnum;
+        tellu_debug {<143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum}
+    }; #else {
+        #var cur_room_vnum $MSDP_ROOM_VNUM;
+        tellu_debug {<143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum};
+    };
+    #map move $cur_room_vnum;
+}
 
 
 

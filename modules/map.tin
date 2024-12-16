@@ -216,7 +216,15 @@
 		#var old_vnum $MSDP_ROOM_VNUM;
 		generate_area_info
 	};
+	#if {"$MSDP_ROOM_VNUM"=="?"} {
+		#map get roomvnum cur_room_vnum;
+		#nop show <131>ENTER ROOM OLD:$old_vnum $old_cur_vnum NEW:$MSDP_ROOM_VNUM $cur_room_vnum;
+		#var old_vnum $MSDP_ROOM_VNUM;
+		#var old_cur_vnum $cur_room_vnum;
+	};
 }
+
+
 
 #nop -- ---------------------------------------------------------------
 #nop -- Functions
