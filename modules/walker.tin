@@ -488,8 +488,14 @@ Functions:\n
         #action {Looks like its not quite a Tellurian %1's bedtime.} {zzz %1};
         #if {"%4"=="JOINED"} {
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
-                {gt &08$tellu_joiner joined %2, BAD kill&--;gt &08all Kroll zzz $tellu_joiner&--} 
-                {#show <132>$tellu_joiner JOINED %2, POTENTIAL BAD kill;gt &08Kroll  zzz $tellu_joiner&--};
+                {
+                    gt &08$tellu_joiner joined %2, BAD kill&--;
+                    #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
+                } 
+                {
+                    #show <132>$tellu_joiner JOINED %2, POTENTIAL BAD kill;
+                    #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
+                };
         };#else {
             #show <131>$tellu_joiner ARRIVED from %3, POTENTIAL BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN];
             #nop delay 2 {gt &08all zzz $tellu_joiner&--}
