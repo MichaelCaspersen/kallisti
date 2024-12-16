@@ -62,6 +62,7 @@ Functions:\n
     #SWITCH {"%1"} {
         #CASE {"start"} {
             #show <143>Tellu START;
+            gt &08bot starting&--;
             #var last_move_time $MSDP_UPTIME;
             #var tellu_mode normal;
             #var tellu_mode_running 1;
@@ -77,6 +78,7 @@ Functions:\n
         };
         #CASE {"stop"} {
             #show <143>Tellu STOP;
+            gt &08bot stopping - return to hub&--;
             #var last_move_time $MSDP_UPTIME;
             #var tellu_mode normal;
             #var tellu_mode_running 0;
@@ -172,6 +174,7 @@ Functions:\n
         };#else {
             #nop var autowalk 0;
             #show <131>Tellurian Bot Stopped - <tellu start> to run again;
+            gt &08Bot stopped&--;
             #var destination {};
         }
     };
