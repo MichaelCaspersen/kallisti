@@ -145,6 +145,7 @@ Functions:\n
 
 
 #alias tellu_mob_dead {
+    #var last_move_time $MSDP_UPTIME;
     #delay $death_delay {
         tellu_debug {<131>MOB DEAD - FIND NEXT MOVE};
         #if { ("$tellu_target"=="mage") && ("$tellu_mode"=="clear") } {
@@ -303,7 +304,7 @@ Functions:\n
             find_next_move
         }
     }
-} {2}
+} {5}
 
 
 
