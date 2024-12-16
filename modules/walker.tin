@@ -61,6 +61,7 @@ Functions:\n
     #SWITCH {"%1"} {
         #CASE {"start"} {
             #show <143>Tellu START;
+            #var last_move_time $MSDP_UPTIME;
             #var tellu_mode normal;
             #var tellu_mode_running 1;
             #var autowalk 1;
@@ -75,6 +76,7 @@ Functions:\n
         };
         #CASE {"stop"} {
             #show <143>Tellu STOP;
+            #var last_move_time $MSDP_UPTIME;
             #var tellu_mode normal;
             #var tellu_mode_running 0;
             #var killtarget 0;
@@ -85,6 +87,7 @@ Functions:\n
                 {#var destination 0;find_next_move;}
         };
         #CASE {"clearzone"} {
+            #var last_move_time $MSDP_UPTIME;
             #show <143>Tellu CLEARZONE;
             #var tellu[contains_mage] {west,north,east};
             #list tellu[contains_mage] explode {,};
