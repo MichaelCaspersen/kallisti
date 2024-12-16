@@ -38,13 +38,13 @@ Functions:\n
 #var cur_room_vnum 34595;
 #var hub 34595;
 #var autowalk 1;
-#var autowalk_delay 0.3;
+#var autowalk_delay 0.4;
 #var autowalk_allowed_downtime 20;
 #var zonechange_delay 2;
 #var death_delay 4;
 #var entangle_delay 3;
-#var killtarget 0;
-#var marktarget 1;
+#var killtarget 1;
+#var marktarget 0;
 #var tellu_mode_running 1;
 #var time_since_last_move 0;
 
