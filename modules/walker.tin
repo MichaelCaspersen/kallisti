@@ -38,7 +38,7 @@ Functions:\n
 #var cur_room_vnum 34595;
 #var hub 34595;
 #var autowalk 1;
-#var autowalk_delay 0.4;
+#var autowalk_delay 0.8;
 #var autowalk_allowed_downtime 20;
 #var zonechange_delay 2;
 #var death_delay 4;
@@ -280,6 +280,7 @@ Functions:\n
             #var tellu_bot_state  move;
             #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
             #var last_move_time $MSDP_UPTIME;
+            #if {$tellu_room_debug} {#show <174>MOVE CALLED};
             queueAdd move {#path w}
         };#else {
             #var tellu_bot_state stuck;
@@ -474,13 +475,14 @@ Functions:\n
     }
     {
         #nop MOB in BAD room;
+        #action {Looks like its not quite a Tellurian %1's bedtime.} {zzz %1};
         #if {"%4"=="JOINED"} {
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
-                {gt $tellu_joiner JOINED %2, BAD kill;#nop delay 2 {gt &08all calm $tellu_joiner&--}} 
-                {#show <132>$tellu_joiner JOINED %2, BAD kill;#nop delay 2 {gt &08all calm $tellu_joiner&--}};
+                {gt $tellu_joiner JOINED %2, BAD kill;#delay 2 {gt &08all zzz $tellu_joiner&--}} 
+                {#show <132>$tellu_joiner JOINED %2, BAD kill;#delay 2 {gt &08all zzz $tellu_joiner&--}};
         };#else {
             #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN];
-            #nop delay 2 {gt &08all calm $tellu_joiner&--}
+            #delay 2 {gt &08all zzz $tellu_joiner&--}
         }
     };
     #var tellu_joiner {};
