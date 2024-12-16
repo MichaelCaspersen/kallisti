@@ -487,7 +487,7 @@ Functions:\n
                 {#show <132>$tellu_joiner JOINED %2, BAD kill;#delay 2 {gt &08all zzz $tellu_joiner&--}};
         };#else {
             #show <131>$tellu_joiner ARRIVED from %3, BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN];
-            #delay 2 {gt &08all zzz $tellu_joiner&--}
+            #nop delay 2 {gt &08all zzz $tellu_joiner&--}
         }
     };
     #var tellu_joiner {};
