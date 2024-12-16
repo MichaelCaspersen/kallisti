@@ -281,11 +281,11 @@ Functions:\n
         };#else {
             #var tellu_bot_state stuck;
             #format char_entangled %l $char_entangled;
-            #if { ("$char_entangled"!="") {
+            #if { ("$char_entangled"!="") } {
                 gt &08all chop $char_entangled&--;
                 #var char_entangled {};
-            }
-        }
+            };
+        };
     };
     tellu_bot_info
 }
