@@ -174,7 +174,6 @@ Functions:\n
         };#else {
             #nop var autowalk 0;
             #show <131>Tellurian Bot Stopped - <tellu start> to run again;
-            gt &08bot stopped&--;
             #var destination {};
         }
     };
