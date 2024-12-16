@@ -194,7 +194,8 @@ Functions:\n
                     };
                     #delay 5 {#if {$cur_opponents==0} {tellu_debug {<131>COMBAT DIDNT START - MOVE ON};find_next_move} {tellu_debug {<131>Combat started}}}
                 };#else {
-                    tellu_debug {<131>ROOM NOT VERIFIED - DONT KILL TARGET};
+                    #show {<131>ROOM NOT VERIFIED - DONT KILL TARGET};
+                    tellu stop;
                 }
             }
         };
