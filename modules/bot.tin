@@ -521,6 +521,11 @@ init bot[rescue2] preferences off;
 	}
 }
 
+#alias allowaoe {
+	#var bot[damage][allowaoe] 1
+}
+
+
 #NOP #######################################################
 #NOP Analytics
 #NOP #######################################################

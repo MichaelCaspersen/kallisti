@@ -392,6 +392,8 @@ Functions:\n
 
 #action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
 
+#action {Grodan shivers as three visages of himself re-appear and scatter to the edges of the realm.} {#show <143>Grodan loads visages MIRACLE GROUP}
+
 #action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
 #action {Grodan glimmers as the remaining visages infuse him with their life essence.} {#show <131>VISAGES SPAWNED, MIRACLE!!!}
 
