@@ -44,7 +44,7 @@ Functions:\n
 #var death_delay 4;
 #var entangle_delay 3;
 #var killtarget 1;
-#var marktarget 0;
+#var marktarget 1;
 #var tellu_mode_running 1;
 #var time_since_last_move 0;
 
