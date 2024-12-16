@@ -420,7 +420,7 @@ Functions:\n
 #action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
 #action {Grodan glimmers as the remaining visages infuse him with their life essence.} {#show <131>VISAGES SPAWNED, MIRACLE!!!}
 
-#action {All of Telluria shakes and rumbles as the ground shifts.} {#var tellu_mode normal;gt ZONE RESET}
+#action {All of Telluria shakes and rumbles as the ground shifts.} {#var tellu_mode normal;gt &08ZONE RESET&--}
 
 
 #action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {
@@ -446,7 +446,7 @@ Functions:\n
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     #if {"$tellu_mode"=="normal"} {
-        gt BAD KILL;
+        gt &08BAD KILL&--;
     }
     send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
     tellu_mob_dead
@@ -472,7 +472,7 @@ Functions:\n
     {
         #nop MOB in safe room;
         #if {"%4"=="JOINED"} {
-            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt $tellu_joiner JOINED %2, SAFE kill} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt &08$tellu_joiner joined %2, safe kill&--} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
         };#else {
             #show <172>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
@@ -482,7 +482,7 @@ Functions:\n
         #action {Looks like its not quite a Tellurian %1's bedtime.} {zzz %1};
         #if {"%4"=="JOINED"} {
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
-                {gt $tellu_joiner JOINED %2, BAD kill;gt &08all Kroll zzz $tellu_joiner&--} 
+                {gt &08$tellu_joiner joined %2, BAD kill&--;gt &08all Kroll zzz $tellu_joiner&--} 
                 {#show <132>$tellu_joiner JOINED %2, POTENTIAL BAD kill;gt &08Kroll  zzz $tellu_joiner&--};
         };#else {
             #show <131>$tellu_joiner ARRIVED from %3, POTENTIAL BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN];
