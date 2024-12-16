@@ -451,7 +451,7 @@ Functions:\n
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     #if {"$tellu_mode"=="normal"} {
-        gt &08BAD KILL&--;
+        gt &bad kill - %1&--;
     };
     send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
     tellu_mob_dead
