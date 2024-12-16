@@ -451,7 +451,8 @@ Functions:\n
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
     #if {"$tellu_mode"=="normal"} {
-        gt &bad kill - %1&--;
+        gt &08bad kill - %1 - $mob_entrance&--;
+        #var mob_entrance {};
     };
     send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
     tellu_mob_dead
@@ -467,6 +468,7 @@ Functions:\n
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
+    #var mob_entrance {};
     #show \n<132>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
         #case {"tundra-snap"} {#var tellu_joiner wolf};
@@ -486,6 +488,7 @@ Functions:\n
         #nop MOB in BAD room;
         #action {Looks like its not quite a Tellurian %1's bedtime.} {zzz %1};
         #if {"%4"=="JOINED"} {
+            #var mob_entrance joiner;
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
                 {
                     gt &08 $tellu_joiner joined %2, BAD kill&--;
