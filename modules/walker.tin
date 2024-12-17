@@ -40,7 +40,9 @@ Functions:\n
 #var autowalk 1;
 #var autowalk_delay 0.4;
 #var autowalk_allowed_downtime 20;
+#var zonechange_delay_orig 2;
 #var zonechange_delay 2;
+#var zonechange_needed_delay 10;
 #var death_delay 4;
 #var killtarget 1;
 #var marktarget 1;
@@ -159,6 +161,7 @@ Functions:\n
             #list tellu[contains_mage] delete $mage_zone_id;
             tellu_debug {Removing $tellu_zone from clearing};
         };
+        #math lastzonekills {$lastzonekills+1};
         find_next_move;
         #var tellu_bot_state search;
     }
@@ -236,7 +239,7 @@ Functions:\n
     #var lastzonetime $MSDP_UPTIME;
     #var last_move_time $MSDP_UPTIME;
     tellu_debug {<172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone};
-    #if {$timesincelastzone>10} {
+    #if {$timesincelastzone>$zonechange_needed_delay} {
         #if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") } {
             #math tellu[zindex] {$tellu[zindex]+1};
             #if {$tellu[zindex] <= &tellu[zone][]} { };
@@ -256,14 +259,18 @@ Functions:\n
         #var waypoints[west] {34525,34545,34549,34544,34541,34536,34539,34534,34531,34526,34595,34595};
         #var waypoints[east] {34574,34554,34550,34555,34558,34563,34560,34565,34568,34573,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
-        #show \n<172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
-        #show <172>TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
+        #var zonechange_delay zonechange_delay_orig;
         #if {&need_summons[]>0} {
+            #var last_move_time $MSDP_UPTIME;
             nco tellu_summon;
+            #math zonechange_delay {$zonechange_delay_orig + (4*&need_summons[])};
         };
         updategroupname;
         #nop tellu stats;
+        #show \n<107>NEXT TELLU ZONE: <acf>[$tellu[zindex]:&tellu[zone][]] $tellu_zone<107>  steps: <acf>&waypoints[$tellu_zone][];
+        #show <107>LAST ZONE TOOK <acf>$timesincelastzone s<107>, with <acf>$lastzonekills kills<107>. NOW TAKING A <acf>$zonechange_delay s<107> BREAK TO SORT SUMMON ETC.;
         ponder;
+        #var lastzonekills 0;
         #delay $zonechange_delay load_route;
     }
 }
@@ -283,7 +290,7 @@ Functions:\n
     #elseif {$autowalk} {
         tellu_debug {<132>Can we move? @can_group_move{}};
         #if { (@can_group_move{}) && ("$tellu_bot_state"!="kill")} {
-            #var tellu_bot_state  move;
+            #var tellu_bot_state move;
             #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
             #var last_move_time $MSDP_UPTIME;
             #if {$tellu_room_debug} {#show \n<174>MOVE CALLED};
@@ -450,10 +457,11 @@ Functions:\n
     #var lastkilltime $MSDP_UPTIME;
     #math tellu_kill_timer { $MSDP_UPTIME - $tellu_kill_timer };
     #show <131>VERY BAD KILL on [%1] in [%3]!!    zone:[$tellu_zone]  KillTime: $tellu_kill_timer(s);
+    send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>  <110>$mob_entrance<170>;
     #if {"$tellu_mode"=="normal"} {
-        gt &bad kill - %1&--;
+        gt &08bad kill - %1 - $mob_entrance&--;
+        #var mob_entrance {};
     };
-    send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
     tellu_mob_dead
 };
 
@@ -461,12 +469,13 @@ Functions:\n
 #action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
 #action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
 
-#action {A Tellurian %1 utters the words 'unsohaiorz'} {#nop show <131>%1 ENDS COMBAT}
-#action {A Tellurian %1 steps out of the shadows.} {#nop show <131>%1 JOINER!!!!}
-#action {A Tellurian fury steps out of the shadows.} {#nop show <131>FURY JOINED THE FIGHT!!!}
+#action {A Tellurian %1 utters the words 'unsohaiorz'} {#nop}
+#action {A Tellurian %1 steps out of the shadows.} {#nop}
+#action {A Tellurian fury steps out of the shadows.} {#nop}
 
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
+    #var mob_entrance {};
     #show \n<132>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
         #case {"tundra-snap"} {#var tellu_joiner wolf};
@@ -477,7 +486,7 @@ Functions:\n
     {
         #nop MOB in safe room;
         #if {"%4"=="JOINED"} {
-            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt &08 $tellu_joiner joined %2, safe kill&--} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt &08$tellu_joiner joined %2, safe kill&--} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
         };#else {
             #show <172>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
@@ -486,9 +495,10 @@ Functions:\n
         #nop MOB in BAD room;
         #action {Looks like its not quite a Tellurian %1's bedtime.} {zzz %1};
         #if {"%4"=="JOINED"} {
+            #var mob_entrance joiner;
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
                 {
-                    gt &08 $tellu_joiner joined %2, BAD kill&--;
+                    gt &08$tellu_joiner joined %2, BAD kill&--;
                     #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
                 } 
                 {
