@@ -161,6 +161,7 @@ Functions:\n
             #list tellu[contains_mage] delete $mage_zone_id;
             tellu_debug {Removing $tellu_zone from clearing};
         };
+        #math lastzonekills {$lastzonekills+1};
         find_next_move;
         #var tellu_bot_state search;
     }
@@ -266,9 +267,10 @@ Functions:\n
         };
         updategroupname;
         #nop tellu stats;
-        #show \n<172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
-        #show <172>LAST ZONE TOOK $timesincelastzone s TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
+        #show \n<107>NEXT TELLU ZONE: <acf>[$tellu[zindex]:&tellu[zone][]] $tellu_zone<107>  steps: <acf>&waypoints[$tellu_zone][];
+        #show <107>LAST ZONE TOOK <acf>$timesincelastzone s<107>, with <acf>$lastzonekills kills<107>. NOW TAKING A <acf>$zonechange_delay s<107> BREAK TO SORT SUMMON ETC.;
         ponder;
+        #var lastzonekills 0;
         #delay $zonechange_delay load_route;
     }
 }
