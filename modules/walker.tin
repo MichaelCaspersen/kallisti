@@ -40,7 +40,9 @@ Functions:\n
 #var autowalk 1;
 #var autowalk_delay 0.4;
 #var autowalk_allowed_downtime 20;
+#var zonechange_delay_orig 2;
 #var zonechange_delay 2;
+#var zonechange_needed_delay 10;
 #var death_delay 4;
 #var killtarget 1;
 #var marktarget 1;
@@ -236,7 +238,7 @@ Functions:\n
     #var lastzonetime $MSDP_UPTIME;
     #var last_move_time $MSDP_UPTIME;
     tellu_debug {<172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone};
-    #if {$timesincelastzone>10} {
+    #if {$timesincelastzone>$zonechange_needed_delay} {
         #if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") } {
             #math tellu[zindex] {$tellu[zindex]+1};
             #if {$tellu[zindex] <= &tellu[zone][]} { };
@@ -256,14 +258,16 @@ Functions:\n
         #var waypoints[west] {34525,34545,34549,34544,34541,34536,34539,34534,34531,34526,34595,34595};
         #var waypoints[east] {34574,34554,34550,34555,34558,34563,34560,34565,34568,34573,34595,34595};
         #list waypoints[$tellu_zone] explode {,};
-        #show \n<172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
-        #show <172>LAST ZONE TOOK $timesincelastzone TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
+        #var zonechange_delay zonechange_delay_orig;
         #if {&need_summons[]>0} {
             #var last_move_time $MSDP_UPTIME;
             nco tellu_summon;
+            #math zonechange_delay {$zonechange_delay_orig + (4*&need_summons[])};
         };
         updategroupname;
         #nop tellu stats;
+        #show \n<172>NEXT TELLU ZONE: [$tellu[zindex]:&tellu[zone][]] $tellu_zone  steps: &waypoints[$tellu_zone][];
+        #show <172>LAST ZONE TOOK $timesincelastzone s TAKING A $zonechange_delay s BREAK TO SORT SUMMON ETC.;
         ponder;
         #delay $zonechange_delay load_route;
     }
