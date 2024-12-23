@@ -183,31 +183,32 @@
 	}
 }
 
+#var wild_announce 0;
 #action {~^\e[22;37m\e[0;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#regexp {%1} {corpse} {#nop} {#map set roomdesc {$wilder[x], $wilder[y] \n%1}};
-		#show ITEM(6) DETECTED: <%1>
+		#if {$wild_announce} {#show ITEM(6) DETECTED: <%1>};
 	}
 } {6}
 
 #action {~^\e[22;37m\e[1;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
-		#show NPC(7) DETECTED: <%1>
+		#if {$wild_announce} {#show ITEM(7) DETECTED: <%1>};
 	}
 } {7} 
 
 #action {~^\e[0;37m\e[1;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
-		#show NPC(8) DETECTED: <%1>
+		#if {$wild_announce} {#show ITEM(8) DETECTED: <%1>};
 	}
 } {8}  
 
 #action {~^\e[1;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
-		#show NPC(9) DETECTED: <%1>
+		#if {$wild_announce} {#show ITEM(9) DETECTED: <%1>};
 	}
 } {9}  
 

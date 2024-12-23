@@ -534,6 +534,7 @@ event_register {autobuf expiration} {kallisti/autobuf} {autobuf_handler {%2}};
         #switch {"$MSDP_CLASS"} {
             #case {"Assassin"} { nco hide };
             #case {"Demoniac"} { nco hide };
+            #case {"Dreadlord"} { nco Dakheva };
             #case {"Bard"} { nco hide };
             #case {"Monastic"} { nco soulcloak };
             #case {"Monk"} { nco soulcloak };
