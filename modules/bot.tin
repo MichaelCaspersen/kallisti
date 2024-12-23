@@ -203,7 +203,7 @@ init bot[rescue2] preferences off;
 	#if { "$MSDP_CLASS" == "Paladin" } {
 		botrole damage;
 		#var bot[cast] 1;
-		#var bot[damage][single] {zeal};
+		#var bot[damage][single] {smite};
 		#var bot[damage][multiple] {zeal};
 		#var allowedToTank 99;
 

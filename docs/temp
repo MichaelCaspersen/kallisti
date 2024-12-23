@@ -315,7 +315,7 @@ toggle camouflage
 
 #var guildpath 2s6e2su
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
-#alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<55) } {visit house;dep all;e;get all.hide;tan hide}}
+#alias gogain {drop all;egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<55) } {visit house;dep all;e;get all.bone;phyl bone}}
 
 #action {* * * You now have enough experience to gain a level! * * *} {breakout;gogain}
 #alias gogain {egre;home;#math nextlevel {$MSDP_LEVEL+1};with $goldlevel[$nextlevel];egre;$guildpath;gain;#if { ($MSDP_LEVEL<51) } {visit house;dep all;e;get bone;carve bone}}
@@ -333,6 +333,9 @@ toggle camouflage
 #ac {You can't carve that.}{give bone kaicha;get bone;carve bone}
 #ac {You carve some}{give bone kaicha;get bone;carve bone}
 
+
+
+#action {You get %1 toots from a camping tent.} {e;carve toot}
 
 
 #ac {You craft}
