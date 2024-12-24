@@ -365,6 +365,7 @@ prac toughness
 #action {You carve a} {carve tooth}
 #action {You fail to improve it.} {carve tooth}
 #action {Oops, you cracked it a little.} {carve tooth}
+#action {isn't high enough quality to carve.} {sac toot;carve toot}
 #ACTION {You must also specify what you want to {tan|carve}.} {drop all.bone;w;get all.toot $tentnr.tent;e;carve tooth}
 #action {You can't get any toots from a camping tent.} {#math tentnr {$tentnr+1}}
 
