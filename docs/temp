@@ -353,3 +353,21 @@ prac toughness
 
 
 
+#var refresher Kaicha;
+#ac {You craft }{give robe $refresher$;armorcraft bolt}
+#ac {You failed to craft anything useful.}{armorcraft bolt}
+#ac {isn't high enough quality to be worth crafting.} {sac bolt;armorcraft bolt}
+#ac {You must also specify what material you want to use when armorcrafting.} {get all.bolt;armorcraft bolt}
+#tick crafcraf {get bolt;armorcraft bolt} 100
+
+
+#var tentnr 1;
+#action {You carve a} {carve tooth}
+#action {You fail to improve it.} {carve tooth}
+#action {Oops, you cracked it a little.} {carve tooth}
+#ACTION {You must also specify what you want to {tan|carve}.} {drop all.bone;w;get all.toot $tentnr.tent;e;carve tooth}
+#action {You can't get any toots from a camping tent.} {#math tentnr {$tentnr+1}}
+
+#action {You are exhausted!} {#delay 1 carve tooth}
+
+
