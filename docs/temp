@@ -358,7 +358,7 @@ prac toughness
 #ac {You failed to craft anything useful.}{armorcraft bolt}
 #ac {isn't high enough quality to be worth crafting.} {sac bolt;armorcraft bolt}
 #ac {You must also specify what material you want to use when armorcrafting.} {get all.bolt;armorcraft bolt}
-#tick crafcraf {get bolt;armorcraft bolt} 100
+#tick crafcraf {breakout;drop all;get bolt;armorcraft bolt} 300
 
 
 #var tentnr 1;
