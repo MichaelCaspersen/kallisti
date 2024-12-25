@@ -1300,6 +1300,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {%1 picks you up by the neck and throws you out of the room!} {gt Thrown!;stand}
 
+#action {Zealot, the blade of retribution flies from your grasp.} {get zealot;wear zealor quick}
+
 #var allowedToTank 3;
 #var getoutnow 0;
 
