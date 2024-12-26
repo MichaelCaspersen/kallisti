@@ -353,7 +353,6 @@ prac toughness
 
 
 
-#var refresher Volva;
 #ac {You craft }{armorcraft bolt}
 #ac {You failed to craft anything useful.}{armorcraft bolt}
 #ac {isn't high enough quality to be worth crafting.} {sac bolt;armorcraft bolt}

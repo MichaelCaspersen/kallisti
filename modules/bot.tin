@@ -87,7 +87,7 @@ init bot[poke2] preferences off;
 init bot[rescue2] preferences off;
 
 #var healpct_damage_allowed 85;
-#var recall_below_hit 50;
+#var recall_below_hit 20;
 
 #var mintimebetweenbreakout 10;
 
