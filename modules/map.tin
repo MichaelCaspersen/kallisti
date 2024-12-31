@@ -75,19 +75,19 @@
 
 #function getRoomSymbol {
     #if {"%1" == "Field"} {#var result <fffde59>.<fffffff>};
-    #elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
+    #elseif {"%1" == "Forest"} {#var result <f2E9E2A>§<fffffff>};
+    #elseif {"%1" == "Water"} {#var result <f227EB4>~<FFFFFFF>};
+    #elseif {"%1" == "Shallow Water"} {#var result <f2FC6EC>~<FFFFFFF>};
+    #elseif {"%1" == "Deep Water"} {#var result <f190CA9>~<FFFFFFF>};
+    #elseif {"%1" == "Hills"} {#var result <f999999>▲<fffffff>};
+    #elseif {"%1" == "Desert"} {#var result <ffeb24c>=<fffffff>};
+	#elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Field Beach"} {#var result <B31a354><FFFFFFF>};
-    #elseif {"%1" == "Desert"} {#var result <Bfeb24c>};
-    #elseif {"%1" == "Forest"} {#var result <f52DB57>§<fffffff>};
     #elseif {"%1" == "Trail"} {#var result <Bbdbdbd>};
-    #elseif {"%1" == "Hills"} {#var result <B8d8d8d>};
     #elseif {"%1" == "Mountain"} {#var result <B636363>};
     #elseif {"%1" == "Peak"} {#var result <BDDDDDD>};
     #elseif {"%1" == "Air"} {#var result <BFFFFFF>};
     #elseif {"%1" == "City"} {#var result <Bf7fcb9>};
-    #elseif {"%1" == "Water"} {#var result <f227EB4>~<FFFFFFF>};
-    #elseif {"%1" == "Shallow Water"} {#var result <f2FC6EC>~<FFFFFFF>};
-    #elseif {"%1" == "Deep Water"} {#var result <f190CA9>~<FFFFFFF>};
     #elseif {"%1" == "Underwater"} {#var result <B3182bd><FFFFFFF>};
     #elseif {"%1" == "Beach"} {#var result <Bffeda0>};
     #elseif {"%1" == "Jungle"} {#var result <B31a354>};
