@@ -114,7 +114,7 @@
 	#map set roomname $MSDP_ROOM_NAME;
 	#map set roomterrain @strip_ansi{$MSDP_ROOM_TERRAIN};
 	#map set roomcolor <178>;
-	#map get roomsymbol cur_room_symbol
+	#map get roomsymbol cur_room_symbol;
 	#if {"$cur_room_symbol"!=""} {
 		#map set roomsymbol {@getRoomSymbol{@strip_ansi{$MSDP_ROOM_TERRAIN}}};
 	};
