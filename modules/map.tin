@@ -77,15 +77,12 @@
 #map terrain {Underground} {<f666666>v} DENSE FADEOUT
 #map terrain {Water} {<f2284ff>▒} DENSE WIDE
 
-
-
-
-#function getRoomColor {
-    #if {"%1" == "Field"} {#var result <B31a354><FFFFFFF>};
+#function getRoomSymbol {
+    #if {"%1" == "Field"} {#var result <fffde59>.<fffffff>};
     #elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Field Beach"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Desert"} {#var result <Bfeb24c>};
-    #elseif {"%1" == "Forest"} {#var result <B31a354><FFFFFFF>};
+    #elseif {"%1" == "Forest"} {#var result <f52DB57>§<fffffff>};
     #elseif {"%1" == "Trail"} {#var result <Bbdbdbd>};
     #elseif {"%1" == "Hills"} {#var result <B8d8d8d>};
     #elseif {"%1" == "Mountain"} {#var result <B636363>};
@@ -120,7 +117,8 @@
 	#map set roomarea $MSDP_AREA_NAME;
 	#map set roomname $MSDP_ROOM_NAME;
 	#map set roomterrain @strip_ansi{$MSDP_ROOM_TERRAIN};
-	#map set roomcolor <178>;#nop @getRoomColor{@strip_ansi{$MSDP_ROOM_TERRAIN}};
+	#map set roomcolor <178>;
+	#map set roomsymbol {@getRoomSymbol{@strip_ansi{$MSDP_ROOM_TERRAIN}}};
 	#if {@mapZoneBlacklist{$MSDP_AREA_NAME}} {#return};
 
 	#foreach {north;south;east;west;up;down} {EXIT} {
