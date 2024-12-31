@@ -48,11 +48,7 @@
 #map flag vtmap on;
 #map flag static;
 #map flag AsciiGraphics on;
-#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
-	#map read $db/wilderness.map
-};#else {
-	#map read $db/msdp.map
-}
+#map read $db/msdp.map
 
 #map terrain {City} {<f2232ff>▒} DENSE WIDE
 #map terrain {City Bridge Path} {<Feeeeee>▒} DENSE
