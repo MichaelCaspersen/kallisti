@@ -87,7 +87,7 @@ init bot[poke2] preferences off;
 init bot[rescue2] preferences off;
 
 #var healpct_damage_allowed 85;
-#var recall_below_hit 50;
+#var recall_below_hit 20;
 
 #var mintimebetweenbreakout 10;
 
@@ -1278,8 +1278,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 } {1}
 
 #action {**Gary: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
-#action {**Kroll: '$MSDP_CHARACTER_NAME %1'} {#var gary_delay $MSDP_UPTIME;#show <131>GARY <$gary_delay>;%1;#var gary_delay $MSDP_UPTIME} 3
-#action {**Pif: '$MSDP_CHARACTER_NAME %1'} {#var pif_delay $MSDP_UPTIME;#show <131>PIF <$pif_delay>;%1;#var pif_delay $MSDP_UPTIME} 3
+#action {**%1: '$MSDP_CHARACTER_NAME %2'} {#if {@is_friend{%1}} {%2}} 3
+
+
+
 #action {**Gary: 'all rec rec Kroll'} {#if {"$MSDP_CHARACTER_NAME"=="Kroll"} {fheal kroll;#delay 2.5 {holygate crom}}}
 
 #action {Gary issues the order: hamstring%1} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>Gary;queueAdd priority hamstring %1}} {2}
@@ -1297,6 +1299,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #action {%1 picks you up by the neck and throws you out of the room!} {gt Thrown!;stand}
+
+#action {Zealot, the blade of retribution flies from your grasp.} {get zealot;wear zealor quick}
 
 #var allowedToTank 3;
 #var getoutnow 0;

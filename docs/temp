@@ -353,12 +353,28 @@ prac toughness
 
 
 
-#var refresher Kaicha;
-#ac {You craft }{give robe $refresher$;armorcraft bolt}
+#ac {You craft }{armorcraft bolt}
 #ac {You failed to craft anything useful.}{armorcraft bolt}
 #ac {isn't high enough quality to be worth crafting.} {sac bolt;armorcraft bolt}
-#ac {You must also specify what material you want to use when armorcrafting.} {get all.bolt;armorcraft bolt}
+#ac {You must also specify what material you want to use when armorcrafting.} {drop all.robe;get all.bolt;armorcraft bolt}
+#action {There aren't any bolts here you can take.} {sleep;#untick crafcraf}
 #tick crafcraf {breakout;drop all;get bolt;armorcraft bolt} 300
+
+
+#ac {Created by: {Kruoill|HouseOfAnasasi}} {#var keepit 0}
+#ac {Minimum level:} {#if {$keepit} {#show KEEP IT;get robe;put robe $container$;exa robe} {#show SAC IT;get robe;sac robe;exa robe}} {1}
+#action {{Tanning|Butchering|Skinning|Tailoring|Carving|Cooking|Chirurgy|Weaving|Brewing}} {#var keepit 1}
+
+
+
+
+#var refresher Kroll;
+#ac {You craft }{phyl bone}
+#ac {You failed to craft anything useful.}{phyl bone}
+#ac {isn't high enough quality to be worth crafting.} {sac bone;phyl bone}
+#ac {You must also specify what material you want to use when making a holy symbol.} {drop all.symbol;get all.bone;phyl bone}
+#action {You are exhausted!} {#delay 1 phyl bone}
+#tick crafcraf {breakout;drop all;get bone;phyl bone} 300
 
 
 #var tentnr 1;

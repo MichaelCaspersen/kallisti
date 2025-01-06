@@ -94,6 +94,10 @@ neudnuu
 
 
 
+
+
+
+
 Catalaunian Fields
 
 "From glade: 2ne2s4en2wn2en
@@ -135,10 +139,58 @@ a carved crystal figurine of a dragon (from Ygorl)
 
 
 Caverns Below
+
+
+Caverns Below
+
+AFTER PULL LEVER
+2s7e27n3wd2wn2w3n3en2wn2wn5esed3w3sw3s3wsw3s2ws2wdnw2nwd3e3s2e3n4e
+
+
+#alias opencavern {gt Crom enter strong;gt Kaicha enter cleansing;gt Loke enter nimble;enter magical}
+#action {You enter a strong portal.} {#var cavernwinchdir n;#ticker turnwinch {turn winch} {5}}
+#action {You enter a cleansing portal.} {#var cavernwinchdir e;#ticker turnwinch {turn winch} {5}}
+#action {You enter a nimble portal.} {#var cavernwinchdir w;#ticker turnwinch {turn winch} {5}}
+#action {You enter a magical portal.} {#var cavernwinchdir s;#ticker turnwinch {turn winch} {5}}
+#action {The steel grating opens.} {$cavernwinchdir}
+#action {A Maelstrom of Colors} {#unticker turnwinch;#unaction {The steel grating opens.}}
+
+#high {A small device used for trapping souls is here.}{yellow reverse}
+
+#action {An apocalypse sorcerer is hovering here.} {#if {"$bot[role]"=="tank"} {charge sorcerer}}
+#action {An ob lily slowly drifts towards you.} {#if {"$bot[role]"=="tank"} {charge lily}}
+#action {A whirling spire of spines streaks towards you.} {}
+#action {This crimson assassin raises its talons and charges at you!} {#if {"$bot[role]"=="tank"} {charge assassin}}
+#action {An enormous creature slowly advances on you.} {#if {"$bot[role]"=="tank"} {charge darvant}}
+
+
+#action {}
+
+Strong0 (N)
+Strong1 (N) -- unlocked by nimble0
+Strong2 (N) -- unlocked by Cleansing1
+Strong3 (N) -- unlocked by Magical2
+
+Cleansing0 (E)
+Cleansing1 (E) -- unlocked by strong0
+Cleansing2 (E) -- unlocked by Magical1
+Cleansing3 (E) -- unlocked by Nimble2
+
+Nimble0 (W)
+Nimble1 (W) -- unlocked by magical0
+Nimble2 (W) -- unlocked by Strong1
+Nimble3 (W) -- unlocked by Cleansing2
+
+Magical0 (S)
+Magical1 (S) -- unlocked by cleansing0
+Magical2 (S) -- unlocked by nimble1
+Magical3 (S) -- unlocked by strong2
+
+
 #action {A soul generator sends a bolt of energy at the soul of %1, completely reanimating it.} {gt bad kill on %1, trap not dropped}
 #action {The soul of %1 briefly appears, and is then sucked into the soul trap!}{#math soulscaptured {$soulscaptured+1};gt good kill on %1, soul captured, total souls: $soulscaptured;#delay 4 gettrap;#var trapdrop 0}
-#alias gettrap {#show <131>TRYING TO GET TRAP: Opp $MSDP_OPPONENT_NUMBER;#if {($MSDP_OPPONENT_NUMBER<1)} {#nop get trap}}
-#ticker {droptrap} {#if { ($MSDP_OPPONENT_NUMBER>0) && ($trapdrop==0) && ("$MSDP_AREA_NAME"=="Caverns Below") } {#show <131>DROP TRAP;gt dropping trap;drop trap;#var trapdrop 1}} {2}
+#alias gettrap {#show <131>TRYING TO GET TRAP: Opp $cur_opponents;#if {($cur_opponents<1)} {get trap}}
+#ticker {droptrap} {#if { ($cur_opponents>0) && ($trapdrop==0) && ("$MSDP_AREA_NAME"=="Caverns Below") } {#show <131>DROP TRAP;gt dropping trap;drop trap;#var trapdrop 1}} {2}
 #nop action {A small device used for trapping souls is here.%1} {#if { ($MSDP_OPPONENT_NUMBER<1) && ($trapdrop==0) && ("$MSDP_AREA_NAME"=="Caverns Below") } {gettrap}}
 #action {%1 {drop|drops} a soul trap.} {#var trapdrop 1}
 #action {%1 {get|gets} a soul trap.} {#var trapdrop 0;gt Soul trap picked up}

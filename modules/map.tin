@@ -48,11 +48,7 @@
 #map flag vtmap on;
 #map flag static;
 #map flag AsciiGraphics on;
-#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
-	#map read $db/wilderness.map
-};#else {
-	#map read $db/msdp.map
-}
+#map read $db/msdp.map
 
 #map terrain {City} {<f2232ff>▒} DENSE WIDE
 #map terrain {City Bridge Path} {<Feeeeee>▒} DENSE
@@ -77,24 +73,21 @@
 #map terrain {Underground} {<f666666>v} DENSE FADEOUT
 #map terrain {Water} {<f2284ff>▒} DENSE WIDE
 
-
-
-
-#function getRoomColor {
-    #if {"%1" == "Field"} {#var result <B31a354><FFFFFFF>};
-    #elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
+#function getRoomSymbol {
+    #if {"%1" == "Field"} {#var result <fffde59>.<fffffff>};
+    #elseif {"%1" == "Forest"} {#var result <f2E9E2A>§<fffffff>};
+    #elseif {"%1" == "Water"} {#var result <f227EB4>~<FFFFFFF>};
+    #elseif {"%1" == "Shallow Water"} {#var result <f2FC6EC>~<FFFFFFF>};
+    #elseif {"%1" == "Deep Water"} {#var result <f190CA9>~<FFFFFFF>};
+    #elseif {"%1" == "Hills"} {#var result <f999999>▲<fffffff>};
+    #elseif {"%1" == "Desert"} {#var result <ffeb24c>=<fffffff>};
+	#elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Field Beach"} {#var result <B31a354><FFFFFFF>};
-    #elseif {"%1" == "Desert"} {#var result <Bfeb24c>};
-    #elseif {"%1" == "Forest"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Trail"} {#var result <Bbdbdbd>};
-    #elseif {"%1" == "Hills"} {#var result <B8d8d8d>};
     #elseif {"%1" == "Mountain"} {#var result <B636363>};
     #elseif {"%1" == "Peak"} {#var result <BDDDDDD>};
     #elseif {"%1" == "Air"} {#var result <BFFFFFF>};
     #elseif {"%1" == "City"} {#var result <Bf7fcb9>};
-    #elseif {"%1" == "Water"} {#var result <Ba6bddb><FFFFFFF>};
-    #elseif {"%1" == "Shallow Water"} {#var result <Ba6bddb><FFFFFFF>};
-    #elseif {"%1" == "Deep Water"} {#var result <B2b8cbe><FFFFFFF>};
     #elseif {"%1" == "Underwater"} {#var result <B3182bd><FFFFFFF>};
     #elseif {"%1" == "Beach"} {#var result <Bffeda0>};
     #elseif {"%1" == "Jungle"} {#var result <B31a354>};
@@ -120,7 +113,11 @@
 	#map set roomarea $MSDP_AREA_NAME;
 	#map set roomname $MSDP_ROOM_NAME;
 	#map set roomterrain @strip_ansi{$MSDP_ROOM_TERRAIN};
-	#map set roomcolor <178>;#nop @getRoomColor{@strip_ansi{$MSDP_ROOM_TERRAIN}};
+	#map set roomcolor <178>;
+	#map get roomsymbol cur_room_symbol;
+	#if { ("$cur_room_symbol"=="") || ("$cur_room_symbol"=="-") } {
+		#map set roomsymbol {@getRoomSymbol{@strip_ansi{$MSDP_ROOM_TERRAIN}}};
+	};
 	#if {@mapZoneBlacklist{$MSDP_AREA_NAME}} {#return};
 
 	#foreach {north;south;east;west;up;down} {EXIT} {

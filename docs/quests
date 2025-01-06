@@ -53,13 +53,13 @@ leather shop - 14162 (Lower Blackthonre)
 
 #nop Boiler Room Trouble - 3 QPTS
 recall;2s4e6s2w;open gate;2sw;open door;4w;open door w;w;
-kill secretary;#bop small grey key;
+kill secretary;#nop small grey key;
 unlock door s;open door s;s;
 quest;
-recall;2s4e6s2w;open gate;2sw;open door;2w;open door s;s;
+n3es;
 kill jack;#nop T-shaped key;
 n2en;open door w;wd3w;unlock hatch;open hatch;drop t;
-en2s;open lid;crawl;2sws;stand;
+en2s;open lid;gt all crawl;2sws;stand;
 kill guard;
 sen;
 kill guard;#nop HUGE copper key;
@@ -73,7 +73,7 @@ unlock silver;open silver;s;
 kill witch;#nop HUGE gold key;
 unlock gold;open gold;
 2s;
-kill maiden;#nop Return;
+kill maiden;#nop Return; #nop she can throw
 recall;2s4e6s2w;open gate;2sw;open door;4w;open door w;w;unlock door s;open door s;s;
 kill principal;#nop bronze card, full of holes;
 unlock rack s;open rack;s;get all
@@ -81,7 +81,7 @@ unlock rack s;open rack;s;get all
 
 
 #nop Kill the Black Lamia, - 2 QPTS MAX LEVEL 64
-recall;3s2e2s25w;5n;hunt hind;
+recall;2s14ws2w2sws2w2n7w7ne;hunt hind;
 quest;
 2s21e6s2e3sw;
 kill lamia;
@@ -97,7 +97,7 @@ s;unlock gate;open gate;drop oak;3s4w;open door n;n;3u;
 kill scientist;#nop get long nail
 get nail;2d;unlock door d;open door d;d;open passage w;w;
 kill all;#nop gilded key
-w;unlock door s;open door s;2s;2w;2;2e;s;2w;s;open runed;w;
+w;unlock door s;open door s;2s;2w;s;2e;s;2w;s;open runed;w;
 kill necro;
 recall;2s11w7n5wnu;se5nw;open door n;n;
 
@@ -108,6 +108,7 @@ quest;
 recall;2s14wn2wn5w2n4ws3wn;6n;open port;n;open oak n;n;open grand;n;open grand;2neuw;open door n;n;
 kill bink;
 recall;2s11w7n2w5s2e
+
 
 #nop Swampy Ops - 5 QPTS
 2s11w7n2w4n;kill gate;
@@ -183,6 +184,10 @@ recall;8sw2se21sw;open gate;3w2s7w3nwn7w;open oak;5w;#nop Find Rodgrim
 quest;
 recall;2s14wn2wn5w2n2ws2s;open down;d;#nop go to bottom and kill leader, then return for reward
 
+
+
+
+#high {Valarian's black cat is curled up here, gazing idly at you.} {yellow reverse}
 
 
 #nop Best served cold - 20 QPTS - 
