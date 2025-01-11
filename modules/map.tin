@@ -83,18 +83,18 @@
     #elseif {"%1" == "Desert"} {#var result <ffeb24c>=<fffffff>};
 	#elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Field Beach"} {#var result <B31a354><FFFFFFF>};
-    #elseif {"%1" == "Trail"} {#var result <Bbdbdbd>};
-    #elseif {"%1" == "Mountains"} {#var result <B636363>};
-    #elseif {"%1" == "Peak"} {#var result <BDDDDDD>};
-    #elseif {"%1" == "Air"} {#var result <BFFFFFF>};
-    #elseif {"%1" == "City"} {#var result <Bf7fcb9>};
+    #elseif {"%1" == "Trail"} {#var result <Bbdbdbd><FFFFFFF>};
+    #elseif {"%1" == "Mountains"} {#var result <B636363><FFFFFFF>};
+    #elseif {"%1" == "Peak"} {#var result <BDDDDDD><FFFFFFF>};
+    #elseif {"%1" == "Air"} {#var result <BFFFFFF><FFFFFFF>};
+    #elseif {"%1" == "City"} {#var result <Bf7fcb9><FFFFFFF>};
     #elseif {"%1" == "Underwater"} {#var result <B3182bd><FFFFFFF>};
-    #elseif {"%1" == "Beach"} {#var result <Bffeda0>};
-    #elseif {"%1" == "Jungle"} {#var result <B31a354>};
-    #elseif {"%1" == "Snow"} {#var result <BEEEEEE>};
-    #elseif {"%1" == "Swamp"} {#var result <Bbcbddc>};
-    #elseif {"%1" == "Bridge"} {#var result <B756bb1>};
-    #elseif {"%1" == "Inside"} {#var result <Bf7fcb9>};
+    #elseif {"%1" == "Beach"} {#var result <Bffeda0><FFFFFFF>};
+    #elseif {"%1" == "Jungle"} {#var result <B31a354><FFFFFFF>};
+    #elseif {"%1" == "Snow"} {#var result <BEEEEEE><FFFFFFF>};
+    #elseif {"%1" == "Swamp"} {#var result <Bbcbddc><FFFFFFF>};
+    #elseif {"%1" == "Bridge"} {#var result <B756bb1><FFFFFFF>};
+    #elseif {"%1" == "Inside"} {#var result <Bf7fcb9><FFFFFFF>};
     #else {#var result %1};
 }
 
