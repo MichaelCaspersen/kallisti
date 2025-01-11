@@ -84,7 +84,7 @@
 	#elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Field Beach"} {#var result <B31a354><FFFFFFF>};
     #elseif {"%1" == "Trail"} {#var result <Bbdbdbd><FFFFFFF>};
-    #elseif {"%1" == "Mountains"} {#var result <B636363>▲<FFFFFFF>};
+    #elseif {"%1" == "Mountains"} {#var result <b636363>▲<FFFFFFF>};
     #elseif {"%1" == "Peak"} {#var result <BDDDDDD><FFFFFFF>};
     #elseif {"%1" == "Air"} {#var result <BFFFFFF><FFFFFFF>};
     #elseif {"%1" == "City"} {#var result <Bf7fcb9><FFFFFFF>};
