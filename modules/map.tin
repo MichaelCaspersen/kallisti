@@ -81,20 +81,20 @@
     #elseif {"%1" == "Deep Water"} {#var result <f190CA9>~<fffffff>};
     #elseif {"%1" == "Hills"} {#var result <f999999>▲<fffffff>};
     #elseif {"%1" == "Desert"} {#var result <ffeb24c>=<fffffff>};
-	#elseif {"%1" == "Field Bridge"} {#var result <B31a354><fffffff>};
-    #elseif {"%1" == "Field Beach"} {#var result <B31a354><fffffff>};
-    #elseif {"%1" == "Trail"} {#var result <Bbdbdbd><fffffff>};
-    #elseif {"%1" == "Mountains"} {#var result <b636363>▲<fffffff>};
-    #elseif {"%1" == "Peak"} {#var result <BDDDDDD><fffffff>};
-    #elseif {"%1" == "Air"} {#var result <BFFFFFF><fffffff>};
-    #elseif {"%1" == "City"} {#var result <Bf7fcb9><fffffff>};
-    #elseif {"%1" == "Underwater"} {#var result <B3182bd><fffffff>};
-    #elseif {"%1" == "Beach"} {#var result <Bffeda0><fffffff>};
-    #elseif {"%1" == "Jungle"} {#var result <B31a354><fffffff>};
-    #elseif {"%1" == "Snow"} {#var result <BEEEEEE><fffffff>};
-    #elseif {"%1" == "Swamp"} {#var result <Bbcbddc><fffffff>};
-    #elseif {"%1" == "Bridge"} {#var result <B756bb1><fffffff>};
-    #elseif {"%1" == "Inside"} {#var result <Bf7fcb9><fffffff>};
+	#elseif {"%1" == "Field Bridge"} {#var result <f31a354><fffffff>};
+    #elseif {"%1" == "Field Beach"} {#var result <f31a354><fffffff>};
+    #elseif {"%1" == "Trail"} {#var result <fbdbdbd><fffffff>};
+    #elseif {"%1" == "Mountains"} {#var result <f636363>▲<fffffff>};
+    #elseif {"%1" == "Peak"} {#var result <fDDDDDD><fffffff>};
+    #elseif {"%1" == "Air"} {#var result <fFFFFFF><fffffff>};
+    #elseif {"%1" == "City"} {#var result <ff7fcb9><fffffff>};
+    #elseif {"%1" == "Underwater"} {#var result <f3182bd><fffffff>};
+    #elseif {"%1" == "Beach"} {#var result <fffeda0><fffffff>};
+    #elseif {"%1" == "Jungle"} {#var result <f31a354><fffffff>};
+    #elseif {"%1" == "Snow"} {#var result <fEEEEEE><fffffff>};
+    #elseif {"%1" == "Swamp"} {#var result <fbcbddc><fffffff>};
+    #elseif {"%1" == "Bridge"} {#var result <f756bb1><fffffff>};
+    #elseif {"%1" == "Inside"} {#var result <ff7fcb9><fffffff>};
     #else {#var result %1};
 }
 
