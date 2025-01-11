@@ -28,7 +28,7 @@
 			#session kallisti:%1 {kallistimud.com} {4005} {$players/%1_kallisti.player};
 		};
 		#default {
-			#session kallisti-%1 {75.50.248.16} {4000} {$players/%1_kallisti.player};
+			#session kallisti-%1 {108.65.164.79} {4000} {$players/%1_kallisti.player};
 		};
 	};
 	#if {@is_session{kallisti:%1}} {

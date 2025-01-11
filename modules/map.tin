@@ -227,7 +227,7 @@
 #alias u {up;#var curdir up;#var prevdir down;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move u}}
 #alias d {down;#var curdir down;#var prevdir up;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move d}}
 
-#var performAutoRoom 1;
+#var performAutoRoom 0;
 #alias mapEnterRoomFunction {
 	scan;
 }
