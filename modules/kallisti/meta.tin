@@ -317,7 +317,7 @@ init metaHero preferences 0
             #delay 10 {#show <131>BUY HIT;buy hit}
         };
         #case {"Kroil"} {
-            #delay 10 {#show <131>BUY MANA;buy mana}
+            #delay 10 {#show <131>BUY HIT;buy hit}
         };
         #case {"Crom"} {
             #delay 10 {#show <131>BUY MANA;buy mana}

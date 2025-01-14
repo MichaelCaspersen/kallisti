@@ -76,25 +76,25 @@
 #function getRoomSymbol {
     #if {"%1" == "Field"} {#var result <fffde59>.<fffffff>};
     #elseif {"%1" == "Forest"} {#var result <f2E9E2A>§<fffffff>};
-    #elseif {"%1" == "Water"} {#var result <f227EB4>~<FFFFFFF>};
-    #elseif {"%1" == "Shallow Water"} {#var result <f2FC6EC>~<FFFFFFF>};
-    #elseif {"%1" == "Deep Water"} {#var result <f190CA9>~<FFFFFFF>};
+    #elseif {"%1" == "Water"} {#var result <f227EB4>~<fffffff>};
+    #elseif {"%1" == "Shallow Water"} {#var result <f2FC6EC>~<fffffff>};
+    #elseif {"%1" == "Deep Water"} {#var result <f190CA9>~<fffffff>};
     #elseif {"%1" == "Hills"} {#var result <f999999>▲<fffffff>};
     #elseif {"%1" == "Desert"} {#var result <ffeb24c>=<fffffff>};
-	#elseif {"%1" == "Field Bridge"} {#var result <B31a354><FFFFFFF>};
-    #elseif {"%1" == "Field Beach"} {#var result <B31a354><FFFFFFF>};
-    #elseif {"%1" == "Trail"} {#var result <Bbdbdbd>};
-    #elseif {"%1" == "Mountain"} {#var result <B636363>};
-    #elseif {"%1" == "Peak"} {#var result <BDDDDDD>};
-    #elseif {"%1" == "Air"} {#var result <BFFFFFF>};
-    #elseif {"%1" == "City"} {#var result <Bf7fcb9>};
-    #elseif {"%1" == "Underwater"} {#var result <B3182bd><FFFFFFF>};
-    #elseif {"%1" == "Beach"} {#var result <Bffeda0>};
-    #elseif {"%1" == "Jungle"} {#var result <B31a354>};
-    #elseif {"%1" == "Snow"} {#var result <BEEEEEE>};
-    #elseif {"%1" == "Swamp"} {#var result <Bbcbddc>};
-    #elseif {"%1" == "Bridge"} {#var result <B756bb1>};
-    #elseif {"%1" == "Inside"} {#var result <Bf7fcb9>};
+	#elseif {"%1" == "Field Bridge"} {#var result <f31a354><fffffff>};
+    #elseif {"%1" == "Field Beach"} {#var result <f31a354><fffffff>};
+    #elseif {"%1" == "Trail"} {#var result <fbdbdbd><fffffff>};
+    #elseif {"%1" == "Mountains"} {#var result <f636363>▲<fffffff>};
+    #elseif {"%1" == "Peak"} {#var result <fDDDDDD><fffffff>};
+    #elseif {"%1" == "Air"} {#var result <fFFFFFF><fffffff>};
+    #elseif {"%1" == "City"} {#var result <ff7fcb9><fffffff>};
+    #elseif {"%1" == "Underwater"} {#var result <f3182bd><fffffff>};
+    #elseif {"%1" == "Beach"} {#var result <fffeda0><fffffff>};
+    #elseif {"%1" == "Jungle"} {#var result <f31a354><fffffff>};
+    #elseif {"%1" == "Snow"} {#var result <fEEEEEE><fffffff>};
+    #elseif {"%1" == "Swamp"} {#var result <fbcbddc><fffffff>};
+    #elseif {"%1" == "Bridge"} {#var result <f756bb1><fffffff>};
+    #elseif {"%1" == "Inside"} {#var result <ff7fcb9><fffffff>};
     #else {#var result %1};
 }
 
@@ -227,7 +227,7 @@
 #alias u {up;#var curdir up;#var prevdir down;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move u}}
 #alias d {down;#var curdir down;#var prevdir up;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move d}}
 
-#var performAutoRoom 1;
+#var performAutoRoom 0;
 #alias mapEnterRoomFunction {
 	scan;
 }
