@@ -1376,18 +1376,19 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#return $necromana;
 }
 
+#var necro_skin_mana 50;
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
 	#var tankingmobs 0;
 	#var cur_opponents %5;
-	#if { ($aggressiveprofession) && ("%3"=="near death") } {
+	#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
 		#show <131>AGRESSIVE PROFESSION;
 		#math spellLock { @mpoch{} + 3000 };
 		#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) && ("$MSDP_CLASS"=="Necromancer") } {edrain corpse};
 		queueAdd any {$profession[str_corpse] corpse};
 	};
-	#if { ("%2"=="a gigasaur") && (("%3"=="near death") && ($aggressivetooth)) } {
+	#if { ("%2"=="a gigasaur") && (("%3"=="near death") && ($aggressivetooth)) && (@necroMana{}>$necro_skin_mana) } {
 		#show <131>AGRESSIVE LOOT;
 		#math spellLock { @mpoch{} + 3000 };
 		get all.tooth all.corpse;
@@ -1402,13 +1403,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
 		#var tankingmobs 0;
 		#var cur_opponents 1;
-		#if { ($aggressiveprofession) && ("%3"=="near death") } {
+		#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
 			#show <131>AGRESSIVE PROFESSION;
 			#math spellLock { @mpoch{} + 3000 };
 		#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) && ("$MSDP_CLASS"=="Necromancer") } {edrain corpse};
 			$profession[str_corpse] corpse;
 		};
-		#if { ("%2"=="a gigasaur") && (("%3"=="near death") && ($aggressivetooth)) } {
+		#if { ("%2"=="a gigasaur") && (("%3"=="near death") && ($aggressivetooth)) && (@necroMana{}>$necro_skin_mana) } {
 			#show <131>AGRESSIVE LOOT;
 			#math spellLock { @mpoch{} + 3000 };
 			get all.tooth all.corpse;
@@ -1429,11 +1430,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 } {4}
 
 #var predeathdelay 0.1;
-#action {%1's body turns solid when %2's frostbite freezes %3.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
-#action {The dead body of %1 sizzles in the heat from an arcing lightning bolt sent by %2.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
-#action {%1 collapses in a spray of blood as %2's meteor storm pulverizes %3 body.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
-#action {%1 is stunned but will probably regain consciousness again.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
-#action {%1's slice to the back of %2's legs drops %3... and %4 doesn't get back up.} {#if {$aggressiveprofession} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1's body turns solid when %2's frostbite freezes %3.} {#if {($aggressiveprofession) && (@necroMana{}>$necro_skin_mana)} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {The dead body of %1 sizzles in the heat from an arcing lightning bolt sent by %2.} {#if {($aggressiveprofession) && (@necroMana{}>$necro_skin_mana)} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1 collapses in a spray of blood as %2's meteor storm pulverizes %3 body.} {#if {($aggressiveprofession) && (@necroMana{}>$necro_skin_mana)} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1 is stunned but will probably regain consciousness again.} {#if {($aggressiveprofession) && (@necroMana{}>$necro_skin_mana)} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
+#action {%1's slice to the back of %2's legs drops %3... and %4 doesn't get back up.} {#if {($aggressiveprofession) && (@necroMana{}>$necro_skin_mana)} { #show <131>PRE DEATH;#delay $predeathdelay {queueAdd any {$profession[str_corpse] corpse}}}}
 
 #gag {You can't seem to find any corpses here.}
 #gag {You must also specify what you want to skin.}
