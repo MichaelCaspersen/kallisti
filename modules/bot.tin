@@ -1366,6 +1366,17 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 
+#function necroMana {
+	#var necromana 100;
+	#loop {1} {&MSDP_GROUP[]} {index} {
+		#if {"$MSDP_GROUP[$index][class]" == "NEC"} {
+			#var necromana $MSDP_GROUP[$index][mana]
+		}
+	};
+	#return $necromana;
+}
+
+
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
 	#var tankingmobs 0;
