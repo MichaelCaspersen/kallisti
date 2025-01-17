@@ -357,6 +357,7 @@ prac toughness
 #ac {You failed to craft anything useful.}{armorcraft bolt}
 #ac {isn't high enough quality to be worth crafting.} {sac bolt;armorcraft bolt}
 #ac {You must also specify what material you want to use when armorcrafting.} {drop all.robe;get all.bolt;armorcraft bolt}
+#action {You are exhausted!} {#delay 1 armorcraft bolt}
 #action {There aren't any bolts here you can take.} {sleep;#untick crafcraf}
 #tick crafcraf {breakout;drop all;get bolt;armorcraft bolt} 300
 
