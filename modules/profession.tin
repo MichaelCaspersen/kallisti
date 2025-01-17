@@ -36,7 +36,7 @@ Commands:\n
 #var profession[gather][success] 0
 #var profession[gather][total] 0
 #var profession[gather][selling] 0;
-#var profession[gather][receiver] {Kr}
+#var profession[gather][receiver] {Kroil}
 
 #alias profon 	{
 	#var profession[gather][auto] 1;
