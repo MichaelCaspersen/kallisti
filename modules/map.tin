@@ -81,20 +81,20 @@
     #elseif {"%1" == "Deep Water"} {#var result <f190CA9>~<fffffff>};
     #elseif {"%1" == "Hills"} {#var result <f999999>▲<fffffff>};
     #elseif {"%1" == "Desert"} {#var result <ffeb24c>=<fffffff>};
-	#elseif {"%1" == "Field Bridge"} {#var result <f31a354><fffffff>};
-    #elseif {"%1" == "Field Beach"} {#var result <f31a354><fffffff>};
-    #elseif {"%1" == "Trail"} {#var result <fbdbdbd><fffffff>};
+	#elseif {"%1" == "Field Bridge"} {#var result <fddde59>.<fffffff>};
+    #elseif {"%1" == "Field Beach"} {#var result <feeff59>.<fffffff>};
+    #elseif {"%1" == "Trail"} {#var result <fffde59>.<fffffff>};
     #elseif {"%1" == "Mountains"} {#var result <f636363>▲<fffffff>};
-    #elseif {"%1" == "Peak"} {#var result <fDDDDDD><fffffff>};
-    #elseif {"%1" == "Air"} {#var result <fFFFFFF><fffffff>};
-    #elseif {"%1" == "City"} {#var result <ff7fcb9><fffffff>};
-    #elseif {"%1" == "Underwater"} {#var result <f3182bd><fffffff>};
-    #elseif {"%1" == "Beach"} {#var result <fffeda0><fffffff>};
-    #elseif {"%1" == "Jungle"} {#var result <f31a354><fffffff>};
-    #elseif {"%1" == "Snow"} {#var result <fEEEEEE><fffffff>};
-    #elseif {"%1" == "Swamp"} {#var result <fbcbddc><fffffff>};
-    #elseif {"%1" == "Bridge"} {#var result <f756bb1><fffffff>};
-    #elseif {"%1" == "Inside"} {#var result <ff7fcb9><fffffff>};
+    #elseif {"%1" == "Peak"} {#var result <f111111>▲<fffffff>};
+    #elseif {"%1" == "Air"} {#var result <fffffff>o<fffffff>};
+    #elseif {"%1" == "City"} {#var result <ff7fcb9>▒<fffffff>};
+    #elseif {"%1" == "Underwater"} {#var result <f2FC6EC>=<fffffff>};
+    #elseif {"%1" == "Beach"} {#var result <fffeda0>.<fffffff>};
+    #elseif {"%1" == "Jungle"} {#var result <f6E9E2A>~<fffffff>};
+    #elseif {"%1" == "Snow"} {#var result <fffffff>~<fffffff>};
+    #elseif {"%1" == "Swamp"} {#var result <ffe428c>=<fffffff>};
+    #elseif {"%1" == "Bridge"} {#var result <fffde59>=<fffffff>};
+    #elseif {"%1" == "Inside"} {#var result <ff7fcb9>▒<fffffff>};
     #else {#var result %1};
 }
 
