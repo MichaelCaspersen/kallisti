@@ -326,6 +326,10 @@ init metaHero preferences 0
             list;
             #delay 15 {#show <131>AUTOMETA;#var TARGET_HEROS 45000;autometa}
         };
+        #case {"Icarium"} {
+            list;
+            #delay 10 {#show <131>BUY HIT;buy hit}
+        };
         #case {"Loke"} {
             list;
             #delay 10 {#show <131>BUY STAM;buy stam}
@@ -396,6 +400,9 @@ init metaHero preferences 0
             buy hit;
         };
         #case {"Loke"} {
+            buy hit;
+        };
+        #case {"Icarium"} {
             buy hit;
         };
     }
