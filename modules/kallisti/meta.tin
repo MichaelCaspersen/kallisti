@@ -332,7 +332,7 @@ init metaHero preferences 0
         };
         #case {"Loke"} {
             list;
-            #delay 10 {#show <131>BUY HIT;buy hit}
+            #delay 10 {#show <131>BUY STAM;buy stam}
         };
     }
 }
@@ -411,7 +411,7 @@ init metaHero preferences 0
     #var meta[gain] %1;
     send_to_comms_session <170>Meta: <120>$meta[nr]<170> Gained: <120>$meta[gain]<170>, worth <120>$meta[herogain]<170> nobs Cost: <120>$meta[cost]<170>;
     #switch {"$MSDP_CHARACTER_NAME"} {
-        #case {"STAM_NAME"} {
+        #case {"Loke"} {
             buy stam;
         };
     }
