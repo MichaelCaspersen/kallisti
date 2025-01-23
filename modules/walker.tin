@@ -576,8 +576,14 @@ Functions:\n
     #if {$oldgroupsize!=$groupsize} {
         #math groupsizefree {9-$groupsize};
         #if {$groupsizefree==1} 
-        {#show <143>Tellurian: $groupsizefree open spot} 
-        {#show <143>Tellurian: $groupsizefree open spots}
+            {
+                    #show <143>Tellurian: $groupsizefree open spot;
+                    groupname &01Paragon&-- Tellu: $groupsizefree spots;
+            } 
+            {
+                #show <143>Tellurian: $groupsizefree open spots;
+                groupname &01Paragon&-- Tellu: $groupsizefree spotsM
+            }
     };
     #var oldgroupsize $groupsize;
 }
