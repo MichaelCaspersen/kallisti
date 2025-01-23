@@ -55,13 +55,35 @@ Functions:\n
 #var tellu_room_debug 0;
 #var tellu_bot_state {};
 
-
 #NOP #######################################################
 #NOP Control function
 #NOP #######################################################
 #tab tellu;
 #alias {^tellu %1} {
     #SWITCH {"%1"} {
+        #CASE {"paragon"} {
+            #show <143>Tellu START;
+            gt &08bot startin - paragong&--;
+            #var last_move_time $MSDP_UPTIME;
+            #var tellu_mode normal;
+            #var tellu_mode_running 1;
+            #var autowalk 1;
+            #var autowalk_delay 0.7;
+            #var autowalk_allowed_downtime 20;
+            #var zonechange_delay_orig 4;
+            #var zonechange_delay 4;
+            #var zonechange_needed_delay 10;
+            #var death_delay 5;
+            #var killtarget 1;
+            #var killtarget 1;
+            tellu_bot_info;
+            #if {$cur_room_vnum!=$hub} {
+                #show <143>We must start from HUB;
+                #map run $hub;
+            };#else {
+                load_next_zone
+            }
+        };
         #CASE {"start"} {
             #show <143>Tellu START;
             gt &08bot starting&--;
