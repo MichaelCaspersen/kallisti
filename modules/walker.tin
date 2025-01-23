@@ -562,7 +562,7 @@ Functions:\n
 #alias tellu_summon {
     #if {&need_summons[]>0} {
         #loop 1 &need_summons[] {id} {
-            #nop gt all sum $need_summons[$id];
+            gt all sum $need_summons[$id];
             #nop gt all portal $need_summons[$id];
             #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Templar") || ("$MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
             #if {"$MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
