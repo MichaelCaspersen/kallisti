@@ -5,7 +5,7 @@
 #var walker-description {Bot for running Tellurian}
 #var walker-help {
 Commands:\n
-\ttellu <command> - start stop clearzone status\n
+\ttellu <command> - start stop paragon(start) clearzone status\n
 
 Functions:\n
 \t....\n
@@ -135,7 +135,7 @@ Functions:\n
             #show <175> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
             #show <175> Last move: $time_since_last_move(s);
         };
-        #DEFAULT {#show <143>Tellu command not recognized. start stop clearzone stats};
+        #DEFAULT {#show <143>Tellu command not recognized. start stop paragon(start) clearzone stats};
     };
 }
 
