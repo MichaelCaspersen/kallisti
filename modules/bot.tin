@@ -1396,10 +1396,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {$parse_buffer && $newroom} {parse_buffer;};
 } {1}
 
-		 < Kralll | 6532h 3447m 3241s | x:984453426 | f >
-
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4 %5} {
-	#if {"%2"!="x"} { #nop Fix if prompt exp is shown;
+	#if {("%2"!="x") && ("%2"!="M")} { #nop Fix if prompt exp is shown or Mount M;
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
 		#var tankingmobs 0;
 		#var cur_opponents 1;

@@ -5,7 +5,7 @@
 #var walker-description {Bot for running Tellurian}
 #var walker-help {
 Commands:\n
-\ttellu <command> - start stop clearzone status\n
+\ttellu <command> - start stop paragon(start) clearzone status\n
 
 Functions:\n
 \t....\n
@@ -55,13 +55,35 @@ Functions:\n
 #var tellu_room_debug 0;
 #var tellu_bot_state {};
 
-
 #NOP #######################################################
 #NOP Control function
 #NOP #######################################################
 #tab tellu;
 #alias {^tellu %1} {
     #SWITCH {"%1"} {
+        #CASE {"paragon"} {
+            #show <143>Tellu START;
+            gt &08bot startin - paragong&--;
+            #var last_move_time $MSDP_UPTIME;
+            #var tellu_mode normal;
+            #var tellu_mode_running 1;
+            #var autowalk 1;
+            #var autowalk_delay 0.7;
+            #var autowalk_allowed_downtime 20;
+            #var zonechange_delay_orig 4;
+            #var zonechange_delay 4;
+            #var zonechange_needed_delay 10;
+            #var death_delay 5;
+            #var killtarget 1;
+            #var killtarget 1;
+            tellu_bot_info;
+            #if {$cur_room_vnum!=$hub} {
+                #show <143>We must start from HUB;
+                #map run $hub;
+            };#else {
+                load_next_zone
+            }
+        };
         #CASE {"start"} {
             #show <143>Tellu START;
             gt &08bot starting&--;
@@ -113,7 +135,7 @@ Functions:\n
             #show <175> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
             #show <175> Last move: $time_since_last_move(s);
         };
-        #DEFAULT {#show <143>Tellu command not recognized. start stop clearzone stats};
+        #DEFAULT {#show <143>Tellu command not recognized. start stop paragon(start) clearzone stats};
     };
 }
 
@@ -138,7 +160,7 @@ Functions:\n
             tellu_debug {<143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum};
         };
         #map move $cur_room_vnum;
-        #if {$tellu_room_debug} {#show \<174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state};
+        #if {$tellu_room_debug} {#show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state};
         evaluate_room;
         generate_area_info
     }
@@ -191,9 +213,9 @@ Functions:\n
                 find_next_move;
             };
             #else {
-                tellu_debug {<131>EVALUATE ROOM - ONLY ONE GOOD TARGET};
+                tellu_debug {<132>EVALUATE ROOM - ONLY ONE GOOD TARGET};
                 #if {@verifyTelluZone{}} {
-                    tellu_debug {<131>ROOM VERIFIED - KILL TARGET};
+                    tellu_debug {<132>ROOM VERIFIED - KILL TARGET};
                     #var tellu_bot_state kill;
                     #if {"$tellu_mode"=="normal"} { 
                         #if {$marktarget} {: marks $tellu_target};
@@ -202,7 +224,7 @@ Functions:\n
                         #if {$marktarget} {: marks $tellu_target};
                         #if {$killtarget} {kill $tellu_target};
                     };
-                    #delay 5 {#if {$cur_opponents==0} {tellu_debug {<131>COMBAT DIDNT START - MOVE ON};find_next_move} {tellu_debug {<131>Combat started}}}
+                    #delay 5 {#if {$cur_opponents==0} {tellu_debug {<132>COMBAT DIDNT START - MOVE ON};find_next_move} {tellu_debug {<131>Combat started}}}
                 };#else {
                     #show {<131>ROOM NOT VERIFIED - DONT KILL TARGET};
                     tellu stop;
@@ -540,7 +562,7 @@ Functions:\n
 #alias tellu_summon {
     #if {&need_summons[]>0} {
         #loop 1 &need_summons[] {id} {
-            #nop gt all sum $need_summons[$id];
+            gt all sum $need_summons[$id];
             #nop gt all portal $need_summons[$id];
             #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Templar") || ("$MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
             #if {"$MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
@@ -554,8 +576,14 @@ Functions:\n
     #if {$oldgroupsize!=$groupsize} {
         #math groupsizefree {9-$groupsize};
         #if {$groupsizefree==1} 
-        {#show <143>Tellurian: $groupsizefree open spot} 
-        {#show <143>Tellurian: $groupsizefree open spots}
+            {
+                    #show <143>Tellurian: $groupsizefree open spot;
+                    groupname &01Paragon&-- Tellu: $groupsizefree spots;
+            } 
+            {
+                #show <143>Tellurian: $groupsizefree open spots;
+                groupname &01Paragon&-- Tellu: $groupsizefree spotsM
+            }
     };
     #var oldgroupsize $groupsize;
 }
