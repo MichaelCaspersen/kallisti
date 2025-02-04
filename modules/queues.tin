@@ -266,6 +266,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"zeal"} #var result 2000;
         #case {"tale"} #var result 6000;
         #case {"warcry"} #var result 6000;
+        #case {"focus"} #var result 6000;
         #case {"loottooth"} #var result 500;
         #case {"lootgold"} #var result 500;
         #case {":"} #var result 2000;
