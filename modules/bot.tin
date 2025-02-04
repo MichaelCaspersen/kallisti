@@ -264,7 +264,7 @@ init bot[rescue2] preferences off;
 	#switch {"$MSDP_CHARACTER_NAME"} {
 		#case {"Krall"} {
 			botrole tank;
-			#var bot[damage][single] kill;
+			#var bot[damage][single] herfjotur;
 			#var bot[damage][multiple] kill;
 			#var bot[spellSustain] wio;
 			botcast 1;
@@ -273,8 +273,8 @@ init bot[rescue2] preferences off;
 			#var bot[mount][name] lightning;
 			profoff;
 			#var container {backpack};
-			#var weapon_pri {dagger};
-			#var weapon_sec {hermes};
+			#var weapon_pri {axe};
+			#var weapon_sec {soul};
 		};
 		#case {"Malai"} {
 			group all;
@@ -287,7 +287,7 @@ init bot[rescue2] preferences off;
 			botmove 0;
 			#var bot[mount][name] dragonne;
 			#var container {backpack};
-			#var weapon_pri {knife};
+			#var weapon_pri {hook};
 			#var weapon_sec {knife};
 		 };
 		#case {"Shaita"} {
@@ -299,7 +299,7 @@ init bot[rescue2] preferences off;
 			botpoke 0;
 			botmove 0;
 			#var container {backpack};
-			#var weapon_pri {assassination};
+			#var weapon_pri {spiteful};
 			#var weapon_sec {assassination};
 		};
 	};
