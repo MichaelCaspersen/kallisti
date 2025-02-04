@@ -77,6 +77,7 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
     #if { ("$MSDP_CLASS" == "Prophet") || ("$MSDP_CLASS" == "Templar") } {queueAdd heal phea %1};
     #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {queueAdd heal hea %1};
     #if { ("$MSDP_CLASS" == "Valkyrie") } {queueAdd heal wio %1};
+    #if { ("$MSDP_CLASS" == "Paladin") } {queueAdd heal layh %1};
 }
 
 #alias {autoheal} {
@@ -104,6 +105,8 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
                         queueAdd heal {heal $MSDP_GROUP[$_tmp][name]};
                     }
                 };
+                #if { ("$MSDP_CLASS" == "Valkyrie") } {queueAdd heal {heal $MSDP_GROUP[$_tmp][name]};
+                #if { ("$MSDP_CLASS" == "Paladin") } {queueAdd heal {layh $MSDP_GROUP[$_tmp][name]};
             }
         };
         #if { ($MSDP_GROUP[$_tmp][stamina] < $refreshpct) && ($cur_opponents<1) } {
