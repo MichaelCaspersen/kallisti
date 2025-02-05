@@ -76,6 +76,8 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
 #alias pheal {
     #if { ("$MSDP_CLASS" == "Prophet") || ("$MSDP_CLASS" == "Templar") } {queueAdd heal phea %1};
     #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {queueAdd heal hea %1};
+    #if { ("$MSDP_CLASS" == "Valkyrie") } {queueAdd heal wio %1};
+    #if { ("$MSDP_CLASS" == "Paladin") } {queueAdd heal layh %1};
 }
 
 #alias {autoheal} {
@@ -94,6 +96,8 @@ event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
             #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
                 #nop TODO - this should be the chosen heal/fheal/layhands method;
                 #if { ("$MSDP_CLASS" == "Prophet") || ("$MSDP_CLASS" == "Templar") } {queueAdd heal {phea $MSDP_GROUP[$_tmp][name]}};
+                #if { ("$MSDP_CLASS" == "Valkyrie") } {queueAdd heal {wio $MSDP_GROUP[$_tmp][name]}};
+                #if { ("$MSDP_CLASS" == "Paladin") } {queueAdd heal {layh $MSDP_GROUP[$_tmp][name]}};
                 #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {
                     #if {&{_queue[heal][]}>=$trigger_groupheal} {
                         #show <131>Group heal triggered;

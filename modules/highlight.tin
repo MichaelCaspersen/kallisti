@@ -38,6 +38,7 @@
 #nop #highlight {^%1 makes a strange sound as you place something in %2 back!}               {<002>};
 #highlight {makes a strange sound as you place something in its back!}                  {<fca>}
 #highlight {^You hop on %1 back.}                                                       {<FDDF604>}
+#highlight {You use %1 to focus your spell.}                                           {<FDDF604>}
 
 #nop highlight {[}                          {<FE2E2E2>}
 #nop #highlight {]}                          {<FE2E2E2>}
