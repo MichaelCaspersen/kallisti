@@ -220,12 +220,14 @@
 	}
 }
 
-#alias n {north;#var curdir north;#var prevdir south;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move n}}
-#alias e {east;#var curdir east;#var prevdir west;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move e}}
-#alias w {west;#var curdir west;#var prevdir east;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move w}}
-#alias s {south;#var curdir south;#var prevdir north;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move s}}
-#alias u {up;#var curdir up;#var prevdir down;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move u}}
-#alias d {down;#var curdir down;#var prevdir up;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move d}}
+#alias n {north;#var curdir north;#var prevdir south;#var prevdirshort s;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move n}}
+#alias e {east;#var curdir east;#var prevdir west;#var prevdirshort w;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move e}}
+#alias w {west;#var curdir west;#var prevdir east;#var prevdirshort e;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move w}}
+#alias s {south;#var curdir south;#var prevdir north;#var prevdirshort n;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move s}}
+#alias u {up;#var curdir up;#var prevdir down;#var prevdirshort d;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move u}}
+#alias d {down;#var curdir down;#var prevdir up;#var prevdirshort u;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move d}}
+
+#action {You open the portal to the %1.} {#if { ("$MSDP_ROOM_VNUM"=="?") } {#map move $prevdirshort}}
 
 #var performAutoRoom 0;
 #alias mapEnterRoomFunction {

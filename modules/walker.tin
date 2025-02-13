@@ -370,7 +370,13 @@ Functions:\n
     #var tellu_mob_in_room %1;
     #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
     #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
-        {#show <172> [$tellu_mob_in_room] TRUE - $tellu_mode $cur_room_vnum;#var botPositive $tellu_mob_in_room}
+        {
+            #if {$tellu_mob_in_room>1} {
+                #show <171> [$tellu_mob_in_room] TRUE - $tellu_mode $cur_room_vnum;#var botPositive $tellu_mob_in_room
+            }; #else {
+                #show <172> [$tellu_mob_in_room] TRUE - $tellu_mode $cur_room_vnum;#var botPositive $tellu_mob_in_room
+            };
+        }
         {#show <131> [$tellu_mob_in_room] FALSE - $tellu_mode $cur_room_vnum;#var botNegative $tellu_mob_in_room} 
 }
 
