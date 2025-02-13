@@ -504,7 +504,7 @@ Functions:\n
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
     #var mob_entrance {};
-    #show \n<129>>%1< >%2< >%3< >%4<;
+    #nop show \n<129>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
         #case {"tundra-snap"} {#var tellu_joiner wolf};
         #case {"topiary"} {#var tellu_joiner topiary};
@@ -516,7 +516,7 @@ Functions:\n
         #if {"%4"=="JOINED"} {
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt &08$tellu_joiner joined %2, safe kill&--} {#show <129>$tellu_joiner JOINED %2, SAFE kill};
         };#else {
-            #show <129>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+            #show \n<129>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
     }
     {
