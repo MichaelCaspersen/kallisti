@@ -1133,10 +1133,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #ALIAS {recall}{
-	#IF { ($cur_opponents > 0) || ("$MSDP_ACCOUNT_NAME"=="Valhalla") }{
+	#IF { ($cur_opponents > 0) }
+	{
 		queueAdd priority get rec all;
 		queueAdd priority rec rec
-	}{#send recal} 
+	} {
+		#send recal
+	} 
 }
 
 #action {You recite a scroll of recall which dissolves.} {
@@ -1450,7 +1453,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {{<-|><} %1 [   %2%h %3%s %4]} { 
 	#math tankingmobs {$tankingmobs+1};
-	#show <131>I'm tanking $tankingmobs mobs;
+	#if {$tankingmobs>1} {
+		#show <131>I'm tanking $tankingmobs mobs;
+	};
 	#if { ($getoutnow==0) && (($tankingmobs>=$allowedToTank) || (@leaderIsPresent{}==0)) } {
 		#var getoutnow 1;
 		#show <131>GET OUT!! Tanking $tankingmobs mobs, leader here:@leaderIsPresent{};
