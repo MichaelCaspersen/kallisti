@@ -504,7 +504,7 @@ Functions:\n
 #alias safetokill {
     #nop %1 joiner, %2 aided, %3 direction, %4 action ;
     #var mob_entrance {};
-    #show \n<132>>%1< >%2< >%3< >%4<;
+    #show \n<129>>%1< >%2< >%3< >%4<;
     #switch {"%1"} {
         #case {"tundra-snap"} {#var tellu_joiner wolf};
         #case {"topiary"} {#var tellu_joiner topiary};
@@ -514,9 +514,9 @@ Functions:\n
     {
         #nop MOB in safe room;
         #if {"%4"=="JOINED"} {
-            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt &08$tellu_joiner joined %2, safe kill&--} {#show <132>$tellu_joiner JOINED %2, SAFE kill};
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {gt &08$tellu_joiner joined %2, safe kill&--} {#show <129>$tellu_joiner JOINED %2, SAFE kill};
         };#else {
-            #show <172>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+            #show <129>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
         }
     }
     {
@@ -530,7 +530,7 @@ Functions:\n
                     #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
                 } 
                 {
-                    #show <132>$tellu_joiner JOINED %2, POTENTIAL BAD kill;
+                    #show <131>$tellu_joiner JOINED %2, POTENTIAL BAD kill;
                     #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
                 };
         };#else {
