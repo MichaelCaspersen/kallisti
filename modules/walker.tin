@@ -276,9 +276,9 @@ Functions:\n
         };
         #var tellu_zone $tellu[zone][$tellu[zindex]];
         #var waypoints {};
-        #var waypoints[north] {34504,34500,34520,34521,34506,34507,34522,34523,34508,34509,34595,34595};
-        #var waypoints[west] {34525,34545,34549,34544,34541,34536,34539,34534,34531,34526,34595,34595};
-        #var waypoints[east] {34574,34554,34550,34555,34558,34563,34560,34565,34568,34573,34595,34595};
+        #var waypoints[north] {34504,34500,34520,34521,34506,34507,34522,34523,34508,34509,34595};
+        #var waypoints[west] {34525,34545,34549,34544,34541,34536,34539,34534,34531,34526,34595};
+        #var waypoints[east] {34574,34554,34550,34555,34558,34563,34560,34565,34568,34573,34595};
         #list waypoints[$tellu_zone] explode {,};
         #var zonechange_delay $zonechange_delay_orig;
         #if {&need_summons[]>0} {
