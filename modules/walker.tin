@@ -189,13 +189,25 @@ Functions:\n
     }
 }
 
+#action {A Tellurian Outpost %1 |    N    [U]} {
+    tellu_debug {<131>WE ARE AT HUB};
+    #if {$tellu_mode_running} {
+        load_next_zone;
+    };#else {
+        #nop var autowalk 0;
+        #show <131>Tellurian Bot Stopped - <tellu start> to run again;
+        #var destination {};
+    }
+}
+
+
 #alias evaluate_room {
     tellu_debug {<131>EVALUATE ROOM CALLED};
     #var tellu_bot_state evaluate;
     #if {$cur_room_vnum==$hub} {
         tellu_debug {<131>WE ARE AT HUB};
         #if {$tellu_mode_running} {
-            load_next_zone;
+            #nop load_next_zone;
         };#else {
             #nop var autowalk 0;
             #show <131>Tellurian Bot Stopped - <tellu start> to run again;
@@ -512,7 +524,7 @@ Functions:\n
         #nop MOB in safe room;
         #if {"%4"=="JOINED"} {
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {
-                gt &08$tellu_joiner joined %2, safe kill&--;
+                gt &08safe kill, $tellu_joiner joined %2&--;
             } 
             {
                 #show <129>$tellu_joiner JOINED %2, SAFE kill
@@ -528,7 +540,7 @@ Functions:\n
             #var mob_entrance joiner;
             #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
                 {
-                    gt &08$tellu_joiner joined %2, BAD kill&--;
+                    gt &08BAD kill, $tellu_joiner joined %2&--;
                     #nop if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
                 } 
                 {
@@ -570,7 +582,7 @@ Functions:\n
 #alias tellu_summon {
     #if {&need_summons[]>0} {
         #loop 1 &need_summons[] {id} {
-            gt all sum $need_summons[$id];
+            gt &08all sum $need_summons[$id]&--;
             #nop gt all portal $need_summons[$id];
             #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Templar") || ("$MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
             #if {"$MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
