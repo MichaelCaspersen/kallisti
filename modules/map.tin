@@ -70,6 +70,8 @@
 #map terrain {Mountains} {<f666666>▲} DENSE WIDE
 #map terrain {Path} {<Fde9f3c>▒} DENSE FADEOUT
 #map terrain {Swamp} {<228>⟑} DENSE WIDE
+#map terrain {Jungle} {<f6E9E2A>~} DENSE WIDE
+#map terrain {ForestJungle} {<f6E9E2A>~} DENSE WIDE
 #map terrain {Underground} {<f666666>v} DENSE FADEOUT
 #map terrain {Water} {<f2284ff>▒} DENSE WIDE
 #map terrain {Snow} {<fffffff>~} DENSE WIDE
@@ -93,6 +95,7 @@
     #elseif {"%1" == "Underwater"} {#var result <f2FC6EC>=<fffffff>};
     #elseif {"%1" == "Beach"} {#var result <fffeda0>.<fffffff>};
     #elseif {"%1" == "Jungle"} {#var result <f6E9E2A>~<fffffff>};
+	#elseif {"%1" == "Jungle ForestJungle"} {#var result <f6E9E2A>~<fffffff>};	
     #elseif {"%1" == "Arctic"} {#var result <fffffff>~<fffffff>};
     #elseif {"%1" == "Snow"} {#var result <fffffff>~<fffffff>};
     #elseif {"%1" == "Swamp"} {#var result <ffe428c>=<fffffff>};
