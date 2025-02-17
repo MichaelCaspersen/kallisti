@@ -90,7 +90,7 @@
     #elseif {"%1" == "Peak"} {#var result <f111111>▲<fffffff>};
     #elseif {"%1" == "Air"} {#var result <fffffff>o<fffffff>};
     #elseif {"%1" == "City"} {#var result <ff7fcb9>▒<fffffff>};
-    #elseif {"%1" == "Underwater"} {#var result <f2FC6EC>=<fffffff>};
+    #elseif {"%1" == "Underwater"} {	#var result <f2FC6EC>=<fffffff>};
     #elseif {"%1" == "Beach"} {#var result <fffeda0>.<fffffff>};
     #elseif {"%1" == "Jungle"} {#var result <f6E9E2A>~<fffffff>};
     #elseif {"%1" == "Arctic"} {#var result <fffffff>~<fffffff>};
@@ -182,6 +182,8 @@
 		#map set roomdesc {$wilder[x], $wilder[y]}
 	}
 }
+
+
 
 #var wild_announce 1;
 #var wild_announce_format gt;
