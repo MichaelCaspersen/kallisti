@@ -354,8 +354,13 @@
 
 #EVENT {MAP ROOM SHORT-CLICKED MOUSE BUTTON ONE}
 {
-	#show TWO;
+	#LOCAL {_vnum} {%4};
+	#map goto {$_vnum};
+};
 
+
+#EVENT {MAP ROOM DOUBLE-CLICKED MOUSE BUTTON ONE}
+{
 	#LOCAL {_vnum} {%4};
 
 	#LOCAL {_current_vnum} {};
