@@ -38,4 +38,7 @@
     }
 }
 
+#alias update_top_panel {#nop};
+#alias layout_comms_update {#nop};
+
 #nop -- vim: syntax=tt
