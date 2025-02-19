@@ -236,6 +236,12 @@
 
 #action {You open the portal to the %1.} {#if { ("$MSDP_ROOM_VNUM"=="?") } {#map move $prevdirshort}}
 
+#action {A vaguely humanoid figure of shifting sand climbs the dunes.} {gt Sandman spottet $wilder[x], $wilder[y]!}
+#action {A female form rides a wave of sand through the desert.} {gt Sand Deva spottet $wilder[x], $wilder[y]!}
+#action {A long serpent with a lion head and human arms coils slithers along.} {#show tazelwyrm spotted $wilder[x], $wilder[y]!}
+
+
+
 #var performAutoRoom 0;
 #alias mapEnterRoomFunction {
 	scan;
@@ -357,8 +363,9 @@
 		#RETURN;
 	};
 
-    #MAP find {$_vnum};
-    #path run {$PATHS[current_speed]};
+	#map goto {$_vnum} {dig};
+    #nop MAP find {$_vnum};
+    #nop path run {$PATHS[current_speed]};
 };
 
 #FUNCTION {_map_save}
