@@ -152,7 +152,6 @@
 		}
 
 	};
-
 }
 
 #var room_vnums_for_new_zone 90000;
@@ -229,20 +228,19 @@
 	}
 }
 
-#alias n {north;#var curdir north;#var prevdir south;#var prevdirshort s;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move n}}
-#alias e {east;#var curdir east;#var prevdir west;#var prevdirshort w;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move e}}
-#alias w {west;#var curdir west;#var prevdir east;#var prevdirshort e;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move w}}
-#alias s {south;#var curdir south;#var prevdir north;#var prevdirshort n;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move s}}
-#alias u {up;#var curdir up;#var prevdir down;#var prevdirshort d;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move u}}
-#alias d {down;#var curdir down;#var prevdir up;#var prevdirshort u;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move d}}
+#alias n {north;#var curdir north;#var prevdir south;#var prevdirshort s;#var curdirshort n;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move n}}
+#alias e {east;#var curdir east;#var prevdir west;#var prevdirshort w;#var curdirshort e;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move e}}
+#alias w {west;#var curdir west;#var prevdir east;#var prevdirshort e;#var curdirshort w;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move w}}
+#alias s {south;#var curdir south;#var prevdir north;#var prevdirshort n;#var curdirshort s;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move s}}
+#alias u {up;#var curdir up;#var prevdir down;#var prevdirshort d;#var curdirshort u;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move u}}
+#alias d {down;#var curdir down;#var prevdir up;#var prevdirshort u;#var curdirshort d;#if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") || ("$MSDP_ROOM_VNUM"=="?") } {#map move d}}
 
 #action {You open the portal to the %1.} {#if { ("$MSDP_ROOM_VNUM"=="?") } {#map move $prevdirshort}}
 
-#action {A vaguely humanoid figure of shifting sand climbs the dunes.} {gt Sandman spottet $wilder[x], $wilder[y]!}
-#action {A female form rides a wave of sand through the desert.} {gt Sand Deva spottet $wilder[x], $wilder[y]!}
-#action {A long serpent with a lion head and human arms coils slithers along.} {#show tazelwyrm spotted $wilder[x], $wilder[y]!}
-
-
+#action {A vaguely humanoid figure of shifting sand climbs the dunes.} {gt Sandman spottet $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
+#action {A female form rides a wave of sand through the desert.} {gt Sand Deva spottet $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
+#action {A long serpent with a lion head and human arms coils slithers along.} {#show tazelwyrm spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
+#action {A humble lookout tower is here.} {#show Jaghut tower spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
 
 #var performAutoRoom 0;
 #alias mapEnterRoomFunction {
