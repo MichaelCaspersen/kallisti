@@ -352,11 +352,9 @@
 	%4;
 };
 
-#EVENT {MAP ROOM SHORT-CLICKED MOUSE BUTTON ONE}
-{
-	#LOCAL {_vnum} {%4};
-	#map goto {$_vnum};
-};
+#EVENT {MAP ROOM SHORT-CLICKED MOUSE BUTTON ONE} {#var {_mouse_clicked_vnum} {%4}}
+#tab goto_click;
+#alias goto_click {#map find $_mouse_clicked_vnum;#path run %1};
 
 
 #EVENT {MAP ROOM DOUBLE-CLICKED MOUSE BUTTON ONE}

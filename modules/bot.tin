@@ -886,6 +886,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#show >>> New Zone: $MSDP_AREA_NAME   ($MSDP_ROOM_VNUM) <<<;
 	#show >>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<;
 	#switch {"$MSDP_AREA_NAME"} {
+		#case {"Gummton Outpost"} {
+			#map flag ASCIIGRAPHICS ON;
+		};
+		#case {"The Wilderness"} {
+			#map flag ASCIIGRAPHICS OFF;
+		};
 		#case {"Thalos City"} {
 			#var zone[proflist] {{"lamia "}{} {"mimic "}{} {"target3 "}};
 			#var zone[allowAOE] 0;
