@@ -348,11 +348,13 @@
 
 #EVENT {PRESSED SECURE LINK MAP_MOVE MOUSE BUTTON ONE}
 {
+	#show ONE;
 	%4;
 };
 
 #EVENT {MAP ROOM SHORT-CLICKED MOUSE BUTTON ONE}
 {
+	#show TWO;
 
 	#LOCAL {_vnum} {%4};
 
@@ -363,9 +365,9 @@
 		#RETURN;
 	};
 
-	#map goto {$_vnum} {dig};
-    #nop MAP find {$_vnum};
-    #nop path run {$PATHS[current_speed]};
+	#nop map goto {$_vnum} {dig};
+    #MAP find {$_vnum};
+    #path run {$PATHS[current_speed]};
 };
 
 #FUNCTION {_map_save}
