@@ -92,7 +92,7 @@
     #elseif {"%1" == "Peak"} {#var result <f111111>▲<fffffff>};
     #elseif {"%1" == "Air"} {#var result <fffffff>o<fffffff>};
     #elseif {"%1" == "City"} {#var result <ff7fcb9>▒<fffffff>};
-    #elseif {"%1" == "Underwater"} {#var result <f2FC6EC>=<fffffff>};
+    #elseif {"%1" == "Underwater"} {	#var result <f2FC6EC>=<fffffff>};
     #elseif {"%1" == "Beach"} {#var result <fffeda0>.<fffffff>};
     #elseif {"%1" == "Jungle"} {#var result <f6E9E2A>~<fffffff>};
 	#elseif {"%1" == "Jungle ForestJungle"} {#var result <f6E9E2A>~<fffffff>};	
@@ -186,6 +186,8 @@
 	}
 }
 
+
+
 #var wild_announce 1;
 #var wild_announce_format gt;
 #action {~^\e[22;37m\e[0;37m%1$} {
@@ -254,7 +256,7 @@
 #nop -- ---------------------------------------------------------------
 #nop -- Events
 #nop -- ---------------------------------------------------------------
-#event {SESSION DISCONNECTED} {#map write $db/msdp.map}
+#event {SESSION DISCONNECTED} {#nop map write $db/msdp.map}
 #event {MAP ENTER ROOM} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#show <131>ENTER ROOM OLD:$old_vnum NEW:$MSDP_ROOM_VNUM;

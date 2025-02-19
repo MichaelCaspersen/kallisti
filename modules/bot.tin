@@ -1467,9 +1467,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop the "->" before a name shows who you are targetting 
 #nop and "<-" shows who is targetting you. 
 #nop "><" indicates that you are targetting one another.
-
-#action {A sabertooth tiger wanders around here looking for food.}{#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
-#ACTION {A smilodon arrives.} {#if {"$MSDP_CLASS"=="Assassin"} {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} {4}
+#var autohamstring 0;
+#action {A sabertooth tiger wanders around here looking for food.}{#if {("$MSDP_CLASS"=="Assassin" && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
+#ACTION {A smilodon arrives.} {#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} {4}
 #unaction {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
 
 #action {You must either wield a weapon or remove your wielded item and fight bare-handed.} {wear all}
