@@ -292,7 +292,7 @@
 	#list mapZoneBlacklist find {%0} {result}
 }
 
-#macro {\e[21~} { #if {"$layout_preference"=="right"} {layout mapping;};#else {layout right;}}
+#macro {\e[21~} { #if {"$layout_preference"=="right"} {layout mapping;#config mouse on};#else {layout right;#config mouse off}}
 
 #ALIAS {^mark %slist$}
 {
@@ -352,7 +352,7 @@
 	%4;
 };
 
-#EVENT {MAP ROOM SHORT-CLICKED MOUSE BUTTON ONE} {#var {_mouse_clicked_vnum} {%4}}
+#EVENT {MAP ROOM SHORT-CLICKED MOUSE BUTTON ONE} {#show Show different section of the map;#var {_mouse_clicked_vnum} {%4};#map goto {%4} {dig}}
 #tab goto_click;
 #alias goto_click {#map find $_mouse_clicked_vnum;#path run %1};
 
