@@ -192,28 +192,28 @@
 #action {~^\e[22;37m\e[0;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#regexp {%1} {corpse} {#nop} {#map set roomdesc {$wilder[x], $wilder[y] \n%1}};
-		#if {$wild_announce} {$wild_announce_format ITEM(6) DETECTED: <%1>, $wilder[x], $wilder[y]};
+		#if {$wild_announce} {$wild_announce_format ITEM(6) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
 	}
 } {6}
 
 #action {~^\e[22;37m\e[1;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
-		#if {$wild_announce} {$wild_announce_format ITEM(7) DETECTED: <%1>, $wilder[x], $wilder[y]};
+		#if {$wild_announce} {$wild_announce_format ITEM(7) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
 	}
 } {7} 
 
 #action {~^\e[0;37m\e[1;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
-		#if {$wild_announce} {$wild_announce_format ITEM(8) DETECTED: <%1>, $wilder[x], $wilder[y]};
+		#if {$wild_announce} {$wild_announce_format ITEM(8) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
 	}
 } {8}  
 
 #action {~^\e[1;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
-		#if {$wild_announce} {$wild_announce_format ITEM(9) DETECTED: <%1>, $wilder[x], $wilder[y]};
+		#if {$wild_announce} {$wild_announce_format ITEM(9) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
 	}
 } {9}  
 
