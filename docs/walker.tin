@@ -1,0 +1,647 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var walker-description {Bot for running Tellurian}
+#var walker-help {
+Commands:\n
+\ttellu <command> - start stop paragon(start) clearzone status\n
+
+Functions:\n
+\t....\n
+}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias walker-register {
+	#if {@isloaded{modloader}} {
+
+		register_module walker
+	} {
+		#class walker kill
+	}
+}
+
+#alias walker-unregister {
+    #unevent {MAP ENTER ROOM};
+}
+
+
+#NOP #######################################################
+#NOP Initialize Values
+#NOP #######################################################
+
+#var tellu_mode normal;
+
+#var cur_room_vnum 34595;
+#var hub 34595;
+#var autowalk 1;
+#var autowalk_delay 0.6;
+#var autowalk_allowed_downtime 20;
+#var zonechange_delay_orig 4;
+#var zonechange_delay 4;
+#var zonechange_needed_delay 10;
+#var death_delay 6;
+#var killtarget 1;
+#var marktarget 0;
+#var tellu_mode_running 1;
+#var time_since_last_move 0;
+
+#var char_entangled {};
+
+#var tellu_debug 0;
+#var tellu_room_debug 0;
+#var tellu_bot_state {};
+
+#NOP #######################################################
+#NOP Control function
+#NOP #######################################################
+#tab tellu;
+#alias {^tellu %1} {
+    #SWITCH {"%1"} {
+        #CASE {"paragon"} {
+            #show <143>Tellu START;
+            gt &08bot startin - paragong&--;
+            #var last_move_time $MSDP_UPTIME;
+            #var tellu_mode normal;
+            #var tellu_mode_running 1;
+            #var autowalk 1;
+            #var autowalk_delay 0.7;
+            #var autowalk_allowed_downtime 20;
+            #var zonechange_delay_orig 4;
+            #var zonechange_delay 4;
+            #var zonechange_needed_delay 10;
+            #var death_delay 5;
+            #var killtarget 1;
+            #var marktarget 0;
+            tellu_bot_info;
+            #if {$cur_room_vnum!=$hub} {
+                #show <143>We must start from HUB;
+                #map run $hub;
+            };#else {
+                load_next_zone
+            }
+        };
+        #CASE {"start"} {
+            #show <143>Tellu START;
+            gt &08bot starting&--;
+            #var last_move_time $MSDP_UPTIME;
+            #var tellu_mode normal;
+            #var tellu_mode_running 1;
+            #var autowalk 1;
+            #var zonechange_delay 2;
+            tellu_bot_info;
+            #if {$cur_room_vnum!=$hub} {
+                #show <143>We must start from HUB;
+                #map run $hub;
+            };#else {
+                load_next_zone
+            }
+        };
+        #CASE {"stop"} {
+            #show <143>Tellu STOP;
+            gt &08bot stopping - return to hub&--;
+            #var last_move_time $MSDP_UPTIME;
+            #var tellu_mode normal;
+            #var tellu_mode_running 0;
+            #var killtarget 0;
+            #var marktarget 0;
+            tellu_bot_info;
+            #if {$cur_room_vnum!=$hub} {
+                #var destination 0;find_next_move;
+            }
+        };
+        #CASE {"clearzone"} {
+            #var last_move_time $MSDP_UPTIME;
+            #show <143>Tellu CLEARZONE;
+            #var tellu[contains_mage] {west,north,east};
+            #list tellu[contains_mage] explode {,};
+            #var tellu_mode_running 1;
+            #var autowalk 1;
+            #var zonechange_delay 2;
+            #var tellu_mode clear;
+            tellu_bot_info;
+            #if {$cur_room_vnum!=$hub} {
+                #show <143>We must start from HUB;
+                #map run $hub;
+            };#else {
+                load_next_zone
+            }
+        };
+        #CASE {"stats"} {
+            #show <175> Revive: $tellu_stats[revive]  Fury: $tellu_stats[fury]  Prudent: $tellu_stats[prudent];
+            #show <175> Scarab-kin: $tellu_stats[scarab-kin]  Topiary/tree: $tellu_stats[topiary]  Tundra-snap/Wolf: $tellu_stats[tundra-snap];
+            #show <175> Last move: $time_since_last_move(s);
+        };
+        #DEFAULT {#show <143>Tellu command not recognized. start stop paragon(start) clearzone stats};
+    };
+}
+
+
+
+
+
+#NOP #######################################################
+#NOP The Brain - triggers on enter room event
+#NOP #######################################################
+#var lastzonetime 0;
+#var last_move_time 0;
+
+#event {MAP ENTER ROOM} {
+    room_clear;
+    #delay $autowalk_delay {
+        #if {"$MSDP_ROOM_VNUM"=="?"} {
+            #map get roomvnum cur_room_vnum;
+            tellu_debug {<143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum}
+        }; #else {
+            #var cur_room_vnum $MSDP_ROOM_VNUM;
+            tellu_debug {<143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum};
+        };
+        #map move $cur_room_vnum;
+        #if {$tellu_room_debug} {#show <174>DELAYED MAP ENTER ROOM: $cur_room_vnum  P:$botPositive N:$botNegative M:$tellu_mobs_in_room Last: $time_since_last_move State:$tellu_bot_state};
+        evaluate_room;
+        generate_area_info
+    }
+}
+
+#alias room_clear {
+    #var tellu_mobs_in_room 0;
+    #var botPositive 0;
+    #var botNegative 0;
+    #var tellu_target {};
+}
+
+
+#alias tellu_mob_dead {
+    #var last_move_time $MSDP_UPTIME;
+    #delay $death_delay {
+        tellu_debug {<131>MOB DEAD - FIND NEXT MOVE};
+        #if { ("$tellu_target"=="mage") && ("$tellu_mode"=="clear") } {
+            #list tellu[contains_mage] {find} {$tellu_zone} {mage_zone_id};
+            #list tellu[contains_mage] delete $mage_zone_id;
+            tellu_debug {Removing $tellu_zone from clearing};
+        };
+        #math lastzonekills {$lastzonekills+1};
+        find_next_move;
+        #var tellu_bot_state search;
+    }
+}
+
+#action {A Tellurian Outpost %1 |    N    [U]} {
+    tellu_debug {<131>WE ARE AT HUB};
+    #if {$tellu_mode_running} {
+        load_next_zone;
+    };#else {
+        #nop var autowalk 0;
+        #show <131>Tellurian Bot Stopped - <tellu start> to run again;
+        #var destination {};
+    }
+}
+
+
+#alias evaluate_room {
+    tellu_debug {<131>EVALUATE ROOM CALLED};
+    #var tellu_bot_state evaluate;
+    #if {$cur_room_vnum==$hub} {
+        tellu_debug {<131>WE ARE AT HUB};
+        #if {$tellu_mode_running} {
+            #nop load_next_zone;
+        };#else {
+            #nop var autowalk 0;
+            #show <131>Tellurian Bot Stopped - <tellu start> to run again;
+            #var destination {};
+        }
+    };
+    #else {
+        #if {$botPositive!=1} {
+            tellu_debug {<131>NO POSITIVE TARGETS};
+            find_next_move;
+        };
+        #else {
+            #if { ($botNegative>0) || ($tellu_mobs_in_room>1) } {
+                tellu_debug {<131>BAD GUYS OR TOO MANY MOBS};
+                find_next_move;
+            };
+            #else {
+                tellu_debug {<132>EVALUATE ROOM - ONLY ONE GOOD TARGET};
+                #if {@verifyTelluZone{}} {
+                    tellu_debug {<132>ROOM VERIFIED - KILL TARGET};
+                    #var tellu_bot_state kill;
+                    #if {"$tellu_mode"=="normal"} { 
+                        #if {$marktarget} {: marks $tellu_target};
+                        #if {$killtarget} {kill $tellu_target};
+                    };#elseif {"$tellu_mode"=="clear"} { 
+                        #if {$marktarget} {: marks $tellu_target};
+                        #if {$killtarget} {kill $tellu_target};
+                    };
+                    #delay 5 {#if {$cur_opponents==0} {tellu_debug {<132>COMBAT DIDNT START - MOVE ON};find_next_move} {tellu_debug {<131>Combat started}}}
+                };#else {
+                    #show {<131>ROOM NOT VERIFIED - DONT KILL TARGET};
+                    tellu stop;
+                }
+            }
+        };
+    }
+}    
+
+#alias find_next_move {
+    tellu_debug {<147>FIND NEXT MOVE CALLED};
+    #var tellu_bot_state search;
+    #if { ($destination==$cur_room_vnum) && ($cur_room_vnum!=$hub) } {
+        tellu_debug {<147>At destination: REMOVE CURRENT DESTINATION - LOAD NEXT DESTINATION};
+        #if { &waypoints[$tellu_zone][]>0 } { #list waypoints[$tellu_zone] delete 1 };
+        load_route;
+    }; #elseif {$destination>0} {
+        tellu_debug {<147>FIND PATH TOWARDS MOVE: $destination};
+        load_route;
+    }; #elseif {$destination==0} {
+        tellu_debug {<147>RETURN TO HUB};
+        #list waypoints[$tellu_zone] clear;
+        #list waypoints[$tellu_zone] add $hub;
+        load_route;
+    }; #else {
+        tellu_debug {<147>No destination};
+        #nop
+    };
+}
+
+
+#alias load_next_zone {
+    #math timesincelastzone { $MSDP_UPTIME - $lastzonetime };
+    #var lastzonetime $MSDP_UPTIME;
+    #var last_move_time $MSDP_UPTIME;
+    tellu_debug {<172>LOAD NEXT ZONE CALLED - time since last zone: $timesincelastzone};
+    #if {$timesincelastzone>$zonechange_needed_delay} {
+        #if { ("$tellu_mode"=="normal") || ("$tellu_mode"=="clear") } {
+            #math tellu[zindex] {$tellu[zindex]+1};
+            #if {$tellu[zindex] <= &tellu[zone][]} { };
+            #else { 
+                #var tellu[zindex] 1 
+            };
+        };#elseif {"$tellu_mode"=="clear"} {
+            #math tellu[zindex] {$tellu[zindex]+1};
+            #if {$tellu[zindex] <= &tellu[contains_mage][]} { };
+            #else { 
+                #var tellu[zindex] 1 
+            };
+        };
+        #var tellu_zone $tellu[zone][$tellu[zindex]];
+        #var waypoints {};
+        #var waypoints[north] {34504,34500,34520,34521,34506,34507,34522,34523,34508,34509,34595,34595};
+        #var waypoints[west] {34525,34545,34549,34544,34541,34536,34539,34534,34531,34526,34595,34595};
+        #var waypoints[east] {34574,34554,34550,34555,34558,34563,34560,34565,34568,34573,34595,34595};
+        #list waypoints[$tellu_zone] explode {,};
+        #var zonechange_delay $zonechange_delay_orig;
+        #if {&need_summons[]>0} {
+            #var last_move_time $MSDP_UPTIME;
+            nco tellu_summon;
+            #math zonechange_delay {$zonechange_delay_orig + (4*&need_summons[])};
+        };
+        updategroupname;
+        #nop tellu stats;
+        #show \n<107>NEXT TELLU ZONE: <acf>[$tellu[zindex]:&tellu[zone][]] $tellu_zone<107>  steps: <acf>&waypoints[$tellu_zone][];
+        #show <107>LAST ZONE TOOK <acf>$timesincelastzone s<107>, with <acf>$lastzonekills kills<107>. NOW TAKING A <acf>$zonechange_delay s<107> BREAK TO SORT SUMMON ETC.;
+        ponder;
+        #var lastzonekills 0;
+        #delay $zonechange_delay load_route;
+    }
+}
+
+
+#alias load_route {
+    tellu_debug {<132>LOAD ROUTE CALLED};
+    #var tellu_bot_state search; 
+	#list waypoints[$tellu_zone] get 1 destination;
+    #map find $destination;
+    #path get length path_length;
+    tellu_debug {<132>We are in $tellu_zone  Current: $cur_room_vnum  Destination: $destination Path:$path_length};
+    #if {$path_length==0} {
+        #list waypoints[$tellu_zone] delete 1;
+        find_next_move;
+    };
+    #elseif {$autowalk} {
+        tellu_debug {<132>Can we move? @can_group_move{}};
+        #if { (@can_group_move{}) && ("$tellu_bot_state"!="kill")} {
+            #var tellu_bot_state move;
+            #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
+            #var last_move_time $MSDP_UPTIME;
+            #if {$tellu_room_debug} {#show \n<174>MOVE CALLED};
+            queueAdd move {#path w}
+        };#else {
+            #var tellu_bot_state stuck;
+            #format char_entangled %l $char_entangled;
+            #if { ("$char_entangled"!="") } {
+                gt &08all chop $char_entangled&--;
+                #var char_entangled {};
+            };
+        };
+    };
+    tellu_bot_info
+}
+
+#var showticker 0;
+#ticker {restartwalker} {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {#map get roomvnum cur_room_vnum};
+    #map move $cur_room_vnum;
+    #if { ($tellu_mode_running) && ($cur_room_vnum!=$hub) } {
+        #math time_since_last_move { $MSDP_UPTIME - $last_move_time };
+        #if {$tellu_debug} {#show \n<175>Ticker called: msdp:$MSDP_ROOM_VNUM cur:$cur_room_vnum last:$time_since_last_move allow:$autowalk_allowed_downtime};
+        #if { ($autowalk) && ($time_since_last_move>$autowalk_allowed_downtime) && ($cur_opponents==0) } {
+            #if {$showticker} {#show \n<175>Stuck $time_since_last_move s continue move};
+            #var tellu_bot_state search;
+            find_next_move
+        }
+    }
+} {5}
+
+#alias resetmap {
+    #if {"$MSDP_ROOM_VNUM"=="?"} {
+        #map get roomvnum cur_room_vnum;
+        tellu_debug {<143>MAP ENTER EVENT: GOT FROM MAP $cur_room_vnum}
+    }; #else {
+        #var cur_room_vnum $MSDP_ROOM_VNUM;
+        tellu_debug {<143>MAP ENTER EVENT: GET FROM MSDP $cur_room_vnum};
+    };
+    #map move $cur_room_vnum;
+}
+
+
+
+
+#NOP #######################################################
+#NOP Zone vars, actions
+#NOP #######################################################
+
+#var tellu[zindex] 0;
+#var tellu[zone] {west,north,east};
+#list tellu[zone] explode {,};
+
+#alias eval_mobs_in_room {
+    #var tellu_mob_in_room %1;
+    #math tellu_mobs_in_room {$tellu_mobs_in_room + $tellu_mob_in_room};
+    #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_target} 
+        {
+            #if {$tellu_mob_in_room>1} {
+                #show <171> [$tellu_mob_in_room] TRUE - $tellu_mode $cur_room_vnum;#var botPositive $tellu_mob_in_room
+            }; #else {
+                #show <172> [$tellu_mob_in_room] TRUE - $tellu_mode $cur_room_vnum;#var botPositive $tellu_mob_in_room
+            };
+        }
+        {#show <131> [$tellu_mob_in_room] FALSE - $tellu_mode $cur_room_vnum;#var botNegative $tellu_mob_in_room} 
+}
+
+#function verifyTelluZone {
+    #var tellu_zone_correct 0;
+    #if { ("$tellu_zone"=="north") && ($cur_room_vnum<=34524) } {#var tellu_zone_correct 1};
+    #if { ("$tellu_zone"=="east") && ($cur_room_vnum>=34550) } {#var tellu_zone_correct 1};
+    #if { ("$tellu_zone"=="west") && ($cur_room_vnum>=34525) && ($cur_room_vnum<=34549) } {#var tellu_zone_correct 1};
+    #return $tellu_zone_correct
+}
+
+
+#NOP #######################################################
+#NOP Mob vars, actions
+#NOP #######################################################
+#var botPostitive 0;
+#var botNegative 0;
+#var tellu_mobs_in_room 0;
+
+#var tell_mobs[east][normal][Forest] {"snap", "scarab", "wolf"};
+#var tell_mobs[east][normal][Desert] {"topiary", "snap", "wolf"};
+#var tell_mobs[east][normal][Tundra] {"scarab", "topiary"};
+#var tell_mobs[east][clear][Forest] {"tree", "topiary"};
+#var tell_mobs[east][clear][Desert] {"scarab"};
+#var tell_mobs[east][clear][Tundra] {"wolf", "snap"};
+
+#var tell_mobs[west][normal][Forest] {"snap", "topiary", "wolf"};
+#var tell_mobs[west][normal][Desert] {"scarab", "topiary"};
+#var tell_mobs[west][normal][Tundra] {"scarab", "snap", "wolf"};
+#var tell_mobs[west][clear][Forest] {"scarab"};
+#var tell_mobs[west][clear][Desert] {"wolf", "snap"};
+#var tell_mobs[west][clear][Tundra] {"tree", "topiary"};
+
+#var tell_mobs[north][normal][Forest] {"scarab", "topiary"};
+#var tell_mobs[north][normal][Desert] {"snap", "scarab", "wolf"};
+#var tell_mobs[north][normal][Tundra] {"topiary", "snap", "wolf"};
+#var tell_mobs[north][clear][Forest] {"wolf", "snap"};
+#var tell_mobs[north][clear][Desert] {"tree", "topiary"};
+#var tell_mobs[north][clear][Tundra] {"scarab"};
+
+#var tellu_stats[average_kill_time] 0;
+#var tellu_stats[revive] 0;
+#var tellu_stats[fury] 0;
+#var tellu_stats[prudent] 0;
+#var tellu_stats[scarab-kin] 0;
+#var tellu_stats[topiary] 0;
+#var tellu_stats[tundra-snap] 0;
+
+
+#nop LOWER FLOOR
+#action {A large, glowing scarab stands here in a defensive posture.%1} {#var tellu_target scarab;eval_mobs_in_room @mob_count{"%1"}}
+#action {A large wolf, with icy-blue fur stands here observing.%1} {#var tellu_target wolf;eval_mobs_in_room @mob_count{"%1"}}
+#action {An extremely stout tree stands here, wavering slowly.%1} {#var tellu_target topiary;eval_mobs_in_room @mob_count{"%1"}}
+#action {A Tellurian scarab-kin is here looking alert.%1} {#var tellu_target scarab;eval_mobs_in_room @mob_count{"%1"}}
+#action {A Tellurian tundra-snap is here looking alert.%1} {#var tellu_target wolf;eval_mobs_in_room @mob_count{"%1"}}
+#action {A Tellurian topiary is here looking alert.%1} {#var tellu_target topiary;eval_mobs_in_room @mob_count{"%1"}}
+
+#action {a Tellurian blood-mage begins searching their sector for those responsible for the carnage.} {#show <143>Mage has spawn}
+
+#action {A Tellurian blood-mage is hovering here.} {#var tellu_target mage;#if {$killtarget} {kill $tellu_target};#if {$marktarget} {: marks $tellu_target};#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
+#action {A visibly experienced mage stands here, protecting Telluria.} {#var tellu_target mage;#if {$killtarget} {kill $tellu_target};#if {$marktarget} {: marks $tellu_target};kill mage;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {dmagic mage};#if { ("$MSDP_CLASS"=="Paladin") } {glory mage}}
+#action {A Tellurian blood-mage is dead!  R.I.P.} {
+    send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110> Killed <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>;
+    tellu_mob_dead
+}
+
+#action {A terrifying scream pierces the ears as GRODAN emerges from his slumber!} {#show <143>UPPER FLOOR OPEN;#delay 2 {tellu stop}}
+
+
+#nop UPPER FLOOR
+#action {A Tellurian fury is hovering here.} {#var tellu_target fury;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
+
+#action {A Tellurian elder is hovering here.} {#var tellu_target elder;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if {$marktarget} {: marks $tellu_target}}
+
+#action {A visage of Grodan is hovering here.} {#var tellu_target grodan;#if {$marktarget} {: marks $tellu_target}}
+
+#action {Grodan is here looking alert.} {#var tellu_target grodan;#if { ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Prophet")} {#var bot[damage][single] dmagic};#if { ("$MSDP_CLASS"=="Paladin") } {#var bot[damage][single] glory}}
+
+#action {Grodan shivers as three visages of himself re-appear and scatter to the edges of the realm.} {#show <143>Grodan loads visages MIRACLE GROUP}
+
+#action {Grodan gleams as the remaining elders infuse him with their life essence.} {#show <131>STILL ELDERS ALIVE, MIRACLE!!!}
+#action {Grodan glimmers as the remaining visages infuse him with their life essence.} {#show <131>VISAGES SPAWNED, MIRACLE!!!}
+
+#action {All of Telluria shakes and rumbles as the ground shifts.} {#var tellu_mode normal;gt &08ZONE RESET&--}
+
+
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body!'} {
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[revive] @increment{$tellu_stats[revive]};
+    #var lastkilltime $MSDP_UPTIME;
+    #show <172>GOOD KILL [%1] [%3] [$tellu_zone];
+    tellu_mob_dead
+};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3 shall revive my body, and {fuel |}my FURY!'} {
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[fury] @increment{$tellu_stats[fury]};
+    #var lastkilltime $MSDP_UPTIME;
+    #show <Bfca><F000>FURY KILL [%1] [%3] [$tellu_zone];
+    tellu_mob_dead
+};
+#action {A Tellurian %1 says, 'Ahh, yes.%2The %3, a prudent resting place.'} {
+    #var tellu_stats[%1] @increment{$tellu_stats[%1]};
+    #var tellu_stats[prudent] @increment{$tellu_stats[prudent]};
+    #var lastkilltime $MSDP_UPTIME;
+    #show <131>VERY BAD KILL [%1] [%3] [$tellu_zone];
+    send_to_comms_session <170>Tellurian(<110>$cur_room_vnum<170>) $tellu_mode <110>BAD KILL on <110>%1<170>  Zone/Terrain:<110>$tellu_zone/$MSDP_ROOM_TERRAIN<170>  <110>$mob_entrance<170>;
+    #if {"$tellu_mode"=="normal"} {
+        gt &08bad kill - %1 - $mob_entrance&--;
+        #var mob_entrance {};
+    };
+    tellu_mob_dead
+};
+
+
+#action {A Tellurian %1 comes to a Tellurian %2's aid.} {safetokill {%1} {%2} {} {JOINED}}
+#action {A Tellurian %1 arrives from the %2.} {safetokill {%1} {} {%2} {ARRIVES}}
+
+#action {A Tellurian %1 utters the words 'unsohaiorz'} {#nop}
+#action {A Tellurian %1 steps out of the shadows.} {#nop}
+#action {A Tellurian fury steps out of the shadows.} {#nop}
+
+#alias safetokill {
+    #nop %1 joiner, %2 aided, %3 direction, %4 action ;
+    #var mob_entrance {};
+    #nop show \n<129>>%1< >%2< >%3< >%4<;
+    #switch {"%1"} {
+        #case {"tundra-snap"} {#var tellu_joiner wolf};
+        #case {"topiary"} {#var tellu_joiner topiary};
+        #case {"scarab-kin"} {#var tellu_joiner scarab};
+    };
+    #regexp {$tell_mobs[$tellu_zone][$tellu_mode][$MSDP_ROOM_TERRAIN]} {$tellu_joiner} 
+    {
+        #nop MOB in safe room;
+        #if {"%4"=="JOINED"} {
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} {
+                gt &08safe kill, $tellu_joiner joined %2&--;
+            } 
+            {
+                #show <129>$tellu_joiner JOINED %2, SAFE kill
+            };
+        };#else {
+            #show \n<129>$tellu_joiner ARRIVED from %3, SAFE KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN]
+        }
+    }
+    {
+        #nop MOB in BAD room;
+        #action {Looks like its not quite a Tellurian %1's bedtime.} {zzz %1};
+        #if {"%4"=="JOINED"} {
+            #var mob_entrance joiner;
+            #if {"@group_leader{}"=="$MSDP_CHARACTER_NAME"} 
+                {
+                    gt &08BAD kill, $tellu_joiner joined %2&--;
+                    #nop if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
+                } 
+                {
+                    #show <131>$tellu_joiner JOINED %2, POTENTIAL BAD kill;
+                    #nop if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Wizard") || ("$MSDP_CLASS"=="Necromancer") } {gt &08all $MSDP_CHARACTER_NAME zzz $tellu_joiner&--};
+                };
+        };#else {
+            #show <131>$tellu_joiner ARRIVED from %3, POTENTIAL BAD KILL - [$tellu_zone]  [$tellu_mode]  [$MSDP_ROOM_TERRAIN];
+            #nop delay 2 {gt &08all zzz $tellu_joiner&--}
+        }
+    };
+    #var tellu_joiner {};
+}
+
+
+#NOP #######################################################
+#NOP Utilities
+#NOP #######################################################
+#alias tellu_debug {#if {$tellu_debug} {#show %1}}
+
+#action {is now a member of your group} {gt Welcome, please make sure not to use aoe (weapon/skills)} {4}
+
+
+#action {^%1 chops up the vines entangling %2.} {
+    #format char_entangled %l $char_entangled;
+    #if { ("$char_entangled"!="") && ("%2"=="$char_entangled") } {
+        #var char_entangled {}
+    };
+    #delay {2} {nco room_clear;find_next_move}
+};
+
+#action {^%1 tells you, 'sum me'} {
+    #regexp {$need_summons} {%1} 
+    {#show Already added} 
+    {#show Add to summon;tell %1 Your summon request has been queued.. please wait;#format sumname %l %1;#list need_summons add $sumname};
+} 
+{2}
+
+#alias tellu_summon {
+    #if {&need_summons[]>0} {
+        #loop 1 &need_summons[] {id} {
+            gt &08all sum $need_summons[$id]&--;
+            #nop gt all portal $need_summons[$id];
+            #if { ("$MSDP_CLASS"=="Prophet") || ("$MSDP_CLASS"=="Templar") || ("$MSDP_CLASS"=="Necromancer") } {sum 0.$need_summons[$id]};
+            #if {"$MSDP_CLASS"=="Wizard"} {portal 0.$need_summons[$id]}
+        };
+        #var need_summons {};
+    }
+}
+
+#alias updategroupname {
+    #var groupsize &MSDP_GROUP[];
+    #if {$oldgroupsize!=$groupsize} {
+        #math groupsizefree {9-$groupsize};
+        #if {$groupsizefree==1} 
+            {
+                    #show <143>Tellurian: $groupsizefree open spot;
+                    groupname &01Paragon&-- Tellu: $groupsizefree spots;
+            } 
+            {
+                #show <143>Tellurian: $groupsizefree open spots;
+                groupname &01Paragon&-- Tellu: $groupsizefree spotsM
+            }
+    };
+    #var oldgroupsize $groupsize;
+}
+
+
+#function visualizeOdometer {
+    #var odobar {};
+    #local _temp_odo_bar $_meter[KILLS];
+    #list _temp_odo_bar sort;
+    #list _temp_odo_bar reverse;
+    #local _temp_odo_bar_max $_temp_odo_bar[0];
+
+    #loop 1 &_meter[KILLS][] id {
+        #math _odo_bar_current { @pct{$_meter[KILLS][$id];$_temp_odo_bar_max} };
+        #format _odo_bar_current {%d} {$_odo_bar_current};
+        #if {$MSDP_WORLD_TIME != $id} {
+            #cat odobar {@colorPctBlock{$_odo_bar_current}}
+        };#else {
+            #cat odobar {<bffffff><f000000>■}
+        }
+    };
+    #cat odobar {<B538d87>};
+    #return $odobar
+}
+
+
+event_register {variable cur_room_vnum} {right} {tellu_bot_info};
+#alias tellu_bot_info {
+	#if $tellu_mode_running {
+        #format tellu_bot_info[1] {<B538d87><Fffffff>Zone:<Fd5d8d6>%-5s<Fffffff> (<Fd5d8d6>%-6s<Fffffff>) WayP:<Fd5d8d6>%-5s<Fffffff> (<Fd5d8d6>4<Fffffff>)} {$tellu_zone} {$tellu_mode} {$destination} {&waypoints[]};
+        #format tellu_bot_info[2] {<B538d87><Fffffff>Delays Walk:<Fd5d8d6>%-5s<Fffffff> Death:<Fd5d8d6>%s<Fffffff> Zone:<Fd5d8d6>%s<Fffffff>} {$autowalk_delay} {$death_delay} {$zonechange_delay};
+        #format tellu_bot_info[3] {<B538d87><Fffffff>Lastmove <Fd5d8d6>%-2s<Fffffff> Allowed:<Fd5d8d6>35<Fffffff>} {$time_since_last_move} {$autowalk_allowed_downtime};
+        #format tellu_bot_info[4] {<B538d87><Fffffff>Prudent:<Fd5d8d6>%s<Fffffff> Revive:<Fd5d8d6>%s<Fffffff> Fury:<Fd5d8d6>%s<Fffffff>} {$tellu_stats[prudent]} {$tellu_stats[revive]} {$tellu_stats[fury]};
+        #format tellu_bot_info[5] {<B538d87><Fffffff>Odometer: %s} {@visualizeOdometer{}};
+    };
+	#else {
+        #list tellu_bot_info clear;
+        #format tellu_bot_info[1] {<B538d87><Fffffff>Tellu Bot Offline};
+	};
+    #if {@is_alias{display_right_tiles}} {display_right_tiles};
+}
