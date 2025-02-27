@@ -1254,6 +1254,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {%1 doesn't have a normal hamstring.} {ba}
 
 
+
+#NOP #######################################################
+#NOP Exploring
+#NOP #######################################################
+#highlight {You get a bad feeling about going that way.} {red reverse}
+#action {You get a bad feeling about going that way.} {pfd}
+
 #NOP #######################################################
 #NOP Waves of War
 #NOP #######################################################
