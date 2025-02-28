@@ -1,0 +1,278 @@
+#nop --
+#nop Class Definitions
+#nop --
+
+#var kallisti/autoheal-description {Handle character bufs automatically}
+#var kallisti/autoheal-help {Automatically heal group or player.}
+
+#nop --
+#nop Modloader Stuff
+#nop --
+
+#alias kallisti/autoheal-register {
+	#if {@isloaded{queues}} {
+		register_module kallisti/autoheal
+	} {
+		fail_module kallisti/autoheal Need queues module
+	}
+}
+
+init healpct preferences 60
+init refreshpct preferences 45
+init refreshManaThreshold preferences 90
+init toggle[cure] preferences off
+init syphonpct 60
+init toggle[autosyphon] preferences off
+initlist healBlack preferences
+initlist refreshBlack preferences
+
+
+
+
+event_register {variable MSDP_GROUP} {autoheal} {autoheal};
+event_register {variable MSDP_HEALTH} {autoheal} {autoheal};
+event_register {variable MSDP_STAMINA} {autoheal} {autoheal};
+
+#var healpct_heal 80;
+#var healpct_powerheal 50;
+#var healpct_fullheal 20;
+#var trigger_groupheal 3;
+
+#function pickHealMethod {
+    #var need_healing 0;
+    #var need_heal 0;
+    #var need_powerheal 0;
+    #var need_fullheal 0;
+    #foreach *MSDP_GROUP[%*] {_tmp} {
+        #show $MSDP_GROUP[$_tmp][name] $MSDP_GROUP[$_tmp][health]; 
+        #if {$MSDP_GROUP[$_tmp][health] <= $healpct_fullheal} {
+            #math need_healing {$need_healing+1};
+            #math need_fullheal {$need_fullheal+1};
+        };
+        #if { ($MSDP_GROUP[$_tmp][health] > $healpct_fullheal) && ($MSDP_GROUP[$_tmp][health] < $healpct_powerheal) } {
+            #math need_healing {$need_healing+1};
+            #math need_powerheal {$need_powerheal+1};
+        };
+        #if { ($MSDP_GROUP[$_tmp][health] > $healpct_powerheal) && ($MSDP_GROUP[$_tmp][health] < $healpct_heal) } {
+            #math need_healing {$need_healing+1};
+            #math need_heal {$need_heal+1};
+        };
+    };
+    #show <131>Group:[&MSDP_GROUP[]] Needhealing:[$need_healing]   FullHeal<0-$healpct_fullheal> [$need_fullheal]  PowerHeal<$healpct_fullheal-$healpct_powerheal> [$need_powerheal]   Heal<$healpct_powerheal-$healpct_heal> [$need_heal];
+    #if {$need_fullheal>0} {
+        #show <131>Recommendation: FULLHEAL
+    };
+    #if {$need_powerheal>0} {
+        #show <131>Recommendation: POWERHEAL
+    };
+    #if {$need_heal>0} {
+        #show <131>Recommendation: HEAL
+    };
+    #if {$need_heal>2} {
+        #show <131>Recommendation: GROUPHEAL
+    };
+}
+
+#alias pheal {
+    #if { ("$MSDP_CLASS" == "Prophet") || ("$MSDP_CLASS" == "Templar") } {queueAdd heal phea %1};
+    #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {queueAdd heal hea %1};
+    #if { ("$MSDP_CLASS" == "Valkyrie") } {queueAdd heal wio %1};
+    #if { ("$MSDP_CLASS" == "Paladin") } {queueAdd heal layh %1};
+}
+
+#alias {autoheal} {
+    #nop %0;
+    #if {&MSDP_GROUP[] == 0} {
+        #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} < $healpct} {
+            queueAdd heal {pheal}
+        };
+        #if { (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}) < $refreshpct } {
+            queueAdd any {refresh}
+        };
+    };
+    #foreach *MSDP_GROUP[%*] {_tmp} {
+        #if {@healBlacklist{$MSDP_GROUP[$_tmp][name]} > 0} {#continue};
+        #if {$MSDP_GROUP[$_tmp][health] < $healpct } {
+            #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
+                #nop TODO - this should be the chosen heal/fheal/layhands method;
+                #if { ("$MSDP_CLASS" == "Prophet") || ("$MSDP_CLASS" == "Templar") } {queueAdd heal {phea $MSDP_GROUP[$_tmp][name]}};
+                #if { ("$MSDP_CLASS" == "Valkyrie") } {queueAdd heal {wio $MSDP_GROUP[$_tmp][name]}};
+                #if { ("$MSDP_CLASS" == "Paladin") } {queueAdd heal {layh $MSDP_GROUP[$_tmp][name]}};
+                #if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Priest") } {
+                    #if {&{_queue[heal][]}>=$trigger_groupheal} {
+                        #show <131>Group heal triggered;
+                        #list {_queue[heal]} clear;
+                        queueAdd heal {heal group};
+                    };#else {
+                        queueAdd heal {heal $MSDP_GROUP[$_tmp][name]};
+                    }
+                };
+            }
+        };
+        #if { ($MSDP_GROUP[$_tmp][stamina] < $refreshpct) && ($cur_opponents<1) } {
+            #if {$MSDP_MANA > $refreshManaThreshold} {
+                show_debug {STAMINIA  $MSDP_GROUP[$_tmp][name]  $MSDP_GROUP[$_tmp][stamina]};
+                #if {@refreshBlacklist{$MSDP_GROUP[$_tmp][name]}} {
+                    #nop
+                } {
+                    #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
+                        #nop -- temporarily jack up the stamina to prevent double casing;
+                        #var MSDP_GROUP[$_tmp][stamina] 101;
+                        queueAdd any {refresh $MSDP_GROUP[$_tmp][name]};
+                    }
+                }
+            }
+        };
+        #regex {$MSDP_GROUP[$_tmp][flags]} {Deaf} {
+            #if {$MSDP_GROUP[$_tmp][with_you] == 1} {
+                #if {"$reverb" == "on"} {
+                    nco reverb $MSDP_GROUP[$_tmp][name]
+                }
+            }
+        };
+        #regex {$MSDP_GROUP[$_tmp][flags]} {Paralyze} {
+            #if {"$toggle[CURE]" == "on" && $MSDP_GROUP[$_tmp][with_you]} {queueAdd any cure $MSDP_GROUP[$_tmp][name]}
+        };
+        #regex {$MSDP_GROUP[$_tmp][flags]} {Poisoned} {
+            #if {"$toggle[CURE]" == "on" && $MSDP_GROUP[$_tmp][with_you]} {queueAdd any cure $MSDP_GROUP[$_tmp][name]}
+        };
+        #regex {$MSDP_GROUP[$_tmp][flags]} {Blind} {
+            #if {"$toggle[cure]" == "on" && $MSDP_GROUP[$_tmp][with_you]} {queueAdd any cure $MSDP_GROUP[$_tmp][name]}
+        }
+    };
+    #if {"$mount_heal" == "on"} {
+        #if {$MSDP_MOUNT_HEALTH_MAX > 0} {
+            #if {@pct{$MSDP_MOUNT_HEALTH;$MSDP_MOUNT_HEALTH_MAX} < 50} {
+                queueAdd heal {fheal $mount}
+            }
+        };
+    };
+    
+}
+
+#action {^A feeling of energy fills you, fighting off the weariness you felt only a moment ago. (%d refreshed)} {
+    #nop
+}
+
+#function refreshBlacklist {#list {refreshBlack} {find} {%1} {result}}
+#function healBlacklist {#list {healBlack} {find} {%1} {result}}
+
+#tab refreshblack
+#alias refreshblack {
+    #switch {"%1"} {
+        #case {"add"} {
+            #list refreshBlack add %2;
+            warn autoheal Added %2 to refresh blacklist
+        };
+        #case {"del"} {
+            #list refreshBlack find %2 _idx;
+            #if {$_idx > 0} {
+                #list refreshBlack delete $_idx;
+                warn autoheal Removed %2 from refresh blacklist at index $_idx
+            } {
+                warn autoheal %2 not in refresh blacklist
+            }
+        };
+        #case {"show"} {
+            #var refreshBlack
+        };
+        #default {
+            warn autoheal Please use 'refreshblack <add|del|show> [name].  Remember this is case sensitive;
+        }
+    }
+    _preferences_save
+}
+
+#tab healblack
+#alias healblack {
+    #switch {"%1"} {
+        #case {"add"} {
+            #list healBlack add %2;
+            warn autoheal Added %2 to heal blacklist
+        };
+        #case {"del"} {
+            #list healBlack find %2 _idx;
+            #if {$_idx > 0} {
+                #list healBlack delete $_idx;
+                warn autoheal Removed %2 from heal blacklist at index $_idx
+            } {
+                warn autoheal %2 not in heal blacklist
+            }
+        };
+        #case {"show"} {
+            #var healBlack
+        };
+        #default {
+            warn autoheal Please use 'healblack <add|del|show> [name]'.  Remember this is case sensitive;
+        }
+    }
+    _preferences_save
+}
+
+#ticker autosyp {#if { "$MSDP_CLASS" != "Prophet" } {#unticker autosyp};#if { ("$toggle[autosyphon]" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {autosyphon}} {10}
+
+#tab autosyphon
+#alias {autosyphon} {
+    #show {<134>Run autosyphon: Current: [@pct{$MSDP_MANA;$MSDP_MANA_MAX}] Syphonpct: [$syphonpct]};
+    #if { ("$toggle[autosyphon]" =="on") && (@pct{$MSDP_MANA;$MSDP_MANA_MAX} < $syphonpct) } {
+        #variable syphonlist {};
+        #foreach *MSDP_GROUP[%*] {_tmp} {
+            show_debug {<135>TESTING: [$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   [$MSDP_GROUP[$_tmp][mana]] -    [$prio]};
+            #if { ("$MSDP_GROUP[$_tmp][name]" != "$MSDP_CHARACTER_NAME") && ("$MSDP_GROUP[$_tmp][class]" != "DRU") && ("$MSDP_GROUP[$_tmp][class]" != "NEC") && ("$MSDP_GROUP[$_tmp][class]" != "BAR") } {
+                #if { ($MSDP_GROUP[$_tmp][level]>65) && ($MSDP_GROUP[$_tmp][mana]>50) } {
+                    #math prio {$MSDP_GROUP[$_tmp][level]*$MSDP_GROUP[$_tmp][mana]};
+                    #switch {"$MSDP_GROUP[$_tmp][class]"} {
+                        #case {"WIZ"} {
+                            #var priocategory 4;
+                        };
+                        #case {"PRO"} {
+                            #var priocategory 4;
+                        };
+                        #case {"TEM"} {
+                            #var priocategory 4;
+                        };
+                        #case {"BRD"} {
+                            #var priocategory 3;
+                        };
+                        #case {"PAL"} {
+                            #var priocategory 2;
+                        };
+                        #case {"VAL"} {
+                            #var priocategory 2;
+                        };
+                        #case {"DEM"} {
+                            #var priocategory 1;
+                        };
+                        #case {"MON"} {
+                            #var priocategory 1;
+                        };
+                        #case {"SAM"} {
+                            #var priocategory 1;
+                        };
+                    };
+                    show_debug {<134>MADE THE LIST: [$MSDP_GROUP[$_tmp][name]]  [$MSDP_GROUP[$_tmp][class]]   [$MSDP_GROUP[$_tmp][mana]] -    [$prio]};
+                    #list syphonlist[$priocategory] add $MSDP_GROUP[$_tmp][name];
+                };
+            };
+        };
+        #if {&{syphonlist[]}>0} {
+            #show <134>Autosyphon: @findsyphon{};
+            queueAdd priority {syphon @findsyphon{}}
+        }
+    };
+};
+
+#function findsyphon {
+	#if {&{syphonlist[]}>0} {
+		#if {"$syphonlist[1][1]"!=""} {#return $syphonlist[1][1]};
+		#if {"$syphonlist[2][1]"!=""} {#return $syphonlist[2][1]};
+		#if {"$syphonlist[3][1]"!=""} {#return $syphonlist[3][1]};
+		#if {"$syphonlist[4][1]"!=""} {#return $syphonlist[4][1]};
+	};
+	#else #return {}
+}
+
+
+
+
+

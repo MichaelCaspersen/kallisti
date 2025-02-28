@@ -1254,13 +1254,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {%1 doesn't have a normal hamstring.} {ba}
 
 
-
-#NOP #######################################################
-#NOP Exploring
-#NOP #######################################################
-#highlight {You get a bad feeling about going that way.} {red reverse}
-#action {You get a bad feeling about going that way.} {pfd}
-
 #NOP #######################################################
 #NOP Waves of War
 #NOP #######################################################
@@ -1538,7 +1531,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You grunt in frustration trying to chop up the vines entangling %1.} {nco chop %1}
 
 #action {You had better stand up first.} {stand;ride $bot[mount][name]}
-#action {picks you up by the neck} {gt THROWN;stand;ride $bot[mount][name]}
+#action {picks you up by the neck} {stand;ride $bot[mount][name]}
 
 #action {You are too high level to attack %1 right now (%2 was recently attacked by someone much lower than you).  Wait a few minutes and try again.} {cleartarget;smart_move}
 
