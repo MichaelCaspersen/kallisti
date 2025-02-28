@@ -261,6 +261,9 @@ init metaHero preferences 0
             book cargo;
             #delay 5 recall;
         };
+        #case {#VARIABLE {Mortal Residences} {
+            doMetaOrGain
+        }
         #default {
             recall;
             doMetaOrGain;
@@ -372,6 +375,7 @@ init metaHero preferences 0
         }
     };
     #if {"$return_zone"=="Tellurian"} {egress;8sw2se29s9w2sswswswdses4e;enter portal};
+    #if {"$return_zone"==""} {egress;remorttan};
     #if {"$return_zone"=="Profession"} {egress;remorttan};
 };
 
