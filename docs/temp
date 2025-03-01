@@ -364,7 +364,7 @@ prac toughness
 #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %1 levels;#if {%1==3} {gogain}}
 #alias {gogain} {#ticker crafcraf {breakout;drop all;get bolt;armorcraft bolt} 300;#unaction {You must also specify what material you want to use when armorcrafting.};egres;2s14w;enter tree;open door;w;with all;rem all;autometa}
 #action {The meta-sage tells you 'You don't have enough experience.'} {dep all;wear all;#ac {You must also specify what material you want to use when armorcrafting.} {drop all.robe;get all.bolt;armorcraft bolt};recall;visit house;e;armorcraft bolt}
-#action {^The meta-sage tells you 'Go level instead!'} {recall;visit house;with all;$guildpath;gain};gain;gain;gain;visit house;dep all;e;armorcraft bolt}
+#action {^The meta-sage tells you 'Go level instead!'} {#ac {You must also specify what material you want to use when armorcrafting.} {drop all.robe;get all.bolt;armorcraft bolt};recall;visit house;with all;$guildpath;gain;gain;visit house;dep all;e;armorcraft bolt}
 #tick crafcraf {breakout;drop all;get bolt;armorcraft bolt} 300
 
 #untick crafcraf
