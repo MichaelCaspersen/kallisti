@@ -372,7 +372,7 @@ prac toughness
 #ac {Created by: {Kruoill|HouseOfAnasasi|Valhalla|Eremitage}} {#var keepit 0}
 #ac {Minimum level:} {#if {$keepit} {#show KEEP IT;get robe;put robe $container$;exa robe} {#show SAC IT;get robe;sac robe;exa robe}} {1}
 
-#action {+%1 Rank in {Tanning|Butchering|Skinning|Tailoring|Carving|Cooking|Bonecrafting|Chirurgy|Weaving|Brewing|Gem cutting}} {#if %1==2 {{#var keepit 1}}}
+#action {+%1 Rank in {Tanning|Butchering|Skinning|Tailoring|Carving|Cooking|Bonecrafting|Chirurgy|Weaving|Brewing|Gem cutting}} {#if {%1==2} {#var keepit 1}}
 
 
 
