@@ -186,6 +186,7 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #action {You can't {skin|extract|butcher} a corpse from %1.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {$profession[str_corpse] $room_corpse_id.corpse}}}
 #action {You must also specify what you want to {skin|extract|butcher}.} {#var clearingroom 0;#var _queue[any] {}}
 
+#action {You chop down some %1 wood.} {#switch {"%2"} {#case {"junk"} { sac wood };#case {"junk"} { sac %3 };#default {donate wood home}}}
 
 
 #alias {do_gather} {
