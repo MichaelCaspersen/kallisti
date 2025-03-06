@@ -1353,6 +1353,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #alias scan_line_wilder {
+	#var gather_symbol {h};
 	#var line_id %1;
 	#var temp_line temp_buffer[$line_id];
 	#regexp $temp_line {{.*}@{.*}} {
@@ -1360,7 +1361,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#list temp_line_me explode {@};
 	} {
 		#show LINE NOT CONTAING ME;
-		#list temp_line_me explode {h};
+		#list temp_line_me explode {$gather_symbol};
 		#if {&temp_line[]>1} {
 			#math herbs_found {$temp_line_size -1};
 			#show We found $herbs_found herbs;
@@ -1369,9 +1370,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#show No herbs found in line;
 		}
 	};
-
 	
-	#list temp_line explode {h};
+	#list temp_line explode {$gather_symbol};
 	#list temp_line size temp_line_size;
 	#if {$temp_line_size>1} {
 		#show We found $temp_line_size -1 herbs;
