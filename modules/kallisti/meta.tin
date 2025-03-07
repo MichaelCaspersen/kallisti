@@ -261,7 +261,7 @@ init metaHero preferences 0
             book cargo;
             #delay 5 recall;
         };
-        #case {#VARIABLE {Mortal Residences} {
+        #case {Mortal Residences} {
             doMetaOrGain
         }
         #default {
