@@ -187,7 +187,7 @@
 
 
 
-#var wild_announce 1;
+#var wild_announce 0;
 #var wild_announce_format gt;
 #action {~^\e[22;37m\e[0;37m%1$} {
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
