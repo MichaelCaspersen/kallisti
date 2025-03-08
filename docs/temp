@@ -374,6 +374,9 @@ prac toughness
 #action {+%1 Rank in {Tanning|Butchering|Skinning|Tailoring|Carving|Cooking|Bonecrafting|Chirurgy|Weaving|Brewing|Gem cutting}} {#if {%1==2} {#var keepit 1}}
 
 
+#ticker {buycloth} {#10 {buy green;donate green home}} 4;
+#delay 2400 {#untick buycloth}
+
 
 #var refresher Kroll;
 #ac {You craft }{phyl bone}
