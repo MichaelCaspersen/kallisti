@@ -239,7 +239,7 @@ init metaHero preferences 0
             #action {You find yourself back in Midgaard City.} {
                 #unaction {You find yourself back in Midgaard City.};
                 2s2en;repa all;ses;repa all;n3w2n;
-                doMetaOrGain
+                doMetaOrGain-1
             };
             #action {You find yourself back in Gummton Outpost.} {
                 #unaction {You find yourself back in Gummton Outpost.};
@@ -263,7 +263,7 @@ init metaHero preferences 0
         };
         #case {Mortal Residences} {
             doMetaOrGain
-        }
+        };
         #default {
             recall;
             doMetaOrGain;
