@@ -1556,6 +1556,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #var needmetaat 3800000000;
 #var drain_corpses 0;
+#var allow_viscera 0;
 #var willskinif 50;
 #ACTION {%0 is dead!  R.I.P.} {
 	#if { ($profession[gather][auto]) && (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}>$willskinif) } { do_gather %0 };
@@ -1577,7 +1578,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#var bot[spellCorpse] {};
 			#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) } {#show <131>MANA LOW [@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain] - edrain;#var bot[spellCorpse] edrain};
 			#if { ($MSDP_LEVEL>=40) && (@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) || (@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<$necro_stamdrain) } {#show <131>HITS [@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain]  STAM [@pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX}<$necro_stamdrain] LOW - vdrain;#var bot[spellCorpse] vdrain};
-			#if { ($MSDP_LEVEL>=75) && (@gotFollowers{}>0) } {#show <131>FOLLOWERS HEAL ALL - viscera;#var bot[spellCorpse] viscera};
+			#if { ($MSDP_LEVEL>=75) && (@gotFollowers{}>0) && ($allow_viscera) } {#show <131>FOLLOWERS HEAL ALL - viscera;#var bot[spellCorpse] viscera};
 			show_debug {<131>Level[$MSDP_LEVEL]   Mana: @pct{$MSDP_MANA;$MSDP_MANA_MAX} $necro_manadrain     Life: @pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX} $necro_lifedrain    @pct{$MSDP_STAMINA;$MSDP_STAMINA_MAX} $necro_stamdrain   DECIDED SPELL: $bot[spellCorpse]};
 			#if {"$bot[spellCorpse]"!=""} {queueAdd priority $bot[spellCorpse] corpse}
 		};
