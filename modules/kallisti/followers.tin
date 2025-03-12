@@ -154,6 +154,8 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
     #class kallisti/followers assign #line oneshot #tick {recharm} {#class kallisti/followers assign #tick {charmm failer} {charm_group} {20}} {$cdelay}
 }
 
+#action {You lost concentration casting 'control undead.'} {nco controlundead group}
+
 #alias charm_group {
     #if {@groupAmILeader{}} {
         #switch {"$MSDP_CLASS"} {
