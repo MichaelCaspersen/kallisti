@@ -134,8 +134,9 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 
 #action {%1 (your follower) ('%2') is now a group member %3.} {#if { ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Ranger")} {friend group}}
 
+#var doCharmFollowerCounts 0;
 #action {^Renewing charm duration for %1 to %d hours.$} {
-	#if {$charmFollowerNr<$charmFollowerTotal} {
+	#if {$charmFollowerNr<$charmFollowerTotal && $doCharmFollowerCounts} {
 		#math charmFollowerNr {$charmFollowerNr+1};
 		#show NEXT CHARM $follower$charmFollowerNr;
 		#switch {"$MSDP_CLASS"} {
@@ -158,10 +159,10 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
         #switch {"$MSDP_CLASS"} {
             #case {"Druid"} {nco friend group};
             #case {"Ranger"} {nco friend group};
-            #case {"Wizard"} {#show <132>CHARM $follower$charmFollowerNr;nco charmm $follower$charmFollowerNr};
-            #case {"Prophet"} {#show <132>CHARM $follower$charmFollowerNr;nco charm $follower$charmFollowerNr};
-            #case {"Necromancer"} {#show <132>CONTROLUNDEAD $follower$charmFollowerNr;nco controlundead $follower$charmFollowerNr};
-            #case {"Demoniac"} {#show POSSESS $follower$charmFollowerNr;nco possess $follower$charmFollowerNr};
+            #case {"Wizard"} {nco charmm group};
+            #case {"Prophet"} {nco charm group};
+            #case {"Necromancer"} {nco controlundead group};
+            #case {"Demoniac"} {nco possess group};
             #default {err No recharm method for $MSDP_CLASS};
         };
     };
