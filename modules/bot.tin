@@ -1097,7 +1097,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
+
+-> paladin            [ 43%h 0%m 73%s  ]  Cursed >BASH< vs Lord Soth [ 41%h 95%s ]
 #action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {#if $bot[rescue] {queueAdd priority rescue %4}}
+#action {%0[%1h %7m %2s    ] %3 vs %4 [ %5h %6s ]} {#if $bot[rescue] {queueAdd priority rescue %4}}
 #action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {

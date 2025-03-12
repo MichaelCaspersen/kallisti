@@ -259,6 +259,7 @@ show_debug {MOVE IS EXECUTED - Queue is cleared};
         #case {"icestorm"} #var result 1000;
         #case {"animate"} #var result 4000;
         #case {"drain"} #var result 1000;
+        #case {"soulsyphon"} #var result 1000;
         #case {"vdrain"} #var result 4000;
         #case {"poke_target"} #var result 2000;
         #case {"hellstream"} #var result 1000;
