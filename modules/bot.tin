@@ -1406,6 +1406,20 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	};
 }
 
+#action {%1 arrives.} {
+	#if { ("$MSDP_AREA_NAME"="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
+		#case {"%1"} {
+			#case {"An orcish raider"} {
+				#show <131>ORCISH RAIDER ARRIVED;
+				dfog;
+			};
+			#default {
+				#show <131>ORCISH RAIDER ARRIVED - REFORMING GROUP;
+				reform kroil primary;
+			};
+		};
+	}
+}
 #action {You ravage %1 mana causing %2 to explode in pain. (%3 damage)} {stand}
 #action {of gold coins is lying here.} {get all.coins}
 
