@@ -1396,7 +1396,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #alias doWildenessCheck {
-	#if { ("$MSDP_AREA_NAME"="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
+	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
 		#if { (@whole_group_here{}==0) } { 
 			#show <131>MISSING GROUP MEMBER 
 		};
