@@ -475,6 +475,7 @@ init bot[rescue2] preferences off;
 			}
 		};
 	};
+	doWildenessCheck;
 	#math actionDelay {@mpoch{} - $spellLock};
 	generate_bot_info;
 	#if {@is_alias{tellu_bot_info}} {tellu_bot_info};
@@ -1332,7 +1333,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var getoutnow 0
 }
 
-
 #nop action {~%1\e[1;30m[ %2\e[1;30m]%3$} {#regexp {%2} {%dbashed%d} {#show <131>NPC} {#nop}}
 
 #action {~^\e[1;37m\e[1;37m\e[1;33m%1$} {#nop player}
@@ -1394,6 +1394,21 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	};
 	#return $necromana;
 }
+
+#alias doWildenessCheck {
+	#if { ("$MSDP_AREA_NAME"="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
+		#if { (@whole_group_here{}==0) } { 
+			#show <131>MISSING GROUP MEMBER 
+		};
+		#if { ("$MSDP_GROUP[1][name]"!="Kroil") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
+			reform kroil primary;
+		};
+	};
+}
+
+#action {You ravage %1 mana causing %2 to explode in pain. (%3 damage)} {stand}
+#action {of gold coins is lying here.} {get all.coins}
+
 
 #var necro_skin_mana 50;
 
