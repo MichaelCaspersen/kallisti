@@ -1411,7 +1411,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#case {"%1"} {
 			#case {"An orcish raider"} {
 				#show <131>ORCISH RAIDER ARRIVED;
-				dfog;
+				soulsyphon orc;
 			};
 			#default {
 				#show <131>ORCISH RAIDER ARRIVED - REFORMING GROUP;
