@@ -1099,7 +1099,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 
-#action {%0[%1h %7m %2s ] %3 vs %4 [ %5h %6s ]} {#show <131>%4;#if $bot[rescue] {#regexp {%4} {LeRot's {.*} guard} {queueAdd priority rescue &1} {queueAdd priority rescue %4}}} {4}
+#action {%0[%1h %7m %2 ] %3 vs %4 [ %5h %6s ]} {#if $bot[rescue] {#var rescuetarget %4;#regexp {%4} {LeRot's {.*} guard} {#var rescuetarget &1};#if {"%4"=="Lord Soth"} {#var rescuetarget soth};#show <131>%4 - $rescuetarget;queueAdd priority rescue $rescuetarget}} {4}
 #action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {#show <131>%4;#if $bot[rescue] {queueAdd priority rescue %4}} {5}
 #action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
 
