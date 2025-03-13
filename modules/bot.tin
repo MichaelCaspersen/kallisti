@@ -1401,7 +1401,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#show <131>MISSING GROUP MEMBER 
 		};
 		#if { ("$MSDP_GROUP[1][name]"!="Kroil") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
-			nco {reform kroil primary};
+			nco reform kroil primary;
 		};
 	};
 }
