@@ -142,7 +142,6 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 		#switch {"$MSDP_CLASS"} {
 			#case {"Wizard"} {nco charmm $follower$charmFollowerNr};
 			#case {"Prophet"} {nco charm $follower$charmFollowerNr};
-			#case {"Necromancer"} {nco controlundead $follower$charmFollowerNr};
 			#case {"Demoniac"} {nco possess $follower$charmFollowerNr};
 		};
 	}; 
