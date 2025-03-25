@@ -1406,16 +1406,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	};
 }
 
-#action {%1 arrives.} {
+#action {{A|An|The} %1 {arrives|enters}%2} {
+	#show <131>%1 arrives;
 	#if { ("$MSDP_AREA_NAME"="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
+		dfog;
 		#case {"%1"} {
-			#case {"An orcish raider"} {
-				#show <131>ORCISH RAIDER ARRIVED;
-				soulsyphon orc;
+			#case {"orcish raider"} {
 			};
 			#default {
-				#show <131>ORCISH RAIDER ARRIVED - REFORMING GROUP;
-				nco {reform kroil primary};
+				nco {reform $MSDP_CHARACTER_NAME primary};
 			};
 		};
 	}
