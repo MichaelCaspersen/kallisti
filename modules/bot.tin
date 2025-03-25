@@ -1098,10 +1098,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
-
-
-#action {%0[%1h %7m %2 ] %3 vs %4 [ %5h %6s ]} {#if $bot[rescue] {#var rescuetarget %4;#regexp {%4} {LeRot's {.*} guard} {#var rescuetarget &1};#if {"%4"=="Lord Soth"} {#var rescuetarget soth};#show <131>%4 - $rescuetarget;queueAdd priority rescue $rescuetarget}} {4}
-#action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {#show <131>%4;#if $bot[rescue] {queueAdd priority rescue %4}} {5}
 #action {You try but are unable to head off %1 opponent.} {#if $bot[rescue] {queueAdd priority !rescue}}
 
 #action {You're already fighting - help yourself first!} {
@@ -1427,7 +1423,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
-	#var tankingmobs 0;
+	#var _tankingmobs 0;
 	#var cur_opponents %5;
 	#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
 		#show <131>AGRESSIVE PROFESSION;
@@ -1446,7 +1442,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4 %5} {
 	#if {("%2"!="x") && ("%2"!="M")} { #nop Fix if prompt exp is shown or Mount M;
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
-		#var tankingmobs 0;
+		#var _tankingmobs 0;
+		#var _tanking
 		#var cur_opponents 1;
 		#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
 			#show <131>AGRESSIVE PROFESSION;
@@ -1461,7 +1458,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		};
 	}; #else {
 		show_debug {<131>No Combat};
-		#var tankingmobs 0;
+		#var _tankingmobs 0;
 		#var cur_opponents 0
 	};
 	#if {$parse_buffer && $newroom} {parse_buffer;};
@@ -1469,7 +1466,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2} {
 	show_debug {<131>No Combat};
-	#var tankingmobs 0;
+	#var _tankingmobs 0;
 	#var cur_opponents 0;
 	#if {$parse_buffer && $newroom} {parse_buffer;};
 } {4}
@@ -1495,18 +1492,37 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#math nextallowedbreakout {$MSDP_UPTIME + $mintimebetweenbreakout};
 }
 
-#action {{<-|><} %1 [   %2%h %3%s %4]} { 
-	#math tankingmobs {$tankingmobs+1};
-	#if {$tankingmobs>1} {
-		#show <131>I'm tanking $tankingmobs mobs;
-	};
-	#if { ($getoutnow==0) && (($tankingmobs>=$allowedToTank) || (@leaderIsPresent{}==0)) } {
+
+#alias {addTanking %1} {
+	#if {_tankingmobs[%1]>0} {#math _tankingmobs[%1] {_tankingmobs[%1]+1}} {#var _tankingmobs[%1] 1};
+	#if {$_tankingmobs[%1]>1} {#show <131>%1 tanking $_tankingmobs[%1] mobs};
+	#if { ($getoutnow==0) && (($_tankingmobs[$MSDP_CHARACTER_NAME]>=$allowedToTank) || (@leaderIsPresent{}==0)) } {
 		#var getoutnow 1;
-		#show <131>GET OUT!! Tanking $tankingmobs mobs, leader here:@leaderIsPresent{};
+		#show <131>GET OUT!! Tanking $_tankingmobs[$MSDP_CHARACTER_NAME] mobs, leader here:@leaderIsPresent{};
 		#if { ($MSDP_QUEUE>2) && ($nextallowedbreakout<$MSDP_UPTIME) } {breakout};
 		queueAdd priority {recall}
 	}
 }
+
+#action {%0[%1h %7m %2 ] %3 vs %4 [ %5h %6s ]} {
+	#show <131>%4;
+	addTanking %4;
+	#if $bot[rescue] {
+		#var rescuetarget %4;
+		#regexp {%4} {LeRot's {.*} guard} {#var rescuetarget &1};
+		#if {"%4"=="Lord Soth"} {#var rescuetarget soth};
+		#show <131>%4 - $rescuetarget;
+		queueAdd priority rescue $rescuetarget
+	}
+} {4}
+
+#action {%0[%1h %2s    ] %3 vs %4 [ %5h %6s ]} {
+	#show <131>%4;
+	addTanking %4;
+	#if $bot[rescue] {queueAdd priority rescue %4}
+} {5}
+
+#action {{<-|><} %1 [   %2%h %3%s %4]} {addTanking $MSDP_CHARACTER_NAME;}
 
 #nop the "->" before a name shows who you are targetting 
 #nop and "<-" shows who is targetting you. 
