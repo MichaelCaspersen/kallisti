@@ -1423,7 +1423,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};
-	#var _tankingmobs 0;
+	#var _tankingmobs {};
 	#var cur_opponents %5;
 	#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
 		#show <131>AGRESSIVE PROFESSION;
@@ -1442,7 +1442,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4 %5} {
 	#if {("%2"!="x") && ("%2"!="M")} { #nop Fix if prompt exp is shown or Mount M;
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
-		#var _tankingmobs 0;
+		#var _tankingmobs {};
 		#var _tanking
 		#var cur_opponents 1;
 		#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
@@ -1458,7 +1458,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		};
 	}; #else {
 		show_debug {<131>No Combat};
-		#var _tankingmobs 0;
+		#var _tankingmobs {};
 		#var cur_opponents 0
 	};
 	#if {$parse_buffer && $newroom} {parse_buffer;};
@@ -1466,7 +1466,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2} {
 	show_debug {<131>No Combat};
-	#var _tankingmobs 0;
+	#var _tankingmobs {};
 	#var cur_opponents 0;
 	#if {$parse_buffer && $newroom} {parse_buffer;};
 } {4}
@@ -1501,7 +1501,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#show <131>GET OUT!! Tanking $_tankingmobs[$MSDP_CHARACTER_NAME] mobs, leader here:@leaderIsPresent{};
 		#if { ($MSDP_QUEUE>2) && ($nextallowedbreakout<$MSDP_UPTIME) } {breakout};
 		queueAdd priority {recall}
-	}
+	};
+	#show $_tankingmobs;
 }
 
 #action {%0[%1h %7m %2 ] %3 vs %4 [ %5h %6s ]} {
