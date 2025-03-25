@@ -1406,15 +1406,15 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#show <131>%1 arrives;
 	#if { ("$MSDP_AREA_NAME"="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
 		$bot[damage][multiple];
-		#case {"%1"} {
-			#case {"orcish raider"} {
-			};
+		#switch {"%1"} {
+			#case {"orcish raider"} {			};
 			#default {
 				nco {reform $MSDP_CHARACTER_NAME primary};
 			};
 		};
 	}
 }
+
 #action {You ravage %1 mana causing %2 to explode in pain. (%3 damage)} {stand}
 #action {of gold coins is lying here.} {get all.coins}
 
@@ -1491,10 +1491,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#math nextallowedbreakout {$MSDP_UPTIME + $mintimebetweenbreakout};
 }
 
+#var safeToTank 3;
 
 #alias {addTanking %1} {
 	#if {$_tankingmobs[%1]>0} {#math _tankingmobs[%1] {$_tankingmobs[%1]+1}} {#var _tankingmobs[%1] 1};
-	#if {$_tankingmobs[%1]>1} {#show <131>%1 tanking $_tankingmobs[%1] mobs};
+	#if {$_tankingmobs[%1]>$safeToTank} {#show <131>%1 tanking $_tankingmobs[%1] mobs};
 	#if { ($getoutnow==0) && (($_tankingmobs[$MSDP_CHARACTER_NAME]>=$allowedToTank) || (@leaderIsPresent{}==0)) } {
 		#var getoutnow 1;
 		#show <131>GET OUT!! Tanking $_tankingmobs[$MSDP_CHARACTER_NAME] mobs, leader here:@leaderIsPresent{};
