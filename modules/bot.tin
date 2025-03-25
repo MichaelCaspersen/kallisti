@@ -1522,9 +1522,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #function analyzeGroup {
 	#loop {1} {&MSDP_GROUP[]} {index} {
 		#nop Find people who can hamstring;
-		#if { ("$MSDP_GROUP[$index][class]" == "ASS" ) } { #list _group_skills[hamstring] add $MSDP_GROUP[$index][name]; }
+		#if { ("$MSDP_GROUP[$index][class]" == "ASS" ) } { #list _group_skills[hamstring] add $MSDP_GROUP[$index][name]; };
 		#nop Find people who can portal;
-		#if { ("$MSDP_GROUP[$index][class]" == "WIZ" ) } { #list _group_skills[portal] add $MSDP_GROUP[$index][name]; }
+		#if { ("$MSDP_GROUP[$index][class]" == "WIZ" ) } { #list _group_skills[portal] add $MSDP_GROUP[$index][name]; };
+		#nop Find people who can ravage;
+		#if { ("$MSDP_GROUP[$index][class]" == "NEC" ) } { #list _group_skills[ravage] add $MSDP_GROUP[$index][name]; };
 	};
 	#show $_group_skills;
 }
