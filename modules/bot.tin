@@ -1443,7 +1443,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {("%2"!="x") && ("%2"!="M")} { #nop Fix if prompt exp is shown or Mount M;
 	show_debug {<131>Single Target   target:<%2> state:<%3>  #opponents:<1>};
 		#var _tankingmobs {};
-		#var _tanking
 		#var cur_opponents 1;
 		#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
 			#show <131>AGRESSIVE PROFESSION;
