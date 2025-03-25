@@ -1508,7 +1508,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	};
 }
 
-#alias doPromt {
+#alias doPrompt {
 	#show <131>Needs rescue: $_needrescue;
 	#var _tankingmobs {};
 	#var _needrescue {};
