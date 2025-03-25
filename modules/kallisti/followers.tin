@@ -136,6 +136,18 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 
 #var doCharmFollowerCounts 0;
 #action {^Renewing charm duration for %1 to %d hours.$} {
+	#if {$charmFollowerNr<$charmFollowerTotal && $doCharmFollowerCounts} {
+		#math charmFollowerNr {$charmFollowerNr+1};
+		#show NEXT CHARM $follower$charmFollowerNr;
+		#switch {"$MSDP_CLASS"} {
+			#case {"Wizard"} {nco charmm $follower$charmFollowerNr};
+			#case {"Prophet"} {nco charm $follower$charmFollowerNr};
+			#case {"Demoniac"} {nco possess $follower$charmFollowerNr};
+		};
+	}; 
+    #else {
+        #var charmFollowerNr 1
+    };
     #untick {charmm failer};
     #math {cdelay} { ( %2 - 2 ) * 75 };
     #class kallisti/followers assign #line oneshot #tick {recharm} {#class kallisti/followers assign #tick {charmm failer} {charm_group} {20}} {$cdelay}
@@ -148,10 +160,10 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
         #switch {"$MSDP_CLASS"} {
             #case {"Druid"} {nco friend group};
             #case {"Ranger"} {nco friend group};
-            #case {"Wizard"} {nco charmm group};
-            #case {"Prophet"} {nco charm group};
+            #case {"Wizard"} {#show <132>CHARM $follower$charmFollowerNr;nco charmm $follower$charmFollowerNr};
+            #case {"Prophet"} {#show <132>CHARM $follower$charmFollowerNr;nco charm $follower$charmFollowerNr};
             #case {"Necromancer"} {nco controlundead group};
-            #case {"Demoniac"} {nco possess group};
+            #case {"Demoniac"} {#show POSSESS $follower$charmFollowerNr;nco possess $follower$charmFollowerNr};
             #default {err No recharm method for $MSDP_CLASS};
         };
     };
