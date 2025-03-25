@@ -1497,9 +1497,9 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {$_tankingmobs[%1]>0} {#math _tankingmobs[%1] {$_tankingmobs[%1]+1}} {#var _tankingmobs[%1] 1};
 	#if {$_tankingmobs[%1]>$safeToTank} {
 		#nop Add to needRescueList;
-		#show <131>%1 tanking $_tankingmobs[%1] mobs, more than safe $safeToTank;
 		#list _needrescue find {%1} {rindex};
 		#if { $rindex==0} {
+			#show <131>%1 tanking $_tankingmobs[%1] mobs, more than safe $safeToTank;
 			#list _needrescue add %1;
 		}
 	};
