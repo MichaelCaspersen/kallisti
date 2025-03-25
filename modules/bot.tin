@@ -1493,7 +1493,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 
 #alias {addTanking %1} {
-	#if {_tankingmobs[%1]>0} {#math _tankingmobs[%1] {_tankingmobs[%1]+1}} {#var _tankingmobs[%1] 1};
+	#if {_tankingmobs[%1]>0} {#math _tankingmobs[%1] {$_tankingmobs[%1]+1}} {#var _tankingmobs[%1] 1};
 	#if {$_tankingmobs[%1]>1} {#show <131>%1 tanking $_tankingmobs[%1] mobs};
 	#if { ($getoutnow==0) && (($_tankingmobs[$MSDP_CHARACTER_NAME]>=$allowedToTank) || (@leaderIsPresent{}==0)) } {
 		#var getoutnow 1;
