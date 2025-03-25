@@ -1403,8 +1403,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {{A|An|The} %1 {arrives|enters}%2} {
-	#show <131>%1 arrives;
 	#if { ("$MSDP_AREA_NAME"="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
+		#show <131>%1 arrives;
 		$bot[damage][multiple];
 		#switch {"%1"} {
 			#case {"orcish raider"} {			};
