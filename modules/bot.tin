@@ -1531,7 +1531,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#REGEXP {NEC} {$MSDP_GROUP[$index][class]} {
 				#list _group_skills[ravage] add $MSDP_GROUP[$index][name] 
 			};
-		}
+		};
 		#nop Find people who can hamstring;
 		#REGEXP {ASN} {$MSDP_GROUP[$index][class]} {
 			#list _group_skills[hamstring] add $MSDP_GROUP[$index][name] 
