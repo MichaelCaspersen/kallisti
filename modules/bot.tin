@@ -1407,7 +1407,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#show <131>%1 arrives;
 		$bot[damage][multiple];
 		#switch {"%1"} {
-			#case {"orcish raider"} {			};
+			#case {"orcish raider"} {#show <131>GROUP ACTION};
+			#case {"smilodon"} {#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1]};
 			#default {
 				nco {reform $MSDP_CHARACTER_NAME primary};
 			};
@@ -1499,7 +1500,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#nop Add to needRescueList;
 		#list _needrescue find {%1} {rindex};
 		#if { $rindex==0} {
-			#show <131>%1 tanking $_tankingmobs[%1] mobs, more than safe $safeToTank;
+			#nop show <131>%1 tanking $_tankingmobs[%1] mobs, more than safe $safeToTank;
 			#list _needrescue add %1;
 		}
 	};
@@ -1513,7 +1514,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias doPrompt {
 	#if {&_needrescue[]} {
-		#show <131>Needs rescue: $_needrescue;
+		#show <131>Needs rescue: $_needrescue ask $_group_skills[rescue][1];
 	};
 	#var _tankingmobs {};
 	#var _needrescue {};
@@ -1568,15 +1569,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var _group_skills;
 }
 
-#function performGroupTells {
-	#loop {1} {&MSDP_GROUP[]} {index} {
-		#nop Find people who can hamstring;
-		#if { ("$MSDP_GROUP[$index][class]" == "ASS" ) && ($MSDP_GROUP[$index][with_you] == 1 ) } { #return 1; }
-	};
-	#return 0;
-}
-
-
 #action {%0[%1h %7m %2 ] %3 vs %4 [ %5h %6s ]} {
 	addTanking %4;
 	#if $bot[rescue] {
@@ -1601,9 +1593,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop and "<-" shows who is targetting you. 
 #nop "><" indicates that you are targetting one another.
 #var autohamstring 0;
-#action {A sabertooth tiger wanders around here looking for food.}{#if {("$MSDP_CLASS"=="Assassin" && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} 2
-#ACTION {A smilodon arrives.} {#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}} {4}
-#unaction {You spin and slice %1 in the back of the legs making it fall.} {: made sure %1 can't flee}
+#action {A sabertooth tiger wanders around here looking for food.} {
+	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
+} {2}
+#ACTION {A smilodon arrives.} {
+	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
+} {4}
 
 #action {You must either wield a weapon or remove your wielded item and fight bare-handed.} {wear all}
 
