@@ -1424,6 +1424,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
 	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 } {2}
+#action {A smilodon is here looking alert.} {
+	#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
+	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
+} {2}
+
+
 
 
 #action {You ravage %1 mana causing %2 to explode in pain. (%3 damage)} {stand}
