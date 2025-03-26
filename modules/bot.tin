@@ -1409,7 +1409,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#switch {"%1"} {
 			#case {"orcish raider"} {#show <131>GROUP ACTION};
 			#case {"smilodon"} {
-				#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1]
+				#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
 				#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 			};
 			#default {
