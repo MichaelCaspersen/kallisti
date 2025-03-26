@@ -1408,13 +1408,23 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		$bot[damage][multiple];
 		#switch {"%1"} {
 			#case {"orcish raider"} {#show <131>GROUP ACTION};
-			#case {"smilodon"} {#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1]};
+			#case {"smilodon"} {
+				#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1]
+				#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
+			};
 			#default {
 				nco {reform $MSDP_CHARACTER_NAME primary};
 			};
 		};
 	}
 }
+
+#var autohamstring 0;
+#action {A sabertooth tiger wanders around here looking for food.} {
+	#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
+	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
+} {2}
+
 
 #action {You ravage %1 mana causing %2 to explode in pain. (%3 damage)} {stand}
 #action {of gold coins is lying here.} {get all.coins}
@@ -1592,13 +1602,6 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #nop the "->" before a name shows who you are targetting 
 #nop and "<-" shows who is targetting you. 
 #nop "><" indicates that you are targetting one another.
-#var autohamstring 0;
-#action {A sabertooth tiger wanders around here looking for food.} {
-	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
-} {2}
-#ACTION {A smilodon arrives.} {
-	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
-} {4}
 
 #action {You must either wield a weapon or remove your wielded item and fight bare-handed.} {wear all}
 
