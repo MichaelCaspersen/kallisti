@@ -1434,7 +1434,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		$bot[damage][multiple];
 		#switch {"%1"} {
 			#case {"orcish raider"} {#show <131>GROUP ACTION};
-			#case {"wandering paladin"} {#show <131>RAVAGE ACTION - $_group_skills[ravage][1]};
+			#case {"wandering paladin"} { doRavage };
 			#case {"smilodon"} { doSmilodon};
 			#default {
 				nco {reform $MSDP_CHARACTER_NAME primary};
@@ -1443,7 +1443,16 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
-#unaction {A scaled beast rears up on massive hind legs and roars a challenge.} {doSmilodon}
+#alias doRavage {
+	#if {&_group_skills[ravage][]>0} {
+		#if {"$MSDP_CHARACTER_NAME"=="Kroil"} {
+			ravage paladin;
+		};#else {
+			#show <131>RAVAGE ACTION - $_group_skills[ravage][1];
+			gt $_group_skills[ravage][1] ravage paladin;
+		}
+	};
+}
 
 #alias doSmilodon {
 	#if {&_group_skills[hamstring][]>0} {
