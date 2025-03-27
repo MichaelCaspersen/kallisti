@@ -1569,6 +1569,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#REGEXP {ASN} {$MSDP_GROUP[$index][class]} {
 			#list _group_skills[hamstring] add $MSDP_GROUP[$index][name] 
 		};
+		#nop Find people who can deathknell;
+		#REGEXP {DRE} {$MSDP_GROUP[$index][class]} {
+			#list _group_skills[deathknell] add $MSDP_GROUP[$index][name] 
+		};
 		#nop Find people who can portal;
 		#REGEXP {WIZ} {$MSDP_GROUP[$index][class]} {
 			#list _group_skills[portal] add $MSDP_GROUP[$index][name] 
@@ -1713,7 +1717,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#var lastkilltime $MSDP_UPTIME;
 	#if { "$MSDP_CLASS"=="Necromancer"} {
 		#var auto[candrain] 1;
-		var cansoulsyphon 1;
+		#var cansoulsyphon 1;
 		#if { "$bot[role]"=="leader" && @gotFollowers{}<2 && $bot[poke]==0 } {
 			queueAdd priority animate corpse;
 		}; #elseif {$gathercorpses} {
