@@ -1412,9 +1412,11 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#return $necromana;
 }
 
+#var missing_member_delay 3;
 #alias doWildenessCheck {
 	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
-		#if { ("@whole_group_here{}"!="1") } { 
+		#if { ("@whole_group_here{}"!="1") && ($next_wilderness_hunt<$MSDP_UPTIME) } { 
+			#math next_wilderness_hunt {$MSDP_UPTIME + $missing_member_delay};
 			#show <131>MISSING GROUP MEMBER: @whole_group_here{};
 			hunt @whole_group_here{}
 		};
@@ -1998,7 +2000,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #NOP ############### HUNT
 #ac {You start searching for tracks but then realize %1 is right here!} {#show <131> Found target %1!}
-#ac {^[* You see your target's tracks leading %1. *]} {#if {"$toggle[hunt]"=="on"} {smart_move %1}}
+#ac {^[* You see your target's tracks leading %1. *]} {#if {"$toggle[hunt]"=="on"} {%1}}
 #ac {[* You found %1! *]} {gt $communication[left] Found target: %1 $communication[right]}
 
 
