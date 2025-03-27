@@ -1409,6 +1409,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		$bot[damage][multiple];
 		#switch {"%1"} {
 			#case {"orcish raider"} {#show <131>GROUP ACTION};
+			#case {"wandering paladin"} {#show <131>RAVAGE ACTION - $_group_skills[ravage][1]};
 			#case {"smilodon"} {
 				#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
 				#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
@@ -1420,6 +1421,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
+
+
 #var autohamstring 0;
 #action {A sabertooth tiger wanders around here looking for food.} {
 	#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
@@ -1430,6 +1433,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 } {2}
 
+#action {An armored figure in travel-worn, white enameled plate mail slows his stride.} {#show <131>RAVAGE ACTION - $_group_skills[ravage][1];}
 
 
 
