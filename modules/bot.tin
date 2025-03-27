@@ -183,6 +183,21 @@ init bot[rescue2] preferences off;
 	};
 
 	#NOP #######################################################;
+	#NOP Class Specific: Dreadlord								;
+	#NOP #######################################################;
+	#if { "$MSDP_CLASS" == "Dreadlord" } {
+		botrole damage;
+		#var bot[cast] 1;
+		#var bot[damage][single] {deathknell};
+		#var bot[damage][multiple] {deadcry};
+		#var allowedToTank 99;
+
+		#nop var toggle[focus] on;
+		#nop var toggle[warpaint] on;
+		#nop var toggle[warcry] on;
+	};
+
+	#NOP #######################################################;
 	#NOP Class Specific: Barbarian								;
 	#NOP #######################################################;
 	#if { "$MSDP_CLASS" == "Barbarian" } {
