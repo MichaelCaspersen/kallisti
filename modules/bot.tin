@@ -1432,7 +1432,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#case {"orcish raider"} {#show <131>GROUP ACTION};
 			#case {"wandering paladin"} {#show <131>RAVAGE ACTION - $_group_skills[ravage][1]};
 			#case {"smilodon"} {
-				#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
+				#if {&_group_skills[hamstring][]>0} {
+					#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
+					gt $_group_skills[hamstring][1] hamstring smilodon;
+					#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
+				}; #elseif {&_group_skills[deathknell][]>0} {
+					gt $_group_skills[deathknell][1] deathknell smilodon;
+				}
 				#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 			};
 			#default {

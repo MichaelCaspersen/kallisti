@@ -256,10 +256,8 @@
 
 
 
-#var performAutoRoom 0;
-#alias mapEnterRoomFunction {
-	scan;
-}
+#var performAutoRoom 1;
+#alias mapEnterRoomFunction {yell yell(ow);}
 
 #nop -- ---------------------------------------------------------------
 #nop -- Actions
@@ -275,7 +273,8 @@
 		createExit;
 		#var old_vnum $MSDP_ROOM_VNUM;
 		generate_area_info;
-		doWildenessCheck;	};
+		doWildenessCheck;	
+	};
 	#if {"$MSDP_ROOM_VNUM"=="?"} {
 		#map get roomvnum cur_room_vnum;
 		#nop show <131>ENTER ROOM OLD:$old_vnum $old_cur_vnum NEW:$MSDP_ROOM_VNUM $cur_room_vnum;
