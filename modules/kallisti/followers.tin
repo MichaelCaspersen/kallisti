@@ -198,7 +198,7 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
 
 #function whole_group_here {
     #loop {1} {&MSDP_GROUP[]} {index} {
-        #if {$MSDP_GROUP[$index][with_you] == 0} {#return 0;#BREAK}
+        #if {$MSDP_GROUP[$index][with_you] == 0} {#return $MSDP_GROUP[$index][name];#BREAK}
     };
     #return 1
 }

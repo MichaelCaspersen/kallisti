@@ -1415,7 +1415,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias doWildenessCheck {
 	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
 		#if { (@whole_group_here{}==0) } { 
-			#show <131>MISSING GROUP MEMBER 
+			#show <131>MISSING GROUP MEMBER;
+			hunt 
 		};
 		#if { ("$MSDP_GROUP[1][name]"!="Kroil") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
 			nco reform kroil primary;
@@ -1439,7 +1440,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
-#action {A scaled beast rears up on massive hind legs and roars a challenge.} {doSmilodon}
+#unaction {A scaled beast rears up on massive hind legs and roars a challenge.} {doSmilodon}
 
 #alias doSmilodon {
 	#if {&_group_skills[hamstring][]>0} {
@@ -1453,14 +1454,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #var autohamstring 0;
-#action {A sabertooth tiger wanders around here looking for food.} {
-	#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
-	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
-} {2}
-#action {A smilodon is here looking alert.} {
-	#show <131>HAMSTRING ACTION - $_group_skills[hamstring][1];
-	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
-} {2}
+#action {A sabertooth tiger wanders around here looking for food.} {doSmilodon} {2}
+#action {A smilodon is here looking alert.} {doSmilodon} {2}
 
 #action {An armored figure in travel-worn, white enameled plate mail slows his stride.} {#show <131>RAVAGE ACTION - $_group_skills[ravage][1];}
 
