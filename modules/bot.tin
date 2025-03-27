@@ -1587,10 +1587,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 			#list _group_skills[syphon] add $MSDP_GROUP[$index][name] 
 		};
 		#nop handle remort players;
-		#if {"$MSDP_GROUP[$ndex][name]"=="Kroil"} {
+		#if {"$MSDP_GROUP[$index][name]"=="Kroil"} {
 			#list _group_skills[rescue] add $MSDP_GROUP[$index][name] 
 		};
-		#if {"$MSDP_GROUP[$ndex][name]"=="Maycen"} {
+		#if {"$MSDP_GROUP[$index][name]"=="Maycen"} {
 			#list _group_skills[rescue] add $MSDP_GROUP[$index][name] 
 		};
 	};
