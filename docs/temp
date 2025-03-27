@@ -378,7 +378,7 @@ prac toughness
 
 
 #ticker {buycloth} {#10 {buy green;donate green home}} 4;
-#delay 2400 {#untick buycloth}
+#delay 3600 {#untick buycloth}
 
 
 #var refresher Kroll;

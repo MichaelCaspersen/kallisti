@@ -1555,7 +1555,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #function analyzeGroup {
 	#var _group_skills {};
 	#loop {1} {&MSDP_GROUP[]} {index} {
-		#if {$MSDP_GROUP[$index][level]>$MSDP_GROUPLEVEL} {
+		#if {$MSDP_GROUP[$index][level]>$MSDP_GROUPLEVEL-1} {
 			#nop Find people who can rescue;
 			#REGEXP {PAL VAL RAN DRE BAR SAI MON} {$MSDP_GROUP[$index][class]} {
 				#list _group_skills[rescue] add $MSDP_GROUP[$index][name] 
