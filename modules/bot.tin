@@ -1469,7 +1469,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A sabertooth tiger wanders around here looking for food.} {doSmilodon} {2}
 #action {A smilodon is here looking alert.} {doSmilodon} {2}
 
-#action {An armored figure in travel-worn, white enameled plate mail slows his stride.} {#show <131>RAVAGE ACTION - $_group_skills[ravage][1];}
+#action {An armored figure in travel-worn, white enameled plate mail slows his stride.} { doRavage } {2}
 
 
 
