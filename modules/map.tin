@@ -257,7 +257,7 @@
 
 
 #var performAutoRoom 1;
-#alias mapEnterRoomFunction {yell yell(ow);}
+#alias mapEnterRoomFunction {#if { ("$MSDP_AREA_NAME"=="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {yell yell(ow);};}
 
 #nop -- ---------------------------------------------------------------
 #nop -- Actions
