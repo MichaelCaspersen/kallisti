@@ -1438,7 +1438,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 					#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 				}; #elseif {&_group_skills[deathknell][]>0} {
 					gt $_group_skills[deathknell][1] deathknell smilodon;
-				}
+				};
 				#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 			};
 			#default {
