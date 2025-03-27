@@ -512,7 +512,7 @@ init bot[rescue2] preferences off;
 				#default {#nop};
 			};
 			#switch {"$MSDP_CLASS"} {
-				#case {"Necromancer"} { #if {@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain} {#var bot[damage][single] drain} {#var bot[damage][single] creeping} };
+				#case {"Necromancer"} { #if {(@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) && ($auto[candrain])} {#var bot[damage][single] drain} {#var bot[damage][single] creeping} };
 				#default {#nop};
 			};
 			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]]};
