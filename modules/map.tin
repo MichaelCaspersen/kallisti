@@ -193,7 +193,7 @@
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#regexp {%1} {corpse} {#nop} {#map set roomdesc {$wilder[x], $wilder[y] \n%1}};
 		#if {$wild_announce} {$wild_announce_format ITEM(6) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
-		#if { $debug_wilderness } {#show <131>Nuke (6);$bot[damage][multiple]}
+		#if { $debug_wilderness } {#show <131>Nuke (6);#nop $bot[damage][multiple]}
 	}
 } {6}
 
