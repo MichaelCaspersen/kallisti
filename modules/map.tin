@@ -193,7 +193,7 @@
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#regexp {%1} {corpse} {#nop} {#map set roomdesc {$wilder[x], $wilder[y] \n%1}};
 		#if {$wild_announce} {$wild_announce_format ITEM(6) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
-		#if { $debug_wilderness } {$bot[damage][multiple]}
+		#if { $debug_wilderness } {#show <131>Nuke (6);$bot[damage][multiple]}
 	}
 } {6}
 
@@ -201,7 +201,7 @@
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
 		#if {$wild_announce} {$wild_announce_format ITEM(7) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
-		#if { $debug_wilderness } {$bot[damage][multiple]}
+		#if { $debug_wilderness } {#show <131>Nuke (7);$bot[damage][multiple]}
 	}
 } {7} 
 
@@ -209,7 +209,7 @@
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
 		#if {$wild_announce} {$wild_announce_format ITEM(8) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
-		#if { $debug_wilderness } {$bot[damage][multiple]}
+		#if { $debug_wilderness } {#show <131>Nuke (8);$bot[damage][multiple]}
 	}
 } {8}  
 
@@ -217,7 +217,7 @@
 	#if {"$MSDP_AREA_NAME"=="The Wilderness"} {
 		#nop map set roomnote {%1};
 		#if {$wild_announce} {$wild_announce_format ITEM(9) DETECTED: <%1>, $wilder[x], $wilder[y], $MSDP_ROOM_VNUM};
-		#if { $debug_wilderness } {$bot[damage][multiple]}
+		#if { $debug_wilderness } {#show <131>Nuke (9);$bot[damage][multiple]}
 	}
 } {9}  
 
