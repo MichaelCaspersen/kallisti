@@ -1465,15 +1465,21 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 }
 
+#alias doWildernessNuke {
+	#if { (("$MSDP_AREA_NAME"=="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME")) || ($debug_wilderness)  } {
+		$bot[damage][multiple];
+	}
+}
+
 #var autohamstring 0;
 #action {A sabertooth tiger wanders around here looking for food.} {doSmilodon} {2}
 #action {A smilodon is here looking alert.} {doSmilodon} {2}
 
 #action {An armored figure in travel-worn, white enameled plate mail slows his stride.} { doRavage } {2}
-
-
-
 #action {You ravage %1 mana causing %2 to explode in pain. (%3 damage)} {stand}
+
+#action {A harvester spider the size of a draft horse forages for food.} {doWildernessNuke} {2}
+
 #action {of gold coins is lying here.} {get all.coins}
 
 
