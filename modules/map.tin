@@ -251,7 +251,7 @@
 #action {A most terrible beast from the wilderness.} {#show Terrasqueue spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
 #action {A terrasque is} {#show Terrasqueue spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
 #action {A ragged-looking and rotting humanoid leaps from the snow at you.} {#show Snowman spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
-#action {A harvester spider the size of a draft horse forages for food.} {#show Spider spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
+#action {A harvester spider the size of a draft horse forages for food.} {#nop show Spider spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
 #action {A long tentacled shape slides past you, one massive eye gaping.} {#show Tentacle spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
 #action {An orange-yellow blob slides and pulses across the forest floor.} {#show Blob spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
 #action {A long tentacled shape slides past you, one massive eye gaping.} {#show Tentacle spotted $wilder[x], $wilder[y], $MSDP_ROOM_VNUM!}
