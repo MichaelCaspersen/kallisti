@@ -1479,9 +1479,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {You ravage %1 mana causing %2 to explode in pain. (%3 damage)} {stand}
 
 #action {A harvester spider the size of a draft horse forages for food.} {doWildernessNuke} {2}
-
-#action {of gold coins is lying here.} {get all.coins}
-
+#action {A scaled beast rears up on massive hind legs and roars a challenge.} {doWildernessNuke} {2}
+#action {A fearsome orc dressed in dappled hide armor sneaks through the forest.} {doWildernessNuke} {2}
 
 #var necro_skin_mana 50;
 
@@ -1691,6 +1690,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 #action {You need to wield a weapon to attempt to hamstring.} {wear all}
+#action {of gold coins is lying here.} {get all.coins}
 #alias lootgold {get gold all.corpse}
 #alias loottooth {nco get all.tooth all.corpse;}
 
