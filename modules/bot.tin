@@ -1415,7 +1415,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var missing_member_delay 3;
 #var next_wilderness_hunt $MSDP_UPTIME;
 #alias doWildenessCheck {
-	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
+	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && (@groupAmILeaderOrSubLeader{}) } {
 		#if { ("@whole_group_here{}"!="1") && ($next_wilderness_hunt<$MSDP_UPTIME) } { 
 			#math next_wilderness_hunt {$MSDP_UPTIME + $missing_member_delay};
 			#show <131>MISSING GROUP MEMBER: @whole_group_here{};
