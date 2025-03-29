@@ -182,6 +182,17 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
     #return 0
 }
 
+#function groupAmILeaderOrSubLeader {                                                                                
+    #var result 0;
+    #loop {1} {&MSDP_GROUP[]} {index} {
+        #if { "$MSDP_GROUP[$index][name]" == "$MSDP_CHARACTER_NAME" } {
+            #if {$MSDP_GROUP[$index][is_leader] == 1} { #return 1 };
+            #if {$MSDP_GROUP[$index][is_subleader] == 1} { #return 1 };
+        }
+    };
+    #return 0
+}
+
 #function group_leader {
     #loop {1} {&MSDP_GROUP[]} {index} {
         #if {$MSDP_GROUP[$index][is_leader] == 1} {#return $MSDP_GROUP[$index][name]}
