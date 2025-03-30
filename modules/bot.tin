@@ -1422,7 +1422,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { $rindex==0} {
 			gt &08Removing %1 from hunt list&--;
 			#list _wildernessIgnore add %1;
-			#delay 300 {doYesHunt %1};
+			#delay {ignore%1} {doYesHunt %1} {300};
 		};
 	}
 }
@@ -1433,6 +1433,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { $rindex>0} {
 			gt &08Adding %1 to hunt list&--;
 			#list _wildernessIgnore delete $rindex;
+			#undelay {ignore%1};
 		};
 	}
 }
