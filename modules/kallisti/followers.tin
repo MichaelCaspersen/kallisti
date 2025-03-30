@@ -37,6 +37,8 @@ event_register {commsGroup} {followers} {follower_command {%2} {%3} {%4}};
     #if {"$fol_command" == "tnl"} {tnl};
     #if {"$fol_command" == "true"} {nco true %1};
     #if {"$fol_command" == "heros"} {checkheros};
+    #if {"$fol_command" == "nohunt"} {doNoHunt %1};
+    #if {"$fol_command" == "yeshunt"} {doYesHunt %1};
     #if {"$follower_mode" == "on"} {
 		#if { ("%1" == "@group_leader{}") || ("%1" == "@subgroup_leader{}") || ($allowAllFromGroup)} {
 			#regex {$fol_command} {^all %*$} {

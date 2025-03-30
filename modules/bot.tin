@@ -1414,6 +1414,31 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #var missing_member_delay 3;
 #var next_wilderness_hunt $MSDP_UPTIME;
+
+#var _wildernessIgnore {};
+#alias doNoHunt {
+	#if {$debug_wilderness} {
+		#list _wildernessIgnore find {%1} {rindex};
+		#if { $rindex==0} {
+			gt &08Removing %1 from hunt list&--;
+			#list _wildernessIgnore add %1;
+			#delay 300 {doYesHunt %1};
+		};
+	}
+}
+
+#alias doYesHunt {
+	#if {$debug_wilderness} {
+		#list _wildernessIgnore find {%1} {rindex};
+		#if { $rindex>0} {
+			gt &08Adding %1 to hunt list&--;
+			#list _wildernessIgnore delete $rindex;
+		};
+	}
+}
+
+
+
 #alias doWildenessCheck {
 	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && (@groupAmILeaderOrSubLeader{}) } {
 		#if { ("@whole_group_here{}"!="1") && ($next_wilderness_hunt<$MSDP_UPTIME) } { 

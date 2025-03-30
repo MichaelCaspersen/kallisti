@@ -367,7 +367,7 @@ prac toughness
 #action {^The meta-sage tells you 'Go level instead!'} {#ac {You must also specify what material you want to use when armorcrafting.} {drop all.robe;get all.bolt;armorcraft bolt};recall;visit house;with all;$guildpath;gain;gain;visit house;dep all;e;armorcraft bolt}
 #tick crafcraf {breakout;drop all;get bolt;armorcraft bolt} 300
 
-#alias gogain {w;with 5000000;recall;2s6e2su;gain;gain;gain;recall;visit house;e;armor craft bolt}
+#alias gogain {w;with 5000000;recall;2s2e2se;gain;gain;gain;recall;visit house;e;armor craft bolt}
 
 
 #untick crafcraf
