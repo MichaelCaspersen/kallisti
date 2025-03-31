@@ -1452,6 +1452,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
     #if { (@can_group_move{})} {
         queueAdd move {#path w};
 		#math walkindex {$walkindex+1};
+		#if {$walkindex==&wilderzone[a]} {#var walkindex 1};
 	};
 }
 
