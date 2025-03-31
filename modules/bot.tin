@@ -1432,7 +1432,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {$debug_wilderness} {
 		#list _wildernessIgnore find {%1} {rindex};
 		#if { $rindex>0} {
-			gt &Returning %1 to hunt list&--;
+			gt &08Returning %1 to hunt list&--;
 			#list _wildernessIgnore delete $rindex;
 			#undelay {ignore%1};
 		};
