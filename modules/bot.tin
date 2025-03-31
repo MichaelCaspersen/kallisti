@@ -1420,7 +1420,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if {$debug_wilderness} {
 		#list _wildernessIgnore find {%1} {rindex};
 		#if { $rindex==0} {
-			gt &08Removing %1 from hunt list&--;
+			gt &08Removing %1 from hunt list for the next 5 mins, gt yeshunt to undo&--;
 			#list _wildernessIgnore add %1;
 			#delay {ignore%1} {doYesHunt %1} {300};
 		};
@@ -1444,8 +1444,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && (@groupAmILeaderOrSubLeader{}) } {
 		#if { ("@whole_group_here{}"!="1") && ($next_wilderness_hunt<$MSDP_UPTIME) } { 
 			#math next_wilderness_hunt {$MSDP_UPTIME + $missing_member_delay};
-			#show <131>MISSING GROUP MEMBER: @whole_group_here{};
-			hunt @whole_group_here{}
+			#show <131>Missing! hunting @whole_group_here{}. Grouptell nohunt to avoid hunts for the next 5 minutes.;
+			hunt @whole_group_here{};
 		};
 		#if { ("$MSDP_GROUP[1][name]"!="Kroil") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
 			nco reform kroil primary;
@@ -1453,17 +1453,18 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	};
 }
 
-#var debug_wilderness 1;
+#var debug_wilderness 0;
 #action {{A|An|The} %1 {arrives|enters}%2} {
 	#if { (("$MSDP_AREA_NAME"=="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME")) || ($debug_wilderness)  } {
 		#show <131>%1 arrives;
-		$bot[damage][multiple];
 		#switch {"%1"} {
 			#case {"orcish raider"} {#show <131>GROUP ACTION};
 			#case {"wandering paladin"} { doRavage };
 			#case {"smilodon"} { doSmilodon};
+			#case {"battle boar"} {#nop ignore followers};
 			#default {
-				nco {reform $MSDP_CHARACTER_NAME primary};
+				$bot[damage][multiple];
+				#nop nco {reform $MSDP_CHARACTER_NAME primary};
 			};
 		};
 	}
