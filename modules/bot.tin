@@ -1479,13 +1479,13 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #var debug_wilderness 0;
 #action {{A|An|The} %1 {arrives|enters}%2} {
 	#if { (("$MSDP_AREA_NAME"=="The Wilderness") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME")) || ($debug_wilderness)  } {
-		#show <131>%1 arrives;
 		#switch {"%1"} {
 			#case {"orcish raider"} {#show <131>GROUP ACTION};
-			#case {"wandering paladin"} { doRavage };
-			#case {"smilodon"} { doSmilodon};
+			#case {"wandering paladin"} {doRavage;#show <131>%1 arrives;};
+			#case {"smilodon"} {doSmilodon;#show <131>%1 arrives;};
 			#case {"battle boar"} {#nop ignore followers};
 			#default {
+				#show <131>%1 arrives in the wilderness, NUKE EM;
 				$bot[damage][multiple];
 				#nop nco {reform $MSDP_CHARACTER_NAME primary};
 			};
