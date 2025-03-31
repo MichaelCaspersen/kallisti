@@ -1498,7 +1498,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#show <131>RAVAGE ACTION - $_group_skills[ravage][1];
 		#if {("$MSDP_CHARACTER_NAME"=="Kroil") && ($MSDP_MANA>2000)} {
 			ravage paladin;
-		};#else {
+		};#elseif {("$MSDP_CHARACTER_NAME"!="$_group_skills[ravage][1]")} {
 			gt &08$_group_skills[ravage][1] ravage paladin&--;
 		}
 	};
