@@ -143,6 +143,7 @@ init bot[rescue2] preferences off;
 		#var bot[spellSustain] drain;
 		#var allowedToTank 99;
 		botrole damage;
+		@analyzeGroup{};
 
 		#var necro_manadrain 85; #nop %;
 		#var necro_lifedrain 90; #nop %;
