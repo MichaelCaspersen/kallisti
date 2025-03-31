@@ -1521,6 +1521,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	}
 }
 
+#action {%0[%1paralyzed%2]} {#if {($debug_wilderness)} {#show <131>NUKE EM;$bot[damage][multiple]}}
+
 #var autohamstring 0;
 #action {A sabertooth tiger wanders around here looking for food.} {doSmilodon} {2}
 #action {A smilodon is here looking alert.} {doSmilodon} {2}
