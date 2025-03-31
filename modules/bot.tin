@@ -1450,7 +1450,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#list wilderzone[a] get $walkindex destination;
     #map find $destination;
     #if { (@can_group_move{})} {
-        queueAdd move {#path w}
+        queueAdd move {#path w};
 		#math walkindex {$walkindex+1};
 	};
 }
