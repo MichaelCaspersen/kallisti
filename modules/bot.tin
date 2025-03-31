@@ -1440,6 +1440,23 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 }
 
 
+#alias loadWilderWalker {
+	#var wilderzone[a] {92476,92477,92478,92479,92830,92829,92828,93179,93180,93181,93532,93531,93530,93529,93178,92827};
+	#list wilderzone[a] explode {,};
+	#var walkindex 1;
+} 
+
+#alias wilderWalk {
+	#list wilderzone[a] get $walkindex destination;
+    #map find $destination;
+    #if { (@can_group_move{})} {
+        queueAdd move {#path w}
+		#math walkindex {$walkindex+1};
+	};
+}
+
+
+
 
 #alias doWildenessCheck {
 	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && (@groupAmILeaderOrSubLeader{}) } {
