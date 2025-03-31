@@ -1463,9 +1463,12 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias doWildenessCheck {
 	#if { ("$MSDP_AREA_NAME"=="The Wilderness") && (@groupAmILeaderOrSubLeader{}) } {
 		#if { ("@whole_group_here{}"!="1") && ($next_wilderness_hunt<$MSDP_UPTIME) } { 
-			#math next_wilderness_hunt {$MSDP_UPTIME + $missing_member_delay};
-			#show <131>Missing! hunting @whole_group_here{}. Grouptell nohunt to avoid hunts for the next 5 minutes.;
-			hunt @whole_group_here{};
+			#list _wildernessIgnore find {@whole_group_here{}} {rindex};
+			#if { $rindex==0} {
+				#math next_wilderness_hunt {$MSDP_UPTIME + $missing_member_delay};
+				#show <131>Missing! hunting @whole_group_here{}. Grouptell nohunt to avoid hunts for the next 5 minutes.;
+				hunt @whole_group_here{};
+			};
 		};
 		#if { ("$MSDP_GROUP[1][name]"!="Kroil") && ("@group_leader{}"=="$MSDP_CHARACTER_NAME") } {
 			nco reform kroil primary;
