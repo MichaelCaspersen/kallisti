@@ -181,6 +181,11 @@ event_register {variable profession[gather][total]} {right} {generate_profession
 #NOP #######################################################
 
 #alias profroom {#var clearingroom 1;#var room_corpse_id 0;queueAdd any {$profession[str_corpse] corpse}}
+#alias drainroom {#var clearingroom 1;#var room_corpse_id 0;queueAdd any {edrain corpse}}
+#action {The life force contained isn't powerful enough for draining.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {edrain $room_corpse_id.corpse}}}
+#action {The corpse crumbles away as you capture its tormented soul.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {edrain $room_corpse_id.corpse}}}
+#action {Nothing here by that name.} {#var clearingroom 0;#var _queue[any] {}}
+
 #action {It isn't quality enough to {skin|extract|butcher}} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {$profession[str_corpse] $room_corpse_id.corpse}}}
 #action {You {skin|extract|butcher} it but you make a mess of it.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {$profession[str_corpse] $room_corpse_id.corpse}}}
 #action {You can't {skin|extract|butcher} a corpse from %1.} {#if {$clearingroom==1} {#math room_corpse_id {$room_corpse_id+1};show_debug {<Next corpse: $room_corpse_id >};queueAdd any {$profession[str_corpse] $room_corpse_id.corpse}}}
