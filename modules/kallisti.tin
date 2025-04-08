@@ -70,10 +70,12 @@
 }
 
 #act {^Please enter your account password (or just press <ENTER> to abort login):} {
-	#send ${account_password};
-	#if {"${account_dont_forget_password}" != "true"} {
-		#showme <fcc>Forgetting password.;
-		#unvar account_password;
+	#delay 2 {
+		#send ${account_password};;
+		#if {"${account_dont_forget_password}" != "true"} {
+			#showme <fcc>Forgetting password.;
+			#unvar account_password;
+		};
 	};
 }
 
