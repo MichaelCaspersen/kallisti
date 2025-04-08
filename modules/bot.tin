@@ -535,7 +535,14 @@ init bot[rescue2] preferences off;
 				#default {#nop};
 			};
 			#switch {"$MSDP_CLASS"} {
-				#case {"Necromancer"} { #if {(@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) && ($auto[candrain])} {#var bot[damage][single] drain} {#var bot[damage][single] creeping} };
+				#case {"Necromancer"} { 
+					#if {(@pct{$MSDP_HEALTH;$MSDP_HEALTH_MAX}<$necro_lifedrain) && ($auto[candrain])} 
+						{#var bot[damage][single] drain} 
+						{#if {("$MSDP_POSITION"!="Fighting")} 
+						{#var bot[damage][single] wither}
+						{#var bot[damage][single] creeping}
+					} 
+					};
 				#default {#nop};
 			};
 			#var stats[damage][$bot[damage][single]] @increment{$stats[damage][$bot[damage][single]]};
@@ -1442,18 +1449,20 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 
 #alias loadWilderWalker {
 	#var wilderzone[a] {92476,92477,92478,92479,92830,92829,92828,93179,93180,93181,93532,93531,93530,93529,93178,92827};
-	#list wilderzone[a] explode {,};
+	#var wilderzone[b] {81672,81673,81674,81675,82026,82025,82024,82375,82376,82377,82728,82727,82726,82725,82374,82023};
+	#list wilderzone[%1] explode {,};
+	#var wilderindex %1;
 	#var walkindex 1;
 } 
 
 #alias wilderWalk {
-	#list wilderzone[a] get $walkindex destination;
+	#list wilderzone[$wilderindex] get $walkindex destination;
     #map find $destination;
     #if { (@can_group_move{})} {
         queueAdd move {#path w};
 		#math walkindex {$walkindex+1};
-		#if {$walkindex>&wilderzone[a][]} {#var walkindex 1};
-		#show <131>Wilderness walk: $walkindex  &wilderzone[a][];
+		#if {$walkindex>&wilderzone[$wilderindex][]} {#var walkindex 1};
+		#show <131>Wilderness walk: $walkindex  &wilderzone[$wilderindex][];
 	};
 }
 
