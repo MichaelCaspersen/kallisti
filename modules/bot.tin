@@ -1552,7 +1552,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 	#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
 		#show <131>AGRESSIVE PROFESSION;
 		#math spellLock { @mpoch{} + 3000 };
-		#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) && ("$MSDP_CLASS"=="Necromancer") } {edrain corpse};
+		#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) && ("$MSDP_CLASS"=="Necromancer") } {queueAdd priority edrain corpse};
 		queueAdd any {$profession[str_corpse] corpse};
 	};
 	#if { ("%2"=="a gigasaur") && (("%3"=="near death") && ($aggressivetooth)) && (@necroMana{}>$necro_skin_mana) } {
@@ -1571,7 +1571,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { ($aggressiveprofession) && ("%3"=="near death") && (@necroMana{}>$necro_skin_mana) } {
 			#show <131>AGRESSIVE PROFESSION;
 			#math spellLock { @mpoch{} + 3000 };
-		#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) && ("$MSDP_CLASS"=="Necromancer") } {edrain corpse};
+		#if { ($MSDP_LEVEL>=23) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$necro_manadrain) && ("$MSDP_CLASS"=="Necromancer") } {queueAdd edrain corpse};
 			$profession[str_corpse] corpse;
 		};
 		#if { ("%2"=="a gigasaur") && (("%3"=="near death") && ($aggressivetooth)) && (@necroMana{}>$necro_skin_mana) } {
