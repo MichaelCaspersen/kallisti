@@ -258,7 +258,7 @@
 
 #var performAutoRoom 1;
 #list create mylist {item1} {item2} {item3} {item4} {item5}
-#alias mapEnterRoomFunction {#if { ("$MSDP_AREA_NAME"=="The Wilderness") && (("@group_leader{}"=="$MSDP_CHARACTER_NAME") || ($debug_wilderness))  } {yell &0bow&--}
+#alias mapEnterRoomFunction {#if { ("$MSDP_AREA_NAME"=="The Wilderness") && (("@group_leader{}"=="$MSDP_CHARACTER_NAME") || ($debug_wilderness))  } {yell &0bow&--}}
 #alias mapEnterRoomFunction {#if { ("$MSDP_AREA_NAME"=="The Wilderness") && (("@group_leader{}"=="$MSDP_CHARACTER_NAME") || ($debug_wilderness))  } {yell ow;}}
 
 #nop -- ---------------------------------------------------------------
