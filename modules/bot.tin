@@ -80,6 +80,7 @@ Commands:\n
 #var bot[weatherdir] {better}; #nop better/worse
 #var autotooth 0;
 
+#var mana_buffer 5;
 
 init bot[role2] preferences damage;
 init bot[cast2] preferences on;
@@ -148,11 +149,13 @@ init bot[rescue2] preferences off;
 		#var necro_manadrain 85; #nop %;
 		#var necro_lifedrain 90; #nop %;
 		#var necro_stamdrain 40; #nop %;
+		#var healpct_damage_allowed 5; #nop %;
 
 		#var autopickuphides 1;
-		#var autotooth 0;
+		#var autotooth 1;
 		#var container hole;
 		profon skinning;
+		#var aggressiveprofession 1;
 
 		#var autobloodlust on;
 		#var autocorpsevisage on;
@@ -482,7 +485,7 @@ init bot[rescue2] preferences off;
 			}
 		}; 
 		#else {
-			#if { (("$bot[role]" == "healer") || ("$MSDP_CLASS" == "Druid")) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
+			#if { (("$bot[role]" == "healer") || ("$MSDP_CLASS" == "Druid") || ("$MSDP_CLASS" == "Necromancer")) && (@pct{$MSDP_MANA;$MSDP_MANA_MAX}<$healpct_damage_allowed) } {
 				#nop Don't do damage, mana too low;
 			};
 			#else {
