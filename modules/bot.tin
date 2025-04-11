@@ -1523,6 +1523,8 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 	}; #elseif {&_group_skills[deathknell][]>0} {
 		gt &08$_group_skills[deathknell][1] deathknell smilodon&--;
+	}; #elseif {&_group_skills[smite][]>0} {
+		gt &08$_group_skills[smite][1] smite smilodon&--;
 	};
 	#if { ("$MSDP_CLASS"=="Assassin") && ($autohamstring) } {#show <131>SMILODON SPOTTET;queueAdd priority hamstring smilodon}
 }
@@ -1670,6 +1672,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 		#nop Find people who can deathknell;
 		#REGEXP {DRE} {$MSDP_GROUP[$index][class]} {
 			#list _group_skills[deathknell] add $MSDP_GROUP[$index][name] 
+		};
+		#nop Find people who can smite;
+		#REGEXP {PAL} {$MSDP_GROUP[$index][class]} {
+			#list _group_skills[smite] add $MSDP_GROUP[$index][name] 
 		};
 		#nop Find people who can portal;
 		#REGEXP {WIZ} {$MSDP_GROUP[$index][class]} {
