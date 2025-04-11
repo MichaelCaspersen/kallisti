@@ -1539,7 +1539,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A sabertooth tiger wanders around here looking for food.} {#if {$debug_wilderness} {doSmilodon}} {2}
 #action {A smilodon is here looking alert.} {#if {$debug_wilderness} {doSmilodon}} {2}
 
-#action {An armored figure in travel-worn, white enameled plate mail slows his stride.} { doRavage } {2}
+#action {An armored figure in travel-worn, white enameled plate mail slows his stride.} {#if {$debug_wilderness} {doRavage} } {2}
 #action {You ravage %1 mana causing %2 to explode in pain. (%3 damage)} {stand}
 
 #action {A harvester spider the size of a draft horse forages for food.} {doWildernessNuke} {2}
