@@ -1548,7 +1548,7 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #action {A scaled beast rears up on massive hind legs and roars a challenge.} {doWildernessNuke} {2}
 #action {A fearsome orc dressed in dappled hide armor sneaks through the forest.} {doWildernessNuke} {2}
 
-#var necro_skin_mana 50;
+#var necro_skin_mana 1;
 
 #action {^< $MSDP_CHARACTER_NAME | %1 | %2:%3 | %4: %5 | %6} {
 	show_debug {<131>Multiple Targets   target:<%2> state:<%3> #opponents:<%5>};

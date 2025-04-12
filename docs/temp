@@ -367,7 +367,7 @@ prac toughness
 #action {^The meta-sage tells you 'Go level instead!'} {#ac {You must also specify what material you want to use when armorcrafting.} {drop all.robe;get all.bolt;armorcraft bolt};recall;visit house;with all;$guildpath;gain;gain;visit house;dep all;e;armorcraft bolt}
 #tick crafcraf {breakout;drop all;get bolt;armorcraft bolt} 300
 
-#alias gogain {w;with 5000000;recall;2s2e2se;gain;gain;gain;recall;visit house;e;armor craft bolt}
+#alias gogain {w;with 500000;recall;2s2w2su;gain;gain;gain;recall;visit house;e;dep all;armor craft bolt}
 
 
 #untick crafcraf
@@ -378,7 +378,7 @@ prac toughness
 
 
 #ticker {buycloth} {#10 {buy green;donate green home}} 4;
-#delay 3600 {#untick buycloth;true;recall;visit house;e;fol kaicha}
+#delay 2400 {#untick buycloth;true;recall;visit house;e;fol kaicha}
 
 
 #var refresher Kroll;
