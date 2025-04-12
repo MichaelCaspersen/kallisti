@@ -1643,10 +1643,10 @@ event_register {variable MSDP_AREA_NAME} {right} {generate_zone_info #nop};
 #alias doPrompt {
 	#if {&_needrescue[]} {
 		#show <131>Needs rescue: $_needrescue ask $_group_skills[rescue][1];
-#nop //		#list $_group_skills[rescue] find item2
-#nop //		#var index %retval
-#nop //		#list mylist remove %index
-#nop //		#list mylist add item2		
+#nop //		#list $_group_skills[rescue] find item2;
+#nop //		#var index %retval;
+#nop //		#list mylist remove %index;
+#nop //		#list mylist add item2;
 	};
 	#var _tankingmobs {};
 	#var _needrescue {};
