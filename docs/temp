@@ -381,6 +381,13 @@ prac toughness
 #delay 2400 {#untick buycloth;true;recall;visit house;e;fol kaicha}
 
 
+#action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %1 levels;#if {%1==2} {nco return_and_meta}}
+#action {* * * You now have enough experience to gain a level! * * *} {#show <131>I can now gain:nco return_and_meta}
+
+
+
+
+
 #var refresher Kroll;
 #ac {You craft }{phyl bone}
 #ac {You failed to craft anything useful.}{phyl bone}
