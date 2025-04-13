@@ -382,7 +382,7 @@ prac toughness
 
 
 #action {* * * You now have enough experience to gain %d levels! * * *} {#show <131>I can now gain %1 levels;#if {%1==2} {nco return_and_meta}}
-#action {* * * You now have enough experience to gain a level! * * *} {#show <131>I can now gain:nco return_and_meta}
+#action {* * * You now have enough experience to gain a level! * * *} {#show <131>I can now gain;nco return_and_meta}
 
 
 

@@ -141,12 +141,14 @@ event_register {mob kill} {odometer} {odometer_kills};
 }
 
 #var previous_level_time 0;
+#var final_level_before_remort 85;
 #action {^--+  Congratulations, you are now level %d!} {
 	odometer_reset;
 	event_raise {level gain} {%1};
 	#math time_since_last_level {$MSDP_UPTIME - $previous_level_time};
 	#var previous_level_time $MSDP_UPTIME;
 	send_to_comms_session <170>New level, $MSDP_CHARACTER_NAME - %1 (@return_min_sec{$time_since_last_level}),  AvgExp:@avg_xp_per_hour{};
+	#if {(%1==$final_level_before_remort) && ("$MSDP_CHARACTER_NAME"=="Freya")} {home;sleep;fol freya};
 	#delay 3 {sql_save_char level};
 }
 
